@@ -34,6 +34,13 @@ jobs:
       - run: npx prisma migrate deploy # valida migraciones contra Postgres real
       - run: npx prisma db seed # valida el seed
       - run: npm run test:integration
+      - run: npx payload migrate # valida la migración del CMS
+        env:
+          PAYLOAD_SECRET: ci-secret
+      - run: npx tsx src/payload/seed.ts # valida el seed editorial
+        env:
+          PAYLOAD_SECRET: ci-secret
+          SEED_DEV_ADMIN: '1'
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run format:check

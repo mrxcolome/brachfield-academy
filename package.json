@@ -18,14 +18,20 @@
     "test:integration": "vitest run --config vitest.integration.config.ts"
   },
   "dependencies": {
+    "@payloadcms/db-postgres": "^3.87.1",
+    "@payloadcms/next": "^3.87.1",
+    "@payloadcms/richtext-lexical": "^3.87.1",
     "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "better-auth": "^1.6.26",
-    "next": "^15.5.23",
+    "graphql": "^16.14.2",
+    "next": "15.4",
     "next-intl": "^4.13.6",
+    "payload": "^3.87.1",
     "pg": "^8.23.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "sharp": "^0.35.3",
     "stripe": "^22.4.0",
     "zod": "^4.4.3"
   },
@@ -46,5 +52,6 @@
     "tsx": "^4.23.12",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"
-  }
+  },
+  "type": "module"
 }

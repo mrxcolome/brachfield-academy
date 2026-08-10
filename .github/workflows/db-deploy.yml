@@ -4,6 +4,11 @@ name: DB migrate (Neon)
 # Requiere el secreto DATABASE_URL en GitHub → Settings → Secrets → Actions.
 on:
   workflow_dispatch:
+    inputs:
+      seed_editorial:
+        description: 'Cargar contenido editorial de ejemplo (¡BORRA el contenido existente del CMS!)'
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths: ['prisma/migrations/**']
@@ -25,3 +30,12 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - run: npx payload migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+      - run: npx tsx src/payload/seed.ts
+        if: github.event_name == 'workflow_dispatch' && inputs.seed_editorial
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}

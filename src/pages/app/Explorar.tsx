@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { courses, knowledgeAreas, paths } from '../../data/content'
-import { StripePh } from '../../components/ui'
+import { Cover } from '../../components/art'
 
 export default function Explorar() {
   return (
@@ -39,7 +39,7 @@ export default function Explorar() {
       <div className="grid grid-3">
         {courses.map((c) => (
           <Link key={c.t} to="/app/curso" className="card card-md" style={{ overflow: 'hidden', color: 'inherit', textDecoration: 'none', display: 'block' }}>
-            <StripePh style={{ aspectRatio: '16 / 10' }} label="" />
+            <Cover title={c.t} kind="curso" style={{ aspectRatio: '16 / 10' }} />
             <div style={{ padding: 14 }}>
               <div style={{ fontSize: 13.5, fontWeight: 600, marginBottom: 6, lineHeight: 1.3 }}>{c.t}</div>
               <div className="mono" style={{ fontSize: 11, color: 'var(--muted)' }}>CURSO · {c.dur} · {c.lvl}</div>

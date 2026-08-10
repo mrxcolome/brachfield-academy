@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { chapters, courseModules } from '../../data/content'
+import { chapters, courseModules, lessonContent } from '../../data/content'
 
 /** Lección de vídeo: sidebar del curso + reproductor + capítulos + transcript. */
 export default function Leccion() {
@@ -80,10 +80,13 @@ export default function Leccion() {
             ))}
           </div>
 
+          <div className="section-label" style={{ marginBottom: 8 }}>Puntos clave</div>
+          <ul style={{ margin: '0 0 20px', paddingLeft: 18, fontSize: 13.5, lineHeight: 1.8, color: 'var(--ink-2)', maxWidth: 640 }}>
+            {lessonContent.keyPoints.map((k) => <li key={k}>{k}</li>)}
+          </ul>
+
           <div className="section-label" style={{ marginBottom: 8 }}>Transcript</div>
-          <p style={{ fontSize: 13.5, lineHeight: 1.7, color: 'var(--ink-3)', maxWidth: 640, margin: 0 }}>
-            El primer contacto con un cliente que ha dejado de pagar es determinante. Un tono profesional pero firme, sin acusar, abre la puerta a una negociación posterior sin cerrar la relación comercial…
-          </p>
+          <p style={{ fontSize: 13.5, lineHeight: 1.7, color: 'var(--ink-3)', maxWidth: 640, margin: 0 }}>{lessonContent.transcript}</p>
         </div>
       </div>
       <style>{`@media (max-width: 900px) { .lesson-shell { flex-direction: column; margin: -20px !important; } .lesson-sidebar { width: 100% !important; border-right: none !important; border-bottom: 1px solid var(--border-soft); } }`}</style>

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { courseModules } from '../../data/content'
-import { StripePh } from '../../components/ui'
+import { Cover } from '../../components/art'
 
 export default function CursoPublico() {
   return (
@@ -30,7 +30,7 @@ export default function CursoPublico() {
           </div>
         </div>
         <div>
-          <StripePh style={{ borderRadius: 12, aspectRatio: '16 / 10', marginBottom: 18 }} label="PORTADA DEL CURSO" />
+          <Cover title="Cómo recuperar un impagado paso a paso" kind="curso" radius={12} style={{ aspectRatio: '16 / 10', marginBottom: 18 }} />
           <div className="card" style={{ padding: 22, textAlign: 'center' }}>
             <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 6 }}>Incluido en la membresía</div>
             <div style={{ fontSize: 26, fontWeight: 700, marginBottom: 14 }}>39 €/mes</div>

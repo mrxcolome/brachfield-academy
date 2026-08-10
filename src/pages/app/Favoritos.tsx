@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { videos } from '../../data/content'
-import { StripePh } from '../../components/ui'
+import { Cover } from '../../components/art'
 
 const filters = ['Todos', 'Cursos', 'Vídeos', 'Herramientas']
 
@@ -22,7 +22,7 @@ export default function Favoritos() {
         <div className="grid grid-4">
           {items.map((v) => (
             <div key={v.t} className="card card-md" style={{ overflow: 'hidden' }}>
-              <StripePh style={{ aspectRatio: '16 / 10' }} label="" />
+              <Cover title={v.t} kind="video" style={{ aspectRatio: '16 / 10' }} />
               <div style={{ padding: 12, display: 'flex', justifyContent: 'space-between', gap: 8 }}>
                 <div>
                   <div style={{ fontSize: 12.5, fontWeight: 600, lineHeight: 1.3, marginBottom: 6 }}>{v.t}</div>

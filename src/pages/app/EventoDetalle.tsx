@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Kicker, StripePh } from '../../components/ui'
+import { Kicker } from '../../components/ui'
+import { Avatar } from '../../components/art'
 
 export default function EventoDetalle() {
   return (
@@ -11,7 +12,7 @@ export default function EventoDetalle() {
           Pere Brachfield analizará estrategias de reclamación que priorizan mantener al cliente, con casos reales y turno de preguntas en directo.
         </p>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 20 }}>
-          <StripePh style={{ width: 44, height: 44, borderRadius: 100, flex: 'none' }} label="" />
+          <Avatar size={44} />
           <div style={{ fontSize: 13.5, fontWeight: 600 }}>Con Pere Brachfield</div>
         </div>
       </div>

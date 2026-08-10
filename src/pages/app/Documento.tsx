@@ -1,12 +1,8 @@
-import { Kicker, StripePh } from '../../components/ui'
+import { Kicker } from '../../components/ui'
+import { PdfPreview } from '../../components/art'
+import { documentoChecklist } from '../../data/content'
 
-const checklistItems = [
-  'Verificar datos registrales y solvencia',
-  'Consultar ficheros de morosidad',
-  'Solicitar referencias comerciales',
-  'Fijar un límite de crédito inicial prudente',
-  'Definir condiciones de pago por escrito',
-]
+const checklistItems = documentoChecklist.items
 
 export default function Documento() {
   return (
@@ -32,7 +28,7 @@ export default function Documento() {
         </div>
       </div>
       <div>
-        <StripePh style={{ aspectRatio: '1 / 1.3', borderRadius: 10, marginBottom: 16 }} label="VISTA PREVIA DEL PDF" />
+        <PdfPreview title={documentoChecklist.title} checklist style={{ aspectRatio: '1 / 1.3', marginBottom: 16 }} />
         <button className="btn btn-primary btn-block" style={{ padding: 13 }}>↓ Descargar PDF</button>
       </div>
       <style>{`@media (max-width: 900px) { .doc-grid { grid-template-columns: 1fr !important; } }`}</style>

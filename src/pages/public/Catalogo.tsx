@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { courses, knowledgeAreas } from '../../data/content'
-import { StripePh } from '../../components/ui'
+import { Cover } from '../../components/art'
 
 export default function Catalogo() {
   return (
@@ -18,7 +18,7 @@ export default function Catalogo() {
         <div className="grid grid-3" style={{ gap: 18 }}>
           {courses.map((c) => (
             <Link key={c.t} to="/curso-publico" className="card card-md" style={{ overflow: 'hidden', position: 'relative', color: 'inherit', textDecoration: 'none', display: 'block' }}>
-              <StripePh style={{ aspectRatio: '16 / 10' }} label="" />
+              <Cover title={c.t} kind="curso" style={{ aspectRatio: '16 / 10' }} />
               <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(255,255,255,.9)', borderRadius: 100, padding: '5px 10px', fontSize: 11, fontWeight: 600 }} className="mono">
                 🔒 Premium
               </div>

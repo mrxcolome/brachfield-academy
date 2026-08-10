@@ -1,5 +1,6 @@
 import { Link, NavLink, Outlet } from 'react-router-dom'
-import { Logo, StripePh } from '../components/ui'
+import { Logo } from '../components/ui'
+import { Avatar } from '../components/art'
 
 const sideItems = [
   { glyph: '⌂', label: 'Inicio', to: '/app' },
@@ -45,7 +46,7 @@ export default function AppLayout() {
             <a href="#" aria-label="Notificaciones" onClick={(e) => e.preventDefault()}>🔔</a>
             <Link to="/app/favoritos" aria-label="Favoritos">♡</Link>
             <Link to="/app/perfil" aria-label="Perfil">
-              <StripePh className="avatar" label="" />
+              <Avatar size={32} />
             </Link>
           </div>
         </div>

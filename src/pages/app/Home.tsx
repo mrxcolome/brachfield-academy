@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { newThisWeek, user, videos } from '../../data/content'
-import { Progress, StripePh } from '../../components/ui'
+import { Progress } from '../../components/ui'
+import { Avatar, Cover } from '../../components/art'
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
       {/* Continúa donde lo dejaste */}
       <div className="section-label">Continúa donde lo dejaste</div>
       <div className="card continue-card" style={{ padding: 20, display: 'flex', gap: 20, alignItems: 'center', marginBottom: 28, flexWrap: 'wrap' }}>
-        <StripePh style={{ width: 160, height: 96, borderRadius: 8, flex: 'none' }} label="" />
+        <Cover title="Cómo negociar con un cliente moroso" kind="curso" radius={8} style={{ width: 160, height: 96, flex: 'none' }} />
         <div style={{ flex: 1, minWidth: 220 }}>
           <div className="mono" style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 4 }}>CURSO</div>
           <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 8 }}>Cómo negociar con un cliente moroso</div>
@@ -38,7 +39,7 @@ export default function Home() {
           <div className="grid grid-3" style={{ marginBottom: 28 }}>
             {videos.slice(0, 3).map((v) => (
               <Link key={v.t} to="/app/leccion" className="card card-md" style={{ overflow: 'hidden', color: 'inherit', textDecoration: 'none', display: 'block' }}>
-                <StripePh style={{ aspectRatio: '16 / 10' }} label="" />
+                <Cover title={v.t} kind="video" style={{ aspectRatio: '16 / 10' }} />
                 <div style={{ padding: 12 }}>
                   <div style={{ fontSize: 13, fontWeight: 600, lineHeight: 1.3, marginBottom: 6 }}>{v.t}</div>
                   <div className="mono" style={{ fontSize: 11, color: 'var(--muted)' }}>▶ VÍDEO · {v.dur}</div>
@@ -81,7 +82,7 @@ export default function Home() {
           <div className="section-label">Próximo directo</div>
           <div className="card card-md" style={{ padding: 16 }}>
             <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 10 }}>
-              <StripePh style={{ width: 36, height: 36, borderRadius: 100, flex: 'none' }} label="" />
+              <Avatar size={36} />
               <div style={{ fontSize: 12.5, fontWeight: 600 }}>Pere Brachfield</div>
             </div>
             <div style={{ fontWeight: 600, fontSize: 13.5, marginBottom: 6, lineHeight: 1.3 }}>

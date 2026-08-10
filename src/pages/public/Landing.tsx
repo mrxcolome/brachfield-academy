@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { faqs, knowledgeAreas, personas, tools, whatsInside } from '../../data/content'
-import { StripePh } from '../../components/ui'
+import { aboutPere, faqAnswers, faqs, knowledgeAreas, personas, tools, whatsInside } from '../../data/content'
+import { Avatar, DashboardMock, Portrait } from '../../components/art'
 
 export default function Landing() {
   return (
@@ -32,7 +32,7 @@ export default function Landing() {
             </div>
             <div className="mono" style={{ fontSize: 13, color: 'oklch(38% 0.02 260)' }}>39 €/mes · Cancela cuando quieras</div>
           </div>
-          <StripePh label="FOTO: Pere Brachfield" style={{ borderRadius: 14, aspectRatio: '4 / 3' }} />
+          <Portrait style={{ aspectRatio: '4 / 3' }} />
         </div>
       </section>
 
@@ -68,7 +68,7 @@ export default function Landing() {
         <div style={{ maxWidth: 1344, margin: '0 auto', padding: '56px 48px' }}>
           <h2 style={{ fontSize: 22, margin: '0 0 8px' }}>Así se ve por dentro</h2>
           <p style={{ fontSize: 14.5, color: 'var(--muted)', margin: '0 0 22px' }}>Tu formación, tus herramientas y la actualidad del sector, siempre a mano.</p>
-          <StripePh label="MOCKUP: Home del miembro" style={{ borderRadius: 12, height: 340 }} />
+          <DashboardMock style={{ height: 340 }} />
         </div>
       </section>
 
@@ -95,7 +95,7 @@ export default function Landing() {
         <div style={{ maxWidth: 1344, margin: '0 auto', padding: '56px 48px' }}>
           <h2 style={{ fontSize: 22, margin: '0 0 22px' }}>Sesiones en directo con Pere Brachfield</h2>
           <div style={{ background: '#fff', borderRadius: 12, padding: 22, display: 'flex', gap: 18, alignItems: 'center', maxWidth: 640, flexWrap: 'wrap' }}>
-            <StripePh style={{ width: 64, height: 64, borderRadius: 100, flex: 'none' }} label="" />
+            <Avatar size={64} />
             <div style={{ flex: 1, minWidth: 220 }}>
               <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 4 }}>Masterclass: reclamar una deuda sin deteriorar la relación comercial</div>
               <div className="mono" style={{ fontSize: 12.5, color: 'var(--muted)' }}>18 septiembre · 17:00 · 75 min</div>
@@ -123,12 +123,10 @@ export default function Landing() {
       {/* Sobre Pere */}
       <section id="sobre-pere" style={{ background: 'var(--bg)' }}>
         <div className="about-grid" style={{ maxWidth: 1344, margin: '0 auto', padding: '56px 48px', display: 'grid', gridTemplateColumns: '200px 1fr', gap: 32 }}>
-          <StripePh style={{ borderRadius: 12, aspectRatio: '1' }} label="FOTO" />
+          <Portrait style={{ aspectRatio: '1' }} radius={12} />
           <div>
             <h2 style={{ fontSize: 22, margin: '0 0 10px' }}>Sobre Pere Brachfield</h2>
-            <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--ink-3)', maxWidth: 640, margin: 0 }}>
-              Abogado, socio fundador de Brachfield Credit &amp; Risk Consultants, profesor universitario y articulista. Más de 30 años asesorando a empresas en gestión del crédito, prevención de impagos y recobro de deuda comercial.
-            </p>
+            <p style={{ fontSize: 14.5, lineHeight: 1.7, color: 'var(--ink-3)', maxWidth: 640, margin: 0 }}>{aboutPere.long}</p>
           </div>
         </div>
       </section>
@@ -174,9 +172,7 @@ export default function Landing() {
                   <span>{q}</span>
                   <span style={{ color: 'var(--faint)' }} aria-hidden>＋</span>
                 </summary>
-                <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--ink-3)', margin: '0 0 16px' }}>
-                  Sí. La membresía es todo incluido y sin permanencia: acceso completo desde el primer día y cancelación en un clic desde tu perfil.
-                </p>
+                <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--ink-3)', margin: '0 0 16px' }}>{faqAnswers[q]}</p>
               </details>
             ))}
           </div>
@@ -187,7 +183,7 @@ export default function Landing() {
         @media (max-width: 900px) {
           .hero-grid { grid-template-columns: 1fr !important; padding: 40px 20px !important; }
           .about-grid { grid-template-columns: 1fr !important; }
-          .about-grid > .stripe-ph { max-width: 200px; }
+          .about-grid > div[role="img"] { max-width: 200px; }
           main section > div { padding-left: 20px !important; padding-right: 20px !important; }
         }
       `}</style>

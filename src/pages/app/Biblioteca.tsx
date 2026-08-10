@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { guides, podcasts } from '../../data/content'
-import { StripePh } from '../../components/ui'
+import { PodcastCover } from '../../components/art'
 
 export default function Biblioteca() {
   return (
@@ -11,7 +11,7 @@ export default function Biblioteca() {
       <div className="grid grid-4" style={{ marginBottom: 26 }}>
         {podcasts.map((p) => (
           <Link key={p.t} to="/app/audio" className="card card-md" style={{ overflow: 'hidden', color: 'inherit', textDecoration: 'none', display: 'block' }}>
-            <StripePh style={{ aspectRatio: '1' }} label="" />
+            <PodcastCover title={p.t} style={{ aspectRatio: '1' }} />
             <div style={{ padding: 12 }}>
               <div style={{ fontSize: 12.5, fontWeight: 600, lineHeight: 1.3, marginBottom: 6 }}>{p.t}</div>
               <div className="mono" style={{ fontSize: 11, color: 'var(--muted)' }}>◑ PODCAST · {p.dur}</div>

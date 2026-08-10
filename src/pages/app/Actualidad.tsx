@@ -1,4 +1,4 @@
-import { news } from '../../data/content'
+import { news, newsArticles } from '../../data/content'
 
 export default function Actualidad() {
   return (
@@ -10,11 +10,14 @@ export default function Actualidad() {
           <span className="mono" style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--brand-link)', background: 'var(--brand-soft)', padding: '4px 9px', borderRadius: 100 }}>
             {n.tag}
           </span>
-          <h2 style={{ fontWeight: 600, fontSize: 15, margin: '10px 0', lineHeight: 1.35 }}>{n.t}</h2>
-          <div className="news-meta" style={{ display: 'flex', gap: 18, fontSize: 12.5, color: 'var(--muted)', flexWrap: 'wrap' }}>
-            <span><b style={{ color: 'var(--ink-2)' }}>Qué ha cambiado ·</b> resumen ejecutivo</span>
-            <span><b style={{ color: 'var(--ink-2)' }}>Cómo te afecta ·</b> impacto directo</span>
-            <span><b style={{ color: 'var(--ink-2)' }}>Qué hacer ·</b> acción recomendada</span>
+          <h2 style={{ fontWeight: 600, fontSize: 15, margin: '10px 0 4px', lineHeight: 1.35 }}>{n.t}</h2>
+          <div className="mono" style={{ fontSize: 11, color: 'var(--muted)', marginBottom: 12 }}>
+            {newsArticles[n.t].date} · lectura {newsArticles[n.t].read}
+          </div>
+          <div style={{ display: 'grid', gap: 10, fontSize: 13.5, lineHeight: 1.6, color: 'var(--ink-3)' }}>
+            <p style={{ margin: 0 }}><b style={{ color: 'var(--ink)' }}>Qué ha cambiado · </b>{newsArticles[n.t].changed}</p>
+            <p style={{ margin: 0 }}><b style={{ color: 'var(--ink)' }}>Cómo te afecta · </b>{newsArticles[n.t].affects}</p>
+            <p style={{ margin: 0 }}><b style={{ color: 'var(--ink)' }}>Qué hacer · </b>{newsArticles[n.t].action}</p>
           </div>
         </article>
       ))}

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { goalOptions, profileOptions } from '../data/content'
-import { Kicker, StripePh } from '../components/ui'
+import { Kicker } from '../components/ui'
+import { Avatar } from '../components/art'
 
 const STEPS = ['BIENVENIDA', 'PERFIL', 'OBJETIVOS', 'NIVEL', 'RECOMENDACIÓN'] as const
 const levels = ['Iniciación', 'Intermedio', 'Avanzado']
@@ -54,7 +55,7 @@ export default function Onboarding() {
 
         {step === 0 && (
           <div style={{ textAlign: 'center' }}>
-            <StripePh style={{ width: 72, height: 72, borderRadius: 100, margin: '4px auto 20px' }} label="" />
+            <Avatar size={72} style={{ margin: '4px auto 20px' }} />
             <h1 style={{ fontSize: 20, margin: '0 0 10px' }}>Bienvenido a Brachfield Academy</h1>
             <p style={{ fontSize: 13.5, color: 'var(--muted)', lineHeight: 1.6, margin: '0 0 22px' }}>
               Personalicemos tu experiencia en menos de un minuto.

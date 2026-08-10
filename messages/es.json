@@ -1,0 +1,17 @@
+{
+  "common": {
+    "appName": "Brachfield Academy",
+    "cta": "Acceder a Brachfield Academy",
+    "explore": "Explorar contenidos",
+    "price": "39 €/mes · Cancela cuando quieras",
+    "loading": "Cargando…",
+    "error": "Ha ocurrido un error. Inténtalo de nuevo.",
+    "empty": "No hay nada aquí todavía"
+  },
+  "landing": {
+    "heroTitle": "Domina el crédito. Previene los impagos. Cobra mejor.",
+    "heroSubtitle": "Formación, herramientas y conocimiento especializado en Credit Management y recobro de impagados, de la mano de Pere Brachfield.",
+    "byline": "Por Pere Brachfield · Credit & Risk Consultants desde 1990",
+    "underConstruction": "Estamos construyendo la nueva plataforma. El prototipo navegable sigue disponible."
+  }
+}

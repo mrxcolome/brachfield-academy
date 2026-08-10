@@ -2,7 +2,7 @@
 
 > FASE 0 · Discovery. Documento de arquitectura previo a cualquier código de producto.
 > Fuente de verdad del producto: el briefing del proyecto (100 secciones). Este plan lo traduce a decisiones técnicas concretas.
-> Estado: **EN REVISIÓN** — no se inicia la Fase 1 hasta aprobar este plan y los ADRs de `DECISIONS.md`.
+> Estado: **APROBADO** por el propietario el 2026-08-10 (ADRs aceptados en `DECISIONS.md`).
 
 ---
 
@@ -16,13 +16,13 @@ Prioridad de producto: `usabilidad > claridad > funcionalidad > diseño decorati
 
 ## 2. Estado actual del repositorio
 
-| Qué | Estado |
-| --- | --- |
-| Prototipo React 18 + Vite + TS (SPA, HashRouter) | Desplegado en Vercel, 32 pantallas |
-| Contenido editorial en español (`src/data/content.ts`) | ~490 líneas, realista, reutilizable como seed |
-| Sistema de arte SVG generativo (`src/components/art.tsx`) | Portadas, avatar, PDF preview — portable |
-| Tokens de diseño (`src/styles/global.css`) | Paleta oklch, IBM Plex, radios, bordes — portables |
-| Backend / BD / auth / pagos | No existe nada |
+| Qué                                                       | Estado                                             |
+| --------------------------------------------------------- | -------------------------------------------------- |
+| Prototipo React 18 + Vite + TS (SPA, HashRouter)          | Desplegado en Vercel, 32 pantallas                 |
+| Contenido editorial en español (`src/data/content.ts`)    | ~490 líneas, realista, reutilizable como seed      |
+| Sistema de arte SVG generativo (`src/components/art.tsx`) | Portadas, avatar, PDF preview — portable           |
+| Tokens de diseño (`src/styles/global.css`)                | Paleta oklch, IBM Plex, radios, bordes — portables |
+| Backend / BD / auth / pagos                               | No existe nada                                     |
 
 **Contradicciones detectadas con el briefing:**
 
@@ -34,24 +34,24 @@ Prioridad de producto: `usabilidad > claridad > funcionalidad > diseño decorati
 
 ## 3. Stack tecnológico propuesto
 
-| Capa | Elección | Alternativa considerada | Por qué |
-| --- | --- | --- | --- |
-| Framework | **Next.js 15 (App Router) + React + TS strict** | — (fijado por briefing) | SSR/SSG para SEO del área pública, Server Components para el dashboard, Server Actions para mutaciones |
-| Estilos | **Tailwind CSS 4 + tokens propios** | CSS Modules | Fijado por briefing; tokens oklch del prototipo se portan a `@theme` |
-| Base de datos | **PostgreSQL gestionado (Neon)** | Supabase, RDS | Serverless, branching de BD por preview deploy (encaja con Vercel), plan gratuito para arrancar |
-| ORM | **Prisma** | Drizzle | Fijado por briefing salvo razón clara; migrations + tipos generados; equipo de una persona → DX gana |
-| CMS/Admin | **Payload CMS 3** (embebido en la app Next, `/admin`) | Sanity, Strapi, Directus, admin propio | Ver ADR-002. Vive dentro del mismo repo/deploy, contenido en NUESTRO Postgres, editor Lexical estructurado (no HTML arbitrario), roles, media, relaciones, i18n, gratis self-hosted |
-| Auth | **Better Auth** (self-hosted, Postgres) | Auth.js, Clerk, Supabase Auth | Ver ADR-001. Email+password con verificación y reset OUT OF THE BOX (Auth.js no lo trae), roles, social login futuro, sin coste por usuario ni lock-in |
-| Pagos | **Stripe**: Checkout + Customer Portal + webhooks | — (fijado) | Ver §7 de este plan |
-| Vídeo | **Cloudflare Stream** | Mux, Vimeo | Ver ADR-003. Signed URLs (protege contenido premium), HLS adaptativo, subtítulos, capítulos vía metadata, precio plano previsible (~5 $/1000 min almacenados + 1 $/1000 min servidos) |
-| Audio + documentos | **Cloudflare R2** (S3-compatible) + CDN | S3, Supabase Storage | Mismo proveedor que Stream, sin coste de egress, URLs firmadas para premium |
-| Búsqueda | **Postgres Full-Text Search** (config `spanish` + `unaccent`) tras un `SearchService` | Meilisearch, Typesense | Ver ADR-004. Cero infra extra en MVP; la capa de servicio permite migrar motor sin tocar UI |
-| Analytics + feature flags | **PostHog** (EU cloud) | GA4, Plausible, Mixpanel | Ver ADR-005. Product analytics + feature flags (§83) + session replay en un solo proveedor, plan gratuito amplio, GDPR-friendly en región UE |
-| Emails | **Resend + React Email** | Postmark | Templates en React (no HTML en handlers), dominio propio, DX excelente |
-| Monitoring | **Sentry** | — | Front + back + performance, fijado por briefing como referencia |
-| i18n | **next-intl**, `es` único al inicio | — | Textos de UI centralizados en `messages/es.json` desde el día 1; añadir `ca`/`en` después no exige refactor |
-| Testing | **Vitest + Testing Library + Playwright** | Jest | Vitest es nativo del ecosistema Vite/moderno; Playwright para los 9 flujos E2E del briefing (§58) |
-| Deploy | **Vercel** (app) + Neon (BD) + Cloudflare (media) | — | Fijado por preferencia; preview deploys con BD branch |
+| Capa                      | Elección                                                                              | Alternativa considerada                | Por qué                                                                                                                                                                               |
+| ------------------------- | ------------------------------------------------------------------------------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Framework                 | **Next.js 15 (App Router) + React + TS strict**                                       | — (fijado por briefing)                | SSR/SSG para SEO del área pública, Server Components para el dashboard, Server Actions para mutaciones                                                                                |
+| Estilos                   | **Tailwind CSS 4 + tokens propios**                                                   | CSS Modules                            | Fijado por briefing; tokens oklch del prototipo se portan a `@theme`                                                                                                                  |
+| Base de datos             | **PostgreSQL gestionado (Neon)**                                                      | Supabase, RDS                          | Serverless, branching de BD por preview deploy (encaja con Vercel), plan gratuito para arrancar                                                                                       |
+| ORM                       | **Prisma**                                                                            | Drizzle                                | Fijado por briefing salvo razón clara; migrations + tipos generados; equipo de una persona → DX gana                                                                                  |
+| CMS/Admin                 | **Payload CMS 3** (embebido en la app Next, `/admin`)                                 | Sanity, Strapi, Directus, admin propio | Ver ADR-002. Vive dentro del mismo repo/deploy, contenido en NUESTRO Postgres, editor Lexical estructurado (no HTML arbitrario), roles, media, relaciones, i18n, gratis self-hosted   |
+| Auth                      | **Better Auth** (self-hosted, Postgres)                                               | Auth.js, Clerk, Supabase Auth          | Ver ADR-001. Email+password con verificación y reset OUT OF THE BOX (Auth.js no lo trae), roles, social login futuro, sin coste por usuario ni lock-in                                |
+| Pagos                     | **Stripe**: Checkout + Customer Portal + webhooks                                     | — (fijado)                             | Ver §7 de este plan                                                                                                                                                                   |
+| Vídeo                     | **Cloudflare Stream**                                                                 | Mux, Vimeo                             | Ver ADR-003. Signed URLs (protege contenido premium), HLS adaptativo, subtítulos, capítulos vía metadata, precio plano previsible (~5 $/1000 min almacenados + 1 $/1000 min servidos) |
+| Audio + documentos        | **Cloudflare R2** (S3-compatible) + CDN                                               | S3, Supabase Storage                   | Mismo proveedor que Stream, sin coste de egress, URLs firmadas para premium                                                                                                           |
+| Búsqueda                  | **Postgres Full-Text Search** (config `spanish` + `unaccent`) tras un `SearchService` | Meilisearch, Typesense                 | Ver ADR-004. Cero infra extra en MVP; la capa de servicio permite migrar motor sin tocar UI                                                                                           |
+| Analytics + feature flags | **PostHog** (EU cloud)                                                                | GA4, Plausible, Mixpanel               | Ver ADR-005. Product analytics + feature flags (§83) + session replay en un solo proveedor, plan gratuito amplio, GDPR-friendly en región UE                                          |
+| Emails                    | **Resend + React Email**                                                              | Postmark                               | Templates en React (no HTML en handlers), dominio propio, DX excelente                                                                                                                |
+| Monitoring                | **Sentry**                                                                            | —                                      | Front + back + performance, fijado por briefing como referencia                                                                                                                       |
+| i18n                      | **next-intl**, `es` único al inicio                                                   | —                                      | Textos de UI centralizados en `messages/es.json` desde el día 1; añadir `ca`/`en` después no exige refactor                                                                           |
+| Testing                   | **Vitest + Testing Library + Playwright**                                             | Jest                                   | Vitest es nativo del ecosistema Vite/moderno; Playwright para los 9 flujos E2E del briefing (§58)                                                                                     |
+| Deploy                    | **Vercel** (app) + Neon (BD) + Cloudflare (media)                                     | —                                      | Fijado por preferencia; preview deploys con BD branch                                                                                                                                 |
 
 ## 4. Diagrama conceptual
 
@@ -182,11 +182,11 @@ Resend + React Email. Templates en `/src/emails/`: verificación, bienvenida, re
 
 ## 16. Deployment y entornos
 
-| Entorno | App | BD | Stripe | Dominio |
-| --- | --- | --- | --- | --- |
-| development | local | Neon branch dev | test mode | localhost |
-| preview | Vercel preview por PR | Neon branch efímero | test mode | *.vercel.app |
-| production | Vercel prod | Neon main | live mode | academy.perebrachfield.com (por confirmar) |
+| Entorno     | App                   | BD                  | Stripe    | Dominio                                    |
+| ----------- | --------------------- | ------------------- | --------- | ------------------------------------------ |
+| development | local                 | Neon branch dev     | test mode | localhost                                  |
+| preview     | Vercel preview por PR | Neon branch efímero | test mode | *.vercel.app                               |
+| production  | Vercel prod           | Neon main           | live mode | academy.perebrachfield.com (por confirmar) |
 
 Migraciones Prisma en el build de producción con gate manual; backups automáticos Neon (PITR); release checklist en `DEPLOYMENT.md` (Fase 18).
 
@@ -220,14 +220,14 @@ Ver `ROADMAP.md`. Resumen: Fases 1–3 (fundación, BD, auth+billing) son el esq
 
 ## 19. Riesgos
 
-| Riesgo | Impacto | Mitigación |
-| --- | --- | --- |
-| Payload+Prisma sobre la misma BD | Medio | Schemas separados; si roza, Payload puede absorber más dominio (tiene auth/roles propios) — decisión reversible en Fase 2 |
-| Vídeo premium filtrado (URLs compartidas) | Medio | Signed URLs cortas + dominio restringido en Stream |
-| Contenido real no listo al lanzar | Alto (producto vacío) | El seed editorial ya escrito llena la plataforma; plan de carga de contenido real en paralelo a Fases 7–8 |
-| Stripe mal sincronizado (accesos incorrectos) | Alto | Idempotencia + tests de integración de webhooks + reconciliación diaria (cron ligero) |
-| Una sola persona operando el CMS | Medio | Payload con workflow simple y validaciones; documentación de uso en `docs/` |
-| SEO: dominio/subdominios vs perebrachfield.com | Medio | Decidir dominio antes de Fase 4; canonical + sitemap desde el primer deploy público |
+| Riesgo                                         | Impacto               | Mitigación                                                                                                                |
+| ---------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Payload+Prisma sobre la misma BD               | Medio                 | Schemas separados; si roza, Payload puede absorber más dominio (tiene auth/roles propios) — decisión reversible en Fase 2 |
+| Vídeo premium filtrado (URLs compartidas)      | Medio                 | Signed URLs cortas + dominio restringido en Stream                                                                        |
+| Contenido real no listo al lanzar              | Alto (producto vacío) | El seed editorial ya escrito llena la plataforma; plan de carga de contenido real en paralelo a Fases 7–8                 |
+| Stripe mal sincronizado (accesos incorrectos)  | Alto                  | Idempotencia + tests de integración de webhooks + reconciliación diaria (cron ligero)                                     |
+| Una sola persona operando el CMS               | Medio                 | Payload con workflow simple y validaciones; documentación de uso en `docs/`                                               |
+| SEO: dominio/subdominios vs perebrachfield.com | Medio                 | Decidir dominio antes de Fase 4; canonical + sitemap desde el primer deploy público                                       |
 
 ## 20. Decisiones a tomar antes de empezar (necesito tu OK)
 

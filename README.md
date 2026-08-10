@@ -1,25 +1,51 @@
-# CODING AGENTS: READ THIS FIRST
+# Brachfield Academy
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Plataforma de membresía (39 €/mes) sobre Credit Management, prevención de impagos y recobro, de Pere Brachfield.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Documentación
 
-## What you should do — IMPORTANT
+| Documento           | Qué contiene                                    |
+| ------------------- | ----------------------------------------------- |
+| `docs/briefing.md`  | Briefing del producto — **fuente de verdad**    |
+| `TECHNICAL_PLAN.md` | Arquitectura, stack y estrategia técnica        |
+| `DECISIONS.md`      | ADRs (decisiones de arquitectura)               |
+| `ROADMAP.md`        | Fases de desarrollo MVP → V1 → V2               |
+| `DATABASE.md`       | Diseño de la base de datos                      |
+| `CLAUDE.md`         | Contexto operativo para sesiones de Claude Code |
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Stack
 
-**Read `project/Brachfield Academy.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+Next.js 15 (App Router) · TypeScript strict · Tailwind CSS 4 · PostgreSQL (Neon) + Prisma 7 · Payload CMS · Better Auth · Stripe · Cloudflare Stream + R2 · PostHog · Resend · Sentry.
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Desarrollo
 
-## About the design files
+```bash
+npm install
+cp .env.example .env    # rellenar según la fase (ver comentarios)
+npm run db:migrate      # requiere Postgres (local o Neon)
+npm run db:seed         # usuarios demo
+npm run dev             # http://localhost:3000
+```
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+Verificación completa (lo mismo que ejecuta CI):
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+```bash
+npm run typecheck && npm run lint && npm run format:check && npm test && npm run build
+```
 
-## Bundle contents
+## Estructura
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Brachfield Academy` project files (HTML prototypes, assets, components)
+```
+src/app/            rutas (App Router)
+src/components/ui/  design system
+src/features/       lógica por dominio (auth, billing, content, courses, …)
+src/lib/            clientes e infraestructura compartida (db, i18n, …)
+messages/es.json    textos de UI (next-intl)
+prisma/             schema, migraciones y seed
+tests/              unit / integration / e2e
+prototype/          prototipo Vite original (referencia visual, no se despliega)
+```
+
+## Prototipo
+
+El diseño navegable original vive en `prototype/` (`cd prototype && npm run dev`). Es la referencia visual del producto; su contenido editorial alimenta el seed del CMS (Fase 7).

@@ -1,0 +1,371 @@
+// ============================================================
+// Brachfield Academy — Schema del dominio de aplicación
+// ============================================================
+// El dominio de CONTENIDO (cursos, vídeos, guías, eventos como
+// entidades editoriales…) vive en colecciones de Payload CMS
+// (ADR-002, Fase 7) en el schema Postgres `payload`. Desde aquí
+// se referencia por id lógico (String), sin FK física entre
+// dominios — ver DATABASE.md.
+//
+// Los modelos User/Session/Account/Verification siguen el
+// contrato de Better Auth (ADR-001) con campos propios añadidos.
+// ============================================================
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────── Enums ───────────────────────────
+
+enum Role {
+  MEMBER
+  EDITOR
+  ADMIN
+  COMPANY_ADMIN // reservado (briefing §7) — sin lógica en MVP
+}
+
+enum OnboardingStatus {
+  PENDING
+  COMPLETED
+}
+
+enum ProfessionalProfile {
+  CFO
+  CREDIT_MANAGER
+  COLLECTIONS
+  CONTROLLER
+  MANAGEMENT
+  LAWYER
+  CONSULTANT
+  OTHER
+}
+
+enum Level {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  INCOMPLETE
+  EXPIRED
+}
+
+enum ProgressStatus {
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum EventRegistrationStatus {
+  RESERVED
+  CANCELED
+  ATTENDED
+}
+
+enum QuestionStatus {
+  PENDING
+  SELECTED
+  ANSWERED
+  PUBLISHED
+  DISCARDED
+}
+
+enum AnswerType {
+  TEXT
+  VIDEO
+  LIVE_QA
+}
+
+enum NotificationType {
+  NEW_CONTENT
+  EVENT
+  UPDATE
+  COURSE
+  SYSTEM
+}
+
+// ─────────────────── Identidad (Better Auth) ─────────────────
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Perfil profesional (briefing §8)
+  lastName            String?
+  company             String?
+  jobTitle            String?
+  country             String?
+  locale              String               @default("es")
+  timezone            String               @default("Europe/Madrid")
+  role                Role                 @default(MEMBER)
+  lastLoginAt         DateTime?
+  onboardingStatus    OnboardingStatus     @default(PENDING)
+  professionalProfile ProfessionalProfile?
+  level               Level?
+  interests           String[]             @default([])
+  preferences         Json?
+  notificationConfig  Json?
+
+  // Billing
+  stripeCustomerId String? @unique
+
+  // Soft delete (GDPR §55: el borrado definitivo purga la fila;
+  // deletedAt cubre el periodo de gracia)
+  deletedAt DateTime?
+
+  sessions           Session[]
+  accounts           Account[]
+  subscriptions      Subscription[]
+  progress           UserProgress[]
+  favorites          Favorite[]
+  eventRegistrations EventRegistration[]
+  questions          Question[]
+  notifications      Notification[]
+  certificates       Certificate[]
+  downloads          DownloadLog[]
+
+  @@index([role])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ───────────────────────── Billing ───────────────────────────
+
+// Una fila por suscripción de Stripe. Un usuario puede acumular
+// varias a lo largo del tiempo (cancela → vuelve); la vigente es
+// la de status ACTIVE/TRIALING/PAST_DUE más reciente.
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String
+  stripeSubscriptionId String             @unique
+  status               SubscriptionStatus
+  plan                 String             @default("profesional-mensual")
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean            @default(false)
+  canceledAt           DateTime?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@map("subscription")
+}
+
+// Idempotencia de webhooks (briefing §37): si el eventId ya
+// existe, el webhook se ignora. error != null → reintentable.
+model StripeEvent {
+  id            String    @id @default(cuid())
+  stripeEventId String    @unique
+  type          String
+  payload       Json
+  processedAt   DateTime?
+  error         String?
+  createdAt     DateTime  @default(now())
+
+  @@index([type, createdAt])
+  @@map("stripe_event")
+}
+
+// ──────────────────────── Aprendizaje ────────────────────────
+
+// Progreso por pieza consumible (lección, vídeo suelto, guía…).
+// contentId/courseId son ids lógicos de Payload. El progreso de
+// un curso se agrega desde sus lecciones (lessons completadas /
+// total); no se guarda desnormalizado para evitar divergencias.
+model UserProgress {
+  id              String         @id @default(cuid())
+  userId          String
+  contentId       String
+  courseId        String?
+  status          ProgressStatus @default(IN_PROGRESS)
+  progressPct     Int            @default(0)
+  lastPositionSec Int?
+  completedAt     DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId])
+  @@index([userId, courseId])
+  @@index([userId, updatedAt(sort: Desc)]) // "continúa donde lo dejaste"
+  @@map("user_progress")
+}
+
+model Favorite {
+  id          String   @id @default(cuid())
+  userId      String
+  contentId   String
+  contentType String // denormalizado para filtrar sin ir a Payload
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, contentId])
+  @@index([userId, contentType])
+  @@map("favorite")
+}
+
+model Certificate {
+  id                String   @id @default(cuid())
+  userId            String
+  courseId          String
+  certificateNumber String   @unique
+  issuedAt          DateTime @default(now())
+  pdfUrl            String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@map("certificate")
+}
+
+model DownloadLog {
+  id        String   @id @default(cuid())
+  userId    String
+  contentId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([contentId, createdAt])
+  @@index([userId, createdAt])
+  @@map("download_log")
+}
+
+// ───────────────────────── Eventos ───────────────────────────
+
+model EventRegistration {
+  id        String                  @id @default(cuid())
+  userId    String
+  eventId   String // id lógico del evento en Payload
+  status    EventRegistrationStatus @default(RESERVED)
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
+  @@index([eventId, status]) // aforo: contar RESERVED por evento
+  @@map("event_registration")
+}
+
+// ─────────────────────── Pregunta a Pere ─────────────────────
+
+model Question {
+  id               String         @id @default(cuid())
+  userId           String
+  question         String
+  category         String
+  consentToPublish Boolean        @default(false)
+  status           QuestionStatus @default(PENDING)
+  answer           String?
+  answerType       AnswerType?
+  answeredAt       DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+  @@map("question")
+}
+
+// ─────────────────────── Notificaciones ──────────────────────
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  url       String?
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read, createdAt(sort: Desc)])
+  @@map("notification")
+}
+
+// ──────────────────────── Observación ────────────────────────
+
+// Registro de búsquedas (briefing §24/§45). Analytics de producto
+// van a PostHog; esto alimenta "recent searches" y la decisión
+// futura de migrar de motor de búsqueda.
+model SearchQuery {
+  id           String   @id @default(cuid())
+  query        String
+  userId       String? // nullable: búsquedas anónimas del catálogo público
+  resultsCount Int
+  createdAt    DateTime @default(now())
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([createdAt])
+  @@map("search_query")
+}

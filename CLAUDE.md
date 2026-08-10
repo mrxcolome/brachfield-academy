@@ -17,9 +17,12 @@ Prioridad de producto: `usabilidad > claridad > funcionalidad > diseño decorati
 
 ## Estado actual
 
-- **FASE 0 (Discovery) entregada** — pendiente de revisión del propietario.
-- Existe un **prototipo** Vite+React en la raíz (pasará a `/prototype/` al arrancar Fase 1): 32 pantallas, contenido editorial real en `src/data/content.ts`, arte SVG en `src/components/art.tsx`, tokens en `src/styles/global.css`. Es **referencia visual y fuente del seed**, no base de código del producto.
-- Deploy actual en Vercel = el prototipo (https://brachfield-academy.vercel.app).
+- FASE 0 (Discovery) ✅ — ADRs aceptados el 2026-08-10.
+- FASE 1 (Foundation) ✅ — Next.js 15 + TS strict + Tailwind 4, tokens portados, UI base, ESLint/Prettier/Vitest, CI.
+- FASE 2 (Database) ✅ — schema aprobado, migración `init` validada contra Postgres 16, seed de usuarios demo, `src/lib/db.ts` (singleton con adapter pg). Neon creado (eu-central-1) pero INALCANZABLE desde el sandbox (red bloqueada): las migraciones a Neon se aplican con el workflow "DB migrate (Neon)" usando el secreto `DATABASE_URL` de GitHub.
+- Siguiente: FASE 3 (Auth + Billing) — activar Better Auth (signup/login/verificación/reset) y Stripe (Checkout + webhooks + guards). Requiere cuenta Stripe en modo test y BETTER_AUTH_SECRET.
+- El prototipo vive en `/prototype/`. Deploy de Vercel: hasta la Fase 4, la demo pública es el prototipo — al hacer push del restructure hay que poner Root Directory=`prototype` en los ajustes de Vercel.
+- Desarrollo en sandbox: Postgres 16 local (service postgresql start; BD brachfield_dev, user dev/dev).
 
 ## Stack (una vez aprobados los ADRs)
 
@@ -45,15 +48,19 @@ Al cerrar cada fase: tests pasan, `npm run build` limpio, documentación afectad
 
 Es el product owner; no asumas conocimientos técnicos profundos. Para cada fase: (1) objetivo, (2) qué se construye, (3) decisiones necesarias → preguntar, (4) implementar, (5) tests, (6) errores, (7) resumen, (8) docs, (9) siguiente paso. Ante un problema: problema → impacto → alternativas → recomendación. Sin sobreingeniería: monolito modular; nada de microservicios/Kafka/K8s.
 
-## Comandos (prototipo, hasta Fase 1)
+## Comandos
 
 ```bash
-npm run dev        # Vite dev server
-npm run build      # tsc + vite build
-npm run preview    # servir dist/
+npm run dev           # Next.js dev server (http://localhost:3000)
+npm run build         # build de producción
+npm run typecheck     # tsc --noEmit
+npm run lint          # eslint
+npm run format:check  # prettier
+npm test              # vitest (tests/unit)
+npm run db:migrate    # prisma migrate dev (Postgres local)
+npm run db:seed       # seed de usuarios demo
+# prototipo: cd prototype && npm run dev
 ```
-
-(Con la Fase 1 esta sección se sustituye por los comandos del proyecto Next.)
 
 ## Git
 

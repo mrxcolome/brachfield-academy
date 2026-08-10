@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   Brachfield Academy — Design tokens
+   Portados del prototipo (Claude Design). Un solo lugar de verdad.
+   ============================================================ */
+@theme {
+  /* superficie */
+  --color-bg: oklch(97.5% 0.005 95);
+  --color-surface: #ffffff;
+  --color-surface-dark: oklch(20% 0.02 260);
+  --color-surface-dark-2: oklch(26% 0.03 260);
+  --color-player: oklch(15% 0.01 260);
+
+  /* tinta */
+  --color-ink: oklch(20% 0.02 260);
+  --color-ink-2: oklch(30% 0.02 260);
+  --color-ink-3: oklch(35% 0.02 260);
+  --color-muted: oklch(46% 0.02 260);
+  --color-muted-2: oklch(50% 0.02 260);
+  --color-faint: oklch(60% 0.01 260);
+  --color-on-dark: oklch(85% 0.01 260);
+  --color-on-dark-muted: oklch(70% 0.01 260);
+
+  /* marca */
+  --color-brand: oklch(29% 0.06 258);
+  --color-brand-hover: oklch(24% 0.06 258);
+  --color-brand-link: oklch(38% 0.09 258);
+  --color-brand-link-hover: oklch(30% 0.1 258);
+  --color-brand-soft: oklch(93% 0.02 258);
+
+  /* acento */
+  --color-accent: oklch(72% 0.13 75);
+  --color-accent-ink: oklch(20% 0.05 75);
+
+  /* semánticos */
+  --color-success: oklch(55% 0.1 150);
+  --color-danger: oklch(55% 0.13 25);
+
+  /* bordes */
+  --color-border: oklch(89% 0.006 90);
+  --color-border-soft: oklch(91% 0.005 90);
+  --color-border-faint: oklch(93% 0.005 90);
+  --color-border-input: oklch(80% 0.01 258);
+  --color-border-chip: oklch(85% 0.01 258);
+  --color-track: oklch(91% 0.005 90);
+  --color-skeleton: oklch(92% 0.005 90);
+
+  /* tipografía */
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  /* forma */
+  --radius-sm: 7px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-wrap: pretty;
+}
+
+::selection {
+  background: oklch(85% 0.05 258);
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.01em;
+}

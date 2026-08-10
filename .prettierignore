@@ -1,0 +1,6 @@
+prototype/
+.next/
+node_modules/
+project/
+chats/
+src/generated/

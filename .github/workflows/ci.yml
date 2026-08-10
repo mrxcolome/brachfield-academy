@@ -33,6 +33,7 @@ jobs:
       - run: npx prisma generate
       - run: npx prisma migrate deploy # valida migraciones contra Postgres real
       - run: npx prisma db seed # valida el seed
+      - run: npm run test:integration
       - run: npm run typecheck
       - run: npm run lint
       - run: npm run format:check

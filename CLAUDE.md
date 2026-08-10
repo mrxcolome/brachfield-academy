@@ -20,7 +20,8 @@ Prioridad de producto: `usabilidad > claridad > funcionalidad > diseño decorati
 - FASE 0 (Discovery) ✅ — ADRs aceptados el 2026-08-10.
 - FASE 1 (Foundation) ✅ — Next.js 15 + TS strict + Tailwind 4, tokens portados, UI base, ESLint/Prettier/Vitest, CI.
 - FASE 2 (Database) ✅ — schema aprobado, migración `init` validada contra Postgres 16, seed de usuarios demo, `src/lib/db.ts` (singleton con adapter pg). Neon creado (eu-central-1) pero INALCANZABLE desde el sandbox (red bloqueada): las migraciones a Neon se aplican con el workflow "DB migrate (Neon)" usando el secreto `DATABASE_URL` de GitHub.
-- Siguiente: FASE 3 (Auth + Billing) — activar Better Auth (signup/login/verificación/reset) y Stripe (Checkout + webhooks + guards). Requiere cuenta Stripe en modo test y BETTER_AUTH_SECRET.
+- FASE 3 (Auth + Billing) ✅ código — Better Auth activo (signup/login/verificación/reset, rate limit), guards de 3 niveles (`src/features/auth/guards.ts`), Stripe Checkout + Customer Portal (server actions), webhook idempotente (`/api/webhooks/stripe`), EmailService con modo dev (sin RESEND_API_KEY imprime a consola), páginas auth/checkout/billing, middleware de /app. E2E verificado en local. PENDIENTE: cuenta Stripe del propietario (claves test + producto/price + webhook endpoint) — se cablea cuando el producto se despliegue (Fase 4+).
+- Siguiente: FASE 4 (Public Website) — landing real, pricing, catálogo público, SEO. Decidir si se despliega la app Next como proyecto Vercel separado para probar Stripe test end-to-end.
 - El prototipo vive en `/prototype/`. Deploy de Vercel: hasta la Fase 4, la demo pública es el prototipo — al hacer push del restructure hay que poner Root Directory=`prototype` en los ajustes de Vercel.
 - Desarrollo en sandbox: Postgres 16 local (service postgresql start; BD brachfield_dev, user dev/dev).
 

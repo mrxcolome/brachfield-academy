@@ -17,12 +17,19 @@ const plexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
   title: {
     default: 'Brachfield Academy — Credit Management, impagos y recobro',
     template: '%s · Brachfield Academy',
   },
   description:
     'Formación, herramientas y conocimiento especializado en Credit Management, prevención de impagos y recobro, de la mano de Pere Brachfield.',
+  openGraph: {
+    type: 'website',
+    siteName: 'Brachfield Academy',
+    locale: 'es_ES',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

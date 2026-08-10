@@ -5,7 +5,7 @@ import { hasMemberAccess } from '@/features/billing/access'
 import { startCheckout } from '@/features/billing/actions'
 import { Button } from '@/components/ui/button'
 
-export const metadata = { title: 'Suscripción' }
+export const metadata = { title: 'Suscripción', robots: { index: false } }
 
 const INCLUDES = [
   'Biblioteca completa de cursos y vídeos',

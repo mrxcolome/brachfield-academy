@@ -8,6 +8,7 @@ import { eventReservedEmail } from '@/emails/templates'
 import { getEventBySlug } from './service'
 import { reserve, cancelReservation } from './reservations'
 import { formatEventDate } from './format'
+import { track } from '@/features/analytics/service'
 
 const schema = z.object({ eventSlug: z.string().min(1) })
 
@@ -39,6 +40,7 @@ export async function reserveEventAction(raw: unknown): Promise<{ ok?: boolean; 
     console.error('[events] fallo al enviar confirmación de reserva', e)
   }
 
+  track('event_reserved', { userId: user.id, properties: { eventSlug: event.slug } })
   revalidatePath('/app/events')
   return { ok: true }
 }
@@ -54,6 +56,7 @@ export async function cancelEventAction(raw: unknown): Promise<{ ok?: boolean; e
   const canceled = await cancelReservation(user.id, String(event.id))
   if (!canceled) return { error: 'No tienes plaza reservada en este evento.' }
 
+  track('event_reservation_canceled', { userId: user.id, properties: { eventSlug: event.slug } })
   revalidatePath('/app/events')
   return { ok: true }
 }

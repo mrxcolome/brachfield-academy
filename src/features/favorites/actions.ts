@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { requireActiveMember } from '@/features/auth/guards'
 import { db } from '@/lib/db'
 import { getContentBySlug } from '@/features/content/service'
+import { track } from '@/features/analytics/service'
 
 const schema = z.object({ contentSlug: z.string().min(1) })
 
@@ -34,6 +35,10 @@ export async function toggleFavorite(
     })
     favorited = true
   }
+  track(favorited ? 'favorite_added' : 'favorite_removed', {
+    userId: user.id,
+    properties: { contentSlug: content.slug, contentType: content.contentType },
+  })
 
   revalidatePath('/app/favorites')
   revalidatePath(`/app/contents/${content.slug}`)

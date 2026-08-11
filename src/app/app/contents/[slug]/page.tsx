@@ -6,6 +6,7 @@ import { getContentBySlug, CONTENT_TYPE_META, LEVEL_META } from '@/features/cont
 import { isFavorited } from '@/features/favorites/service'
 import type { Content, Category, Media } from '@/payload/payload-types'
 import { downloadUrlFor } from '@/features/tools/downloads'
+import { track } from '@/features/analytics/service'
 import { FavoriteButton } from '@/components/product/favorite-button'
 import { ContentCard } from '@/components/product/content-card'
 import { DownloadButton } from '@/components/product/download-button'
@@ -50,6 +51,10 @@ export default async function ContentPage({ params }: Props) {
 
   const meta = CONTENT_TYPE_META[content.contentType]
   const favorited = await isFavorited(user.id, String(content.id))
+  track('content_viewed', {
+    userId: user.id,
+    properties: { contentSlug: content.slug, contentType: content.contentType },
+  })
 
   // depth:1 resuelve las relaciones a objetos; los ids sueltos se descartan
   const categories = (content.categories ?? []).filter(

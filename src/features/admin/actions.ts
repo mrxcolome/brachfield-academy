@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { requireRole } from '@/features/auth/guards'
 import { db } from '@/lib/db'
 import { resolveQuestion } from './service'
+import { track } from '@/features/analytics/service'
 
 const roleSchema = z.object({
   userId: z.string().min(1),
@@ -48,6 +49,9 @@ export async function answerQuestion(raw: unknown): Promise<{ ok?: boolean; erro
   })
   if (!ok) return { error: 'Pregunta no encontrada' }
 
+  if (parsed.data.status === 'ANSWERED') {
+    track('question_answered', { properties: { questionId: parsed.data.questionId } })
+  }
   revalidatePath('/app/admin/questions')
   return { ok: true }
 }

@@ -5,6 +5,7 @@ import { z } from 'zod'
 import { requireActiveMember } from '@/features/auth/guards'
 import { db } from '@/lib/db'
 import { getCourseBySlug, flattenLessons } from '@/features/content/service'
+import { track } from '@/features/analytics/service'
 
 const markSchema = z.object({
   courseSlug: z.string().min(1),
@@ -38,6 +39,16 @@ export async function markLesson(raw: unknown): Promise<{ error?: string }> {
       },
       update: { status: 'COMPLETED', progressPct: 100, completedAt: new Date() },
     })
+    track('lesson_completed', {
+      userId: user.id,
+      properties: { courseSlug: course.slug, lessonId: lesson.id },
+    })
+    const done = await db.userProgress.count({
+      where: { userId: user.id, courseId, status: 'COMPLETED' },
+    })
+    if (done === flattenLessons(course).length) {
+      track('course_completed', { userId: user.id, properties: { courseSlug: course.slug } })
+    }
   } else {
     await db.userProgress.updateMany({
       where: { userId: user.id, contentId: lesson.id },

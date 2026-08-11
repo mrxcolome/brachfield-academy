@@ -5,6 +5,7 @@ import { prismaAdapter } from 'better-auth/adapters/prisma'
 import { db } from '@/lib/db'
 import { sendEmail } from '@/lib/email'
 import { resetPasswordEmail, verificationEmail } from '@/emails/templates'
+import { track } from '@/features/analytics/service'
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL,
@@ -41,6 +42,16 @@ export const auth = betterAuth({
 
   advanced: {
     database: { generateId: false }, // ids los pone Prisma (cuid)
+  },
+
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          track('user_signed_up', { userId: user.id })
+        },
+      },
+    },
   },
 })
 

@@ -2,6 +2,7 @@
 // contra la tabla subscription (briefing §36), nunca contra Stripe en vivo.
 import type Stripe from 'stripe'
 import { db } from '@/lib/db'
+import { track } from '@/features/analytics/service'
 import type { SubscriptionStatus } from '@/generated/prisma/enums'
 
 export function mapStripeStatus(status: Stripe.Subscription.Status): SubscriptionStatus {
@@ -41,6 +42,19 @@ export async function syncSubscription(sub: Stripe.Subscription): Promise<void> 
   }
 
   const status = mapStripeStatus(sub.status)
+
+  // Transiciones de estado → eventos de producto (antes del upsert)
+  const previous = await db.subscription.findUnique({
+    where: { stripeSubscriptionId: sub.id },
+    select: { status: true },
+  })
+  if (status === 'ACTIVE' && previous?.status !== 'ACTIVE') {
+    track('subscription_activated', { userId: user.id })
+  }
+  if (status === 'CANCELED' && previous && previous.status !== 'CANCELED') {
+    track('subscription_canceled', { userId: user.id })
+  }
+
   await db.subscription.upsert({
     where: { stripeSubscriptionId: sub.id },
     create: {

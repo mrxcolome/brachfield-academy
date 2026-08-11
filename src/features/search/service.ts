@@ -3,6 +3,7 @@
 // Los tsvector se construyen en tiempo de consulta: con un catálogo de decenas
 // de piezas es instantáneo; cuando crezca se añadirá un índice GIN.
 import { db } from '@/lib/db'
+import { track } from '@/features/analytics/service'
 import type { Content } from '@/payload/payload-types'
 
 export interface SearchResult {
@@ -180,4 +181,8 @@ export async function logSearch(
   } catch {
     // El registro nunca debe romper la búsqueda
   }
+  track(resultsCount === 0 ? 'search_no_results' : 'search_performed', {
+    userId,
+    properties: { query: q, resultsCount },
+  })
 }

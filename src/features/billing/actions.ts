@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { requireUser } from '@/features/auth/guards'
 import { db } from '@/lib/db'
 import { stripe } from '@/lib/stripe'
+import { track } from '@/features/analytics/service'
 
 function appUrl(path: string): string {
   const base = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
@@ -30,6 +31,7 @@ export async function startCheckout(): Promise<never> {
     cancel_url: appUrl('/checkout'),
   })
 
+  track('checkout_started', { userId: user.id })
   redirect(session.url!)
 }
 

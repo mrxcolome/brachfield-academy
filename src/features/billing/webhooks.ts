@@ -7,6 +7,7 @@ import { db } from '@/lib/db'
 import { sendEmail } from '@/lib/email'
 import { paymentFailedEmail } from '@/emails/templates'
 import { linkCustomer, syncSubscription } from './service'
+import { track } from '@/features/analytics/service'
 import { Prisma } from '@/generated/prisma/client'
 
 export const HANDLED_EVENTS = [
@@ -94,6 +95,7 @@ async function handle(event: Stripe.Event): Promise<void> {
         user.email,
         paymentFailedEmail(user.name, 'entra en la Academia → Mi suscripción'),
       )
+      track('payment_failed', { userId: user.id })
       break
     }
   }

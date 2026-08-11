@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { requireUser } from '@/features/auth/guards'
 import { db } from '@/lib/db'
 import { onboardingSchema } from './schemas'
+import { track } from '@/features/analytics/service'
 
 export async function saveOnboarding(raw: unknown): Promise<{ error?: string }> {
   const user = await requireUser()
@@ -22,5 +23,13 @@ export async function saveOnboarding(raw: unknown): Promise<{ error?: string }> 
     },
   })
 
+  track('onboarding_completed', {
+    userId: user.id,
+    properties: {
+      professionalProfile: parsed.data.professionalProfile,
+      level: parsed.data.level,
+      interestsCount: parsed.data.interests.length,
+    },
+  })
   redirect('/app')
 }

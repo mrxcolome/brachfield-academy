@@ -5,6 +5,7 @@ import { requireActiveMember } from '@/features/auth/guards'
 import { db } from '@/lib/db'
 import { getContentBySlug } from '@/features/content/service'
 import { downloadUrlFor } from './downloads'
+import { track } from '@/features/analytics/service'
 import type { Media } from '@/payload/payload-types'
 
 const schema = z.object({ contentSlug: z.string().min(1) })
@@ -32,6 +33,10 @@ export async function requestDownload(raw: unknown): Promise<{ url?: string; err
 
   await db.downloadLog.create({
     data: { userId: user.id, contentId: String(content.id) },
+  })
+  track('tool_downloaded', {
+    userId: user.id,
+    properties: { contentSlug: content.slug, contentType: content.contentType },
   })
 
   return { url }

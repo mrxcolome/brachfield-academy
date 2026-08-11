@@ -59,13 +59,13 @@ Todas las relaciones a User llevan `onDelete: Cascade`: el borrado GDPR de una c
 
 ## Qué NO está aquí (y dónde vivirá)
 
-| Concepto                                                       | Dónde                                          | Cuándo  |
-| -------------------------------------------------------------- | ---------------------------------------------- | ------- |
-| Cursos, módulos, lecciones, contenido, categorías, tags, media | Colecciones Payload (schema `payload`)         | Fase 7  |
-| Learning paths                                                 | Colección Payload                              | V1      |
-| Transcripciones + índice FTS (tsvector spanish+unaccent)       | Migración SQL manual sobre tablas de contenido | Fase 10 |
-| Eventos analíticos de producto                                 | PostHog (no BD propia)                         | Fase 15 |
-| Aforo/contadores derivados                                     | Calculados, no almacenados                     | —       |
+| Concepto                                                       | Dónde                                          | Cuándo   |
+| -------------------------------------------------------------- | ---------------------------------------------- | -------- |
+| Cursos, módulos, lecciones, contenido, categorías, tags, media | Colecciones Payload (schema `payload`)         | Fase 7   |
+| Learning paths                                                 | Colección Payload                              | V1       |
+| Índice GIN para FTS (hoy el tsvector se calcula por consulta)  | Migración SQL futura cuando el catálogo crezca | Post-MVP |
+| Eventos analíticos de producto                                 | PostHog (no BD propia)                         | Fase 15  |
+| Aforo/contadores derivados                                     | Calculados, no almacenados                     | —        |
 
 ## Entornos y flujo de migraciones
 

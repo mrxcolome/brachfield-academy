@@ -2,12 +2,9 @@
 // prototipo. En la Fase 7 esta misma interfaz se sirve desde Payload CMS;
 // las páginas no cambian.
 
-export type CourseLevel = 'Iniciación' | 'Intermedio' | 'Avanzado'
-
 export interface PublicCourse {
   slug: string
   title: string
-  level: CourseLevel
   duration: string
   lessons: number
   description: string
@@ -19,7 +16,6 @@ export const courses: PublicCourse[] = [
   {
     slug: 'como-recuperar-un-impagado-paso-a-paso',
     title: 'Cómo recuperar un impagado paso a paso',
-    level: 'Intermedio',
     duration: '2h 35min',
     lessons: 12,
     description:
@@ -60,7 +56,6 @@ export const courses: PublicCourse[] = [
   {
     slug: 'gestion-y-prevencion-de-impagados',
     title: 'Gestión y prevención de impagados',
-    level: 'Iniciación',
     duration: '3h 10min',
     lessons: 14,
     description:
@@ -105,7 +100,6 @@ export const courses: PublicCourse[] = [
   {
     slug: 'negociacion-avanzada-con-deudores',
     title: 'Negociación avanzada con deudores',
-    level: 'Avanzado',
     duration: '1h 50min',
     lessons: 9,
     description:
@@ -146,7 +140,6 @@ export const courses: PublicCourse[] = [
   {
     slug: 'organizacion-del-departamento-de-credit-management',
     title: 'Organización del departamento de Credit Management',
-    level: 'Avanzado',
     duration: '2h 05min',
     lessons: 10,
     description:
@@ -188,7 +181,6 @@ export const courses: PublicCourse[] = [
   {
     slug: 'analisis-de-riesgo-de-clientes',
     title: 'Análisis de riesgo de clientes',
-    level: 'Intermedio',
     duration: '1h 40min',
     lessons: 8,
     description:
@@ -225,7 +217,6 @@ export const courses: PublicCourse[] = [
   {
     slug: 'marco-legal-de-la-morosidad-comercial',
     title: 'Marco legal de la morosidad comercial',
-    level: 'Intermedio',
     duration: '2h 20min',
     lessons: 11,
     description:

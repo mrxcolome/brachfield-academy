@@ -222,11 +222,6 @@ async function main() {
   }
 
   // Cursos (desde el catálogo del prototipo, publicados)
-  const levelMap = {
-    Iniciación: 'BEGINNER',
-    Intermedio: 'INTERMEDIATE',
-    Avanzado: 'ADVANCED',
-  } as const
   // Categorías editoriales por curso (alimentan las recomendaciones, Fase 13)
   const COURSE_CATEGORIES: Record<string, string[]> = {
     'gestion-y-prevencion-de-impagados': ['Prevención de impagos', 'Credit Management'],
@@ -249,7 +244,6 @@ async function main() {
         title: c.title,
         slug: c.slug,
         description: c.description,
-        level: levelMap[c.level],
         duration: c.duration,
         objectives: c.learn.map((text) => ({ text })),
         categories: (COURSE_CATEGORIES[c.slug] ?? ['Credit Management']).flatMap(cat),

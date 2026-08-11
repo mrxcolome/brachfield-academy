@@ -106,7 +106,6 @@ export default async function AppHome() {
                     <p className="font-mono text-[11px] text-muted">
                       CURSO
                       {rec.course.duration ? ` · ${rec.course.duration}` : ''}
-                      {rec.course.level ? ` · ${LEVEL_META[rec.course.level]}` : ''}
                     </p>
                   </div>
                 </Link>

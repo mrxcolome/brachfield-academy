@@ -9,7 +9,7 @@ export const Courses: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: 'Contenido',
-    defaultColumns: ['title', 'level', '_status'],
+    defaultColumns: ['title', '_status'],
   },
   versions: { drafts: { autosave: true, schedulePublish: true } },
   access: { read: () => true },
@@ -18,17 +18,6 @@ export const Courses: CollectionConfig = {
     { name: 'slug', type: 'text', required: true, unique: true, index: true },
     { name: 'description', label: 'Descripción', type: 'textarea', required: true },
     { name: 'teacher', label: 'Profesor', type: 'text', defaultValue: 'Pere Brachfield' },
-    {
-      name: 'level',
-      label: 'Nivel',
-      type: 'select',
-      required: true,
-      options: [
-        { label: 'Iniciación', value: 'BEGINNER' },
-        { label: 'Intermedio', value: 'INTERMEDIATE' },
-        { label: 'Avanzado', value: 'ADVANCED' },
-      ],
-    },
     {
       name: 'duration',
       label: 'Duración total',

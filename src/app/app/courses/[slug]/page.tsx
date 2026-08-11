@@ -29,16 +29,13 @@ export default async function CoursePage({ params }: Props) {
     ).map((r) => r.contentId),
   )
 
-  const levelLabel = { BEGINNER: 'Iniciación', INTERMEDIATE: 'Intermedio', ADVANCED: 'Avanzado' }[
-    course.level
-  ]
   const ctaLesson = progress.nextLessonId ?? lessons[0]?.id
 
   return (
     <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[1fr_320px]">
       <div>
         <p className="mb-2 font-mono text-[11px] tracking-wide text-muted uppercase">
-          Curso · {levelLabel} {course.duration ? `· ${course.duration}` : ''}
+          Curso {course.duration ? `· ${course.duration}` : ''}
         </p>
         <h1 className="mb-2.5 text-2xl leading-tight font-bold">{course.title}</h1>
         <p className="mb-4 text-[13.5px] text-muted">

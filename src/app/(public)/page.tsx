@@ -221,9 +221,7 @@ export default function LandingPage() {
               <Cover title={c.title} kind="curso" style={{ aspectRatio: '16/10' }} />
               <div className="p-4">
                 <p className="mb-1.5 text-sm leading-snug font-semibold">{c.title}</p>
-                <p className="font-mono text-[11px] text-muted">
-                  CURSO · {c.duration} · {c.level}
-                </p>
+                <p className="font-mono text-[11px] text-muted">CURSO · {c.duration}</p>
               </div>
             </Link>
           ))}

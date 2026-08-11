@@ -50,7 +50,7 @@ export default async function CoursePage({ params }: Props) {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-12 lg:grid-cols-[1fr_360px]">
         <div>
           <p className="mb-2.5 font-mono text-[11px] tracking-wide text-muted uppercase">
-            Curso · {course.level} · {course.duration}
+            Curso · {course.duration}
           </p>
           <h1 className="mb-4 text-3xl leading-tight font-bold">{course.title}</h1>
           <p className="mb-6 max-w-xl text-[15px] leading-relaxed text-ink-3">

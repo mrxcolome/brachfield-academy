@@ -74,7 +74,7 @@ async function searchCoursesFts(query: string, limit: number): Promise<CourseRow
   return db.$queryRaw<CourseRow[]>`
     WITH tsq AS (SELECT websearch_to_tsquery('spanish', unaccent(${query})) AS q)
     SELECT c.id, c.slug, c.title, c.description,
-           c.duration, c.level::text AS level,
+           c.duration, NULL::text AS level,
            ts_rank(v.doc, tsq.q)::float8 AS rank
     FROM payload.courses c
     LEFT JOIN LATERAL (
@@ -117,7 +117,7 @@ async function searchContentsLike(query: string, limit: number): Promise<Content
 async function searchCoursesLike(query: string, limit: number): Promise<CourseRow[]> {
   return db.$queryRaw<CourseRow[]>`
     SELECT c.id, c.slug, c.title, c.description,
-           c.duration, c.level::text AS level,
+           c.duration, NULL::text AS level,
            0::float8 AS rank
     FROM payload.courses c
     WHERE c._status = 'published'

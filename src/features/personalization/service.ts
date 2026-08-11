@@ -77,7 +77,7 @@ export async function getRecommendations(
       course,
       categories: names(course.categories),
       tags: names(course.tags),
-      level: course.level ?? null,
+      level: null, // los cursos no van por niveles (decisión del propietario 2026-08-11)
       publishedAt: course.publishedAt ?? null,
     })),
     profile,

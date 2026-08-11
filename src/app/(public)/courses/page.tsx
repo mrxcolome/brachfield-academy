@@ -41,9 +41,7 @@ export default function CoursesPage() {
               </span>
               <div className="p-4">
                 <p className="mb-1.5 text-[14.5px] leading-snug font-semibold">{c.title}</p>
-                <p className="font-mono text-[11px] text-muted">
-                  CURSO · {c.duration} · {c.level}
-                </p>
+                <p className="font-mono text-[11px] text-muted">CURSO · {c.duration}</p>
               </div>
             </Link>
           ))}

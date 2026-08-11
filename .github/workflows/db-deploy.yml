@@ -11,7 +11,7 @@ on:
         default: false
   push:
     branches: [main]
-    paths: ['prisma/migrations/**']
+    paths: ['prisma/migrations/**', 'src/migrations/**']
 
 jobs:
   migrate:

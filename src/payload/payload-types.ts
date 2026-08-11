@@ -59,167 +59,166 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji'
+  | 'Pacific/Fiji';
 
 export interface Config {
   auth: {
-    admins: AdminAuthOperations
-  }
-  blocks: {}
+    admins: AdminAuthOperations;
+  };
+  blocks: {};
   collections: {
-    admins: Admin
-    categories: Category
-    tags: Tag
-    media: Media
-    contents: Content
-    courses: Course
-    events: Event
-    'payload-kv': PayloadKv
-    'payload-jobs': PayloadJob
-    'payload-locked-documents': PayloadLockedDocument
-    'payload-preferences': PayloadPreference
-    'payload-migrations': PayloadMigration
-  }
-  collectionsJoins: {}
+    admins: Admin;
+    categories: Category;
+    tags: Tag;
+    media: Media;
+    contents: Content;
+    courses: Course;
+    events: Event;
+    'payload-kv': PayloadKv;
+    'payload-jobs': PayloadJob;
+    'payload-locked-documents': PayloadLockedDocument;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
+  };
+  collectionsJoins: {};
   collectionsSelect: {
-    admins: AdminsSelect<false> | AdminsSelect<true>
-    categories: CategoriesSelect<false> | CategoriesSelect<true>
-    tags: TagsSelect<false> | TagsSelect<true>
-    media: MediaSelect<false> | MediaSelect<true>
-    contents: ContentsSelect<false> | ContentsSelect<true>
-    courses: CoursesSelect<false> | CoursesSelect<true>
-    events: EventsSelect<false> | EventsSelect<true>
-    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
-    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>
-    'payload-locked-documents':
-      PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
-  }
+    admins: AdminsSelect<false> | AdminsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    contents: ContentsSelect<false> | ContentsSelect<true>;
+    courses: CoursesSelect<false> | CoursesSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
+    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
+  };
   db: {
-    defaultIDType: number
-  }
-  fallbackLocale: null
-  globals: {}
-  globalsSelect: {}
-  locale: null
+    defaultIDType: number;
+  };
+  fallbackLocale: null;
+  globals: {};
+  globalsSelect: {};
+  locale: null;
   widgets: {
-    collections: CollectionsWidget
-  }
-  user: Admin
+    collections: CollectionsWidget;
+  };
+  user: Admin;
   jobs: {
     tasks: {
-      schedulePublish: TaskSchedulePublish
+      schedulePublish: TaskSchedulePublish;
       inline: {
-        input: unknown
-        output: unknown
-      }
-    }
-    workflows: unknown
-  }
+        input: unknown;
+        output: unknown;
+      };
+    };
+    workflows: unknown;
+  };
 }
 export interface AdminAuthOperations {
   forgotPassword: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   login: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   registerFirstUser: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
   unlock: {
-    email: string
-    password: string
-  }
+    email: string;
+    password: string;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "admins".
  */
 export interface Admin {
-  id: number
-  name: string
-  role: 'admin' | 'editor'
-  updatedAt: string
-  createdAt: string
-  email: string
-  resetPasswordToken?: string | null
-  resetPasswordExpiration?: string | null
-  salt?: string | null
-  hash?: string | null
-  loginAttempts?: number | null
-  lockUntil?: string | null
+  id: number;
+  name: string;
+  role: 'admin' | 'editor';
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
   sessions?:
     | {
-        id: string
-        createdAt?: string | null
-        expiresAt: string
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
       }[]
-    | null
-  password?: string | null
-  collection: 'admins'
+    | null;
+  password?: string | null;
+  collection: 'admins';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
-  id: number
-  name: string
+  id: number;
+  name: string;
   /**
    * URL amigable, ej. prevencion-de-impagos
    */
-  slug: string
-  updatedAt: string
-  createdAt: string
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags".
  */
 export interface Tag {
-  id: number
-  name: string
-  slug: string
-  updatedAt: string
-  createdAt: string
+  id: number;
+  name: string;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: number
-  alt?: string | null
-  updatedAt: string
-  createdAt: string
-  url?: string | null
-  thumbnailURL?: string | null
-  filename?: string | null
-  mimeType?: string | null
-  filesize?: number | null
-  width?: number | null
-  height?: number | null
-  focalX?: number | null
-  focalY?: number | null
+  id: number;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contents".
  */
 export interface Content {
-  id: number
-  title: string
-  slug: string
-  subtitle?: string | null
+  id: number;
+  title: string;
+  slug: string;
+  subtitle?: string | null;
   /**
    * Resumen corto para cards y buscador
    */
-  excerpt?: string | null
+  excerpt?: string | null;
   contentType:
     | 'VIDEO'
     | 'AUDIO'
@@ -231,588 +230,586 @@ export interface Content {
     | 'WEBINAR'
     | 'CASE_STUDY'
     | 'NEWS'
-    | 'TOOL'
-  level?: ('BEGINNER' | 'INTERMEDIATE' | 'ADVANCED') | null
+    | 'TOOL';
+  level?: ('BEGINNER' | 'INTERMEDIATE' | 'ADVANCED') | null;
   /**
    * Ej. "8 min", "2h 35min"
    */
-  duration?: string | null
-  premium?: boolean | null
-  featured?: boolean | null
-  thumbnail?: (number | null) | Media
-  categories?: (number | Category)[] | null
-  tags?: (number | Tag)[] | null
+  duration?: string | null;
+  premium?: boolean | null;
+  featured?: boolean | null;
+  thumbnail?: (number | null) | Media;
+  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
   body?: {
     root: {
-      type: string
+      type: string;
       children: {
-        type: any
-        version: number
-        [k: string]: unknown
-      }[]
-      direction: ('ltr' | 'rtl') | null
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-      indent: number
-      version: number
-    }
-    [k: string]: unknown
-  } | null
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   /**
    * Para vídeos: el UID del vídeo en Cloudflare Stream
    */
-  streamId?: string | null
-  audioFile?: (number | null) | Media
-  documentFile?: (number | null) | Media
+  streamId?: string | null;
+  audioFile?: (number | null) | Media;
+  documentFile?: (number | null) | Media;
   /**
    * Fragmentos con marca de tiempo (clicables en el player)
    */
   transcript?:
     | {
-        ts: number
-        text: string
-        id?: string | null
+        ts: number;
+        text: string;
+        id?: string | null;
       }[]
-    | null
+    | null;
   /**
    * Relación manual — prioridad sobre la algorítmica (briefing §80)
    */
-  relatedContent?: (number | Content)[] | null
+  relatedContent?: (number | Content)[] | null;
   seo?: {
-    title?: string | null
-    description?: string | null
-  }
-  publishedAt?: string | null
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+    title?: string | null;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "courses".
  */
 export interface Course {
-  id: number
-  title: string
-  slug: string
-  description: string
-  teacher?: string | null
-  level: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED'
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  teacher?: string | null;
   /**
    * Ej. "2h 35min"
    */
-  duration?: string | null
-  thumbnail?: (number | null) | Media
+  duration?: string | null;
+  thumbnail?: (number | null) | Media;
   objectives?:
     | {
-        text: string
-        id?: string | null
+        text: string;
+        id?: string | null;
       }[]
-    | null
+    | null;
   requirements?:
     | {
-        text: string
-        id?: string | null
+        text: string;
+        id?: string | null;
       }[]
-    | null
-  certificateEnabled?: boolean | null
-  categories?: (number | Category)[] | null
-  tags?: (number | Tag)[] | null
+    | null;
+  certificateEnabled?: boolean | null;
+  categories?: (number | Category)[] | null;
+  tags?: (number | Tag)[] | null;
   modules?:
     | {
-        name: string
+        name: string;
         lessons?:
           | {
-              title: string
-              lessonType: 'video' | 'audio' | 'text' | 'document'
-              duration?: string | null
-              streamId?: string | null
+              title: string;
+              lessonType: 'video' | 'audio' | 'text' | 'document';
+              duration?: string | null;
+              streamId?: string | null;
               body?: {
                 root: {
-                  type: string
+                  type: string;
                   children: {
-                    type: any
-                    version: number
-                    [k: string]: unknown
-                  }[]
-                  direction: ('ltr' | 'rtl') | null
-                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
-                  indent: number
-                  version: number
-                }
-                [k: string]: unknown
-              } | null
+                    type: any;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              } | null;
               transcript?:
                 | {
-                    ts: number
-                    text: string
-                    id?: string | null
+                    ts: number;
+                    text: string;
+                    id?: string | null;
                   }[]
-                | null
-              resources?: (number | Content)[] | null
-              id?: string | null
+                | null;
+              resources?: (number | Content)[] | null;
+              id?: string | null;
             }[]
-          | null
-        id?: string | null
+          | null;
+        id?: string | null;
       }[]
-    | null
-  publishedAt?: string | null
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+    | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
-  id: number
-  title: string
-  slug: string
-  description: string
-  eventType: 'WEBINAR' | 'QA' | 'MASTERCLASS' | 'CASE' | 'LEGAL_UPDATE'
-  startAt: string
-  endAt?: string | null
-  capacity?: number | null
-  speaker?: string | null
-  streamUrl?: string | null
-  replayContent?: (number | null) | Content
-  updatedAt: string
-  createdAt: string
-  _status?: ('draft' | 'published') | null
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  eventType: 'WEBINAR' | 'QA' | 'MASTERCLASS' | 'CASE' | 'LEGAL_UPDATE';
+  startAt: string;
+  endAt?: string | null;
+  capacity?: number | null;
+  speaker?: string | null;
+  streamUrl?: string | null;
+  replayContent?: (number | null) | Content;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: number
-  key: string
+  id: number;
+  key: string;
   data:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
+    | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: number
+  id: number;
   /**
    * Input data provided to the job
    */
   input?:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
+    | null;
   taskStatus?:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
-  completedAt?: string | null
-  totalTried?: number | null
+    | null;
+  completedAt?: string | null;
+  totalTried?: number | null;
   /**
    * If hasError is true this job will not be retried
    */
-  hasError?: boolean | null
+  hasError?: boolean | null;
   /**
    * If hasError is true, this is the error that caused it
    */
   error?:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
+    | null;
   /**
    * Task execution log
    */
   log?:
     | {
-        executedAt: string
-        completedAt: string
-        taskSlug: 'inline' | 'schedulePublish'
-        taskID: string
+        executedAt: string;
+        completedAt: string;
+        taskSlug: 'inline' | 'schedulePublish';
+        taskID: string;
         input?:
           | {
-              [k: string]: unknown
+              [k: string]: unknown;
             }
           | unknown[]
           | string
           | number
           | boolean
-          | null
+          | null;
         output?:
           | {
-              [k: string]: unknown
+              [k: string]: unknown;
             }
           | unknown[]
           | string
           | number
           | boolean
-          | null
-        state: 'failed' | 'succeeded'
+          | null;
+        state: 'failed' | 'succeeded';
         error?:
           | {
-              [k: string]: unknown
+              [k: string]: unknown;
             }
           | unknown[]
           | string
           | number
           | boolean
-          | null
-        id?: string | null
+          | null;
+        id?: string | null;
       }[]
-    | null
-  taskSlug?: ('inline' | 'schedulePublish') | null
-  queue?: string | null
-  waitUntil?: string | null
-  processing?: boolean | null
-  updatedAt: string
-  createdAt: string
+    | null;
+  taskSlug?: ('inline' | 'schedulePublish') | null;
+  queue?: string | null;
+  waitUntil?: string | null;
+  processing?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number
+  id: number;
   document?:
     | ({
-        relationTo: 'admins'
-        value: number | Admin
+        relationTo: 'admins';
+        value: number | Admin;
       } | null)
     | ({
-        relationTo: 'categories'
-        value: number | Category
+        relationTo: 'categories';
+        value: number | Category;
       } | null)
     | ({
-        relationTo: 'tags'
-        value: number | Tag
+        relationTo: 'tags';
+        value: number | Tag;
       } | null)
     | ({
-        relationTo: 'media'
-        value: number | Media
+        relationTo: 'media';
+        value: number | Media;
       } | null)
     | ({
-        relationTo: 'contents'
-        value: number | Content
+        relationTo: 'contents';
+        value: number | Content;
       } | null)
     | ({
-        relationTo: 'courses'
-        value: number | Course
+        relationTo: 'courses';
+        value: number | Course;
       } | null)
     | ({
-        relationTo: 'events'
-        value: number | Event
-      } | null)
-  globalSlug?: string | null
+        relationTo: 'events';
+        value: number | Event;
+      } | null);
+  globalSlug?: string | null;
   user: {
-    relationTo: 'admins'
-    value: number | Admin
-  }
-  updatedAt: string
-  createdAt: string
+    relationTo: 'admins';
+    value: number | Admin;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number
+  id: number;
   user: {
-    relationTo: 'admins'
-    value: number | Admin
-  }
-  key?: string | null
+    relationTo: 'admins';
+    value: number | Admin;
+  };
+  key?: string | null;
   value?:
     | {
-        [k: string]: unknown
+        [k: string]: unknown;
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null
-  updatedAt: string
-  createdAt: string
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number
-  name?: string | null
-  batch?: number | null
-  updatedAt: string
-  createdAt: string
+  id: number;
+  name?: string | null;
+  batch?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "admins_select".
  */
 export interface AdminsSelect<T extends boolean = true> {
-  name?: T
-  role?: T
-  updatedAt?: T
-  createdAt?: T
-  email?: T
-  resetPasswordToken?: T
-  resetPasswordExpiration?: T
-  salt?: T
-  hash?: T
-  loginAttempts?: T
-  lockUntil?: T
+  name?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
   sessions?:
     | T
     | {
-        id?: T
-        createdAt?: T
-        expiresAt?: T
-      }
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags_select".
  */
 export interface TagsSelect<T extends boolean = true> {
-  name?: T
-  slug?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T
-  updatedAt?: T
-  createdAt?: T
-  url?: T
-  thumbnailURL?: T
-  filename?: T
-  mimeType?: T
-  filesize?: T
-  width?: T
-  height?: T
-  focalX?: T
-  focalY?: T
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contents_select".
  */
 export interface ContentsSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  subtitle?: T
-  excerpt?: T
-  contentType?: T
-  level?: T
-  duration?: T
-  premium?: T
-  featured?: T
-  thumbnail?: T
-  categories?: T
-  tags?: T
-  body?: T
-  streamId?: T
-  audioFile?: T
-  documentFile?: T
+  title?: T;
+  slug?: T;
+  subtitle?: T;
+  excerpt?: T;
+  contentType?: T;
+  level?: T;
+  duration?: T;
+  premium?: T;
+  featured?: T;
+  thumbnail?: T;
+  categories?: T;
+  tags?: T;
+  body?: T;
+  streamId?: T;
+  audioFile?: T;
+  documentFile?: T;
   transcript?:
     | T
     | {
-        ts?: T
-        text?: T
-        id?: T
-      }
-  relatedContent?: T
+        ts?: T;
+        text?: T;
+        id?: T;
+      };
+  relatedContent?: T;
   seo?:
     | T
     | {
-        title?: T
-        description?: T
-      }
-  publishedAt?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+        title?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "courses_select".
  */
 export interface CoursesSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  description?: T
-  teacher?: T
-  level?: T
-  duration?: T
-  thumbnail?: T
+  title?: T;
+  slug?: T;
+  description?: T;
+  teacher?: T;
+  duration?: T;
+  thumbnail?: T;
   objectives?:
     | T
     | {
-        text?: T
-        id?: T
-      }
+        text?: T;
+        id?: T;
+      };
   requirements?:
     | T
     | {
-        text?: T
-        id?: T
-      }
-  certificateEnabled?: T
-  categories?: T
-  tags?: T
+        text?: T;
+        id?: T;
+      };
+  certificateEnabled?: T;
+  categories?: T;
+  tags?: T;
   modules?:
     | T
     | {
-        name?: T
+        name?: T;
         lessons?:
           | T
           | {
-              title?: T
-              lessonType?: T
-              duration?: T
-              streamId?: T
-              body?: T
+              title?: T;
+              lessonType?: T;
+              duration?: T;
+              streamId?: T;
+              body?: T;
               transcript?:
                 | T
                 | {
-                    ts?: T
-                    text?: T
-                    id?: T
-                  }
-              resources?: T
-              id?: T
-            }
-        id?: T
-      }
-  publishedAt?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+                    ts?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              resources?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
-  title?: T
-  slug?: T
-  description?: T
-  eventType?: T
-  startAt?: T
-  endAt?: T
-  capacity?: T
-  speaker?: T
-  streamUrl?: T
-  replayContent?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
+  title?: T;
+  slug?: T;
+  description?: T;
+  eventType?: T;
+  startAt?: T;
+  endAt?: T;
+  capacity?: T;
+  speaker?: T;
+  streamUrl?: T;
+  replayContent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
-  key?: T
-  data?: T
+  key?: T;
+  data?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs_select".
  */
 export interface PayloadJobsSelect<T extends boolean = true> {
-  input?: T
-  taskStatus?: T
-  completedAt?: T
-  totalTried?: T
-  hasError?: T
-  error?: T
+  input?: T;
+  taskStatus?: T;
+  completedAt?: T;
+  totalTried?: T;
+  hasError?: T;
+  error?: T;
   log?:
     | T
     | {
-        executedAt?: T
-        completedAt?: T
-        taskSlug?: T
-        taskID?: T
-        input?: T
-        output?: T
-        state?: T
-        error?: T
-        id?: T
-      }
-  taskSlug?: T
-  queue?: T
-  waitUntil?: T
-  processing?: T
-  updatedAt?: T
-  createdAt?: T
+        executedAt?: T;
+        completedAt?: T;
+        taskSlug?: T;
+        taskID?: T;
+        input?: T;
+        output?: T;
+        state?: T;
+        error?: T;
+        id?: T;
+      };
+  taskSlug?: T;
+  queue?: T;
+  waitUntil?: T;
+  processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T
-  globalSlug?: T
-  user?: T
-  updatedAt?: T
-  createdAt?: T
+  document?: T;
+  globalSlug?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T
-  key?: T
-  value?: T
-  updatedAt?: T
-  createdAt?: T
+  user?: T;
+  key?: T;
+  value?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T
-  batch?: T
-  updatedAt?: T
-  createdAt?: T
+  name?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -820,9 +817,9 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface CollectionsWidget {
   data?: {
-    [k: string]: unknown
-  }
-  width: 'full'
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -830,29 +827,30 @@ export interface CollectionsWidget {
  */
 export interface TaskSchedulePublish {
   input: {
-    type?: ('publish' | 'unpublish') | null
-    locale?: string | null
+    type?: ('publish' | 'unpublish') | null;
+    locale?: string | null;
     doc?:
       | ({
-          relationTo: 'contents'
-          value: number | Content
+          relationTo: 'contents';
+          value: number | Content;
         } | null)
       | ({
-          relationTo: 'courses'
-          value: number | Course
-        } | null)
-    global?: string | null
-    user?: (number | null) | Admin
-  }
-  output?: unknown
+          relationTo: 'courses';
+          value: number | Course;
+        } | null);
+    global?: string | null;
+    user?: (number | null) | Admin;
+  };
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown
+  [k: string]: unknown;
 }
+
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}

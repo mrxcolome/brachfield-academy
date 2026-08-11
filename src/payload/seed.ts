@@ -252,9 +252,19 @@ async function main() {
     })
   }
 
+  // Destacados de Explorar (el editor los cambia desde /admin con la casilla "featured")
+  const FEATURED = new Set([
+    'primer-contacto-cliente-moroso',
+    'siete-excusas-frecuentes-moroso',
+    'checklist-prevenir-impagos-antes-de-vender',
+    'guia-plazos-prescripcion-deuda',
+  ])
+
+  const contentIdBySlug: Record<string, number> = {}
+
   // Vídeos cortos
   for (const v of VIDEOS) {
-    await payload.create({
+    const doc = await payload.create({
       collection: 'contents',
       draft: false,
       data: {
@@ -266,16 +276,18 @@ async function main() {
         level: 'INTERMEDIATE',
         duration: v.duration,
         premium: true,
+        featured: FEATURED.has(v.slug),
         categories: cat('Recobro de impagados'),
         body: rt(v.excerpt),
         publishedAt: new Date().toISOString(),
       },
     })
+    contentIdBySlug[v.slug] = doc.id
   }
 
   // Guías, checklists y plantillas
   for (const g of GUIDES) {
-    await payload.create({
+    const doc = await payload.create({
       collection: 'contents',
       draft: false,
       data: {
@@ -286,10 +298,46 @@ async function main() {
         contentType: g.type,
         duration: g.duration,
         premium: true,
+        featured: FEATURED.has(g.slug),
         categories: cat('Prevención de impagos'),
         body: rt(...g.body),
         publishedAt: new Date().toISOString(),
       },
+    })
+    contentIdBySlug[g.slug] = doc.id
+  }
+
+  // Relacionados manuales (briefing §80: la relación editorial manda sobre la algorítmica)
+  const RELATED: Record<string, string[]> = {
+    'primer-contacto-cliente-moroso': [
+      'siete-excusas-frecuentes-moroso',
+      'cuando-enviar-un-burofax',
+    ],
+    'cuando-enviar-un-burofax': [
+      'guia-plazos-prescripcion-deuda',
+      'como-calcular-intereses-de-demora',
+    ],
+    'siete-excusas-frecuentes-moroso': [
+      'responder-factura-pendiente-aprobacion',
+      'primer-contacto-cliente-moroso',
+    ],
+    'checklist-prevenir-impagos-antes-de-vender': ['senales-riesgo-antes-impago'],
+    'cliente-pide-otro-aplazamiento': [
+      'como-documentar-acuerdo-de-pago',
+      'cuando-dejar-de-negociar',
+    ],
+  }
+  for (const [slug, relatedSlugs] of Object.entries(RELATED)) {
+    const id = contentIdBySlug[slug]
+    const related = relatedSlugs
+      .map((s) => contentIdBySlug[s])
+      .filter((x): x is number => x != null)
+    if (id == null || related.length === 0) continue
+    await payload.update({
+      collection: 'contents',
+      id,
+      draft: false,
+      data: { relatedContent: related },
     })
   }
 

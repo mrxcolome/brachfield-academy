@@ -1,0 +1,30 @@
+import Link from 'next/link'
+import type { Content } from '@/payload/payload-types'
+import { CONTENT_TYPE_META, LEVEL_META } from '@/features/content/service'
+import { Cover } from '@/components/art'
+
+/** Card de contenido reutilizada en Explorar, Biblioteca, ficha (relacionados) y Favoritos. */
+export function ContentCard({ content }: { content: Content }) {
+  const meta = CONTENT_TYPE_META[content.contentType]
+  return (
+    <Link
+      href={`/app/contents/${content.slug}`}
+      className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
+    >
+      <Cover title={content.title} kind={meta.kind} style={{ aspectRatio: '16/10' }} />
+      <div className="p-3.5">
+        <p className="mb-1.5 font-mono text-[10.5px] tracking-wide text-muted uppercase">
+          {meta.label}
+          {content.duration ? ` · ${content.duration}` : ''}
+        </p>
+        <p className="mb-1 text-[13.5px] leading-snug font-semibold">{content.title}</p>
+        {content.excerpt ? (
+          <p className="line-clamp-2 text-xs leading-relaxed text-muted">{content.excerpt}</p>
+        ) : null}
+        {content.level ? (
+          <p className="mt-2 font-mono text-[10.5px] text-faint">{LEVEL_META[content.level]}</p>
+        ) : null}
+      </div>
+    </Link>
+  )
+}

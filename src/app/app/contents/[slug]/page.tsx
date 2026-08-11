@@ -4,9 +4,12 @@ import { RichText } from '@payloadcms/richtext-lexical/react'
 import { requireActiveMember } from '@/features/auth/guards'
 import { getContentBySlug, CONTENT_TYPE_META, LEVEL_META } from '@/features/content/service'
 import { isFavorited } from '@/features/favorites/service'
-import type { Content, Category } from '@/payload/payload-types'
+import type { Content, Category, Media } from '@/payload/payload-types'
+import { downloadUrlFor } from '@/features/tools/downloads'
 import { FavoriteButton } from '@/components/product/favorite-button'
 import { ContentCard } from '@/components/product/content-card'
+import { DownloadButton } from '@/components/product/download-button'
+import { StreamPlayer, PlayerPlaceholder } from '@/components/product/stream-player'
 import { Badge } from '@/components/ui/badge'
 
 interface Props {
@@ -59,6 +62,13 @@ export default async function ContentPage({ params }: Props) {
   const isPlayer = PLAYER_TYPES.includes(content.contentType)
   const isAudio = AUDIO_TYPES.includes(content.contentType)
   const isDownload = DOWNLOAD_TYPES.includes(content.contentType)
+  const audioFile =
+    typeof content.audioFile === 'object' && content.audioFile !== null
+      ? (content.audioFile as Media)
+      : null
+  // En producción el audio premium se sirve con URL firmada de R2
+  const audioSrc = audioFile ? await downloadUrlFor(audioFile, 'inline') : null
+  const hasDocument = typeof content.documentFile === 'object' && content.documentFile !== null
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -69,27 +79,23 @@ export default async function ContentPage({ params }: Props) {
       </p>
 
       {/* Player / cabecera según formato */}
-      {(isPlayer || isAudio) && (
-        <div
-          className={
-            isPlayer
-              ? 'mb-5 flex aspect-video items-center justify-center rounded-xl bg-player text-center'
-              : 'mb-5 flex items-center justify-center rounded-xl bg-player px-6 py-10 text-center'
-          }
-        >
-          <div>
-            <p aria-hidden className="mb-2 text-3xl text-on-dark-muted">
-              {isPlayer ? '▶' : '◑'}
-            </p>
-            <p className="font-mono text-xs text-on-dark-muted">
-              {isPlayer ? 'REPRODUCTOR DE VÍDEO' : 'REPRODUCTOR DE AUDIO'}
-            </p>
-            <p className="mt-1 px-6 text-[11.5px] text-on-dark-muted">
-              Se activará al conectar Cloudflare Stream
-            </p>
+      {isPlayer &&
+        (content.streamId ? (
+          <StreamPlayer streamId={content.streamId} title={content.title} />
+        ) : (
+          <PlayerPlaceholder kind="video" />
+        ))}
+      {isAudio &&
+        (audioSrc ? (
+          <div className="mb-5 rounded-xl bg-player p-5">
+            {/* eslint-disable-next-line jsx-a11y/media-has-caption -- la transcripción está debajo */}
+            <audio controls preload="metadata" src={audioSrc} className="w-full">
+              Tu navegador no puede reproducir este audio.
+            </audio>
           </div>
-        </div>
-      )}
+        ) : (
+          <PlayerPlaceholder kind="audio" />
+        ))}
 
       <p className="mb-1.5 font-mono text-[11px] tracking-wide text-muted uppercase">
         {meta.label}
@@ -101,14 +107,17 @@ export default async function ContentPage({ params }: Props) {
 
       <div className="mb-5 flex flex-wrap items-center gap-2.5">
         <FavoriteButton contentSlug={content.slug} initialFavorited={favorited} />
-        {isDownload && (
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full border border-border-chip bg-bg px-3.5 py-2 text-[13px] font-semibold text-muted"
-            title="Disponible muy pronto"
-          >
-            <span aria-hidden>↓</span> Descarga — se activará muy pronto
-          </span>
-        )}
+        {isDownload &&
+          (hasDocument ? (
+            <DownloadButton contentSlug={content.slug} />
+          ) : (
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full border border-border-chip bg-bg px-3.5 py-2 text-[13px] font-semibold text-muted"
+              title="Disponible muy pronto"
+            >
+              <span aria-hidden>↓</span> Descarga — se activará muy pronto
+            </span>
+          ))}
         {categories.map((cat) => (
           <Badge key={cat.id} variant="outline">
             <Link href={`/app/library?categoria=${cat.slug}`} className="text-inherit no-underline">

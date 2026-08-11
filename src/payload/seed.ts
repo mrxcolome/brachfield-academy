@@ -1,9 +1,13 @@
 // Seed editorial de Payload (Fase 7). Idempotente: borra y recrea el
 // contenido seed. Ejecutar: npx tsx src/payload/seed.ts
 import 'dotenv/config'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { getPayload } from 'payload'
 import config from '../../payload.config'
 import { courses as catalogCourses } from '../features/content/catalog'
+
+const seedDirname = path.dirname(fileURLToPath(import.meta.url))
 
 // Rich text mínimo (Lexical): párrafos desde strings
 function rt(...paragraphs: string[]) {
@@ -174,7 +178,7 @@ async function main() {
   const payload = await getPayload({ config })
 
   // Limpieza idempotente (solo datos seed, por slug conocido)
-  for (const slug of ['contents', 'courses', 'events', 'tags', 'categories'] as const) {
+  for (const slug of ['contents', 'courses', 'events', 'media', 'tags', 'categories'] as const) {
     await payload.delete({ collection: slug, where: { id: { exists: true } } })
   }
 
@@ -285,8 +289,26 @@ async function main() {
     contentIdBySlug[v.slug] = doc.id
   }
 
-  // Guías, checklists y plantillas
+  // Guías, checklists y plantillas — con su PDF descargable (Fase 11)
+  const PDF_BY_SLUG: Record<string, string> = {
+    'checklist-prevenir-impagos-antes-de-vender': 'checklist-prevenir-impagos.pdf',
+    'guia-plazos-prescripcion-deuda': 'guia-prescripcion-deuda.pdf',
+    'plantilla-email-factura-vencida': 'plantilla-email-factura-vencida.pdf',
+    'como-documentar-acuerdo-de-pago': 'guia-documentar-acuerdo-pago.pdf',
+  }
+  const assetsDir = path.resolve(seedDirname, 'seed-assets')
+
   for (const g of GUIDES) {
+    let documentFile: number | undefined
+    const pdf = PDF_BY_SLUG[g.slug]
+    if (pdf) {
+      const media = await payload.create({
+        collection: 'media',
+        filePath: path.join(assetsDir, pdf),
+        data: { alt: g.title },
+      })
+      documentFile = media.id
+    }
     const doc = await payload.create({
       collection: 'contents',
       draft: false,
@@ -302,6 +324,7 @@ async function main() {
         categories: cat('Prevención de impagos'),
         body: rt(...g.body),
         publishedAt: new Date().toISOString(),
+        ...(documentFile != null ? { documentFile } : {}),
       },
     })
     contentIdBySlug[g.slug] = doc.id

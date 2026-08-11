@@ -5,6 +5,7 @@ import { requireActiveMember } from '@/features/auth/guards'
 import { getCourseBySlug, flattenLessons } from '@/features/content/service'
 import { db } from '@/lib/db'
 import { cn } from '@/lib/cn'
+import { StreamPlayer, PlayerPlaceholder } from '@/components/product/stream-player'
 import { MarkCompleteButton } from './mark-complete-button'
 
 interface Props {
@@ -100,21 +101,12 @@ export default async function LessonPage({ params }: Props) {
       {/* Área principal */}
       <div className="min-w-0 flex-1">
         {/* Player o cabecera según tipo */}
-        {(lesson.lessonType === 'video' || lesson.lessonType === 'audio') && (
-          <div className="mb-5 flex aspect-video items-center justify-center rounded-xl bg-player text-center">
-            <div>
-              <p aria-hidden className="mb-2 text-3xl text-on-dark-muted">
-                ▶
-              </p>
-              <p className="font-mono text-xs text-on-dark-muted">
-                {lesson.lessonType === 'video' ? 'REPRODUCTOR DE VÍDEO' : 'REPRODUCTOR DE AUDIO'}
-              </p>
-              <p className="mt-1 px-6 text-[11.5px] text-on-dark-muted">
-                Se activará al conectar Cloudflare Stream
-              </p>
-            </div>
-          </div>
-        )}
+        {(lesson.lessonType === 'video' || lesson.lessonType === 'audio') &&
+          (rawLesson?.streamId ? (
+            <StreamPlayer streamId={rawLesson.streamId} title={lesson.title} />
+          ) : (
+            <PlayerPlaceholder kind={lesson.lessonType === 'video' ? 'video' : 'audio'} />
+          ))}
 
         <p className="mb-1.5 font-mono text-[11px] tracking-wide text-muted uppercase">
           Lección {index + 1} de {lessons.length} · {lesson.moduleName}

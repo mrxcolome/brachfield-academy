@@ -4,3 +4,5 @@ node_modules/
 project/
 chats/
 src/generated/
+src/payload/payload-types.ts
+src/app/(payload)/admin/importMap.js

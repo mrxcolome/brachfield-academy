@@ -75,12 +75,8 @@
           "tableFrom": "admins_sessions",
           "tableTo": "admins",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -651,12 +647,8 @@
           "tableFrom": "contents_transcript",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -934,12 +926,8 @@
           "tableFrom": "contents",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "thumbnail_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["thumbnail_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -948,12 +936,8 @@
           "tableFrom": "contents",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "audio_file_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["audio_file_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -962,12 +946,8 @@
           "tableFrom": "contents",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "document_file_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["document_file_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1123,12 +1103,8 @@
           "tableFrom": "contents_rels",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1137,12 +1113,8 @@
           "tableFrom": "contents_rels",
           "tableTo": "categories",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "categories_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["categories_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1151,12 +1123,8 @@
           "tableFrom": "contents_rels",
           "tableTo": "tags",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "tags_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tags_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1165,12 +1133,8 @@
           "tableFrom": "contents_rels",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "contents_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contents_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1260,12 +1224,8 @@
           "tableFrom": "_contents_v_version_transcript",
           "tableTo": "_contents_v",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1648,12 +1608,8 @@
           "tableFrom": "_contents_v",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1662,12 +1618,8 @@
           "tableFrom": "_contents_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_thumbnail_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_thumbnail_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1676,12 +1628,8 @@
           "tableFrom": "_contents_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_audio_file_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_audio_file_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -1690,12 +1638,8 @@
           "tableFrom": "_contents_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_document_file_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_document_file_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1851,12 +1795,8 @@
           "tableFrom": "_contents_v_rels",
           "tableTo": "_contents_v",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1865,12 +1805,8 @@
           "tableFrom": "_contents_v_rels",
           "tableTo": "categories",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "categories_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["categories_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1879,12 +1815,8 @@
           "tableFrom": "_contents_v_rels",
           "tableTo": "tags",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "tags_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tags_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -1893,12 +1825,8 @@
           "tableFrom": "_contents_v_rels",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "contents_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contents_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1976,12 +1904,8 @@
           "tableFrom": "courses_objectives",
           "tableTo": "courses",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2059,12 +1983,8 @@
           "tableFrom": "courses_requirements",
           "tableTo": "courses",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2148,12 +2068,8 @@
           "tableFrom": "courses_modules_lessons_transcript",
           "tableTo": "courses_modules_lessons",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2257,12 +2173,8 @@
           "tableFrom": "courses_modules_lessons",
           "tableTo": "courses_modules",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2340,12 +2252,8 @@
           "tableFrom": "courses_modules",
           "tableTo": "courses",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2522,12 +2430,8 @@
           "tableFrom": "courses",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "thumbnail_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["thumbnail_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -2683,12 +2587,8 @@
           "tableFrom": "courses_rels",
           "tableTo": "courses",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -2697,12 +2597,8 @@
           "tableFrom": "courses_rels",
           "tableTo": "categories",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "categories_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["categories_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -2711,12 +2607,8 @@
           "tableFrom": "courses_rels",
           "tableTo": "tags",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "tags_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tags_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -2725,12 +2617,8 @@
           "tableFrom": "courses_rels",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "contents_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contents_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2814,12 +2702,8 @@
           "tableFrom": "_courses_v_version_objectives",
           "tableTo": "_courses_v",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2903,12 +2787,8 @@
           "tableFrom": "_courses_v_version_requirements",
           "tableTo": "_courses_v",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -2998,12 +2878,8 @@
           "tableFrom": "_courses_v_version_modules_lessons_transcript",
           "tableTo": "_courses_v_version_modules_lessons",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -3113,12 +2989,8 @@
           "tableFrom": "_courses_v_version_modules_lessons",
           "tableTo": "_courses_v_version_modules",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -3202,12 +3074,8 @@
           "tableFrom": "_courses_v_version_modules",
           "tableTo": "_courses_v",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -3489,12 +3357,8 @@
           "tableFrom": "_courses_v",
           "tableTo": "courses",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -3503,12 +3367,8 @@
           "tableFrom": "_courses_v",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_thumbnail_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_thumbnail_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -3664,12 +3524,8 @@
           "tableFrom": "_courses_v_rels",
           "tableTo": "_courses_v",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3678,12 +3534,8 @@
           "tableFrom": "_courses_v_rels",
           "tableTo": "categories",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "categories_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["categories_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3692,12 +3544,8 @@
           "tableFrom": "_courses_v_rels",
           "tableTo": "tags",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "tags_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tags_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -3706,12 +3554,8 @@
           "tableFrom": "_courses_v_rels",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "contents_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contents_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -3900,12 +3744,8 @@
           "tableFrom": "events",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "replay_content_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["replay_content_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -4178,12 +4018,8 @@
           "tableFrom": "_events_v",
           "tableTo": "events",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -4192,12 +4028,8 @@
           "tableFrom": "_events_v",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "version_replay_content_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["version_replay_content_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -4366,12 +4198,8 @@
           "tableFrom": "payload_jobs_log",
           "tableTo": "payload_jobs",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "_parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["_parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -4924,12 +4752,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "payload_locked_documents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -4938,12 +4762,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "admins",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "admins_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["admins_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -4952,12 +4772,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "categories",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "categories_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["categories_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -4966,12 +4782,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "tags",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "tags_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["tags_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -4980,12 +4792,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "media",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "media_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["media_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -4994,12 +4802,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "contents",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "contents_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["contents_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -5008,12 +4812,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "courses",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "courses_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["courses_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -5022,12 +4822,8 @@
           "tableFrom": "payload_locked_documents_rels",
           "tableTo": "events",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "events_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["events_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -5232,12 +5028,8 @@
           "tableFrom": "payload_preferences_rels",
           "tableTo": "payload_preferences",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "parent_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["parent_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -5246,12 +5038,8 @@
           "tableFrom": "payload_preferences_rels",
           "tableTo": "admins",
           "schemaTo": "payload",
-          "columnsFrom": [
-            "admins_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["admins_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -5343,10 +5131,7 @@
     "payload.enum_admins_role": {
       "name": "enum_admins_role",
       "schema": "payload",
-      "values": [
-        "admin",
-        "editor"
-      ]
+      "values": ["admin", "editor"]
     },
     "payload.enum_contents_content_type": {
       "name": "enum_contents_content_type",
@@ -5368,19 +5153,12 @@
     "payload.enum_contents_level": {
       "name": "enum_contents_level",
       "schema": "payload",
-      "values": [
-        "BEGINNER",
-        "INTERMEDIATE",
-        "ADVANCED"
-      ]
+      "values": ["BEGINNER", "INTERMEDIATE", "ADVANCED"]
     },
     "payload.enum_contents_status": {
       "name": "enum_contents_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__contents_v_version_content_type": {
       "name": "enum__contents_v_version_content_type",
@@ -5402,117 +5180,67 @@
     "payload.enum__contents_v_version_level": {
       "name": "enum__contents_v_version_level",
       "schema": "payload",
-      "values": [
-        "BEGINNER",
-        "INTERMEDIATE",
-        "ADVANCED"
-      ]
+      "values": ["BEGINNER", "INTERMEDIATE", "ADVANCED"]
     },
     "payload.enum__contents_v_version_status": {
       "name": "enum__contents_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_courses_modules_lessons_lesson_type": {
       "name": "enum_courses_modules_lessons_lesson_type",
       "schema": "payload",
-      "values": [
-        "video",
-        "audio",
-        "text",
-        "document"
-      ]
+      "values": ["video", "audio", "text", "document"]
     },
     "payload.enum_courses_status": {
       "name": "enum_courses_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__courses_v_version_modules_lessons_lesson_type": {
       "name": "enum__courses_v_version_modules_lessons_lesson_type",
       "schema": "payload",
-      "values": [
-        "video",
-        "audio",
-        "text",
-        "document"
-      ]
+      "values": ["video", "audio", "text", "document"]
     },
     "payload.enum__courses_v_version_status": {
       "name": "enum__courses_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_events_event_type": {
       "name": "enum_events_event_type",
       "schema": "payload",
-      "values": [
-        "WEBINAR",
-        "QA",
-        "MASTERCLASS",
-        "CASE",
-        "LEGAL_UPDATE"
-      ]
+      "values": ["WEBINAR", "QA", "MASTERCLASS", "CASE", "LEGAL_UPDATE"]
     },
     "payload.enum_events_status": {
       "name": "enum_events_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum__events_v_version_event_type": {
       "name": "enum__events_v_version_event_type",
       "schema": "payload",
-      "values": [
-        "WEBINAR",
-        "QA",
-        "MASTERCLASS",
-        "CASE",
-        "LEGAL_UPDATE"
-      ]
+      "values": ["WEBINAR", "QA", "MASTERCLASS", "CASE", "LEGAL_UPDATE"]
     },
     "payload.enum__events_v_version_status": {
       "name": "enum__events_v_version_status",
       "schema": "payload",
-      "values": [
-        "draft",
-        "published"
-      ]
+      "values": ["draft", "published"]
     },
     "payload.enum_payload_jobs_log_task_slug": {
       "name": "enum_payload_jobs_log_task_slug",
       "schema": "payload",
-      "values": [
-        "inline",
-        "schedulePublish"
-      ]
+      "values": ["inline", "schedulePublish"]
     },
     "payload.enum_payload_jobs_log_state": {
       "name": "enum_payload_jobs_log_state",
       "schema": "payload",
-      "values": [
-        "failed",
-        "succeeded"
-      ]
+      "values": ["failed", "succeeded"]
     },
     "payload.enum_payload_jobs_task_slug": {
       "name": "enum_payload_jobs_task_slug",
       "schema": "payload",
-      "values": [
-        "inline",
-        "schedulePublish"
-      ]
+      "values": ["inline", "schedulePublish"]
     }
   },
   "schemas": {

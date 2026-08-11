@@ -227,6 +227,19 @@ async function main() {
     Intermedio: 'INTERMEDIATE',
     Avanzado: 'ADVANCED',
   } as const
+  // Categorías editoriales por curso (alimentan las recomendaciones, Fase 13)
+  const COURSE_CATEGORIES: Record<string, string[]> = {
+    'gestion-y-prevencion-de-impagados': ['Prevención de impagos', 'Credit Management'],
+    'como-recuperar-un-impagado-paso-a-paso': ['Recobro de impagados', 'Clientes morosos'],
+    'negociacion-avanzada-con-deudores': ['Negociación', 'Clientes morosos'],
+    'marco-legal-de-la-morosidad-comercial': ['Legislación'],
+    'analisis-de-riesgo-de-clientes': ['Riesgo de crédito'],
+    'organizacion-del-departamento-de-credit-management': [
+      'Organización del departamento',
+      'Credit Management',
+    ],
+  }
+
   for (const c of catalogCourses) {
     await payload.create({
       collection: 'courses',
@@ -239,7 +252,7 @@ async function main() {
         level: levelMap[c.level],
         duration: c.duration,
         objectives: c.learn.map((text) => ({ text })),
-        categories: cat('Credit Management'),
+        categories: (COURSE_CATEGORIES[c.slug] ?? ['Credit Management']).flatMap(cat),
         publishedAt: new Date().toISOString(),
         modules: c.modules.map((m) => ({
           name: m.name,

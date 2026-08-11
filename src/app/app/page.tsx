@@ -2,8 +2,11 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { requireActiveMember } from '@/features/auth/guards'
 import { db } from '@/lib/db'
-import { recommendedCourses } from '@/features/onboarding/recommendations'
+import { getRecommendations, getNewThisWeek } from '@/features/personalization/service'
 import { getContinueLearning } from '@/features/learning/service'
+import { getUpcomingEvents, EVENT_TYPE_LABEL } from '@/features/events/service'
+import { formatEventDate } from '@/features/events/format'
+import { CONTENT_TYPE_META, LEVEL_META } from '@/features/content/service'
 import { Cover, Avatar } from '@/components/art'
 import { Progress } from '@/components/ui/progress'
 
@@ -13,13 +16,32 @@ export default async function AppHome() {
   const { user } = await requireActiveMember()
   const dbUser = await db.user.findUniqueOrThrow({
     where: { id: user.id },
-    select: { name: true, onboardingStatus: true, professionalProfile: true, interests: true },
+    select: {
+      name: true,
+      onboardingStatus: true,
+      professionalProfile: true,
+      level: true,
+      interests: true,
+    },
   })
   if (dbUser.onboardingStatus !== 'COMPLETED') redirect('/onboarding')
 
   const firstName = dbUser.name.split(' ')[0] ?? dbUser.name
-  const recommended = recommendedCourses(dbUser.professionalProfile)
   const continueLearning = await getContinueLearning(user.id)
+  const [recommended, newThisWeek, upcoming] = await Promise.all([
+    getRecommendations(
+      user.id,
+      {
+        professionalProfile: dbUser.professionalProfile,
+        level: dbUser.level,
+        interests: dbUser.interests,
+      },
+      { excludeCourseSlug: continueLearning?.courseSlug },
+    ),
+    getNewThisWeek(3),
+    getUpcomingEvents(),
+  ])
+  const nextEvent = upcoming[0] ?? null
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -62,31 +84,58 @@ export default async function AppHome() {
         </section>
       )}
 
-      <section aria-labelledby="rec-title" className="mb-8">
-        <h2 id="rec-title" className="mb-3 text-[13px] font-semibold text-ink-2">
-          Recomendado para ti
-          {dbUser.interests.length > 0 && (
+      {recommended.length > 0 && (
+        <section aria-labelledby="rec-title" className="mb-8">
+          <h2 id="rec-title" className="mb-3 text-[13px] font-semibold text-ink-2">
+            Recomendado para ti
             <span className="ml-2 font-normal text-muted">según tu perfil e intereses</span>
-          )}
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {recommended.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/app/courses/${c.slug}`}
-              className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
-            >
-              <Cover title={c.title} kind="curso" style={{ aspectRatio: '16/10' }} />
-              <div className="p-3.5">
-                <p className="mb-1.5 text-[13.5px] leading-snug font-semibold">{c.title}</p>
-                <p className="font-mono text-[11px] text-muted">
-                  CURSO · {c.duration} · {c.level}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {recommended.map((rec) =>
+              rec.kind === 'course' ? (
+                <Link
+                  key={`course-${rec.course.id}`}
+                  href={`/app/courses/${rec.course.slug}`}
+                  className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
+                >
+                  <Cover title={rec.course.title} kind="curso" style={{ aspectRatio: '16/10' }} />
+                  <div className="p-3.5">
+                    <p className="mb-1.5 text-[13.5px] leading-snug font-semibold">
+                      {rec.course.title}
+                    </p>
+                    <p className="font-mono text-[11px] text-muted">
+                      CURSO
+                      {rec.course.duration ? ` · ${rec.course.duration}` : ''}
+                      {rec.course.level ? ` · ${LEVEL_META[rec.course.level]}` : ''}
+                    </p>
+                  </div>
+                </Link>
+              ) : (
+                <Link
+                  key={`content-${rec.content.id}`}
+                  href={`/app/contents/${rec.content.slug}`}
+                  className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
+                >
+                  <Cover
+                    title={rec.content.title}
+                    kind={CONTENT_TYPE_META[rec.content.contentType].kind}
+                    style={{ aspectRatio: '16/10' }}
+                  />
+                  <div className="p-3.5">
+                    <p className="mb-1.5 text-[13.5px] leading-snug font-semibold">
+                      {rec.content.title}
+                    </p>
+                    <p className="font-mono text-[11px] text-muted">
+                      {CONTENT_TYPE_META[rec.content.contentType].label.toUpperCase()}
+                      {rec.content.duration ? ` · ${rec.content.duration}` : ''}
+                    </p>
+                  </div>
+                </Link>
+              ),
+            )}
+          </div>
+        </section>
+      )}
 
       <div className="grid gap-4 lg:grid-cols-3">
         <section className="rounded-lg border border-border bg-surface p-5">
@@ -100,22 +149,55 @@ export default async function AppHome() {
 
         <section className="rounded-lg border border-border bg-surface p-5">
           <h2 className="mb-2 text-[13px] font-semibold text-ink-2">Próximo directo</h2>
-          <div className="mb-2.5 flex items-center gap-2.5">
-            <Avatar size={32} />
-            <p className="text-[13px] font-semibold">Pere Brachfield</p>
-          </div>
-          <p className="mb-1 text-sm leading-snug font-semibold">
-            Reclamar una deuda sin deteriorar la relación comercial
-          </p>
-          <p className="font-mono text-[11.5px] text-muted">18 septiembre · 17:00 · 75 min</p>
+          {nextEvent ? (
+            <>
+              <div className="mb-2.5 flex items-center gap-2.5">
+                <Avatar size={32} />
+                <p className="text-[13px] font-semibold">
+                  {nextEvent.speaker ?? 'Pere Brachfield'}
+                </p>
+              </div>
+              <p className="mb-1 text-sm leading-snug font-semibold">{nextEvent.title}</p>
+              <p className="mb-3 font-mono text-[11.5px] text-muted">
+                {EVENT_TYPE_LABEL[nextEvent.eventType]} · {formatEventDate(nextEvent.startAt)}
+              </p>
+              <Link
+                href="/app/events"
+                className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
+              >
+                Reservar plaza →
+              </Link>
+            </>
+          ) : (
+            <p className="text-[13px] leading-relaxed text-ink-3">
+              No hay directos programados ahora mismo. Publicaremos aquí la próxima masterclass.
+            </p>
+          )}
         </section>
 
         <section className="rounded-lg border border-border bg-surface p-5">
-          <h2 className="mb-2 text-[13px] font-semibold text-ink-2">La Academia crece</h2>
-          <p className="text-[13px] leading-relaxed text-ink-3">
-            Estamos cargando los cursos, vídeos y herramientas. Cada semana encontrarás contenido
-            nuevo — te avisaremos aquí y por correo.
-          </p>
+          <h2 className="mb-2 text-[13px] font-semibold text-ink-2">Nuevo esta semana</h2>
+          {newThisWeek.length > 0 ? (
+            <ul className="m-0 flex list-none flex-col gap-2 p-0">
+              {newThisWeek.map((c) => (
+                <li key={c.id}>
+                  <Link
+                    href={`/app/contents/${c.slug}`}
+                    className="text-[13px] leading-snug font-medium text-ink no-underline hover:text-brand"
+                  >
+                    <span aria-hidden className="mr-1.5 text-accent-ink">
+                      {CONTENT_TYPE_META[c.contentType].glyph}
+                    </span>
+                    {c.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-[13px] leading-relaxed text-ink-3">
+              Cada semana publicamos contenido nuevo — lo encontrarás aquí y en Explorar.
+            </p>
+          )}
         </section>
       </div>
     </div>

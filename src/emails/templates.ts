@@ -52,3 +52,30 @@ export function paymentFailedEmail(name: string, portalHint: string): EmailTempl
     bodyText: `Hola, ${name}\n\nEl último cobro de tu suscripción no se ha podido completar. Tu acceso sigue activo; reintentaremos el cobro.\n\nPuedes actualizar tu tarjeta desde "Mi suscripción": ${portalHint}`,
   }
 }
+
+export function eventReservedEmail(name: string, eventTitle: string, when: string): EmailTemplate {
+  return {
+    subject: `Plaza reservada: ${eventTitle}`,
+    bodyHtml: `<h2 style="margin:0 0 12px;font-size:19px">Hola, ${name}</h2>
+      <p style="line-height:1.6">Tu plaza está reservada para:</p>
+      <p style="line-height:1.6;font-weight:600">${eventTitle}<br><span style="font-weight:400;color:#5c6170">${when}</span></p>
+      <p style="line-height:1.6">Te enviaremos un recordatorio el día antes con el enlace para conectarte. Si no puedes asistir, cancela tu plaza desde la sección Eventos para dejarla libre.</p>`,
+    bodyText: `Hola, ${name}\n\nTu plaza está reservada para:\n${eventTitle}\n${when}\n\nTe enviaremos un recordatorio el día antes con el enlace para conectarte. Si no puedes asistir, cancela tu plaza desde la sección Eventos.`,
+  }
+}
+
+export function eventReminderEmail(
+  name: string,
+  eventTitle: string,
+  when: string,
+  streamUrl: string | null,
+): EmailTemplate {
+  return {
+    subject: `Mañana: ${eventTitle}`,
+    bodyHtml: `<h2 style="margin:0 0 12px;font-size:19px">Hola, ${name}</h2>
+      <p style="line-height:1.6">Recordatorio de tu evento reservado:</p>
+      <p style="line-height:1.6;font-weight:600">${eventTitle}<br><span style="font-weight:400;color:#5c6170">${when}</span></p>
+      ${streamUrl ? `<p style="margin:22px 0"><a href="${streamUrl}" style="background:#25355e;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;display:inline-block">Conectarme al directo</a></p>` : '<p style="line-height:1.6">El enlace del directo estará disponible en la sección Eventos.</p>'}`,
+    bodyText: `Hola, ${name}\n\nRecordatorio de tu evento reservado:\n${eventTitle}\n${when}\n\n${streamUrl ? `Enlace del directo: ${streamUrl}` : 'El enlace del directo estará disponible en la sección Eventos.'}`,
+  }
+}

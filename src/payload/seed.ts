@@ -373,6 +373,23 @@ async function main() {
     },
   })
 
+  // Evento pasado con replay (demuestra la sección Replays de /app/events)
+  await payload.create({
+    collection: 'events',
+    draft: false,
+    data: {
+      _status: 'published',
+      title: 'Webinar: cómo responder a las excusas del moroso',
+      slug: 'webinar-excusas-del-moroso',
+      eventType: 'WEBINAR',
+      description:
+        'Sesión en directo sobre las excusas más habituales de los morosos y cómo responder a cada una sin perder la relación comercial.',
+      startAt: in30(-15),
+      endAt: in30(-15),
+      replayContent: contentIdBySlug['siete-excusas-frecuentes-moroso'],
+    },
+  })
+
   const counts = await Promise.all(
     (['categories', 'tags', 'courses', 'contents', 'events'] as const).map(
       async (c) => `${c}: ${(await payload.find({ collection: c, limit: 0 })).totalDocs}`,

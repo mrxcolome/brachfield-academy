@@ -58,6 +58,11 @@ export default buildConfig({
           config: {
             endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
             region: 'auto',
+            // R2 rechaza las cabeceras x-amz-checksum-* que el SDK de AWS
+            // añade por defecto desde 2025 — Cloudflare documenta usar
+            // WHEN_REQUIRED con R2 (afecta también a las URL prefirmadas).
+            requestChecksumCalculation: 'WHEN_REQUIRED',
+            responseChecksumValidation: 'WHEN_REQUIRED',
             credentials: {
               accessKeyId: process.env.R2_ACCESS_KEY_ID as string,
               secretAccessKey: process.env.R2_SECRET_ACCESS_KEY as string,

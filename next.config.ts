@@ -9,6 +9,8 @@ const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+  // HSTS: fuerza HTTPS un año, incluidos subdominios (Fase 17 / SECURITY_REVIEW #3)
+  { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
 ]
 
 const nextConfig: NextConfig = {

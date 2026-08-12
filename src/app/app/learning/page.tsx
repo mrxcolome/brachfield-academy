@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { requireActiveMember } from '@/features/auth/guards'
 import { getPublishedCourses } from '@/features/content/service'
-import { getCourseProgress } from '@/features/learning/service'
+import { getCoursesProgress } from '@/features/learning/service'
 import { Cover } from '@/components/art'
 import { Progress } from '@/components/ui/progress'
 import { EmptyState } from '@/components/ui/empty-state'
@@ -11,9 +11,12 @@ export const metadata = { title: 'Mi formación' }
 export default async function LearningPage() {
   const { user } = await requireActiveMember()
   const courses = await getPublishedCourses()
-  const withProgress = await Promise.all(
-    courses.map(async (course) => ({ course, progress: await getCourseProgress(user.id, course) })),
-  )
+  // Una sola consulta de progreso para todos los cursos (sin N+1)
+  const progressByCourse = await getCoursesProgress(user.id, courses)
+  const withProgress = courses.map((course) => ({
+    course,
+    progress: progressByCourse.get(String(course.id))!,
+  }))
 
   const inProgress = withProgress.filter((c) => c.progress.completed > 0 && c.progress.nextLessonId)
   const completed = withProgress.filter((c) => c.progress.total > 0 && !c.progress.nextLessonId)

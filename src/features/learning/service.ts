@@ -16,6 +16,38 @@ export async function getCourseProgress(userId: string, course: Course): Promise
   )
 }
 
+/**
+ * Progreso de VARIOS cursos con UNA sola consulta (evita el N+1 de
+ * /app/learning, briefing §11). Devuelve un Map por id de curso.
+ */
+export async function getCoursesProgress(
+  userId: string,
+  courses: Course[],
+): Promise<Map<string, CourseProgress>> {
+  if (courses.length === 0) return new Map()
+  const rows = await db.userProgress.findMany({
+    where: { userId, courseId: { in: courses.map((c) => String(c.id)) } },
+    select: { contentId: true, status: true, courseId: true },
+  })
+  type Row = (typeof rows)[number]
+  const byCourse = new Map<string, Row[]>()
+  for (const row of rows) {
+    if (!row.courseId) continue
+    const list = byCourse.get(row.courseId) ?? []
+    list.push(row)
+    byCourse.set(row.courseId, list)
+  }
+  return new Map(
+    courses.map((course) => [
+      String(course.id),
+      computeCourseProgress(
+        flattenLessons(course).map((l) => l.id),
+        byCourse.get(String(course.id)) ?? [],
+      ),
+    ]),
+  )
+}
+
 export interface ContinueLearning {
   courseSlug: string
   courseTitle: string

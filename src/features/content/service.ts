@@ -1,4 +1,5 @@
 import 'server-only'
+import { cache } from 'react'
 import { cms } from '@/lib/cms'
 import type { Where } from 'payload'
 import type { Course } from '@/payload/payload-types'
@@ -38,7 +39,8 @@ export async function getPublishedCourses(): Promise<Course[]> {
   return res.docs
 }
 
-export async function getCourseBySlug(slug: string): Promise<Course | null> {
+// cache(): dedupe por petición — generateMetadata y la página comparten la consulta
+export const getCourseBySlug = cache(async (slug: string): Promise<Course | null> => {
   const payload = await cms()
   const res = await payload.find({
     collection: 'courses',
@@ -47,7 +49,7 @@ export async function getCourseBySlug(slug: string): Promise<Course | null> {
     depth: 0,
   })
   return res.docs[0] ?? null
-}
+})
 
 // ───────────────────── Contenidos (no-curso) ─────────────────────
 import type { Content, Category } from '@/payload/payload-types'
@@ -86,7 +88,7 @@ export async function getPublishedContents(filters: ContentFilters = {}): Promis
   return res.docs
 }
 
-export async function getContentBySlug(slug: string): Promise<Content | null> {
+export const getContentBySlug = cache(async (slug: string): Promise<Content | null> => {
   const payload = await cms()
   const res = await payload.find({
     collection: 'contents',
@@ -95,7 +97,7 @@ export async function getContentBySlug(slug: string): Promise<Content | null> {
     depth: 1, // resuelve relatedContent y categorías
   })
   return res.docs[0] ?? null
-}
+})
 
 export async function getFeaturedContents(limit = 4): Promise<Content[]> {
   const payload = await cms()
@@ -122,11 +124,11 @@ export async function getContentsByIds(ids: number[]): Promise<Content[]> {
   return res.docs
 }
 
-export async function getCategories(): Promise<Category[]> {
+export const getCategories = cache(async (): Promise<Category[]> => {
   const payload = await cms()
   const res = await payload.find({ collection: 'categories', sort: 'name', limit: 50 })
   return res.docs
-}
+})
 
 // ───────────── Presentación compartida de formatos ─────────────
 

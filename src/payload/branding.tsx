@@ -3,6 +3,7 @@
 // tal cual — positivo en tema claro, negativo en tema oscuro (Payload marca el
 // tema con data-theme en <html>; el cambio se hace por CSS).
 // Tras editar este archivo: npx payload generate:importmap
+/* eslint-disable @next/next/no-img-element -- SVG estático de marca, sin optimización */
 import React from 'react'
 
 const themeCss = `

@@ -16,6 +16,29 @@ Estado a 2026-08-12 (Fase 18). Lo técnico está listo; los pasos marcados
 - [x] Backups: Neon conserva point-in-time recovery (restauración a un instante)
       en su plan; revisar retención al pasar a plan de pago si se quiere más margen
 
+## 1b · CORS del bucket R2 — 🧑 necesario para subir ficheros grandes (5 min)
+
+Vercel corta cualquier petición de más de ~4,5 MB, así que las subidas del
+CMS van directas del navegador a R2 con URL prefirmada (`clientUploads`).
+Para que el navegador pueda hacer ese PUT, el bucket necesita una regla CORS:
+
+1. dash.cloudflare.com → **R2** → tu bucket → **Settings** → **CORS policy** → Edit
+2. Pegar (añadiendo el dominio definitivo a AllowedOrigins cuando exista):
+
+```json
+[
+  {
+    "AllowedOrigins": ["https://brachfield-academy-app.vercel.app"],
+    "AllowedMethods": ["PUT", "GET"],
+    "AllowedHeaders": ["*"],
+    "MaxAgeSeconds": 3600
+  }
+]
+```
+
+3. Guardar y probar a subir la imagen otra vez en /admin → Media.
+   Sin esta regla el navegador bloquea la subida (error de CORS en consola).
+
 ## 2 · Staging (decisión tomada)
 
 Cada rama/PR en GitHub genera un **preview deployment** en Vercel: esa es

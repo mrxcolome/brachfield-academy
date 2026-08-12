@@ -49,6 +49,11 @@ export default buildConfig({
     ? [
         s3Storage({
           collections: { media: true },
+          // Subida DIRECTA navegador→R2 con URL prefirmada: Vercel corta las
+          // peticiones >4,5 MB, así que los ficheros no pueden pasar por el
+          // servidor. Requiere una regla CORS (método PUT) en el bucket de R2
+          // que permita el origen del sitio (ver DEPLOYMENT.md).
+          clientUploads: true,
           bucket: process.env.R2_BUCKET as string,
           config: {
             endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,

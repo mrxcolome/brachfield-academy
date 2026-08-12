@@ -3,14 +3,19 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { SIDEBAR_NAV } from '@/features/navigation'
+import { BrandLogo } from '@/components/brand/logo'
 import { cn } from '@/lib/cn'
 
 export function Sidebar({ showAdmin = false }: { showAdmin?: boolean }) {
   const pathname = usePathname()
   return (
     <aside className="hidden w-55 flex-none border-r border-border-soft bg-surface px-3.5 py-6 lg:block">
-      <Link href="/app" className="block px-2.5 pb-6 text-[15px] font-bold text-ink no-underline">
-        Brachfield <span className="text-brand-link">Academy</span>
+      <Link
+        href="/app"
+        className="block px-2.5 pb-6 no-underline"
+        aria-label="Brachfield Academy — inicio"
+      >
+        <BrandLogo markSize={26} textClassName="text-[14.5px]" />
       </Link>
       <nav aria-label="Navegación principal" className="flex flex-col gap-0.5">
         {SIDEBAR_NAV.map((item) => {

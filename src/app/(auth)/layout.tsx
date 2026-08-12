@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           className="mb-6 flex justify-center no-underline"
           aria-label="Brachfield Academy — inicio"
         >
-          <BrandLogo markSize={30} textClassName="text-lg" />
+          <BrandLogo height={30} />
         </Link>
         <div className="rounded-xl border border-border bg-surface p-8">{children}</div>
       </div>

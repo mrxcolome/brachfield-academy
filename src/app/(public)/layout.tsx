@@ -6,14 +6,12 @@ function Topbar() {
     <header className="border-b border-border-soft bg-surface">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
         <Link href="/" className="no-underline" aria-label="Brachfield Academy — inicio">
-          {/* Más grande en móvil y aún más en desktop (pedido del propietario).
-              Los spans envolventes controlan la visibilidad: el display base del
-              propio BrandLogo pisaría un `hidden` aplicado directamente. */}
+          {/* Más grande en móvil y aún más en desktop (pedido del propietario). */}
           <span className="sm:hidden">
-            <BrandLogo markSize={34} textClassName="text-lg" />
+            <BrandLogo height={26} />
           </span>
           <span className="hidden sm:inline">
-            <BrandLogo markSize={40} textClassName="text-2xl" />
+            <BrandLogo height={38} />
           </span>
         </Link>
         <Link
@@ -32,7 +30,7 @@ function Footer() {
     <footer className="border-t border-border-soft bg-surface">
       <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 px-5 py-8 text-[13px] text-muted sm:flex-row">
         <div>
-          <BrandLogo markSize={22} textClassName="text-[14px]" />
+          <BrandLogo height={22} />
           <p className="mt-2">Credit Management, prevención de impagos y recobro.</p>
         </div>
         <div className="flex gap-6">

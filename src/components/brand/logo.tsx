@@ -1,19 +1,19 @@
-// Logo oficial de Brachfield Academy (2026-08). Dos versiones cerradas por
-// el propietario — el logo va SIEMPRE tal cual, sin inventar colores ni
-// estructuras:
-//   positive (fondos claros): cuadrado girado azul + 3 naranjas;
-//                             "Brachfield" tinta + "Academy" azul.
-//   negative (fondos oscuros): cuadrado girado BLANCO + 3 naranjas;
-//                             "Brachfield" blanco + "Academy" NARANJA.
-// El wordmark va como texto HTML para heredar la tipografía del sitio.
+// Logo oficial de Brachfield Academy (SVG entregados por el propietario el
+// 2026-08-12, en public/brand/ — servidos TAL CUAL, sin redibujar):
+//   positive (fondos claros): logo.svg — cuadrado girado azul, "Academy" azul.
+//   negative (fondos oscuros): logo-neg.svg — cuadrado blanco, "Academy" naranja.
+// icon.svg / icon-neg.svg son SOLO el símbolo (mismos rects del archivo
+// oficial, encuadre recortado) para favicon y espacios pequeños.
+// Proporción del logo completo: 2521×312 (≈8.08:1) — fijar la altura y dejar
+// que el ancho se derive solo.
 import { cn } from '@/lib/cn'
 
-export const LOGO_NAVY = '#2b4a7c'
-export const LOGO_ORANGE = '#ee8b0a'
+export const LOGO_NAVY = '#224278'
+export const LOGO_ORANGE = '#E88800'
 
 type LogoVariant = 'positive' | 'negative'
 
-/** Icono de los cuatro cuadrados. */
+/** Símbolo de los cuatro cuadrados, solo. */
 export function LogoMark({
   size = 28,
   variant = 'positive',
@@ -24,56 +24,34 @@ export function LogoMark({
   className?: string
 }) {
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 96 96"
-      className={className}
-      role="img"
+    // eslint-disable-next-line @next/next/no-img-element -- SVG estático de marca, sin optimización
+    <img
+      src={variant === 'negative' ? '/brand/icon-neg.svg' : '/brand/icon.svg'}
+      alt=""
       aria-hidden="true"
-      focusable="false"
-    >
-      <rect
-        x="4"
-        y="10"
-        width="38"
-        height="38"
-        rx="3"
-        fill={variant === 'negative' ? '#ffffff' : LOGO_NAVY}
-        transform="rotate(-12 23 29)"
-      />
-      <rect x="54" y="12" width="34" height="34" rx="3" fill={LOGO_ORANGE} />
-      <rect x="10" y="54" width="34" height="34" rx="3" fill={LOGO_ORANGE} />
-      <rect x="54" y="54" width="34" height="34" rx="3" fill={LOGO_ORANGE} />
-    </svg>
+      className={className}
+      style={{ height: size, width: 'auto' }}
+    />
   )
 }
 
-/**
- * Logo completo: icono + wordmark. `textClassName` controla el tamaño del
- * texto (el icono escala con `markSize`).
- */
+/** Logo completo oficial (símbolo + wordmark). `height` en píxeles. */
 export function BrandLogo({
-  markSize = 28,
+  height = 32,
   variant = 'positive',
-  textClassName = 'text-base',
   className,
 }: {
-  markSize?: number
+  height?: number
   variant?: LogoVariant
-  textClassName?: string
   className?: string
 }) {
-  const negative = variant === 'negative'
   return (
-    <span className={cn('inline-flex items-center gap-2.5', className)}>
-      <LogoMark size={markSize} variant={variant} />
-      <span
-        className={cn('leading-none font-bold tracking-tight whitespace-nowrap', textClassName)}
-      >
-        <span className={negative ? 'text-white' : 'text-ink'}>Brachfield</span>{' '}
-        <span style={{ color: negative ? LOGO_ORANGE : LOGO_NAVY }}>Academy</span>
-      </span>
-    </span>
+    // eslint-disable-next-line @next/next/no-img-element -- SVG estático de marca, sin optimización
+    <img
+      src={variant === 'negative' ? '/brand/logo-neg.svg' : '/brand/logo.svg'}
+      alt="Brachfield Academy"
+      className={cn('inline-block', className)}
+      style={{ height, width: 'auto' }}
+    />
   )
 }

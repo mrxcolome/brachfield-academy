@@ -15,7 +15,7 @@ export function Sidebar({ showAdmin = false }: { showAdmin?: boolean }) {
         className="block px-2.5 pb-6 no-underline"
         aria-label="Brachfield Academy — inicio"
       >
-        <BrandLogo markSize={26} textClassName="text-[14.5px]" />
+        <BrandLogo height={23} />
       </Link>
       <nav aria-label="Navegación principal" className="flex flex-col gap-0.5">
         {SIDEBAR_NAV.map((item) => {

@@ -21,10 +21,10 @@ export default function CoursesPage() {
         <div className="mb-8 flex flex-wrap gap-2.5">
           {knowledgeAreas.map((a) => (
             <span
-              key={a}
+              key={a.l}
               className="rounded-full border border-border-chip px-3.5 py-2 text-[13px] font-medium text-ink-2"
             >
-              {a}
+              {a.l}
             </span>
           ))}
         </div>

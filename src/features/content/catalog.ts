@@ -265,28 +265,102 @@ export function getCourse(slug: string): PublicCourse | undefined {
 }
 
 export const knowledgeAreas = [
-  'Credit Management',
-  'Prevención de impagos',
-  'Riesgo de crédito',
-  'Recobro de impagados',
-  'Negociación',
-  'Legislación',
-  'Gestión financiera',
-  'Organización del departamento',
-]
+  {
+    l: 'Credit Management',
+    d: 'Fundamentos y organización de la gestión del crédito comercial en la empresa.',
+  },
+  {
+    l: 'Prevención de impagos',
+    d: 'Cómo evaluar clientes y fijar políticas que reduzcan el riesgo antes de vender.',
+  },
+  {
+    l: 'Riesgo de crédito',
+    d: 'Análisis de solvencia, scoring y límites de crédito por cliente.',
+  },
+  {
+    l: 'Recobro de impagados',
+    d: 'Estrategias y procedimientos para recuperar deuda vencida.',
+  },
+  {
+    l: 'Negociación',
+    d: 'Técnicas de negociación con deudores para cobrar sin romper la relación.',
+  },
+  {
+    l: 'Legislación',
+    d: 'Marco legal de la morosidad, plazos de pago y vía judicial.',
+  },
+  {
+    l: 'Gestión financiera',
+    d: 'Impacto del crédito y la morosidad en la tesorería de la empresa.',
+  },
+  {
+    l: 'Organización del departamento',
+    d: 'Cómo estructurar y dimensionar el área de Credit Management.',
+  },
+] as const
 
 export const whatsInside = [
-  { g: '▶', l: 'Cursos' },
-  { g: '▶', l: 'Vídeos' },
-  { g: '◑', l: 'Podcasts' },
-  { g: '▤', l: 'Guías' },
-  { g: '✓', l: 'Checklists' },
-  { g: '▦', l: 'Plantillas' },
-  { g: '▣', l: 'Casos prácticos' },
-  { g: '◉', l: 'Webinars' },
-  { g: '◈', l: 'Actualizaciones' },
-  { g: '▥', l: 'Recursos' },
-]
+  {
+    g: '▶',
+    l: 'Cursos',
+    k: 'curso',
+    d: 'Itinerarios estructurados en módulos y lecciones, de los fundamentos a la práctica.',
+  },
+  {
+    g: '▶',
+    l: 'Vídeos',
+    k: 'video',
+    d: 'Lecciones breves y directas sobre situaciones concretas de crédito y cobro.',
+  },
+  {
+    g: '◑',
+    l: 'Podcasts',
+    k: 'podcast',
+    d: 'Conversaciones y análisis en audio para escuchar mientras trabajas o te desplazas.',
+  },
+  {
+    g: '▤',
+    l: 'Guías',
+    k: 'guia',
+    d: 'Documentos de referencia sobre legislación, procedimientos y buenas prácticas.',
+  },
+  {
+    g: '✓',
+    l: 'Checklists',
+    k: 'checklist',
+    d: 'Listas de verificación rápidas para no olvidar ningún paso crítico.',
+  },
+  {
+    g: '▦',
+    l: 'Plantillas',
+    k: 'plantilla',
+    d: 'Modelos editables listos para adaptar a tu empresa en minutos.',
+  },
+  {
+    g: '▣',
+    l: 'Casos prácticos',
+    k: 'caso',
+    d: 'Situaciones reales analizadas paso a paso, con lo que funcionó y lo que no.',
+  },
+  {
+    g: '◉',
+    l: 'Webinars',
+    k: 'webinar',
+    d: 'Sesiones en directo con Pere Brachfield y turno de preguntas.',
+  },
+  {
+    g: '◈',
+    l: 'Actualizaciones',
+    k: 'articulo',
+    d: 'Cambios legislativos y de mercado, explicados de forma ejecutiva.',
+  },
+  {
+    g: '▥',
+    l: 'Recursos',
+    k: 'plantilla',
+    d: 'Calculadoras, scripts y otras herramientas de uso diario.',
+  },
+] as const
 
 export const personas = [
   'Director/a Financiero',
@@ -299,11 +373,23 @@ export const personas = [
 ]
 
 export const sampleTools = [
-  'Política de crédito comercial',
-  'Ficha de evaluación de cliente',
-  'Procedimiento interno de cobros',
-  'Plan de acción frente a la morosidad',
-]
+  {
+    l: 'Política de crédito comercial',
+    d: 'Documento marco para fijar condiciones y límites de crédito por tipo de cliente.',
+  },
+  {
+    l: 'Ficha de evaluación de cliente',
+    d: 'Plantilla para analizar solvencia y riesgo antes de conceder crédito.',
+  },
+  {
+    l: 'Procedimiento interno de cobros',
+    d: 'Protocolo paso a paso para tu equipo desde el primer día de retraso.',
+  },
+  {
+    l: 'Plan de acción frente a la morosidad',
+    d: 'Guía de escalado: del primer recordatorio amistoso a la vía judicial.',
+  },
+] as const
 
 export const faqs: { q: string; a: string }[] = [
   {

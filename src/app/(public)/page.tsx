@@ -56,7 +56,7 @@ export default function LandingPage() {
             <h1 className="mb-4 text-4xl leading-[1.1] font-bold tracking-tight sm:text-5xl">
               Domina el crédito.
               <br />
-              Previene los impagos.
+              Prevén los impagos.
               <br />
               Cobra mejor.
             </h1>
@@ -86,14 +86,27 @@ export default function LandingPage() {
 
       {/* Qué encontrarás dentro */}
       <Section id="membresia" className="bg-surface">
-        <h2 className="mb-6 text-2xl font-bold">Qué encontrarás dentro</h2>
+        <h2 className="mb-2 text-2xl font-bold">Qué encontrarás dentro</h2>
+        <p className="mb-7 max-w-xl text-sm leading-relaxed text-ink-3">
+          Diez formatos pensados para distintos momentos: desde una lectura de cinco minutos hasta
+          un curso completo, siempre con el mismo criterio: practicidad.
+        </p>
         <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-5">
           {whatsInside.map((w) => (
-            <div key={w.l} className="rounded-md border border-border-soft p-4 text-center">
-              <div aria-hidden className="mb-2 text-xl text-brand-link">
-                {w.g}
+            <div
+              key={w.l}
+              className="overflow-hidden rounded-lg border border-border-soft bg-surface"
+            >
+              <Cover title={w.l} kind={w.k} glyph={false} style={{ aspectRatio: '16/9' }} />
+              <div className="p-3.5">
+                <p className="text-[13.5px] font-semibold">
+                  <span aria-hidden className="mr-1.5 text-brand-link">
+                    {w.g}
+                  </span>
+                  {w.l}
+                </p>
+                <p className="mt-1 text-xs leading-relaxed text-ink-3">{w.d}</p>
               </div>
-              <div className="text-[13.5px] font-semibold">{w.l}</div>
             </div>
           ))}
         </div>
@@ -101,14 +114,22 @@ export default function LandingPage() {
 
       {/* Áreas de conocimiento */}
       <Section className="bg-bg">
-        <h2 className="mb-6 text-2xl font-bold">Áreas de conocimiento</h2>
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <h2 className="mb-2 text-2xl font-bold">Áreas de conocimiento</h2>
+        <p className="mb-7 max-w-xl text-sm leading-relaxed text-ink-3">
+          Toda la biblioteca se organiza en ocho grandes áreas, de los fundamentos del crédito a la
+          organización del propio departamento.
+        </p>
+        <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
           {knowledgeAreas.map((a) => (
             <div
-              key={a}
-              className="rounded-md border border-border-soft bg-surface px-4 py-4 text-sm font-semibold"
+              key={a.l}
+              className="overflow-hidden rounded-lg border border-border-soft bg-surface"
             >
-              {a}
+              <Cover title={a.l} kind="articulo" glyph={false} style={{ aspectRatio: '16/9' }} />
+              <div className="p-3.5">
+                <p className="text-sm font-semibold">{a.l}</p>
+                <p className="mt-1 text-xs leading-relaxed text-ink-3">{a.d}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -166,12 +187,19 @@ export default function LandingPage() {
 
       {/* Recursos */}
       <Section className="bg-surface">
-        <h2 className="mb-6 text-2xl font-bold">Recursos que usarás mañana mismo</h2>
+        <h2 className="mb-2 text-2xl font-bold">Recursos que usarás mañana mismo</h2>
+        <p className="mb-7 max-w-xl text-sm leading-relaxed text-ink-3">
+          Plantillas y documentos editables, listos para adaptar a tu empresa sin empezar de cero.
+        </p>
         <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
           {sampleTools.map((t) => (
-            <div key={t} className="rounded-md border border-border-soft p-4">
-              <p className="font-mono text-[11px] font-semibold text-muted">▦ PLANTILLA</p>
-              <p className="mt-2 text-sm font-semibold">{t}</p>
+            <div key={t.l} className="overflow-hidden rounded-lg border border-border-soft">
+              <Cover title={t.l} kind="plantilla" glyph={false} style={{ aspectRatio: '16/9' }} />
+              <div className="p-3.5">
+                <p className="font-mono text-[10.5px] font-semibold text-muted">▦ PLANTILLA</p>
+                <p className="mt-1.5 text-sm leading-snug font-semibold">{t.l}</p>
+                <p className="mt-1 text-xs leading-relaxed text-ink-3">{t.d}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -190,7 +218,11 @@ export default function LandingPage() {
 
       {/* Para quién es */}
       <Section className="bg-surface">
-        <h2 className="mb-5 text-2xl font-bold">Para quién es</h2>
+        <h2 className="mb-2 text-2xl font-bold">Para quién es</h2>
+        <p className="mb-6 max-w-xl text-sm leading-relaxed text-ink-3">
+          Pensado para quien gestiona el crédito, el riesgo o el cobro en su empresa, no para el
+          público general.
+        </p>
         <div className="flex flex-wrap gap-2.5">
           {personas.map((p) => (
             <span
@@ -199,31 +231,6 @@ export default function LandingPage() {
             >
               {p}
             </span>
-          ))}
-        </div>
-      </Section>
-
-      {/* Cursos destacados */}
-      <Section className="bg-bg">
-        <div className="mb-6 flex items-baseline justify-between gap-4">
-          <h2 className="text-2xl font-bold">Cursos</h2>
-          <Link href="/courses" className="text-sm font-semibold">
-            Ver catálogo →
-          </Link>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {courses.slice(0, 3).map((c) => (
-            <Link
-              key={c.slug}
-              href={`/courses/${c.slug}`}
-              className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
-            >
-              <Cover title={c.title} kind="curso" style={{ aspectRatio: '16/10' }} />
-              <div className="p-4">
-                <p className="mb-1.5 text-sm leading-snug font-semibold">{c.title}</p>
-                <p className="font-mono text-[11px] text-muted">CURSO · {c.duration}</p>
-              </div>
-            </Link>
           ))}
         </div>
       </Section>

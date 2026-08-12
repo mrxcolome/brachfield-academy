@@ -26,6 +26,12 @@ export default buildConfig({
   admin: {
     user: 'admins',
     meta: { titleSuffix: ' · Brachfield Academy' },
+    components: {
+      graphics: {
+        Logo: '@/payload/branding#Logo',
+        Icon: '@/payload/branding#Icon',
+      },
+    },
   },
   collections: [Admins, Categories, Tags, Media, Contents, Courses, Events],
   editor: lexicalEditor(),

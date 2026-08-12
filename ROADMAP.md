@@ -26,7 +26,7 @@ Landing · Auth · Stripe · Onboarding · Dashboard · Cursos · Vídeos · Doc
 | **15 — Analytics**        | Los ~17 eventos de producto vía AnalyticsService, validación de tracking, KPIs básicos                                                                                                                                               | ✅ (activar con POSTHOG_API_KEY en Vercel)                  |
 | **16 — Testing**          | Unit + integration (webhooks/auth) + E2E Playwright de los 9 flujos críticos + revisión seguridad y accesibilidad                                                                                                                    | ✅                                                          |
 | **17 — Performance**      | Lighthouse, queries del dashboard (sin N+1, §11), imágenes, caching, bundles                                                                                                                                                         | ✅                                                          |
-| **18 — Production**       | Staging, env de producción, migraciones, Sentry, backups, release checklist, dominio definitivo                                                                                                                                      | ⬜                                                          |
+| **18 — Production**       | Staging, env de producción, migraciones, Sentry, backups, release checklist, dominio definitivo                                                                                                                                      | ✅ (pasos del propietario en docs/LAUNCH_CHECKLIST.md)      |
 
 ## V1 (post-MVP)
 

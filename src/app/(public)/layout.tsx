@@ -7,34 +7,12 @@ function Topbar() {
         <Link href="/" className="text-base font-bold text-ink no-underline">
           Brachfield <span className="text-brand-link">Academy</span>
         </Link>
-        <nav
-          aria-label="Principal"
-          className="hidden items-center gap-7 text-sm text-ink-3 sm:flex"
+        <Link
+          href="/login"
+          className="rounded-sm bg-brand px-4 py-2.5 text-[13.5px] font-semibold text-white no-underline hover:bg-brand-hover"
         >
-          <Link href="/#membresia" className="text-inherit no-underline hover:text-ink">
-            Membresía
-          </Link>
-          <Link href="/courses" className="text-inherit no-underline hover:text-ink">
-            Explorar
-          </Link>
-          <Link href="/#sobre-pere" className="text-inherit no-underline hover:text-ink">
-            Sobre Pere
-          </Link>
-          <Link href="/pricing" className="text-inherit no-underline hover:text-ink">
-            Precio
-          </Link>
-        </nav>
-        <div className="flex items-center gap-3">
-          <Link href="/login" className="text-sm text-ink-3 no-underline hover:text-ink">
-            Entrar
-          </Link>
-          <Link
-            href="/signup"
-            className="rounded-sm bg-brand px-4 py-2.5 text-[13.5px] font-semibold text-white no-underline hover:bg-brand-hover"
-          >
-            Acceder a Brachfield Academy
-          </Link>
-        </div>
+          Acceso alumnos
+        </Link>
       </div>
     </header>
   )

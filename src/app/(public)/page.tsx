@@ -3,12 +3,12 @@ import type { Metadata } from 'next'
 import { Cover, DashboardMock, Portrait, Avatar } from '@/components/art'
 import {
   aboutPere,
-  courses,
   faqs,
   knowledgeAreas,
   personas,
   sampleTools,
   whatsInside,
+  pricingIncludes,
 } from '@/features/content/catalog'
 
 export const metadata: Metadata = {
@@ -236,23 +236,43 @@ export default function LandingPage() {
       </Section>
 
       {/* Pricing */}
-      <section className="bg-surface-dark text-center text-white">
+      <section id="precio" className="bg-surface-dark text-center text-white">
         <div className="mx-auto max-w-6xl px-5 py-16">
           <h2 className="mb-2 text-2xl font-bold">Un único plan. Todo incluido.</h2>
           <p className="mb-7 text-sm text-on-dark-muted">Sin niveles, sin letra pequeña.</p>
-          <div className="mx-auto max-w-xs rounded-xl bg-surface-dark-2 p-8">
-            <p className="mb-1.5 text-sm font-semibold text-on-dark">Plan Profesional</p>
-            <p className="text-4xl font-bold">
+          <div className="mx-auto max-w-sm rounded-xl bg-surface-dark-2 p-8 text-left">
+            <p className="mb-1.5 text-center text-sm font-semibold text-on-dark">
+              Plan Profesional
+            </p>
+            <p className="text-center text-4xl font-bold">
               39 €<span className="text-base font-medium text-on-dark-muted">/mes</span>
             </p>
-            <p className="mt-1 mb-5 font-mono text-xs text-on-dark-muted">Cancela cuando quieras</p>
+            <p className="mt-1 mb-6 text-center font-mono text-xs text-on-dark-muted">
+              IVA incluido · facturación mensual
+            </p>
+            <ul className="mb-7 flex list-none flex-col gap-2.5 p-0 text-sm text-on-dark">
+              {pricingIncludes.map((item) => (
+                <li key={item} className="flex gap-2.5 leading-snug">
+                  <span aria-hidden className="text-success">
+                    ✓
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
             <Link
               href="/signup"
-              className="block rounded-md bg-accent px-4 py-3 text-sm font-bold text-accent-ink no-underline hover:opacity-90"
+              className="block rounded-md bg-accent px-4 py-3 text-center text-sm font-bold text-accent-ink no-underline hover:opacity-90"
             >
               Acceder a Brachfield Academy
             </Link>
+            <p className="mt-3 text-center font-mono text-xs text-on-dark-muted">
+              Sin permanencia · cancela cuando quieras
+            </p>
           </div>
+          <p className="mt-7 text-sm text-on-dark-muted">
+            ¿Formación para tu equipo? Brachfield Academy for Teams — próximamente.
+          </p>
         </div>
       </section>
 

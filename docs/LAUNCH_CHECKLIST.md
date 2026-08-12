@@ -16,7 +16,7 @@ Estado a 2026-08-12 (Fase 18). Lo técnico está listo; los pasos marcados
 - [x] Backups: Neon conserva point-in-time recovery (restauración a un instante)
       en su plan; revisar retención al pasar a plan de pago si se quiere más margen
 
-## 1b · CORS del bucket R2 — 🧑 necesario para subir ficheros grandes (5 min)
+## 1b · CORS del bucket R2 — ✅ hecho (verificado 2026-08-12 con subida real)
 
 Vercel corta cualquier petición de más de ~4,5 MB, así que las subidas del
 CMS van directas del navegador a R2 con URL prefirmada (`clientUploads`).
@@ -38,6 +38,9 @@ Para que el navegador pueda hacer ese PUT, el bucket necesita una regla CORS:
 
 3. Guardar y probar a subir la imagen otra vez en /admin → Media.
    Sin esta regla el navegador bloquea la subida (error de CORS en consola).
+
+Hecho y verificado por el propietario. RECORDATORIO: al estrenar el dominio
+definitivo, añadirlo a AllowedOrigins de esta regla.
 
 ## 2 · Staging (decisión tomada)
 

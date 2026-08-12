@@ -22,7 +22,8 @@ export function ContentCard({ content }: { content: Content }) {
           <p className="line-clamp-2 text-xs leading-relaxed text-muted">{content.excerpt}</p>
         ) : null}
         {content.level ? (
-          <p className="mt-2 font-mono text-[10.5px] text-faint">{LEVEL_META[content.level]}</p>
+          // text-muted y no text-faint: contraste AA (hallazgo del axe de la Fase 16)
+          <p className="mt-2 font-mono text-[10.5px] text-muted">{LEVEL_META[content.level]}</p>
         ) : null}
       </div>
     </Link>

@@ -35,7 +35,9 @@ export const auth = betterAuth({
   },
 
   rateLimit: {
-    enabled: true,
+    // AUTH_RATE_LIMIT_DISABLED=1 SOLO en el servidor de tests E2E
+    // (playwright.config.ts): el setup crea varios usuarios seguidos.
+    enabled: process.env.AUTH_RATE_LIMIT_DISABLED !== '1',
     window: 60,
     max: 20,
   },

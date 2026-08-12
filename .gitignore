@@ -9,3 +9,8 @@ next-env.d.ts
 .env*.local
 .env
 src/generated/
+
+# Playwright E2E
+tests/e2e/.auth/
+test-results/
+playwright-report/

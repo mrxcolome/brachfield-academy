@@ -92,8 +92,10 @@ Si algún día hace falta staging con datos aislados: Neon branching (5 min).
 
 - [ ] Sustituir el contenido de ejemplo por el definitivo (vídeos a Stream,
       PDFs reales en las herramientas, fechas reales de eventos)
-- [ ] Revisar los textos legales (aviso legal, privacidad, condiciones,
-      cookies si se añade marketing) con quien corresponda
+- [ ] Textos legales: las 4 páginas ya están publicadas (/legal/aviso-legal,
+      /legal/privacidad, /legal/condiciones, /legal/cookies, enlazadas en el
+      pie). PENDIENTE: completar NIF y domicilio en src/features/legal/company.ts
+      y revisarlas con un asesor legal
 - [ ] Vercel Pro (~20 $/mes) al abrir al público
 - [ ] Borrar los usuarios demo de producción si los hubiera
 

@@ -8,6 +8,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/`, changeFrequency: 'weekly', priority: 1 },
     { url: `${BASE}/pricing`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/courses`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE}/legal/aviso-legal`, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${BASE}/legal/privacidad`, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${BASE}/legal/condiciones`, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${BASE}/legal/cookies`, changeFrequency: 'yearly', priority: 0.2 },
     ...courses.map((c) => ({
       url: `${BASE}/courses/${c.slug}`,
       changeFrequency: 'monthly' as const,

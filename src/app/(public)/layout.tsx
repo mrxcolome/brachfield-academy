@@ -28,21 +28,37 @@ function Topbar() {
 function Footer() {
   return (
     <footer className="border-t border-border-soft bg-surface">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 px-5 py-8 text-[13px] text-muted sm:flex-row">
-        <div>
-          <BrandLogo height={22} />
-          <p className="mt-2">Credit Management, prevención de impagos y recobro.</p>
+      <div className="mx-auto max-w-6xl px-5 py-8 text-[13px] text-muted">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
+          <div>
+            <BrandLogo height={22} />
+            <p className="mt-2">Credit Management, prevención de impagos y recobro.</p>
+          </div>
+          <div className="flex gap-6">
+            <Link href="/pricing" className="text-inherit">
+              Precio
+            </Link>
+            <Link href="/courses" className="text-inherit">
+              Cursos
+            </Link>
+            <a href="https://perebrachfield.com" rel="noopener" className="text-inherit">
+              perebrachfield.com
+            </a>
+          </div>
         </div>
-        <div className="flex gap-6">
-          <Link href="/pricing" className="text-inherit">
-            Precio
+        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-border-soft pt-4 text-[12.5px]">
+          <Link href="/legal/aviso-legal" className="text-inherit">
+            Aviso legal
           </Link>
-          <Link href="/courses" className="text-inherit">
-            Cursos
+          <Link href="/legal/privacidad" className="text-inherit">
+            Privacidad
           </Link>
-          <a href="https://perebrachfield.com" rel="noopener" className="text-inherit">
-            perebrachfield.com
-          </a>
+          <Link href="/legal/condiciones" className="text-inherit">
+            Condiciones
+          </Link>
+          <Link href="/legal/cookies" className="text-inherit">
+            Cookies
+          </Link>
         </div>
       </div>
     </footer>

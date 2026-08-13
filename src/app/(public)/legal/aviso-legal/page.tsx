@@ -27,6 +27,9 @@ export default function AvisoLegalPage() {
           <strong>Domicilio:</strong> {COMPANY.address}
         </li>
         <li>
+          <strong>Teléfono:</strong> {COMPANY.phone}
+        </li>
+        <li>
           <strong>Email de contacto:</strong> {COMPANY.email}
         </li>
         <li>

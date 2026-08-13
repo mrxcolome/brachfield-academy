@@ -6,9 +6,11 @@ export const COMPANY = {
   /** Razón social o nombre del titular (persona física o sociedad). */
   name: 'Pere Joaquim Brachfield (BRACHFIELD Credit & Risk Consultants)',
   /** NIF/CIF del titular. */
-  taxId: '[PENDIENTE: NIF/CIF]',
+  taxId: '46230494N',
   /** Domicilio fiscal completo. */
-  address: '[PENDIENTE: domicilio fiscal]',
+  address: 'Avenida de Gran Via de Carlos III, 76, 08028 Barcelona, España',
+  /** Teléfono de contacto. */
+  phone: '93 296 96 61',
   /** Email de contacto general y para derechos RGPD. */
   email: 'info@perebrachfield.com',
   /** Nombre comercial del servicio. */

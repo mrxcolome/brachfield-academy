@@ -3,7 +3,8 @@ import { requireActiveMember } from '@/features/auth/guards'
 import { search, logSearch } from '@/features/search/service'
 import { CONTENT_TYPE_META } from '@/features/content/service'
 import type { Content } from '@/payload/payload-types'
-import { Cover } from '@/components/art'
+import { SmartCover } from '@/components/product/smart-cover'
+import { contentCover } from '@/features/content/covers'
 import { EmptyState } from '@/components/ui/empty-state'
 import { cn } from '@/lib/cn'
 
@@ -156,13 +157,17 @@ export default async function SearchPage({
               href={resultHref(r)}
               className="flex items-center gap-4 rounded-lg border border-border bg-surface p-3.5 text-inherit no-underline"
             >
-              <Cover
-                title={r.title}
-                kind={r.kind === 'course' ? 'curso' : CONTENT_TYPE_META[r.contentType!].kind}
-                className="rounded-md"
-                style={{ width: 96, aspectRatio: '16/10', flex: 'none' }}
-                glyph={false}
-              />
+              <div className="w-24 flex-none overflow-hidden rounded-md">
+                <SmartCover
+                  src={
+                    r.kind === 'course'
+                      ? '/landing/formato-cursos.webp'
+                      : contentCover({ coverImage: null, contentType: r.contentType! })
+                  }
+                  title={r.title}
+                  kind={r.kind === 'course' ? 'curso' : CONTENT_TYPE_META[r.contentType!].kind}
+                />
+              </div>
               <div className="min-w-0">
                 <p className="mb-0.5 text-sm leading-snug font-semibold">{r.title}</p>
                 {r.excerpt && (

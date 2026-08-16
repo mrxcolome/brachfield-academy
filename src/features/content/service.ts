@@ -34,7 +34,7 @@ export async function getPublishedCourses(): Promise<Course[]> {
     where: { _status: { equals: 'published' } },
     sort: 'title',
     limit: 50,
-    depth: 0,
+    depth: 1, // resuelve coverImage (portadas) y categorías
   })
   return res.docs
 }
@@ -46,7 +46,7 @@ export const getCourseBySlug = cache(async (slug: string): Promise<Course | null
     collection: 'courses',
     where: { and: [{ slug: { equals: slug } }, { _status: { equals: 'published' } }] },
     limit: 1,
-    depth: 0,
+    depth: 1, // resuelve coverImage (portadas) y categorías
   })
   return res.docs[0] ?? null
 })
@@ -83,7 +83,7 @@ export async function getPublishedContents(filters: ContentFilters = {}): Promis
     where: { and },
     sort: '-publishedAt',
     limit: filters.limit ?? 60,
-    depth: 0,
+    depth: 1, // resuelve coverImage (portadas) y categorías
   })
   return res.docs
 }
@@ -106,7 +106,7 @@ export async function getFeaturedContents(limit = 4): Promise<Content[]> {
     where: { and: [{ _status: { equals: 'published' } }, { featured: { equals: true } }] },
     sort: '-publishedAt',
     limit,
-    depth: 0,
+    depth: 1, // resuelve coverImage (portadas) y categorías
   })
   return res.docs
 }
@@ -119,7 +119,7 @@ export async function getContentsByIds(ids: number[]): Promise<Content[]> {
     collection: 'contents',
     where: { and: [{ _status: { equals: 'published' } }, { id: { in: ids } }] },
     limit: ids.length,
-    depth: 0,
+    depth: 1, // resuelve coverImage (portadas) y categorías
   })
   return res.docs
 }

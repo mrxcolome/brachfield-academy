@@ -1,6 +1,7 @@
 import 'server-only'
 import { db } from '@/lib/db'
 import { cms } from '@/lib/cms'
+import { courseCover } from '@/features/content/covers'
 import { flattenLessons } from '@/features/content/service'
 import { computeCourseProgress, type CourseProgress } from './progress'
 import type { Course } from '@/payload/payload-types'
@@ -51,6 +52,7 @@ export async function getCoursesProgress(
 export interface ContinueLearning {
   courseSlug: string
   courseTitle: string
+  cover: string
   lessonId: string
   lessonTitle: string
   pct: number
@@ -72,7 +74,7 @@ export async function getContinueLearning(userId: string): Promise<ContinueLearn
     const numericId = Number(courseId)
     if (!Number.isFinite(numericId)) continue
     const course = await payload
-      .findByID({ collection: 'courses', id: numericId, depth: 0 })
+      .findByID({ collection: 'courses', id: numericId, depth: 1 }) // depth 1: portada y categorías
       .catch(() => null)
     if (!course || course._status !== 'published') continue
 
@@ -84,6 +86,7 @@ export async function getContinueLearning(userId: string): Promise<ContinueLearn
     return {
       courseSlug: course.slug,
       courseTitle: course.title,
+      cover: courseCover(course),
       lessonId: next.id,
       lessonTitle: next.title,
       pct: progress.pct,

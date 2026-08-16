@@ -7,7 +7,9 @@ import { getContinueLearning } from '@/features/learning/service'
 import { getUpcomingEvents, EVENT_TYPE_LABEL } from '@/features/events/service'
 import { formatEventDate } from '@/features/events/format'
 import { CONTENT_TYPE_META, LEVEL_META } from '@/features/content/service'
-import { Cover, Avatar } from '@/components/art'
+import { Avatar } from '@/components/art'
+import { SmartCover } from '@/components/product/smart-cover'
+import { contentCover, courseCover } from '@/features/content/covers'
 import { Progress } from '@/components/ui/progress'
 
 export const metadata = { title: 'Inicio' }
@@ -54,12 +56,13 @@ export default async function AppHome() {
             Continúa donde lo dejaste
           </h2>
           <div className="flex flex-wrap items-center gap-5 rounded-lg border border-border bg-surface p-4.5">
-            <Cover
-              title={continueLearning.courseTitle}
-              kind="curso"
-              className="rounded-md"
-              style={{ width: 148, aspectRatio: '16/10', flex: 'none' }}
-            />
+            <div className="w-37 flex-none overflow-hidden rounded-md">
+              <SmartCover
+                src={continueLearning.cover}
+                title={continueLearning.courseTitle}
+                kind="curso"
+              />
+            </div>
             <div className="min-w-52 flex-1">
               <p className="mb-1 font-mono text-[11px] tracking-wide text-muted uppercase">Curso</p>
               <p className="mb-2 text-[15px] leading-snug font-semibold">
@@ -98,7 +101,7 @@ export default async function AppHome() {
                   href={`/app/courses/${rec.course.slug}`}
                   className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
                 >
-                  <Cover title={rec.course.title} kind="curso" style={{ aspectRatio: '16/10' }} />
+                  <SmartCover src={courseCover(rec.course)} title={rec.course.title} kind="curso" />
                   <div className="p-3.5">
                     <p className="mb-1.5 text-[13.5px] leading-snug font-semibold">
                       {rec.course.title}
@@ -115,10 +118,10 @@ export default async function AppHome() {
                   href={`/app/contents/${rec.content.slug}`}
                   className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
                 >
-                  <Cover
+                  <SmartCover
+                    src={contentCover(rec.content)}
                     title={rec.content.title}
                     kind={CONTENT_TYPE_META[rec.content.contentType].kind}
-                    style={{ aspectRatio: '16/10' }}
                   />
                   <div className="p-3.5">
                     <p className="mb-1.5 text-[13.5px] leading-snug font-semibold">

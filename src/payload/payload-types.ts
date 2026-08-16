@@ -219,6 +219,10 @@ export interface Content {
    * Resumen corto para cards y buscador
    */
   excerpt?: string | null;
+  /**
+   * Imagen de la tarjeta y la ficha (ideal 16:9, mín. 800px de ancho). Si se deja vacía, se usa una foto automática según el formato del contenido.
+   */
+  coverImage?: (number | null) | Media;
   contentType:
     | 'VIDEO'
     | 'AUDIO'
@@ -313,6 +317,10 @@ export interface Course {
       }[]
     | null;
   certificateEnabled?: boolean | null;
+  /**
+   * Imagen de la tarjeta y la ficha (ideal 16:9, mín. 800px de ancho). Si se deja vacía, se usa una foto automática según el formato del contenido.
+   */
+  coverImage?: (number | null) | Media;
   categories?: (number | Category)[] | null;
   tags?: (number | Tag)[] | null;
   modules?:
@@ -635,6 +643,7 @@ export interface ContentsSelect<T extends boolean = true> {
   slug?: T;
   subtitle?: T;
   excerpt?: T;
+  coverImage?: T;
   contentType?: T;
   level?: T;
   duration?: T;
@@ -690,6 +699,7 @@ export interface CoursesSelect<T extends boolean = true> {
         id?: T;
       };
   certificateEnabled?: T;
+  coverImage?: T;
   categories?: T;
   tags?: T;
   modules?:

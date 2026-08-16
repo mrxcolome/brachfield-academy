@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Cover } from '@/components/art'
+import Image from 'next/image'
 import { courses, getCourse } from '@/features/content/catalog'
 
 interface Props {
@@ -83,10 +83,12 @@ export default async function CoursePage({ params }: Props) {
         </div>
 
         <aside>
-          <Cover
-            title={course.title}
-            kind="curso"
-            className="mb-4 rounded-xl"
+          <Image
+            src={course.img}
+            alt=""
+            width={800}
+            height={500}
+            className="mb-4 w-full rounded-xl object-cover"
             style={{ aspectRatio: '16/10' }}
           />
           <div className="rounded-xl border border-border p-5 text-center">

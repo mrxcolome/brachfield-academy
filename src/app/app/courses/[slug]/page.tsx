@@ -4,7 +4,8 @@ import { requireActiveMember } from '@/features/auth/guards'
 import { getCourseBySlug, flattenLessons } from '@/features/content/service'
 import { getCourseProgress } from '@/features/learning/service'
 import { db } from '@/lib/db'
-import { Cover } from '@/components/art'
+import { SmartCover } from '@/components/product/smart-cover'
+import { courseCover } from '@/features/content/covers'
 import { Progress } from '@/components/ui/progress'
 import { cn } from '@/lib/cn'
 
@@ -106,12 +107,9 @@ export default async function CoursePage({ params }: Props) {
       </div>
 
       <aside>
-        <Cover
-          title={course.title}
-          kind="curso"
-          className="rounded-xl"
-          style={{ aspectRatio: '16/10' }}
-        />
+        <div className="overflow-hidden rounded-xl">
+          <SmartCover src={courseCover(course)} title={course.title} kind="curso" />
+        </div>
       </aside>
     </div>
   )

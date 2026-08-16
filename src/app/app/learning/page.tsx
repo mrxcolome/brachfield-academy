@@ -2,7 +2,8 @@ import Link from 'next/link'
 import { requireActiveMember } from '@/features/auth/guards'
 import { getPublishedCourses } from '@/features/content/service'
 import { getCoursesProgress } from '@/features/learning/service'
-import { Cover } from '@/components/art'
+import { SmartCover } from '@/components/product/smart-cover'
+import { courseCover } from '@/features/content/covers'
 import { Progress } from '@/components/ui/progress'
 import { EmptyState } from '@/components/ui/empty-state'
 
@@ -32,7 +33,7 @@ export default async function LearningPage() {
         href={`/app/courses/${course.slug}`}
         className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
       >
-        <Cover title={course.title} kind="curso" style={{ aspectRatio: '16/10' }} />
+        <SmartCover src={courseCover(course)} title={course.title} kind="curso" />
         <div className="p-3.5">
           <p className="mb-2 text-[13.5px] leading-snug font-semibold">{course.title}</p>
           <Progress value={progress.pct} label={`Progreso de ${course.title}`} className="mb-1.5" />

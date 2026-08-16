@@ -24,6 +24,16 @@ export const Contents: CollectionConfig = {
       admin: { description: 'Resumen corto para cards y buscador' },
     },
     {
+      name: 'coverImage',
+      label: 'Imagen de portada',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description:
+          'Imagen de la tarjeta y la ficha (ideal 16:9, mín. 800px de ancho). Si se deja vacía, se usa una foto automática según el formato del contenido.',
+      },
+    },
+    {
       name: 'contentType',
       label: 'Tipo',
       type: 'select',

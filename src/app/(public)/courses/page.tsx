@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { Cover } from '@/components/art'
+import Image from 'next/image'
 import { courses, knowledgeAreas } from '@/features/content/catalog'
 
 export const metadata: Metadata = {
@@ -35,7 +35,14 @@ export default function CoursesPage() {
               href={`/courses/${c.slug}`}
               className="relative overflow-hidden rounded-lg border border-border text-inherit no-underline"
             >
-              <Cover title={c.title} kind="curso" style={{ aspectRatio: '16/10' }} />
+              <Image
+                src={c.img}
+                alt=""
+                width={800}
+                height={500}
+                className="w-full object-cover"
+                style={{ aspectRatio: '16/10' }}
+              />
               <span className="absolute top-2.5 left-2.5 rounded-full bg-white/90 px-2.5 py-1 font-mono text-[11px] font-semibold">
                 🔒 Premium
               </span>

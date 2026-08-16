@@ -4,17 +4,19 @@ import Image from 'next/image'
 import { Portrait, Avatar } from '@/components/art'
 import {
   aboutPere,
+  creditProcess,
   faqs,
   knowledgeAreas,
   personas,
   sampleTools,
+  trainingAreas,
   whatsInside,
   pricingIncludes,
 } from '@/features/content/catalog'
 
 export const metadata: Metadata = {
   description:
-    'Formación, herramientas y conocimiento especializado en Credit Management, prevención de impagos y recobro, de la mano de Pere Brachfield. 39 €/mes, cancela cuando quieras.',
+    'Todo el conocimiento que necesitas para gestionar mejor el crédito a clientes, prevenir impagos y cobrar a tiempo, de la mano de Pere Brachfield. 39 €/mes, cancela cuando quieras.',
   alternates: { canonical: '/' },
 }
 
@@ -55,15 +57,20 @@ export default function LandingPage() {
               Por Pere Brachfield · Credit &amp; Risk Consultants desde 1990
             </p>
             <h1 className="mb-4 text-4xl leading-[1.1] font-bold tracking-tight sm:text-5xl">
-              Domina el crédito.
+              Aprende a prevenir impagos.
               <br />
-              Prevén los impagos.
+              Gestiona mejor el crédito.
               <br />
-              Cobra mejor.
+              Cobra lo que te deben.
             </h1>
-            <p className="mb-7 max-w-md text-[17px] leading-relaxed text-ink-2">
-              Formación, herramientas y conocimiento especializado en Credit Management y recobro de
-              impagados, de la mano de Pere Brachfield.
+            <p className="mb-3 max-w-md text-[17px] leading-relaxed text-ink-2">
+              Todo el conocimiento que necesitas para gestionar mejor el crédito a clientes,
+              prevenir impagos y cobrar a tiempo.
+            </p>
+            <p className="mb-7 max-w-md text-sm leading-relaxed text-ink-3">
+              Microlearning, cursos, herramientas y píldoras prácticas para prevenir la morosidad,
+              gestionar el crédito comercial, negociar con deudores y recuperar impagados, tanto por
+              vía extrajudicial como judicial, de la mano de Pere Brachfield.
             </p>
             <div className="mb-4 flex flex-wrap gap-3">
               <Link
@@ -81,9 +88,46 @@ export default function LandingPage() {
             </div>
             <p className="font-mono text-[13px] text-ink-2">39 €/mes · Cancela cuando quieras</p>
           </div>
-          <Portrait className="rounded-xl" style={{ aspectRatio: '4 / 3' }} />
+          <Image
+            src="/landing/hero.webp"
+            alt="Director financiero revisando indicadores de crédito en su oficina"
+            width={1200}
+            height={900}
+            priority
+            className="rounded-xl object-cover"
+            style={{ aspectRatio: '4 / 3' }}
+          />
         </div>
       </section>
+
+      {/* El ciclo completo del crédito */}
+      <Section className="bg-surface">
+        <h2 className="mb-2 text-2xl font-bold">El proceso del credit management</h2>
+        <p className="mb-6 max-w-xl text-sm leading-relaxed text-ink-3">
+          Una escuela especializada en todo el ciclo de vida del crédito comercial B2B, de la
+          concesión a la recuperación.
+        </p>
+        <ol className="mb-7 flex flex-wrap items-center gap-y-2.5">
+          {creditProcess.map((step, i) => (
+            <li key={step} className="flex items-center">
+              <span className="rounded-full border border-border-chip bg-bg px-3.5 py-1.5 text-[13px] font-semibold text-ink-2">
+                {step}
+              </span>
+              {i < creditProcess.length - 1 && (
+                <span aria-hidden className="px-1.5 text-brand-link">
+                  →
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
+        <p className="text-sm leading-relaxed text-ink-2">
+          <span className="font-semibold text-ink">Formación en:</span> {trainingAreas.join(' · ')}
+        </p>
+        <p className="mt-1.5 text-sm text-ink-3">
+          Con el conocimiento y la experiencia de Pere Brachfield.
+        </p>
+      </Section>
 
       {/* Qué encontrarás dentro */}
       <Section id="membresia" className="bg-surface">
@@ -124,8 +168,9 @@ export default function LandingPage() {
       <Section className="bg-bg">
         <h2 className="mb-2 text-2xl font-bold">Áreas de conocimiento</h2>
         <p className="mb-7 max-w-xl text-sm leading-relaxed text-ink-3">
-          Toda la biblioteca se organiza en ocho grandes áreas, de los fundamentos del crédito a la
-          organización del propio departamento.
+          Ocho grandes áreas que cubren el ciclo completo del crédito comercial: de la concesión y
+          la prevención a la reclamación judicial, pasando por la organización del propio
+          departamento.
         </p>
         <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
           {knowledgeAreas.map((a) => (
@@ -242,7 +287,13 @@ export default function LandingPage() {
           <Portrait className="max-w-50 rounded-xl" style={{ aspectRatio: '1' }} />
           <div>
             <h2 className="mb-3 text-2xl font-bold">Sobre Pere Brachfield</h2>
-            <p className="max-w-2xl text-sm leading-relaxed text-ink-3">{aboutPere.long}</p>
+            <div className="max-w-2xl space-y-3">
+              {aboutPere.long.map((paragraph) => (
+                <p key={paragraph.slice(0, 40)} className="text-sm leading-relaxed text-ink-3">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </Section>

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: '%s · Brachfield Academy',
   },
   description:
-    'Formación, herramientas y conocimiento especializado en Credit Management, prevención de impagos y recobro, de la mano de Pere Brachfield.',
+    'La escuela especializada en todo el ciclo de vida del crédito comercial B2B: prevención de impagos, gestión del crédito, negociación, recobro y reclamación judicial, de la mano de Pere Brachfield.',
   openGraph: {
     type: 'website',
     siteName: 'Brachfield Academy',

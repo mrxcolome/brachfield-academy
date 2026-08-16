@@ -452,11 +452,38 @@ export const faqs: { q: string; a: string }[] = [
   },
 ]
 
+// Texto "Sobre Pere" redactado por el propio Pere Brachfield (2026-08-16).
 export const aboutPere = {
   short:
-    'Abogado, socio fundador de Brachfield Credit & Risk Consultants, profesor universitario y articulista. Más de 30 años asesorando a empresas en gestión del crédito, prevención de impagos y recobro de deuda comercial.',
-  long: 'Pere Brachfield es uno de los mayores especialistas en morosología de España. Abogado y socio fundador de Brachfield Credit & Risk Consultants, ha dedicado más de tres décadas a la gestión del crédito comercial, la prevención de impagos y el recobro de deudas. Es profesor universitario, conferenciante y autor de numerosos libros y artículos sobre credit management, y ha asesorado a cientos de empresas de todos los sectores en la organización de sus departamentos de crédito.',
+    'Abogado, profesor universitario, conferenciante y especialista en credit management y gestión de la morosidad, con más de 35 años de experiencia en la prevención de impagos, la gestión del crédito comercial y la recuperación de deudas.',
+  long: [
+    'Pere Brachfield es abogado, profesor universitario, conferenciante y especialista en credit management y gestión de la morosidad, con más de 35 años de experiencia en la prevención de impagos, la gestión del crédito comercial y la recuperación de deudas.',
+    'Fundador de Brachfield Credit & Risk Consultants, ha asesorado y formado a cientos de empresas y profesionales de distintos sectores en la prevención y gestión de los riesgos de crédito, la organización de departamentos de crédito, las estrategias de recobro y la reclamación de deudas, tanto por vía extrajudicial como judicial.',
+    'Autor de 32 libros y cientos de artículos sobre gestión del crédito, lucha contra la morosidad y reclamación de deudas, ha desarrollado una amplia labor docente, combinando el conocimiento jurídico con la experiencia práctica de la gestión del crédito empresarial.',
+    'En Brachfield Academy ponemos toda esta experiencia al alcance de profesionales y empresas mediante formación práctica, conocimiento especializado y herramientas para prevenir impagos, gestionar el crédito y mejorar la recuperación de las deudas.',
+  ],
 }
+
+// El ciclo completo del crédito comercial (pedido de Pere: posicionar la
+// academia como escuela de todo el ciclo, no como una simple web de cursos).
+export const creditProcess = [
+  'Concesión del crédito',
+  'Prevención',
+  'Gestión',
+  'Negociación',
+  'Recobro',
+  'Reclamación judicial',
+  'Recuperación de la deuda',
+]
+
+export const trainingAreas = [
+  'Credit Management',
+  'Prevención de impagos',
+  'Morosidad',
+  'Recobro',
+  'Negociación',
+  'Reclamación judicial B2B',
+]
 
 export const pricingIncludes = [
   'Biblioteca completa de cursos y vídeos',

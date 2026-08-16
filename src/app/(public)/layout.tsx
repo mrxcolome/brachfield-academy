@@ -32,7 +32,7 @@ function Footer() {
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
           <div>
             <BrandLogo height={22} />
-            <p className="mt-2">Credit Management, prevención de impagos y recobro.</p>
+            <p className="mt-2">La escuela del ciclo completo del crédito comercial B2B.</p>
           </div>
           <div className="flex gap-6">
             <Link href="/pricing" className="text-inherit">

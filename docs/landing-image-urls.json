@@ -1,0 +1,7 @@
+{
+ "_comment": "URLs firmadas TEMPORALES para el workflow fetch-landing-images. Se borra tras la integración.",
+ "imagenes": {
+  "formato-plantillas": "https://pikaso.cdnpk.net/private/production/5180300870/render.jpg?token=exp=1787184000~hmac=fc0aecf80a0660d3f2ba4dd25df36b9e0a6044e56336f360cb2d414a44f4f84b",
+  "formato-recursos": "https://pikaso.cdnpk.net/private/production/5180300742/render.jpg?token=exp=1787184000~hmac=a1c109e2f2c37525dc8ff87c2a016037d702ae7a62b89233d247391a91a1f2a7"
+ }
+}

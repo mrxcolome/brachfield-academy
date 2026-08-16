@@ -1,0 +1,27 @@
+{
+ "_comment": "URLs firmadas TEMPORALES (caducan) para que el workflow fetch-landing-images descargue y optimice. Se borra tras la integración.",
+ "imagenes": {
+  "formato-cursos": "https://pikaso.cdnpk.net/private/production/5176900095/render.jpg?token=exp=1787184000~hmac=f9a684ce7a31707101f9caefa00a8b5e7378461edb5351fb475f600ed649b158",
+  "formato-videos": "https://pikaso.cdnpk.net/private/production/5176952004/render.jpg?token=exp=1787184000~hmac=4d95f1c21179b5bea6de113d64014fbfdad60aa05c05d87716f5b5f10744b815",
+  "formato-podcasts": "https://pikaso.cdnpk.net/private/production/5176952155/render.jpg?token=exp=1787184000~hmac=cf7fd9271f688cfbe68a703e7c5727258e0053b8991ba9e6dbe3219fbf3fa316",
+  "formato-guias": "https://pikaso.cdnpk.net/private/production/5176952740/render.jpg?token=exp=1787184000~hmac=8ca905ed9e2e00bbc793f2a5590fe54b9418ad9a6157c33719a83cd3c1a1765c",
+  "formato-checklists": "https://pikaso.cdnpk.net/private/production/5176952368/render.jpg?token=exp=1787184000~hmac=911d81e8e134605edbc74a2d1ba2a0ac55fa81cf51950ed9d34d9a1f586780c0",
+  "formato-plantillas": "https://pikaso.cdnpk.net/private/production/5176953787/render.jpg?token=exp=1787184000~hmac=d4a2bbd77dd26cf71c0e878961aa6ba039aec66c63c48f37d48190a4fa5fedf7",
+  "formato-casos": "https://pikaso.cdnpk.net/private/production/5176953612/render.jpg?token=exp=1787184000~hmac=1a4e09722793cdff4aa63af5f7644d31cb9c74f0987ee765895c677a26d812c6",
+  "formato-webinars": "https://pikaso.cdnpk.net/private/production/5176955203/render.jpg?token=exp=1787184000~hmac=efae944b74dc350144fdaf0e10feb0d716152a420d1f0661359c08b6f69484ee",
+  "formato-actualizaciones": "https://pikaso.cdnpk.net/private/production/5176954461/render.jpg?token=exp=1787184000~hmac=6240057070637fe4e91b5edb6ed18cf4e960dd4dce915b23f89bf8953b91ac68",
+  "formato-recursos": "https://pikaso.cdnpk.net/private/production/5176960434/render.jpg?token=exp=1787184000~hmac=5684da2a868ef1bae9ef38cce750dd80c5e0e5e572ff8474a5181bc733c39774",
+  "area-credit-management": "https://pikaso.cdnpk.net/private/production/5176959165/render.jpg?token=exp=1787184000~hmac=4eaedf9d92f6dfc63b1178802919a30eaaf9bcdc955777532bad5a0f59cc921f",
+  "area-prevencion": "https://pikaso.cdnpk.net/private/production/5176960661/render.jpg?token=exp=1787184000~hmac=930c447f9c6662edfcdaf554cab20394212e7f203aa5c75d8cbc62988727dea4",
+  "area-riesgo": "https://pikaso.cdnpk.net/private/production/5176960040/render.jpg?token=exp=1787184000~hmac=72366293eb7a52b1fa7b3b9a33bc14d0e14649849730bd32143fba7dd6d6b7a9",
+  "area-recobro": "https://pikaso.cdnpk.net/private/production/5176961708/render.jpg?token=exp=1787184000~hmac=f8650cd7b3b3bd40c85ace546e8605614448338aa9359e44eca3a0cfe569a3ef",
+  "area-negociacion": "https://pikaso.cdnpk.net/private/production/5176962200/render.jpg?token=exp=1787184000~hmac=904274666dd3e5e63745baa8ccd725743f782b4a1258c0595b01d3222edf2db2",
+  "area-legislacion": "https://pikaso.cdnpk.net/private/production/5176961994/render.jpg?token=exp=1787184000~hmac=89e539fe47ea56197db24d78a6295d0150fa6dfba87a0ab0763b9599b9d387df",
+  "area-financiera": "https://pikaso.cdnpk.net/private/production/5176963966/render.jpg?token=exp=1787184000~hmac=1bfbe1faa101841697d7e0b0e31551c6fc2110c7419d6c804a7a746d3fada11f",
+  "area-organizacion": "https://pikaso.cdnpk.net/private/production/5176967234/render.jpg?token=exp=1787184000~hmac=9dba1b6342fc2258972141f5d1e91566cef4822d2f047780a50c49757ed405ce",
+  "recurso-politica": "https://pikaso.cdnpk.net/private/production/5176968268/render.jpg?token=exp=1787184000~hmac=bb9001dbc24ba4c41145772afcf6352b9b6cd39214e48af2cd7f9050b2d1bc39",
+  "recurso-ficha": "https://pikaso.cdnpk.net/private/production/5176969121/render.jpg?token=exp=1787184000~hmac=a2a744e2e2885476b20bf8681c6f382277a0cf63c9d9cc6329bbafb191124128",
+  "recurso-procedimiento": "https://pikaso.cdnpk.net/private/production/5176968955/render.jpg?token=exp=1787184000~hmac=36207834eb07215e556d4ac7354b239daf3160cb6ebd3e0c85793345d06f9d93",
+  "recurso-plan": "https://pikaso.cdnpk.net/private/production/5176968881/render.jpg?token=exp=1787184000~hmac=511831d01f32471edbab65ad724afd874cf9ad94c886da3b824469ed9196391c"
+ }
+}

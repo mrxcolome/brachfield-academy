@@ -1,0 +1,62 @@
+# Descarga las imágenes IA de la landing desde el CDN de Magnific (inaccesible
+# desde el sandbox de desarrollo), las optimiza a WebP 1600px y las commitea en
+# public/landing/. Se dispara al cambiar docs/landing-image-urls.json.
+name: Fetch landing images
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/landing-image-urls.json']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install sharp
+        run: cd "$RUNNER_TEMP" && npm init -y >/dev/null 2>&1 && npm install sharp >/dev/null 2>&1
+
+      - name: Download and optimize to WebP
+        run: |
+          cat > "$RUNNER_TEMP/fetch.cjs" <<'EOF'
+          const sharp = require('sharp')
+          const fs = require('fs')
+          const path = require('path')
+          const repo = process.argv[2]
+          const map = JSON.parse(
+            fs.readFileSync(path.join(repo, 'docs/landing-image-urls.json'), 'utf8'),
+          )
+          async function main() {
+            const outDir = path.join(repo, 'public/landing')
+            fs.mkdirSync(outDir, { recursive: true })
+            for (const [name, url] of Object.entries(map.imagenes)) {
+              const res = await fetch(url)
+              if (!res.ok) throw new Error(`${name}: HTTP ${res.status}`)
+              const buf = Buffer.from(await res.arrayBuffer())
+              const out = path.join(outDir, `${name}.webp`)
+              await sharp(buf).resize({ width: 1600 }).webp({ quality: 82 }).toFile(out)
+              console.log('OK', name, fs.statSync(out).size, 'bytes')
+            }
+          }
+          main()
+          EOF
+          cd "$RUNNER_TEMP" && node fetch.cjs "$GITHUB_WORKSPACE"
+
+      - name: Commit results
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/landing
+          git diff --cached --quiet && echo "Sin cambios" && exit 0
+          git commit -m "Imágenes IA de la landing optimizadas a WebP [skip ci]"
+          git push

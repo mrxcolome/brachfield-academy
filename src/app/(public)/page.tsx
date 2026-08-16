@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { DashboardMock, Portrait, Avatar } from '@/components/art'
+import { Portrait, Avatar } from '@/components/art'
 import {
   aboutPere,
   faqs,
@@ -156,7 +156,16 @@ export default function LandingPage() {
         <p className="mb-6 text-sm text-muted">
           Tu formación, tus herramientas y la actualidad del sector, siempre a mano.
         </p>
-        <DashboardMock style={{ aspectRatio: '16/7' }} />
+        {/* Captura real del producto con datos de demostración. */}
+        <div className="overflow-hidden rounded-xl border border-border shadow-sm">
+          <Image
+            src="/landing/dashboard.webp"
+            alt="Panel de inicio de la zona de alumnos: curso en progreso y recomendaciones personalizadas"
+            width={2000}
+            height={875}
+            className="w-full"
+          />
+        </div>
       </Section>
 
       {/* Formación práctica + contenido nuevo */}

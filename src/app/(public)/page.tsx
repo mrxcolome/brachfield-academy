@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { Cover, DashboardMock, Portrait, Avatar } from '@/components/art'
+import Image from 'next/image'
+import { DashboardMock, Portrait, Avatar } from '@/components/art'
 import {
   aboutPere,
   faqs,
@@ -97,7 +98,14 @@ export default function LandingPage() {
               key={w.l}
               className="overflow-hidden rounded-lg border border-border-soft bg-surface"
             >
-              <Cover title={w.l} kind={w.k} glyph={false} style={{ aspectRatio: '16/9' }} />
+              <Image
+                src={w.img}
+                alt=""
+                width={800}
+                height={450}
+                className="w-full object-cover"
+                style={{ aspectRatio: '16/9' }}
+              />
               <div className="p-3.5">
                 <p className="text-[13.5px] font-semibold">
                   <span aria-hidden className="mr-1.5 text-brand-link">
@@ -125,7 +133,14 @@ export default function LandingPage() {
               key={a.l}
               className="overflow-hidden rounded-lg border border-border-soft bg-surface"
             >
-              <Cover title={a.l} kind="articulo" glyph={false} style={{ aspectRatio: '16/9' }} />
+              <Image
+                src={a.img}
+                alt=""
+                width={800}
+                height={450}
+                className="w-full object-cover"
+                style={{ aspectRatio: '16/9' }}
+              />
               <div className="p-3.5">
                 <p className="text-sm font-semibold">{a.l}</p>
                 <p className="mt-1 text-xs leading-relaxed text-ink-3">{a.d}</p>
@@ -194,7 +209,14 @@ export default function LandingPage() {
         <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
           {sampleTools.map((t) => (
             <div key={t.l} className="overflow-hidden rounded-lg border border-border-soft">
-              <Cover title={t.l} kind="plantilla" glyph={false} style={{ aspectRatio: '16/9' }} />
+              <Image
+                src={t.img}
+                alt=""
+                width={800}
+                height={450}
+                className="w-full object-cover"
+                style={{ aspectRatio: '16/9' }}
+              />
               <div className="p-3.5">
                 <p className="font-mono text-[10.5px] font-semibold text-muted">▦ PLANTILLA</p>
                 <p className="mt-1.5 text-sm leading-snug font-semibold">{t.l}</p>

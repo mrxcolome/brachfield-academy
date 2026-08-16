@@ -267,34 +267,42 @@ export function getCourse(slug: string): PublicCourse | undefined {
 export const knowledgeAreas = [
   {
     l: 'Credit Management',
+    img: '/landing/area-credit-management.webp',
     d: 'Fundamentos y organización de la gestión del crédito comercial en la empresa.',
   },
   {
     l: 'Prevención de impagos',
+    img: '/landing/area-prevencion.webp',
     d: 'Cómo evaluar clientes y fijar políticas que reduzcan el riesgo antes de vender.',
   },
   {
     l: 'Riesgo de crédito',
+    img: '/landing/area-riesgo.webp',
     d: 'Análisis de solvencia, scoring y límites de crédito por cliente.',
   },
   {
     l: 'Recobro de impagados',
+    img: '/landing/area-recobro.webp',
     d: 'Estrategias y procedimientos para recuperar deuda vencida.',
   },
   {
     l: 'Negociación',
+    img: '/landing/area-negociacion.webp',
     d: 'Técnicas de negociación con deudores para cobrar sin romper la relación.',
   },
   {
     l: 'Legislación',
+    img: '/landing/area-legislacion.webp',
     d: 'Marco legal de la morosidad, plazos de pago y vía judicial.',
   },
   {
     l: 'Gestión financiera',
+    img: '/landing/area-financiera.webp',
     d: 'Impacto del crédito y la morosidad en la tesorería de la empresa.',
   },
   {
     l: 'Organización del departamento',
+    img: '/landing/area-organizacion.webp',
     d: 'Cómo estructurar y dimensionar el área de Credit Management.',
   },
 ] as const
@@ -303,60 +311,70 @@ export const whatsInside = [
   {
     g: '▶',
     l: 'Cursos',
+    img: '/landing/formato-cursos.webp',
     k: 'curso',
     d: 'Itinerarios estructurados en módulos y lecciones, de los fundamentos a la práctica.',
   },
   {
     g: '▶',
     l: 'Vídeos',
+    img: '/landing/formato-videos.webp',
     k: 'video',
     d: 'Lecciones breves y directas sobre situaciones concretas de crédito y cobro.',
   },
   {
     g: '◑',
     l: 'Podcasts',
+    img: '/landing/formato-podcasts.webp',
     k: 'podcast',
     d: 'Conversaciones y análisis en audio para escuchar mientras trabajas o te desplazas.',
   },
   {
     g: '▤',
     l: 'Guías',
+    img: '/landing/formato-guias.webp',
     k: 'guia',
     d: 'Documentos de referencia sobre legislación, procedimientos y buenas prácticas.',
   },
   {
     g: '✓',
     l: 'Checklists',
+    img: '/landing/formato-checklists.webp',
     k: 'checklist',
     d: 'Listas de verificación rápidas para no olvidar ningún paso crítico.',
   },
   {
     g: '▦',
     l: 'Plantillas',
+    img: '/landing/formato-plantillas.webp',
     k: 'plantilla',
     d: 'Modelos editables listos para adaptar a tu empresa en minutos.',
   },
   {
     g: '▣',
     l: 'Casos prácticos',
+    img: '/landing/formato-casos.webp',
     k: 'caso',
     d: 'Situaciones reales analizadas paso a paso, con lo que funcionó y lo que no.',
   },
   {
     g: '◉',
     l: 'Webinars',
+    img: '/landing/formato-webinars.webp',
     k: 'webinar',
     d: 'Sesiones en directo con Pere Brachfield y turno de preguntas.',
   },
   {
     g: '◈',
     l: 'Actualizaciones',
+    img: '/landing/formato-actualizaciones.webp',
     k: 'articulo',
     d: 'Cambios legislativos y de mercado, explicados de forma ejecutiva.',
   },
   {
     g: '▥',
     l: 'Recursos',
+    img: '/landing/formato-recursos.webp',
     k: 'plantilla',
     d: 'Calculadoras, scripts y otras herramientas de uso diario.',
   },
@@ -375,18 +393,22 @@ export const personas = [
 export const sampleTools = [
   {
     l: 'Política de crédito comercial',
+    img: '/landing/recurso-politica.webp',
     d: 'Documento marco para fijar condiciones y límites de crédito por tipo de cliente.',
   },
   {
     l: 'Ficha de evaluación de cliente',
+    img: '/landing/recurso-ficha.webp',
     d: 'Plantilla para analizar solvencia y riesgo antes de conceder crédito.',
   },
   {
     l: 'Procedimiento interno de cobros',
+    img: '/landing/recurso-procedimiento.webp',
     d: 'Protocolo paso a paso para tu equipo desde el primer día de retraso.',
   },
   {
     l: 'Plan de acción frente a la morosidad',
+    img: '/landing/recurso-plan.webp',
     d: 'Guía de escalado: del primer recordatorio amistoso a la vía judicial.',
   },
 ] as const

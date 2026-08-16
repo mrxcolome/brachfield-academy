@@ -56,6 +56,7 @@ Next.js 15 App Router + TS strict + Tailwind 4 · PostgreSQL (Neon) + Prisma · 
 - Textos de UI en `messages/es.json` (next-intl) — no hardcodear strings dispersos.
 - Acceso premium: validar SIEMPRE contra `Subscription.status` local (sincronizado por webhooks Stripe).
 - Eventos analytics solo vía `AnalyticsService.track()` — nunca PostHog directo en componentes.
+- REGLA del propietario (2026-08-16): NUNCA limitar el ancho de párrafos con max-w estrechos que provoquen saltos de línea "bruscos" (el texto se parte pronto dejando vacío a la derecha). Los párrafos fluyen al ancho de su contenedor; max-w solo para elementos estructurales (contenedores, tarjetas, acordeones).
 - Commits pequeños y claros; cambios estructurales grandes se explican ANTES de ejecutarlos.
 - TS strict, sin `any`; tipos generados desde schema (Prisma/Payload) cuando existan.
 - Una funcionalidad no está terminada sin: tipado, validación, autorización, loading/error/empty states, responsive, accesibilidad y tests de lo crítico (§97 del briefing).

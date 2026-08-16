@@ -56,18 +56,18 @@ export default function LandingPage() {
             <p className="mb-5 inline-block rounded-full bg-surface px-3.5 py-1.5 text-xs font-semibold text-brand-link">
               Por Pere Brachfield · Credit &amp; Risk Consultants desde 1990
             </p>
-            <h1 className="mb-4 text-4xl leading-[1.1] font-bold tracking-tight sm:text-5xl">
+            <h1 className="mb-4 text-3xl leading-[1.15] font-bold tracking-tight sm:text-4xl">
               Aprende a prevenir impagos.
               <br />
               Gestiona mejor el crédito.
               <br />
               Cobra lo que te deben.
             </h1>
-            <p className="mb-3 max-w-md text-[17px] leading-relaxed text-ink-2">
+            <p className="mb-3 text-[17px] leading-relaxed text-ink-2">
               Todo el conocimiento que necesitas para gestionar mejor el crédito a clientes,
               prevenir impagos y cobrar a tiempo.
             </p>
-            <p className="mb-7 max-w-md text-sm leading-relaxed text-ink-3">
+            <p className="mb-7 text-sm leading-relaxed text-ink-3">
               Microlearning, cursos, herramientas y píldoras prácticas para prevenir la morosidad,
               gestionar el crédito comercial, negociar con deudores y recuperar impagados, tanto por
               vía extrajudicial como judicial, de la mano de Pere Brachfield.
@@ -103,7 +103,7 @@ export default function LandingPage() {
       {/* El ciclo completo del crédito */}
       <Section className="bg-bg">
         <h2 className="mb-2 text-2xl font-bold">El proceso del credit management</h2>
-        <p className="mb-6 max-w-xl text-sm leading-relaxed text-ink-3">
+        <p className="mb-6 text-sm leading-relaxed text-ink-3">
           Una escuela especializada en todo el ciclo de vida del crédito comercial B2B, de la
           concesión a la recuperación.
         </p>
@@ -132,7 +132,7 @@ export default function LandingPage() {
       {/* Qué encontrarás dentro */}
       <Section id="membresia" className="bg-surface">
         <h2 className="mb-2 text-2xl font-bold">Qué encontrarás dentro</h2>
-        <p className="mb-7 max-w-xl text-sm leading-relaxed text-ink-3">
+        <p className="mb-7 text-sm leading-relaxed text-ink-3">
           Diez formatos pensados para distintos momentos: desde una lectura de cinco minutos hasta
           un curso completo, siempre con el mismo criterio: practicidad.
         </p>
@@ -167,7 +167,7 @@ export default function LandingPage() {
       {/* Áreas de conocimiento */}
       <Section className="bg-bg">
         <h2 className="mb-2 text-2xl font-bold">Áreas de conocimiento</h2>
-        <p className="mb-7 max-w-xl text-sm leading-relaxed text-ink-3">
+        <p className="mb-7 text-sm leading-relaxed text-ink-3">
           Ocho grandes áreas que cubren el ciclo completo del crédito comercial: de la concesión y
           la prevención a la reclamación judicial, pasando por la organización del propio
           departamento.
@@ -214,8 +214,8 @@ export default function LandingPage() {
       </Section>
 
       {/* Formación práctica + contenido nuevo */}
-      <section className="bg-border-soft">
-        <div className="mx-auto grid max-w-6xl gap-px sm:grid-cols-2">
+      <section className="border-y border-border-soft bg-surface">
+        <div className="mx-auto grid max-w-6xl sm:grid-cols-2 sm:divide-x sm:divide-border-soft">
           <div className="bg-surface p-8 sm:p-12">
             <h3 className="mb-3 text-xl font-bold">Formación práctica, no solo teoría</h3>
             <p className="text-sm leading-relaxed text-ink-3">
@@ -257,7 +257,7 @@ export default function LandingPage() {
       {/* Recursos */}
       <Section className="bg-surface">
         <h2 className="mb-2 text-2xl font-bold">Recursos que usarás mañana mismo</h2>
-        <p className="mb-7 max-w-xl text-sm leading-relaxed text-ink-3">
+        <p className="mb-7 text-sm leading-relaxed text-ink-3">
           Plantillas y documentos editables, listos para adaptar a tu empresa sin empezar de cero.
         </p>
         <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
@@ -287,7 +287,7 @@ export default function LandingPage() {
           <Portrait className="max-w-50 rounded-xl" style={{ aspectRatio: '1' }} />
           <div>
             <h2 className="mb-3 text-2xl font-bold">Sobre Pere Brachfield</h2>
-            <div className="max-w-2xl space-y-3">
+            <div className="space-y-3">
               {aboutPere.long.map((paragraph) => (
                 <p key={paragraph.slice(0, 40)} className="text-sm leading-relaxed text-ink-3">
                   {paragraph}
@@ -301,7 +301,7 @@ export default function LandingPage() {
       {/* Para quién es */}
       <Section className="bg-surface">
         <h2 className="mb-2 text-2xl font-bold">Para quién es</h2>
-        <p className="mb-6 max-w-xl text-sm leading-relaxed text-ink-3">
+        <p className="mb-6 text-sm leading-relaxed text-ink-3">
           Pensado para quien gestiona el crédito, el riesgo o el cobro en su empresa, no para el
           público general.
         </p>
@@ -380,7 +380,7 @@ export default function LandingPage() {
       <Section className="bg-bg">
         <div className="text-center">
           <h2 className="mb-3 text-2xl font-bold">Empieza hoy a cobrar mejor</h2>
-          <p className="mx-auto mb-6 max-w-md text-sm text-muted">
+          <p className="mb-6 text-sm text-muted">
             Todo el conocimiento de Pere Brachfield sobre crédito, morosidad y recobro, en una sola
             plataforma.
           </p>

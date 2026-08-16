@@ -101,7 +101,7 @@ export default function LandingPage() {
       </section>
 
       {/* El ciclo completo del crédito */}
-      <Section className="bg-surface">
+      <Section className="bg-bg">
         <h2 className="mb-2 text-2xl font-bold">El proceso del credit management</h2>
         <p className="mb-6 max-w-xl text-sm leading-relaxed text-ink-3">
           Una escuela especializada en todo el ciclo de vida del crédito comercial B2B, de la
@@ -110,7 +110,7 @@ export default function LandingPage() {
         <ol className="mb-7 flex flex-wrap items-center gap-y-2.5">
           {creditProcess.map((step, i) => (
             <li key={step} className="flex items-center">
-              <span className="rounded-full border border-border-chip bg-bg px-3.5 py-1.5 text-[13px] font-semibold text-ink-2">
+              <span className="rounded-full border border-border-chip bg-surface px-3.5 py-1.5 text-[13px] font-semibold text-ink-2">
                 {step}
               </span>
               {i < creditProcess.length - 1 && (

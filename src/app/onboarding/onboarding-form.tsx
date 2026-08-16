@@ -55,9 +55,13 @@ export function OnboardingForm({ firstName }: { firstName: string }) {
           <>
             <h1 className="mb-3 text-2xl font-bold">Bienvenido, {firstName}</h1>
             <p className="mb-2 text-sm leading-relaxed text-ink-3">
-              Tu suscripción está activa. Antes de entrar, tres preguntas rápidas para adaptar la
-              Academia a tu trabajo: qué te recomendamos aprender y qué herramientas te enseñamos
-              primero.
+              Acabas de entrar en la escuela del ciclo completo del crédito comercial B2B: de la
+              concesión del crédito y la prevención de impagos a la negociación, el recobro y la
+              reclamación judicial.
+            </p>
+            <p className="mb-2 text-sm leading-relaxed text-ink-3">
+              Antes de empezar, tres preguntas rápidas para adaptar la Academia a tu trabajo: qué te
+              recomendamos aprender y qué herramientas te enseñamos primero.
             </p>
             <p className="mb-6 text-sm text-muted">
               Menos de un minuto. Podrás cambiarlo en tu perfil.

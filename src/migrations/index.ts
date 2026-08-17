@@ -19,3 +19,6 @@ export const migrations = [
     name: '20260816_173220_add_cover_images'
   },
 ];
+
+// Relanzamiento del workflow de migraciones (2026-08-17): la zona de alumnos
+// daba 500 en producción, compatible con migración add_cover_images sin aplicar.

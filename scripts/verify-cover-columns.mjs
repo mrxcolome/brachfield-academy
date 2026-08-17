@@ -2,7 +2,7 @@
 // de portadas existen en la BD y qué migraciones de Payload constan aplicadas.
 // Sale con error si falta alguna de las 4 columnas, para que el workflow
 // quede en rojo cuando la BD no está como el código espera.
-import pg from 'pg'
+import { connect } from './db-connect.mjs'
 
 const EXPECTED = [
   ['contents', 'cover_image_id'],
@@ -11,8 +11,7 @@ const EXPECTED = [
   ['_courses_v', 'version_cover_image_id'],
 ]
 
-const client = new pg.Client({ connectionString: process.env.DATABASE_URL })
-await client.connect()
+const client = await connect()
 try {
   const { rows } = await client.query(
     `SELECT table_name, column_name FROM information_schema.columns

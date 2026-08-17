@@ -1,11 +1,14 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
+// Editada 2026-08-17 para ser idempotente: la BD de producción quedó rezagada
+// (solo tenía la migración inicial) y debe poder aplicar esta venga del estado
+// que venga. En bases que ya la ejecutaron no cambia nada.
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   ALTER TABLE "payload"."courses" DROP COLUMN "level";
-  ALTER TABLE "payload"."_courses_v" DROP COLUMN "version_level";
-  DROP TYPE "payload"."enum_courses_level";
-  DROP TYPE "payload"."enum__courses_v_version_level";`)
+   ALTER TABLE "payload"."courses" DROP COLUMN IF EXISTS "level";
+  ALTER TABLE "payload"."_courses_v" DROP COLUMN IF EXISTS "version_level";
+  DROP TYPE IF EXISTS "payload"."enum_courses_level";
+  DROP TYPE IF EXISTS "payload"."enum__courses_v_version_level";`)
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {

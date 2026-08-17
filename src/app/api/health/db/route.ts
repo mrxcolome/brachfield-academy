@@ -26,6 +26,15 @@ export async function GET() {
         AND column_name IN ('cover_image_id', 'version_cover_image_id')
       ORDER BY table_name`)
     const migs = await db.execute(sql`SELECT name FROM payload.payload_migrations ORDER BY name`)
+    let prismaMigrations: string[]
+    try {
+      const pm = await db.execute(
+        sql`SELECT migration_name FROM public._prisma_migrations ORDER BY migration_name`,
+      )
+      prismaMigrations = pm.rows.map((r) => String(r.migration_name))
+    } catch {
+      prismaMigrations = ['(sin tabla _prisma_migrations)']
+    }
     let coursesQuery = 'ok'
     try {
       await payload.find({ collection: 'courses', limit: 1, depth: 0 })
@@ -37,6 +46,7 @@ export async function GET() {
       host,
       coverColumns: cols.rows.map((r) => `${String(r.table_name)}.${String(r.column_name)}`),
       payloadMigrations: migs.rows.map((m) => String(m.name)),
+      prismaMigrations,
       coursesQuery,
     })
   } catch (e) {

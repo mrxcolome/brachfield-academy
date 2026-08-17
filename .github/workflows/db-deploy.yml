@@ -5,6 +5,10 @@ name: DB migrate (Neon)
 on:
   workflow_dispatch:
     inputs:
+      seed_demo_users:
+        description: 'Crear usuarios demo @demo.brachfieldacademy.test (NO usar sobre la base real)'
+        type: boolean
+        default: false
       seed_editorial:
         description: 'Cargar contenido editorial de ejemplo (¡BORRA el contenido existente del CMS!)'
         type: boolean
@@ -27,7 +31,13 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - run: npx prisma db seed
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && inputs.seed_demo_users
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      # La marca 'dev' en payload_migrations (de un arranque en modo dev)
+      # bloquea payload migrate con una pregunta interactiva; retirarla es seguro.
+      - name: Retirar marca dev de payload_migrations
+        run: node scripts/remove-dev-migration-row.mjs
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - run: npx payload migrate

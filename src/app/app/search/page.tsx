@@ -162,7 +162,7 @@ export default async function SearchPage({
                   src={
                     r.kind === 'course'
                       ? '/landing/formato-cursos.webp'
-                      : contentCover({ coverImage: null, contentType: r.contentType! })
+                      : contentCover({ id: r.id, coverImage: null, contentType: r.contentType! })
                   }
                   title={r.title}
                   kind={r.kind === 'course' ? 'curso' : CONTENT_TYPE_META[r.contentType!].kind}

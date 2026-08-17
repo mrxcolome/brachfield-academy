@@ -35,6 +35,27 @@ const COVER_BY_CATEGORY: Record<string, string> = {
 
 const COURSE_FALLBACK = '/landing/formato-cursos.webp'
 
+/** Fotos de área de TODAS las categorías conocidas del elemento (depth>=1). */
+function categoryCovers(categories: Course['categories'] | Content['categories']): string[] {
+  const covers: string[] = []
+  for (const cat of categories ?? []) {
+    if (typeof cat === 'object' && cat.name) {
+      const byArea = COVER_BY_CATEGORY[cat.name]
+      if (byArea && !covers.includes(byArea)) covers.push(byArea)
+    }
+  }
+  return covers
+}
+
+/**
+ * Elige una candidata de forma ESTABLE por id: el mismo contenido muestra
+ * siempre la misma foto, pero piezas vecinas del mismo tema o formato se
+ * reparten entre sus candidatas y no repiten imagen en una misma parrilla.
+ */
+function pickStable(candidates: string[], id: number, fallback: string): string {
+  return candidates[Math.abs(id) % candidates.length] ?? fallback
+}
+
 function uploadedUrl(coverImage: Content['coverImage']): string | null {
   // Con depth 0 la relación es un id numérico: no sirve para pintar.
   if (coverImage && typeof coverImage === 'object' && typeof coverImage.url === 'string') {
@@ -43,21 +64,28 @@ function uploadedUrl(coverImage: Content['coverImage']): string | null {
   return null
 }
 
-/** Portada de un contenido: subida por el editor o foto por formato. */
-export function contentCover(content: Pick<Content, 'coverImage' | 'contentType'>): string {
-  return uploadedUrl(content.coverImage) ?? DEFAULT_COVER_BY_TYPE[content.contentType]
+/**
+ * Portada de un contenido: subida por el editor, foto de su área temática, o
+ * foto por formato. El área va antes que el formato para que dos piezas del
+ * mismo tipo (p. ej. dos vídeos) no compartan imagen si tratan temas distintos.
+ */
+export function contentCover(
+  content: Pick<Content, 'id' | 'coverImage' | 'contentType'> &
+    Partial<Pick<Content, 'categories'>>,
+): string {
+  const uploaded = uploadedUrl(content.coverImage)
+  if (uploaded) return uploaded
+  const byType = DEFAULT_COVER_BY_TYPE[content.contentType]
+  return pickStable([...categoryCovers(content.categories), byType], content.id, byType)
 }
 
 /** Portada de un curso: subida por el editor, foto por su primera área conocida, o la genérica de cursos. */
-export function courseCover(course: Pick<Course, 'coverImage' | 'categories'>): string {
+export function courseCover(course: Pick<Course, 'id' | 'coverImage' | 'categories'>): string {
   const uploaded = uploadedUrl(course.coverImage)
   if (uploaded) return uploaded
-  for (const cat of course.categories ?? []) {
-    // depth 0 → ids numéricos; con depth>=1 llegan los objetos con name.
-    if (typeof cat === 'object' && cat.name) {
-      const byArea = COVER_BY_CATEGORY[cat.name]
-      if (byArea) return byArea
-    }
-  }
-  return COURSE_FALLBACK
+  return pickStable(
+    [...categoryCovers(course.categories), COURSE_FALLBACK],
+    course.id,
+    COURSE_FALLBACK,
+  )
 }

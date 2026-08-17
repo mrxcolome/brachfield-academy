@@ -1,0 +1,9 @@
+/* El layout raíz del sitio también envuelve el panel y pinta <body> con el
+   fondo claro de la web, pisando el tema de Payload (muy visible en modo
+   oscuro: fondo claro con campos y logo oscuros, ilegible). Restaurar el
+   fondo y el color de texto del tema activo del panel. El selector solo
+   afecta al admin: es Payload quien pone data-theme en <html>. */
+html[data-theme] body {
+  background: var(--theme-bg);
+  color: var(--theme-text);
+}

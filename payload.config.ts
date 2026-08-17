@@ -1,6 +1,7 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildConfig } from 'payload'
+import { es } from '@payloadcms/translations/languages/es'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { s3Storage } from '@payloadcms/storage-s3'
@@ -34,6 +35,8 @@ export default buildConfig({
     },
   },
   collections: [Admins, Categories, Tags, Media, Contents, Courses, Events],
+  // Panel entero en español (botones, menús, avisos): idioma del equipo editor.
+  i18n: { supportedLanguages: { es }, fallbackLanguage: 'es' },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET ?? '',
   db: postgresAdapter({

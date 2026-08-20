@@ -8,7 +8,7 @@ export interface EmailTemplate {
 }
 
 const button = (url: string, label: string) =>
-  `<p style="margin:22px 0"><a href="${url}" style="background:#A21E26;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;display:inline-block">${label}</a></p>
+  `<p style="margin:22px 0"><a href="${url}" style="background:#172B49;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;display:inline-block">${label}</a></p>
    <p style="font-size:12.5px;color:#8b8f9c">Si el botón no funciona, copia este enlace:<br>${url}</p>`
 
 export function verificationEmail(name: string, url: string): EmailTemplate {
@@ -75,7 +75,7 @@ export function eventReminderEmail(
     bodyHtml: `<h2 style="margin:0 0 12px;font-size:19px">Hola, ${name}</h2>
       <p style="line-height:1.6">Recordatorio de tu evento reservado:</p>
       <p style="line-height:1.6;font-weight:600">${eventTitle}<br><span style="font-weight:400;color:#5c6170">${when}</span></p>
-      ${streamUrl ? `<p style="margin:22px 0"><a href="${streamUrl}" style="background:#A21E26;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;display:inline-block">Conectarme al directo</a></p>` : '<p style="line-height:1.6">El enlace del directo estará disponible en la sección Eventos.</p>'}`,
+      ${streamUrl ? `<p style="margin:22px 0"><a href="${streamUrl}" style="background:#172B49;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;display:inline-block">Conectarme al directo</a></p>` : '<p style="line-height:1.6">El enlace del directo estará disponible en la sección Eventos.</p>'}`,
     bodyText: `Hola, ${name}\n\nRecordatorio de tu evento reservado:\n${eventTitle}\n${when}\n\n${streamUrl ? `Enlace del directo: ${streamUrl}` : 'El enlace del directo estará disponible en la sección Eventos.'}`,
   }
 }

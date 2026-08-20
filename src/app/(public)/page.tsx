@@ -114,7 +114,8 @@ export default function LandingPage() {
                 {step}
               </span>
               {i < creditProcess.length - 1 && (
-                <span aria-hidden className="px-1.5 text-brand-link">
+                // Granate: acento puntual de la paleta (el color del logo).
+                <span aria-hidden className="px-1.5 text-garnet">
                   →
                 </span>
               )}

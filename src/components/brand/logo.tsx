@@ -1,10 +1,10 @@
-// Logo oficial de Brachfield Academy (SVG entregados por el propietario; el
-// positivo se actualizó a la paleta granate el 2026-08-20 — servidos TAL CUAL,
-// sin redibujar):
-//   positive (fondos claros): logo.svg — cuadrado girado granate, "Academy" granate.
-//   negative (fondos oscuros): logo-neg.svg — cuadrado blanco, "Academy" naranja.
-// icon.svg / icon-neg.svg son SOLO el símbolo (mismos rects del archivo
-// oficial, encuadre recortado) para favicon y espacios pequeños.
+// Logo oficial de Brachfield Academy (actualizado por el propietario el
+// 2026-08-20 — servido TAL CUAL, sin redibujar): icono de cuadrado girado
+// GRANATE + cuadrados NARANJAS en ambas versiones; el nombre va en negro
+// sobre fondos claros (logo.svg) y en blanco sobre oscuros (logo-neg.svg,
+// derivado del oficial cambiando solo el color del nombre, según la muestra
+// visual del propietario). icon.svg / icon-neg.svg son SOLO el símbolo
+// (idéntico en ambas), encuadre recortado, para favicon y espacios pequeños.
 // Proporción del logo completo: 2521×312 (≈8.08:1) — fijar la altura y dejar
 // que el ancho se derive solo.
 import { cn } from '@/lib/cn'

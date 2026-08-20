@@ -7,11 +7,11 @@ import type { CSSProperties } from 'react'
 
 const PAPER = 'oklch(96.5% 0.008 90)'
 const PAPER_2 = 'oklch(93% 0.012 90)'
-// Paleta oficial 2026-08-20: el granate sustituye al navy en el arte de marca.
-const NAVY = 'oklch(45% 0.145 25)'
-const NAVY_SOFT = 'oklch(53% 0.15 27)'
-const NAVY_FAINT = 'oklch(90% 0.03 25)'
-const AMBER = 'oklch(72% 0.14 70)'
+// Paleta oficial 2026-08-20: azul #172B49 como color de marca del arte.
+const NAVY = 'oklch(26% 0.055 258)'
+const NAVY_SOFT = 'oklch(35% 0.065 258)'
+const NAVY_FAINT = 'oklch(88% 0.025 258)'
+const AMBER = 'oklch(72% 0.13 75)'
 
 function hash(s: string): number {
   let h = 2166136261

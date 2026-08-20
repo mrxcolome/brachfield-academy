@@ -5,33 +5,37 @@
    Portados del prototipo (Claude Design). Un solo lugar de verdad.
    ============================================================ */
 @theme {
+  /* Paleta oficial (2026-08-20): granate #A21E26 · naranja #E88800 · negro #000000.
+     El granate es el color de ACCIÓN y marca; el naranja, el acento puntual;
+     el negro, la tinta sobre papel cálido. */
+
   /* superficie */
   --color-bg: oklch(97.5% 0.005 95);
   --color-surface: #ffffff;
-  --color-surface-dark: oklch(20% 0.02 260);
-  --color-surface-dark-2: oklch(26% 0.03 260);
-  --color-player: oklch(15% 0.01 260);
+  --color-surface-dark: oklch(21% 0.03 20);
+  --color-surface-dark-2: oklch(27% 0.04 20);
+  --color-player: oklch(15% 0.02 20);
 
-  /* tinta */
-  --color-ink: oklch(20% 0.02 260);
-  --color-ink-2: oklch(30% 0.02 260);
-  --color-ink-3: oklch(35% 0.02 260);
-  --color-muted: oklch(46% 0.02 260);
-  --color-muted-2: oklch(50% 0.02 260);
-  --color-faint: oklch(60% 0.01 260);
-  --color-on-dark: oklch(85% 0.01 260);
-  --color-on-dark-muted: oklch(70% 0.01 260);
+  /* tinta (negro cálido neutro, sin matiz azulado) */
+  --color-ink: oklch(18% 0.004 60);
+  --color-ink-2: oklch(29% 0.004 60);
+  --color-ink-3: oklch(34% 0.004 60);
+  --color-muted: oklch(46% 0.008 50);
+  --color-muted-2: oklch(50% 0.008 50);
+  --color-faint: oklch(60% 0.006 50);
+  --color-on-dark: oklch(85% 0.004 60);
+  --color-on-dark-muted: oklch(70% 0.004 60);
 
   /* marca */
-  --color-brand: oklch(29% 0.06 258);
-  --color-brand-hover: oklch(24% 0.06 258);
-  --color-brand-link: oklch(38% 0.09 258);
-  --color-brand-link-hover: oklch(30% 0.1 258);
-  --color-brand-soft: oklch(93% 0.02 258);
+  --color-brand: #a21e26;
+  --color-brand-hover: #871419;
+  --color-brand-link: #a21e26;
+  --color-brand-link-hover: #7c1218;
+  --color-brand-soft: #f7e8e8;
 
   /* acento */
-  --color-accent: oklch(72% 0.13 75);
-  --color-accent-ink: oklch(20% 0.05 75);
+  --color-accent: #e88800;
+  --color-accent-ink: #7a4a00;
 
   /* semánticos */
   --color-success: oklch(55% 0.1 150);
@@ -41,8 +45,8 @@
   --color-border: oklch(89% 0.006 90);
   --color-border-soft: oklch(91% 0.005 90);
   --color-border-faint: oklch(93% 0.005 90);
-  --color-border-input: oklch(80% 0.01 258);
-  --color-border-chip: oklch(85% 0.01 258);
+  --color-border-input: oklch(80% 0.008 50);
+  --color-border-chip: oklch(85% 0.006 50);
   --color-track: oklch(91% 0.005 90);
   --color-skeleton: oklch(92% 0.005 90);
 

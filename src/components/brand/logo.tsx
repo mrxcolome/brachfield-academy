@@ -1,6 +1,7 @@
-// Logo oficial de Brachfield Academy (SVG entregados por el propietario el
-// 2026-08-12, en public/brand/ — servidos TAL CUAL, sin redibujar):
-//   positive (fondos claros): logo.svg — cuadrado girado azul, "Academy" azul.
+// Logo oficial de Brachfield Academy (SVG entregados por el propietario; el
+// positivo se actualizó a la paleta granate el 2026-08-20 — servidos TAL CUAL,
+// sin redibujar):
+//   positive (fondos claros): logo.svg — cuadrado girado granate, "Academy" granate.
 //   negative (fondos oscuros): logo-neg.svg — cuadrado blanco, "Academy" naranja.
 // icon.svg / icon-neg.svg son SOLO el símbolo (mismos rects del archivo
 // oficial, encuadre recortado) para favicon y espacios pequeños.
@@ -8,7 +9,7 @@
 // que el ancho se derive solo.
 import { cn } from '@/lib/cn'
 
-export const LOGO_NAVY = '#224278'
+export const LOGO_GARNET = '#A21E26'
 export const LOGO_ORANGE = '#E88800'
 
 type LogoVariant = 'positive' | 'negative'

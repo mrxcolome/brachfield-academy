@@ -1,0 +1,33 @@
+name: Alta de miembro (cortesía)
+
+# Crea un alumno del equipo o invitado: cuenta verificada + acceso de
+# cortesía (10 años) sin pasar por Stripe. Se lanza a mano desde Actions
+# → "Alta de miembro (cortesía)" → Run workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: 'Email del nuevo miembro'
+        required: true
+      nombre:
+        description: 'Nombre (y apellido) que verá en la Academy'
+        required: true
+      password:
+        description: 'Contraseña inicial (mín. 8 caracteres; que la cambie después)'
+        required: true
+
+jobs:
+  alta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save --no-package-lock pg@8
+      - run: node scripts/create-comp-member.mjs
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          MEMBER_EMAIL: ${{ inputs.email }}
+          MEMBER_NAME: ${{ inputs.nombre }}
+          MEMBER_PASSWORD: ${{ inputs.password }}

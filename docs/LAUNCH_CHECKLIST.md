@@ -61,7 +61,9 @@ Si algún día hace falta staging con datos aislados: Neon branching (5 min).
 
 ## 4 · Dominio definitivo — 🧑 decidir y conectar
 
-1. Decidir el dominio (propuesta: `academy.perebrachfield.com`)
+1. Dominio decidido (2026-08-20): **brachfieldacademy.com** (+ defensivos
+   brachfield-academy.com / brachfieldacademy.es y opcional brachfield.academy,
+   todos redirigidos). Registrar idealmente en Cloudflare Registrar.
 2. Vercel → proyecto brachfield-academy-app → Settings → **Domains** → Add →
    seguir las instrucciones (un registro CNAME en el DNS de perebrachfield.com)
 3. Actualizar en Vercel las variables `NEXT_PUBLIC_APP_URL` y `BETTER_AUTH_URL`
@@ -74,7 +76,7 @@ Si algún día hace falta staging con datos aislados: Neon branching (5 min).
 1. Resend → **Domains** → Add domain → el dominio elegido
 2. Añadir los registros DNS que indica (SPF/DKIM) donde esté gestionado el DNS
 3. Cuando verifique: cambiar en Vercel `EMAIL_FROM` a
-   `Brachfield Academy <hola@academy.perebrachfield.com>` → Redeploy
+   `Brachfield Academy <hola@brachfieldacademy.com>` → Redeploy
 4. Desde ese momento los emails llegan a cualquier destinatario (ahora, en
    modo sandbox, solo al email del dueño de la cuenta Resend)
 

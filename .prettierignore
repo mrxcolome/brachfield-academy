@@ -6,5 +6,3 @@ chats/
 src/generated/
 src/payload/payload-types.ts
 src/app/(payload)/admin/importMap.js
-# Skills de terceros: se conservan tal cual, sin reformatear
-.claude/

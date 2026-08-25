@@ -85,7 +85,7 @@ export default function LandingPage() {
                 href="/courses"
                 className="rounded-md border border-border-chip px-5 py-3.5 text-[15px] font-semibold text-brand no-underline hover:bg-surface"
               >
-                Explorar contenidos
+                Explorar cursos
               </Link>
             </div>
             <p className="font-mono text-[13px] text-ink-2">39 €/mes · Cancela cuando quieras</p>

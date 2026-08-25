@@ -51,9 +51,11 @@ export default function LandingPage() {
     <main>
       {/* Hero */}
       <section className="bg-brand-soft">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 sm:py-20 lg:grid-cols-[1.1fr_0.9fr]">
+        {/* En móvil el hero se edita, no se encoge: imagen arriba, menos texto
+            (decisión del propietario, 2026-08-20). */}
+        <div className="mx-auto grid max-w-6xl items-center gap-6 px-5 py-8 sm:gap-10 sm:py-20 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="mb-5 inline-block rounded-full bg-surface px-3.5 py-1.5 text-xs font-semibold text-brand-link">
+            <p className="mb-5 hidden rounded-full bg-surface px-3.5 py-1.5 text-xs font-semibold text-brand-link sm:inline-block">
               Por Pere Brachfield · Credit &amp; Risk Consultants desde 1990
             </p>
             <h1 className="mb-4 text-2xl leading-[1.2] font-bold tracking-tight sm:text-4xl sm:leading-[1.15]">
@@ -67,7 +69,7 @@ export default function LandingPage() {
               Todo el conocimiento que necesitas para gestionar mejor el crédito a clientes,
               prevenir impagos y cobrar a tiempo.
             </p>
-            <p className="mb-7 text-sm leading-relaxed text-ink-3">
+            <p className="mb-7 hidden text-sm leading-relaxed text-ink-3 sm:block">
               Microlearning, cursos, herramientas y píldoras prácticas para prevenir la morosidad,
               gestionar el crédito comercial, negociar con deudores y recuperar impagados, tanto por
               vía extrajudicial como judicial, de la mano de Pere Brachfield.
@@ -94,8 +96,7 @@ export default function LandingPage() {
             width={1200}
             height={900}
             priority
-            className="rounded-xl object-cover"
-            style={{ aspectRatio: '4 / 3' }}
+            className="order-first aspect-[2/1] w-full rounded-xl object-cover lg:order-none lg:aspect-[4/3]"
           />
         </div>
       </section>

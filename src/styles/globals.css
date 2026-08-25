@@ -63,6 +63,15 @@
   --radius-xl: 14px;
 }
 
+/* Público objetivo sénior: en pantallas pequeñas la base tipográfica sube un
+   punto y toda la escala relativa crece con ella (regla del propietario,
+   2026-08-20). */
+@media (max-width: 640px) {
+  html {
+    font-size: 17px;
+  }
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-ink);

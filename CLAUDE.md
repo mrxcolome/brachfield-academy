@@ -58,6 +58,7 @@ Next.js 15 App Router + TS strict + Tailwind 4 · PostgreSQL (Neon) + Prisma · 
 - Textos de UI en `messages/es.json` (next-intl) — no hardcodear strings dispersos.
 - Acceso premium: validar SIEMPRE contra `Subscription.status` local (sincronizado por webhooks Stripe).
 - Eventos analytics solo vía `AnalyticsService.track()` — nunca PostHog directo en componentes.
+- REGLA del propietario (2026-08-20): tipografía MÁS GRANDE en móvil — base html de 17px bajo 640px en globals.css (público sénior); al añadir textos, preferir clases rem (text-sm, text-base…) sobre px arbitrarios para que escalen.
 - REGLA del propietario (2026-08-20): en MÓVIL los bloques se EDITAN, no se encogen — menos texto que en desktop (se ocultan párrafos secundarios y píldoras decorativas con hidden sm:block) y el orden puede cambiar (p. ej. imagen del hero arriba). No clonar el desktop en pantallas pequeñas.
 - REGLA del propietario (2026-08-16): NUNCA limitar el ancho de párrafos con max-w estrechos que provoquen saltos de línea "bruscos" (el texto se parte pronto dejando vacío a la derecha). Los párrafos fluyen al ancho de su contenedor; max-w solo para elementos estructurales (contenedores, tarjetas, acordeones).
 - Commits pequeños y claros; cambios estructurales grandes se explican ANTES de ejecutarlos.

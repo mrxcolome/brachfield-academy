@@ -77,7 +77,7 @@ export default function LandingPage() {
                 href="/signup"
                 className="rounded-md bg-brand px-5 py-3.5 text-[15px] font-semibold text-white no-underline hover:bg-brand-hover"
               >
-                Acceder a Brachfield Academy
+                Hazte alumno de la Academy
               </Link>
               <Link
                 href="/courses"
@@ -347,7 +347,7 @@ export default function LandingPage() {
               href="/signup"
               className="block rounded-md bg-accent px-4 py-3 text-center text-sm font-bold text-accent-ink no-underline hover:opacity-90"
             >
-              Acceder a Brachfield Academy
+              Hazte alumno de la Academy
             </Link>
             <p className="mt-3 text-center font-mono text-xs text-on-dark-muted">
               Sin permanencia · cancela cuando quieras
@@ -389,7 +389,7 @@ export default function LandingPage() {
             href="/signup"
             className="inline-block rounded-md bg-brand px-6 py-3.5 text-[15px] font-semibold text-white no-underline hover:bg-brand-hover"
           >
-            Acceder a Brachfield Academy
+            Hazte alumno de la Academy
           </Link>
         </div>
       </Section>

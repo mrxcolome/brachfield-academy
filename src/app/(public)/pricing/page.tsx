@@ -40,7 +40,7 @@ export default function PricingPage() {
             href="/signup"
             className="block rounded-md bg-brand px-4 py-3.5 text-center text-sm font-semibold text-white no-underline hover:bg-brand-hover"
           >
-            Acceder a Brachfield Academy
+            Hazte alumno de la Academy
           </Link>
           <p className="mt-3 text-center font-mono text-[11.5px] text-muted-2">
             Sin permanencia · cancela cuando quieras

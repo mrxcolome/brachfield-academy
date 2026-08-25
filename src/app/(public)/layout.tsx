@@ -3,25 +3,37 @@ import { BrandLogo } from '@/components/brand/logo'
 
 function Topbar() {
   return (
-    <header className="border-b border-border-soft bg-surface">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
-        <Link href="/" className="no-underline" aria-label="Brachfield Academy — inicio">
-          {/* Más grande en móvil y aún más en desktop (pedido del propietario). */}
-          <span className="sm:hidden">
-            <BrandLogo height={32} />
-          </span>
-          <span className="hidden sm:inline">
-            <BrandLogo height={38} />
-          </span>
-        </Link>
-        {/* Discreto a propósito: el protagonismo es del CTA de alta (decisión
-            del propietario 2026-08-20). */}
-        <Link
-          href="/login"
-          className="whitespace-nowrap text-[13.5px] font-medium text-ink-2 underline decoration-border-input underline-offset-4 hover:text-brand-link hover:decoration-brand-link"
-        >
-          Acceso alumnos
-        </Link>
+    <header>
+      {/* Móvil: banda azul superior con el acceso, y el logo con su propia
+          fila entera (diseño del propietario, 2026-08-20). */}
+      <div className="bg-brand sm:hidden">
+        <div className="mx-auto flex max-w-6xl justify-end px-5 py-1.5">
+          <Link
+            href="/login"
+            className="whitespace-nowrap text-[13px] font-medium text-white no-underline"
+          >
+            Acceso alumnos
+          </Link>
+        </div>
+      </div>
+      <div className="border-b border-border-soft bg-surface">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4">
+          <Link href="/" className="no-underline" aria-label="Brachfield Academy — inicio">
+            <span className="sm:hidden">
+              <BrandLogo height={32} />
+            </span>
+            <span className="hidden sm:inline">
+              <BrandLogo height={38} />
+            </span>
+          </Link>
+          {/* Desktop: enlace discreto — el protagonismo es del CTA de alta. */}
+          <Link
+            href="/login"
+            className="hidden whitespace-nowrap text-[13.5px] font-medium text-ink-2 underline decoration-border-input underline-offset-4 hover:text-brand-link hover:decoration-brand-link sm:inline"
+          >
+            Acceso alumnos
+          </Link>
+        </div>
       </div>
     </header>
   )

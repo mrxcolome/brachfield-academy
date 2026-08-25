@@ -79,7 +79,7 @@ export default function LandingPage() {
                 href="/signup"
                 className="rounded-md bg-brand px-5 py-3.5 text-[15px] font-semibold text-white no-underline hover:bg-brand-hover"
               >
-                Hazte alumno
+                Quiero ser alumno
               </Link>
               <Link
                 href="/courses"

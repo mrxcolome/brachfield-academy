@@ -8,15 +8,17 @@ function Topbar() {
         <Link href="/" className="no-underline" aria-label="Brachfield Academy — inicio">
           {/* Más grande en móvil y aún más en desktop (pedido del propietario). */}
           <span className="sm:hidden">
-            <BrandLogo height={26} />
+            <BrandLogo height={32} />
           </span>
           <span className="hidden sm:inline">
             <BrandLogo height={38} />
           </span>
         </Link>
+        {/* Discreto a propósito: el protagonismo es del CTA de alta (decisión
+            del propietario 2026-08-20). */}
         <Link
           href="/login"
-          className="rounded-sm bg-brand px-4 py-2.5 text-[13.5px] font-semibold text-white no-underline hover:bg-brand-hover"
+          className="whitespace-nowrap text-[13.5px] font-medium text-ink-2 underline decoration-border-input underline-offset-4 hover:text-brand-link hover:decoration-brand-link"
         >
           Acceso alumnos
         </Link>

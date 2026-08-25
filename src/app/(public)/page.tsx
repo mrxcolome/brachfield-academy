@@ -58,7 +58,7 @@ export default function LandingPage() {
             <p className="mb-5 hidden rounded-full bg-surface px-3.5 py-1.5 text-xs font-semibold text-brand-link sm:inline-block">
               Por Pere Brachfield · Credit &amp; Risk Consultants desde 1990
             </p>
-            <h1 className="mb-4 text-2xl leading-[1.2] font-bold tracking-tight sm:text-4xl sm:leading-[1.15]">
+            <h1 className="mb-4 text-[25px] leading-[1.2] font-bold tracking-tight sm:text-4xl sm:leading-[1.15]">
               Aprende a prevenir impagos.
               <br />
               Gestiona mejor el crédito.

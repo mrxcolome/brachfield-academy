@@ -197,8 +197,9 @@ export default function LandingPage() {
         </div>
       </Section>
 
-      {/* Vista previa */}
-      <Section className="bg-surface">
+      {/* Vista previa — solo desktop: la captura del dashboard no comunica
+          nada a tamaño teléfono (regla móvil del propietario). */}
+      <Section className="hidden bg-surface sm:block">
         <h2 className="mb-1.5 text-2xl font-bold">Así se ve por dentro</h2>
         <p className="mb-6 text-sm text-muted">
           Tu formación, tus herramientas y la actualidad del sector, siempre a mano.

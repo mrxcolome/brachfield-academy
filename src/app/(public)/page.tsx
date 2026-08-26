@@ -174,7 +174,18 @@ export default function LandingPage() {
           la prevención a la reclamación judicial, pasando por la organización del propio
           departamento.
         </p>
-        <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
+        {/* Móvil: checklist de áreas, sin tarjetas (regla móvil del propietario) */}
+        <ul className="flex flex-col gap-2.5 sm:hidden">
+          {knowledgeAreas.map((a) => (
+            <li key={a.l} className="flex gap-2.5 text-sm leading-snug font-semibold text-ink-2">
+              <span aria-hidden className="font-bold text-garnet">
+                ✓
+              </span>
+              {a.l}
+            </li>
+          ))}
+        </ul>
+        <div className="hidden grid-cols-2 gap-3.5 sm:grid lg:grid-cols-4">
           {knowledgeAreas.map((a) => (
             <div
               key={a.l}
@@ -237,8 +248,8 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sesiones en directo */}
-      <Section className="bg-brand-soft">
+      {/* Sesiones en directo — solo desktop (regla móvil del propietario) */}
+      <Section className="hidden bg-brand-soft sm:block">
         <h2 className="mb-6 text-2xl font-bold">Sesiones en directo con Pere Brachfield</h2>
         <div className="flex max-w-xl flex-wrap items-center gap-4 rounded-lg bg-surface p-5">
           <Avatar size={56} />
@@ -257,8 +268,8 @@ export default function LandingPage() {
         </div>
       </Section>
 
-      {/* Recursos */}
-      <Section className="bg-surface">
+      {/* Recursos — solo desktop (regla móvil del propietario) */}
+      <Section className="hidden bg-surface sm:block">
         <h2 className="mb-2 text-2xl font-bold">Recursos que usarás mañana mismo</h2>
         <p className="mb-7 text-sm leading-relaxed text-ink-3">
           Plantillas y documentos editables, listos para adaptar a tu empresa sin empezar de cero.

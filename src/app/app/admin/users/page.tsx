@@ -1,6 +1,7 @@
 import { requireRole } from '@/features/auth/guards'
 import { listUsers } from '@/features/admin/service'
 import { RoleSelect } from './role-select'
+import { DeleteUserButton } from './delete-user-button'
 
 export const metadata = { title: 'Administración · Usuarios' }
 
@@ -52,6 +53,9 @@ export default async function AdminUsersPage({
               <th className="px-4 py-2.5 font-semibold text-ink-2">Suscripción</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Alta</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Rol</th>
+              <th className="px-4 py-2.5">
+                <span className="sr-only">Acciones</span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -86,6 +90,11 @@ export default async function AdminUsersPage({
                       <span className="font-mono text-[11.5px] text-muted">{u.role} (tú)</span>
                     ) : (
                       <RoleSelect userId={u.id} initialRole={u.role} />
+                    )}
+                  </td>
+                  <td className="px-4 py-2.5 text-right">
+                    {u.id !== me.id && (
+                      <DeleteUserButton userId={u.id} label={`${u.name} (${u.email})`} />
                     )}
                   </td>
                 </tr>

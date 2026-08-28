@@ -28,6 +28,34 @@ export async function updateUserRole(raw: unknown): Promise<{ ok?: boolean; erro
   return { ok: true }
 }
 
+const deleteSchema = z.object({ userId: z.string().min(1) })
+
+/**
+ * Eliminar usuario (solo ADMIN). Borrado real con cascada (sesiones, progreso,
+ * favoritos, reservas…). Bloqueado sobre uno mismo y sobre suscripciones
+ * vigentes o con pago pendiente: primero se cancela en Stripe.
+ */
+export async function deleteUser(raw: unknown): Promise<{ ok?: boolean; error?: string }> {
+  const { user: me } = await requireRole('ADMIN')
+  const parsed = deleteSchema.safeParse(raw)
+  if (!parsed.success) return { error: 'Solicitud no válida' }
+  if (parsed.data.userId === me.id) {
+    return { error: 'No puedes eliminar tu propia cuenta.' }
+  }
+  const target = await db.user.findUnique({
+    where: { id: parsed.data.userId },
+    select: { subscriptions: { orderBy: { createdAt: 'desc' }, take: 1, select: { status: true } } },
+  })
+  if (!target) return { error: 'Usuario no encontrado' }
+  const status = target.subscriptions[0]?.status
+  if (status === 'ACTIVE' || status === 'TRIALING' || status === 'PAST_DUE') {
+    return { error: 'Tiene una suscripción vigente: cancélala primero en Stripe.' }
+  }
+  await db.user.delete({ where: { id: parsed.data.userId } })
+  revalidatePath('/app/admin/users')
+  return { ok: true }
+}
+
 const questionSchema = z
   .object({
     questionId: z.string().min(1),

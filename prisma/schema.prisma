@@ -370,3 +370,19 @@ model SearchQuery {
   @@index([createdAt])
   @@map("search_query")
 }
+
+// Actividad del equipo editorial en el CMS (logins y cambios de contenido),
+// alimentada por hooks de Payload. Se muestra en /app/admin (tab Editores).
+model EditorialActivity {
+  id          String   @id @default(cuid())
+  editorEmail String
+  editorName  String
+  action      String // LOGIN | CREATE | UPDATE | DELETE
+  collection  String? // contents | courses | events | media (null en LOGIN)
+  docTitle    String?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt(sort: Desc)])
+  @@index([editorEmail, createdAt(sort: Desc)])
+  @@map("editorial_activity")
+}

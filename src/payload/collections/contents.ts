@@ -1,10 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import { editorialHooks } from '../activity'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
 // Motor de contenidos (briefing §13): una colección flexible para todos
 // los formatos no-curso. Drafts + publicación programada de Payload.
 export const Contents: CollectionConfig = {
   slug: 'contents',
+  hooks: editorialHooks('contents'),
   labels: { singular: 'Contenido', plural: 'Contenidos' },
   admin: {
     useAsTitle: 'title',

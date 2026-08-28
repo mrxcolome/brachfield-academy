@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { requireRole } from '@/features/auth/guards'
 import { listUsers } from '@/features/admin/service'
 import { RoleSelect } from './role-select'
@@ -52,6 +53,7 @@ export default async function AdminUsersPage({
               <th className="px-4 py-2.5 font-semibold text-ink-2">Empresa</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Suscripción</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Alta</th>
+              <th className="px-4 py-2.5 font-semibold text-ink-2">Último acceso</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Rol</th>
               <th className="px-4 py-2.5">
                 <span className="sr-only">Acciones</span>
@@ -65,9 +67,11 @@ export default async function AdminUsersPage({
               return (
                 <tr key={u.id} className="border-b border-border-soft last:border-0">
                   <td className="px-4 py-2.5">
-                    <p className="font-semibold">
-                      {u.name} {u.lastName ?? ''}
-                    </p>
+                    <Link href={`/app/admin/users/${u.id}`} className="no-underline">
+                      <p className="font-semibold text-brand-link hover:underline">
+                        {u.name} {u.lastName ?? ''}
+                      </p>
+                    </Link>
                     <p className="text-[12px] text-muted">{u.email}</p>
                   </td>
                   <td className="px-4 py-2.5 text-ink-2">{u.company ?? '—'}</td>
@@ -84,6 +88,18 @@ export default async function AdminUsersPage({
                       month: '2-digit',
                       year: '2-digit',
                     }).format(u.createdAt)}
+                  </td>
+                  <td className="px-4 py-2.5 font-mono text-[11.5px] text-muted">
+                    {u.lastLoginAt
+                      ? new Intl.DateTimeFormat('es-ES', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          timeZone: 'Europe/Madrid',
+                        }).format(u.lastLoginAt)
+                      : '—'}
                   </td>
                   <td className="px-4 py-2.5">
                     {u.id === me.id ? (

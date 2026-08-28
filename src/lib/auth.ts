@@ -50,7 +50,31 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
-          track('user_signed_up', { userId: user.id })
+          track('user_signed_up', {
+            userId: user.id,
+            person: { email: user.email, name: user.name },
+          })
+        },
+      },
+    },
+    session: {
+      create: {
+        // Cada sesión nueva = un login (incluido el auto-login tras verificar
+        // el correo). Registra lastLoginAt para el panel y el evento analytics.
+        after: async (session) => {
+          try {
+            const u = await db.user.update({
+              where: { id: session.userId },
+              data: { lastLoginAt: new Date() },
+              select: { email: true, name: true },
+            })
+            track('user_logged_in', {
+              userId: session.userId,
+              person: { email: u.email, name: u.name },
+            })
+          } catch (e) {
+            console.error('[auth] no se pudo registrar lastLoginAt', e)
+          }
         },
       },
     },

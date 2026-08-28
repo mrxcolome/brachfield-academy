@@ -1,7 +1,9 @@
 import type { CollectionConfig } from 'payload'
+import { editorialHooks } from '../activity'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  hooks: editorialHooks('media'),
   labels: { singular: 'Archivo', plural: 'Media' },
   admin: { group: 'Contenido' },
   access: {

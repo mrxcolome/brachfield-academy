@@ -138,3 +138,107 @@ export async function resolveQuestion(
   }
   return true
 }
+
+// ─────────────── Actividad de alumnos (ficha por usuario) ────────────────
+
+/** Datos crudos de actividad de un alumno; los títulos CMS los resuelve activity.ts. */
+export async function getStudentActivity(userId: string) {
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      name: true,
+      lastName: true,
+      email: true,
+      company: true,
+      role: true,
+      createdAt: true,
+      lastLoginAt: true,
+      subscriptions: {
+        orderBy: { createdAt: 'desc' },
+        take: 1,
+        select: { status: true, currentPeriodEnd: true },
+      },
+    },
+  })
+  if (!user) return null
+
+  const take = 15
+  const [sessions, searches, downloads, favorites, progress, reservations] = await Promise.all([
+    db.session.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take,
+      select: { createdAt: true },
+    }),
+    db.searchQuery.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take,
+      select: { query: true, resultsCount: true, createdAt: true },
+    }),
+    db.downloadLog.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take,
+      select: { contentId: true, createdAt: true },
+    }),
+    db.favorite.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+      take,
+      select: { contentId: true, createdAt: true },
+    }),
+    db.userProgress.findMany({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+      take,
+      select: { courseId: true, status: true, completedAt: true, updatedAt: true },
+    }),
+    db.eventRegistration.findMany({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+      take,
+      select: { eventId: true, status: true, createdAt: true, updatedAt: true },
+    }),
+  ])
+
+  return { user, sessions, searches, downloads, favorites, progress, reservations }
+}
+
+// ──────────────── Actividad editorial (tab Editores) ─────────────────────
+
+export async function getEditorialActivity() {
+  const since30d = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+  const [recent, editors, changes30d, logins] = await Promise.all([
+    db.editorialActivity.findMany({ orderBy: { createdAt: 'desc' }, take: 40 }),
+    db.editorialActivity.groupBy({
+      by: ['editorEmail', 'editorName'],
+      _max: { createdAt: true },
+    }),
+    db.editorialActivity.groupBy({
+      by: ['editorEmail'],
+      where: { createdAt: { gte: since30d }, action: { not: 'LOGIN' } },
+      _count: { _all: true },
+    }),
+    db.editorialActivity.groupBy({
+      by: ['editorEmail'],
+      where: { action: 'LOGIN' },
+      _max: { createdAt: true },
+    }),
+  ])
+
+  const changesByEmail = new Map(changes30d.map((c) => [c.editorEmail, c._count._all]))
+  const loginByEmail = new Map(logins.map((l) => [l.editorEmail, l._max.createdAt]))
+  const summary = editors
+    .map((e) => ({
+      email: e.editorEmail,
+      name: e.editorName,
+      lastActivity: e._max.createdAt,
+      lastLogin: loginByEmail.get(e.editorEmail) ?? null,
+      changes30d: changesByEmail.get(e.editorEmail) ?? 0,
+    }))
+    .sort((a, b) => (b.lastActivity?.getTime() ?? 0) - (a.lastActivity?.getTime() ?? 0))
+
+  return { recent, summary }
+}

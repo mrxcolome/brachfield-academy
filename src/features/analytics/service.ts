@@ -11,6 +11,7 @@
 export type AnalyticsEvent =
   // Adquisición y facturación
   | 'user_signed_up'
+  | 'user_logged_in'
   | 'checkout_started'
   | 'subscription_activated'
   | 'subscription_canceled'
@@ -30,11 +31,20 @@ export type AnalyticsEvent =
   | 'event_reserved'
   | 'event_reservation_canceled'
   | 'question_answered'
+  // Equipo editorial (CMS)
+  | 'editor_logged_in'
+  | 'editorial_change'
 
 export interface TrackOptions {
   /** id del usuario (distinct_id). null/undefined → 'anonymous'. */
   userId?: string | null
   properties?: Record<string, string | number | boolean | null>
+  /**
+   * Perfil de la persona en PostHog (se envía como $set): nombre y email
+   * legibles en el panel. Decisión del propietario 2026-08-28 — reflejado
+   * en la política de privacidad (procesador UE).
+   */
+  person?: Record<string, string>
 }
 
 const HOST = () => process.env.POSTHOG_HOST ?? 'https://eu.i.posthog.com'
@@ -56,7 +66,11 @@ export function track(event: AnalyticsEvent, opts: TrackOptions = {}): void {
       api_key: key,
       event,
       distinct_id: opts.userId ?? 'anonymous',
-      properties: { source: 'server', ...opts.properties },
+      properties: {
+        source: 'server',
+        ...opts.properties,
+        ...(opts.person ? { $set: opts.person } : {}),
+      },
       timestamp: new Date().toISOString(),
     }),
   }).catch((e) => {

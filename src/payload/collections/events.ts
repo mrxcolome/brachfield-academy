@@ -1,9 +1,11 @@
 import type { CollectionConfig } from 'payload'
+import { editorialHooks } from '../activity'
 
 // Eventos editoriales (briefing §30). Las reservas viven en el dominio
 // de aplicación (event_registration, Prisma).
 export const Events: CollectionConfig = {
   slug: 'events',
+  hooks: editorialHooks('events'),
   labels: { singular: 'Evento', plural: 'Eventos' },
   admin: {
     useAsTitle: 'title',

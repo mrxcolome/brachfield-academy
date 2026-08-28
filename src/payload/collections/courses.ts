@@ -1,10 +1,12 @@
 import type { CollectionConfig } from 'payload'
+import { editorialHooks } from '../activity'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 
 // Cursos → módulos → lecciones (briefing §15). Arrays anidados = orden
 // natural arrastrando en el panel.
 export const Courses: CollectionConfig = {
   slug: 'courses',
+  hooks: editorialHooks('courses'),
   labels: { singular: 'Curso', plural: 'Cursos' },
   admin: {
     useAsTitle: 'title',

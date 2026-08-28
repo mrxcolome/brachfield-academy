@@ -16,7 +16,7 @@ export const COMPANY = {
   /** Nombre comercial del servicio. */
   brand: 'Brachfield Academy',
   /** Dominio actual del servicio. */
-  url: 'https://brachfield-academy-app.vercel.app',
+  url: 'https://brachfieldacademy.com',
   /** Fecha de última revisión de los textos legales. */
   updated: '13 de agosto de 2026',
 } as const

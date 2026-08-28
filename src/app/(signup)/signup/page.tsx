@@ -55,7 +55,9 @@ export default function SignupPage() {
       return
     }
     setPending(true)
-    const res = await signUp.email(parsed.data)
+    // callbackURL: el enlace del email de verificación deja al alumno en el
+    // paso 2 (activar acceso), con sesión ya iniciada (autoSignInAfterVerification).
+    const res = await signUp.email({ ...parsed.data, callbackURL: '/checkout' })
     setPending(false)
     if (res.error) {
       setError(

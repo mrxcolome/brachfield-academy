@@ -39,8 +39,8 @@ Para que el navegador pueda hacer ese PUT, el bucket necesita una regla CORS:
 3. Guardar y probar a subir la imagen otra vez en /admin → Media.
    Sin esta regla el navegador bloquea la subida (error de CORS en consola).
 
-Hecho y verificado por el propietario. RECORDATORIO: al estrenar el dominio
-definitivo, añadirlo a AllowedOrigins de esta regla.
+Hecho y verificado por el propietario. Dominio definitivo añadido a
+AllowedOrigins el 2026-08-28.
 
 ## 2 · Staging (decisión tomada)
 
@@ -59,26 +59,25 @@ Si algún día hace falta staging con datos aislados: Neon branching (5 min).
    reales. Se puede verificar esperando el primer error genuino o pidiendo a
    Claude una ruta de prueba temporal.
 
-## 4 · Dominio definitivo — 🧑 decidir y conectar
+## 4 · Dominio definitivo — ✅ hecho (2026-08-28)
 
-1. Dominio decidido (2026-08-20): **brachfieldacademy.com** (+ defensivos
-   brachfield-academy.com / brachfieldacademy.es y opcional brachfield.academy,
-   todos redirigidos). Registrar idealmente en Cloudflare Registrar.
-2. Vercel → proyecto brachfield-academy-app → Settings → **Domains** → Add →
-   seguir las instrucciones (un registro CNAME en el DNS de perebrachfield.com)
-3. Actualizar en Vercel las variables `NEXT_PUBLIC_APP_URL` y `BETTER_AUTH_URL`
-   al dominio nuevo → Redeploy
-4. Stripe → webhook: cambiar la URL del endpoint al dominio nuevo
-5. Google: el sitemap se regenera solo con el dominio nuevo
+**brachfieldacademy.com** registrado en Cloudflare Registrar y conectado:
+CNAME @ y www → Vercel (nube gris/DNS only; www redirige 308 al raíz, el
+.vercel.app también redirige), variables `NEXT_PUBLIC_APP_URL` y
+`BETTER_AUTH_URL` actualizadas (¡sin barra final — con ella o sin la var,
+Better Auth devuelve 403 en signup!), webhook de Stripe apuntando al dominio
+nuevo, CORS de R2 ampliado. Defensivos (brachfield-academy.com /
+brachfieldacademy.es) pendientes de compra, sin urgencia.
 
-## 5 · Emails con remitente propio — 🧑 tras el dominio
+## 5 · Emails con remitente propio — ✅ hecho (2026-08-28)
 
-1. Resend → **Domains** → Add domain → el dominio elegido
-2. Añadir los registros DNS que indica (SPF/DKIM) donde esté gestionado el DNS
-3. Cuando verifique: cambiar en Vercel `EMAIL_FROM` a
-   `Brachfield Academy <hola@brachfieldacademy.com>` → Redeploy
-4. Desde ese momento los emails llegan a cualquier destinatario (ahora, en
-   modo sandbox, solo al email del dueño de la cuenta Resend)
+Dominio verificado en Resend (registros creados con «Auto configure» de
+Cloudflare; DKIM+SPF+DMARC verified). `EMAIL_FROM` =
+`Brachfield Academy <hola@brachfieldacademy.com>` en Vercel. Los emails ya
+llegan a cualquier destinatario — verificado con un registro real. «Enable
+Receiving» de Resend queda APAGADO a propósito: para recibir respuestas en
+hola@, usar Cloudflare Email Routing (Email → Email Routing → address hola@
+→ reenvío a un buzón real), pendiente opcional del propietario.
 
 ## 6 · Stripe en modo real — 🧑 antes de cobrar de verdad
 

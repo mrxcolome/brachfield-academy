@@ -7,18 +7,51 @@ export interface EmailTemplate {
   bodyText: string
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://brachfieldacademy.com'
+
 const button = (url: string, label: string) =>
   `<p style="margin:22px 0"><a href="${url}" style="background:#172B49;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:8px;font-weight:600;display:inline-block">${label}</a></p>
    <p style="font-size:12.5px;color:#8b8f9c">Si el botón no funciona, copia este enlace:<br>${url}</p>`
+
+// Camino de alta en 3 pasos, espejo del indicador de la web (steps.tsx).
+// HTML de tabla con estilos en línea: lo único que renderizan bien todos
+// los clientes de correo (Gmail, Outlook, Apple Mail…).
+const SIGNUP_STEPS = ['Tu cuenta', 'Activa tu acceso', 'Tu perfil'] as const
+
+function stepsGraphic(next: 2 | 3): string {
+  const cells = SIGNUP_STEPS.map((label, i) => {
+    const n = i + 1
+    const done = n < next
+    const circle =
+      n <= next
+        ? 'background:#172B49;color:#ffffff;'
+        : 'background:#ffffff;color:#8b8f9c;border:1px solid #cfccc3;'
+    const text =
+      n === next ? 'color:#1d2130;font-weight:700' : done ? 'color:#5c6170' : 'color:#8b8f9c'
+    return `<td width="24" height="24" style="width:24px;height:24px;border-radius:12px;text-align:center;vertical-align:middle;font-size:12px;font-weight:700;${circle}">${done ? '✓' : n}</td>
+      <td style="padding:0 2px 0 7px;font-size:12.5px;white-space:nowrap;${text}">${label}</td>`
+  })
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0 18px"><tr>${cells.join(
+    '<td style="padding:0 8px;color:#cfccc3">—</td>',
+  )}</tr></table>`
+}
+
+const stepsText = (next: 2 | 3) =>
+  SIGNUP_STEPS.map((l, i) => {
+    const n = i + 1
+    return n < next ? `[✓] ${l}` : n === next ? `[${n}] ${l} ← siguiente` : `[${n}] ${l}`
+  }).join('  ·  ')
 
 export function verificationEmail(name: string, url: string): EmailTemplate {
   return {
     subject: 'Confirma tu correo — Brachfield Academy',
     bodyHtml: `<h2 style="margin:0 0 12px;font-size:19px">Hola, ${name}</h2>
-      <p style="line-height:1.6">Gracias por crear tu cuenta en Brachfield Academy. Confirma tu dirección de correo para continuar:</p>
-      ${button(url, 'Confirmar mi correo')}
+      <p style="line-height:1.6">¡Tu cuenta ya está creada! Así va tu camino para ser alumno:</p>
+      ${stepsGraphic(2)}
+      <p style="line-height:1.6">Al confirmar tu correo <strong>continuarás automáticamente con el paso 2</strong>: activar tu acceso de alumno. Te llevará un par de minutos.</p>
+      ${button(url, 'Confirmar y continuar →')}
       <p style="font-size:13px;color:#5c6170">Si no has creado esta cuenta, puedes ignorar este mensaje.</p>`,
-    bodyText: `Hola, ${name}\n\nConfirma tu correo para activar tu cuenta de Brachfield Academy:\n${url}\n\nSi no has creado esta cuenta, ignora este mensaje.`,
+    bodyText: `Hola, ${name}\n\n¡Tu cuenta ya está creada! Así va tu camino para ser alumno:\n${stepsText(2)}\n\nAl confirmar tu correo continuarás automáticamente con el paso 2: activar tu acceso de alumno.\n${url}\n\nSi no has creado esta cuenta, ignora este mensaje.`,
   }
 }
 
@@ -37,9 +70,11 @@ export function welcomeEmail(name: string): EmailTemplate {
   return {
     subject: 'Bienvenido a Brachfield Academy',
     bodyHtml: `<h2 style="margin:0 0 12px;font-size:19px">Bienvenido, ${name}</h2>
-      <p style="line-height:1.6">Tu suscripción está activa. Ya tienes acceso completo a los cursos, herramientas, eventos en directo y toda la biblioteca de conocimiento sobre Credit Management, prevención de impagos y recobro.</p>
-      <p style="line-height:1.6">Un buen primer paso: completa tu perfil profesional para que las recomendaciones se ajusten a tu trabajo.</p>`,
-    bodyText: `Bienvenido, ${name}\n\nTu suscripción a Brachfield Academy está activa. Ya tienes acceso completo a cursos, herramientas y eventos.\n\nPrimer paso recomendado: completa tu perfil profesional.`,
+      <p style="line-height:1.6">Tu suscripción está activa: ya tienes acceso completo a los cursos, herramientas, eventos en directo y toda la biblioteca sobre Credit Management, prevención de impagos y recobro.</p>
+      ${stepsGraphic(3)}
+      <p style="line-height:1.6">Queda el último paso, y es el más corto: cuéntanos tu perfil profesional para que las recomendaciones se ajusten a tu trabajo.</p>
+      ${button(`${BASE_URL}/onboarding`, 'Completar mi perfil →')}`,
+    bodyText: `Bienvenido, ${name}\n\nTu suscripción a Brachfield Academy está activa. Ya tienes acceso completo a cursos, herramientas y eventos.\n${stepsText(3)}\n\nÚltimo paso (el más corto): completa tu perfil profesional:\n${BASE_URL}/onboarding`,
   }
 }
 

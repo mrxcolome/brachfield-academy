@@ -65,7 +65,7 @@ export const auth = betterAuth({
           try {
             const u = await db.user.update({
               where: { id: session.userId },
-              data: { lastLoginAt: new Date() },
+              data: { lastLoginAt: new Date(), loginCount: { increment: 1 } },
               select: { email: true, name: true },
             })
             track('user_logged_in', {

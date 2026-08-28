@@ -85,6 +85,7 @@ export async function listUsers(q?: string) {
       role: true,
       createdAt: true,
       lastLoginAt: true,
+      loginCount: true,
       subscriptions: {
         orderBy: { createdAt: 'desc' },
         take: 1,
@@ -154,6 +155,7 @@ export async function getStudentActivity(userId: string) {
       role: true,
       createdAt: true,
       lastLoginAt: true,
+      loginCount: true,
       subscriptions: {
         orderBy: { createdAt: 'desc' },
         take: 1,
@@ -225,17 +227,19 @@ export async function getEditorialActivity() {
       by: ['editorEmail'],
       where: { action: 'LOGIN' },
       _max: { createdAt: true },
+      _count: { _all: true },
     }),
   ])
 
   const changesByEmail = new Map(changes30d.map((c) => [c.editorEmail, c._count._all]))
-  const loginByEmail = new Map(logins.map((l) => [l.editorEmail, l._max.createdAt]))
+  const loginByEmail = new Map(logins.map((l) => [l.editorEmail, l]))
   const summary = editors
     .map((e) => ({
       email: e.editorEmail,
       name: e.editorName,
       lastActivity: e._max.createdAt,
-      lastLogin: loginByEmail.get(e.editorEmail) ?? null,
+      lastLogin: loginByEmail.get(e.editorEmail)?._max.createdAt ?? null,
+      loginCount: loginByEmail.get(e.editorEmail)?._count._all ?? 0,
       changes30d: changesByEmail.get(e.editorEmail) ?? 0,
     }))
     .sort((a, b) => (b.lastActivity?.getTime() ?? 0) - (a.lastActivity?.getTime() ?? 0))

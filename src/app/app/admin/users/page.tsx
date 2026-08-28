@@ -4,7 +4,7 @@ import { listUsers } from '@/features/admin/service'
 import { RoleSelect } from './role-select'
 import { DeleteUserButton } from './delete-user-button'
 
-export const metadata = { title: 'Administración · Usuarios' }
+export const metadata = { title: 'Administración · Alumnos' }
 
 const STATUS_LABEL: Record<string, { label: string; className: string }> = {
   ACTIVE: { label: 'Activa', className: 'text-success' },
@@ -28,7 +28,7 @@ export default async function AdminUsersPage({
     <div>
       <form action="/app/admin/users" className="mb-4">
         <label htmlFor="user-q" className="sr-only">
-          Buscar usuario
+          Buscar alumno
         </label>
         <input
           id="user-q"
@@ -41,7 +41,7 @@ export default async function AdminUsersPage({
       </form>
 
       <p className="mb-3 font-mono text-xs text-muted">
-        {users.length} {users.length === 1 ? 'usuario' : 'usuarios'}
+        {users.length} {users.length === 1 ? 'alumno' : 'alumnos'}
         {users.length === 100 ? ' (mostrando los 100 más recientes)' : ''}
       </p>
 
@@ -49,11 +49,12 @@ export default async function AdminUsersPage({
         <table className="w-full border-collapse text-[13px]">
           <thead>
             <tr className="border-b border-border-soft text-left">
-              <th className="px-4 py-2.5 font-semibold text-ink-2">Usuario</th>
+              <th className="px-4 py-2.5 font-semibold text-ink-2">Alumno</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Empresa</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Suscripción</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Alta</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Último acceso</th>
+              <th className="px-4 py-2.5 text-right font-semibold text-ink-2">Nº accesos</th>
               <th className="px-4 py-2.5 font-semibold text-ink-2">Rol</th>
               <th className="px-4 py-2.5">
                 <span className="sr-only">Acciones</span>
@@ -100,6 +101,9 @@ export default async function AdminUsersPage({
                           timeZone: 'Europe/Madrid',
                         }).format(u.lastLoginAt)
                       : '—'}
+                  </td>
+                  <td className="px-4 py-2.5 text-right font-mono text-[11.5px] text-ink-2">
+                    {u.loginCount}
                   </td>
                   <td className="px-4 py-2.5">
                     {u.id === me.id ? (

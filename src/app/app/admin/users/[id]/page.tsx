@@ -37,7 +37,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
   return (
     <div>
       <Link href="/app/admin/users" className="text-[13px] text-brand-link">
-        ← Volver a usuarios
+        ← Volver a alumnos
       </Link>
 
       <div className="mt-4 mb-6 rounded-lg border border-border bg-surface p-5">
@@ -45,7 +45,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
           {user.name} {user.lastName ?? ''}
         </h2>
         <p className="text-[13px] text-muted">{user.email}</p>
-        <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-[13px] sm:grid-cols-4">
+        <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-[13px] sm:grid-cols-5">
           <div>
             <dt className="font-mono text-[11px] tracking-wide text-muted uppercase">Empresa</dt>
             <dd>{user.company ?? '—'}</dd>
@@ -69,6 +69,10 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
             <dd className="font-mono text-[12px]">
               {user.lastLoginAt ? dateTime.format(user.lastLoginAt) : '—'}
             </dd>
+          </div>
+          <div>
+            <dt className="font-mono text-[11px] tracking-wide text-muted uppercase">Nº accesos</dt>
+            <dd className="font-mono text-[12px]">{user.loginCount}</dd>
           </div>
         </dl>
       </div>

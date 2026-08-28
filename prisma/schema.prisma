@@ -113,6 +113,7 @@ model User {
   timezone            String               @default("Europe/Madrid")
   role                Role                 @default(MEMBER)
   lastLoginAt         DateTime?
+  loginCount          Int                  @default(0)
   onboardingStatus    OnboardingStatus     @default(PENDING)
   professionalProfile ProfessionalProfile?
   level               Level?

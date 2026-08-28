@@ -15,6 +15,8 @@ const COLLECTION_LABEL: Record<string, string> = {
   courses: 'el curso',
   events: 'el evento',
   media: 'el archivo',
+  categories: 'la categoría',
+  tags: 'el tag',
 }
 
 const dateTime = new Intl.DateTimeFormat('es-ES', {
@@ -55,6 +57,10 @@ export default async function AdminEditorsPage() {
                     <dd className="font-mono text-[11.5px]">
                       {e.lastLogin ? dateTime.format(e.lastLogin) : '—'}
                     </dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-muted">Nº accesos</dt>
+                    <dd className="font-semibold">{e.loginCount}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-muted">Cambios últimos 30 días</dt>

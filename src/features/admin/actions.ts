@@ -44,7 +44,9 @@ export async function deleteUser(raw: unknown): Promise<{ ok?: boolean; error?: 
   }
   const target = await db.user.findUnique({
     where: { id: parsed.data.userId },
-    select: { subscriptions: { orderBy: { createdAt: 'desc' }, take: 1, select: { status: true } } },
+    select: {
+      subscriptions: { orderBy: { createdAt: 'desc' }, take: 1, select: { status: true } },
+    },
   })
   if (!target) return { error: 'Usuario no encontrado' }
   const status = target.subscriptions[0]?.status

@@ -1,8 +1,12 @@
 import type { MetadataRoute } from 'next'
+import { PRELAUNCH } from '@/lib/prelaunch'
 
 const BASE = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
 export default function robots(): MetadataRoute.Robots {
+  if (PRELAUNCH) {
+    return { rules: { userAgent: '*', disallow: '/' } }
+  }
   return {
     rules: {
       userAgent: '*',

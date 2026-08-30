@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale, getMessages } from 'next-intl/server'
+import { PRELAUNCH } from '@/lib/prelaunch'
 import '@/styles/globals.css'
 
 const plexSans = IBM_Plex_Sans({
@@ -30,6 +31,8 @@ export const metadata: Metadata = {
     locale: 'es_ES',
   },
   twitter: { card: 'summary_large_image' },
+  // Prelanzamiento: noindex global hasta el estreno (src/lib/prelaunch.ts)
+  ...(PRELAUNCH ? { robots: { index: false, follow: false } } : {}),
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

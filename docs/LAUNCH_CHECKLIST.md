@@ -59,6 +59,13 @@ Si algún día hace falta staging con datos aislados: Neon branching (5 min).
    reales. Se puede verificar esperando el primer error genuino o pidiendo a
    Claude una ruta de prueba temporal.
 
+## 3b · Interruptor de prelanzamiento — ⚠️ APAGAR AL LANZAR
+
+Mientras `PRELAUNCH = true` en `src/lib/prelaunch.ts`, el sitio entero lleva
+noindex, robots.txt bloquea todo y el sitemap va vacío (decisión del
+propietario 2026-08-28: no aparecer en buscadores hasta el estreno).
+EL DÍA DEL LANZAMIENTO: cambiar a `false` y hacer push — un solo commit.
+
 ## 4 · Dominio definitivo — ✅ hecho (2026-08-28)
 
 **brachfieldacademy.com** registrado en Cloudflare Registrar y conectado:

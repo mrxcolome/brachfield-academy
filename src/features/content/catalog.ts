@@ -331,10 +331,10 @@ export const whatsInside = [
   },
   {
     g: '◑',
-    l: 'Podcasts',
+    l: 'Entrevistas',
     img: '/landing/formato-podcasts.webp',
     k: 'podcast',
-    d: 'Conversaciones y análisis en audio para escuchar mientras trabajas o te desplazas.',
+    d: 'Escucha a quien lo vive: directores financieros y credit managers, en conversación con Pere.',
   },
   {
     g: '▤',

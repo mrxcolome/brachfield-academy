@@ -223,7 +223,8 @@ export interface Content {
    * Imagen de la tarjeta y la ficha (ideal 16:9, mín. 800px de ancho). Si se deja vacía, se usa una foto automática según el formato del contenido.
    */
   coverImage?: (number | null) | Media;
-  contentType: 'TUTORIAL' | 'PILL' | 'AUDIO' | 'WEBINAR' | 'GUIDE' | 'CHECKLIST' | 'TEMPLATE' | 'CASE_STUDY' | 'NEWS';
+  contentType:
+    'TUTORIAL' | 'PILL' | 'INTERVIEW' | 'WEBINAR' | 'GUIDE' | 'CHECKLIST' | 'TEMPLATE' | 'CASE_STUDY' | 'NEWS';
   level?: ('BEGINNER' | 'INTERMEDIATE' | 'ADVANCED') | null;
   /**
    * Ej. "8 min", "2h 35min"
@@ -253,6 +254,9 @@ export interface Content {
    * Para vídeos: el UID del vídeo en Cloudflare Stream
    */
   streamId?: string | null;
+  /**
+   * Cualquier pieza puede llevar audio: el formato es un atributo.
+   */
   audioFile?: (number | null) | Media;
   documentFile?: (number | null) | Media;
   /**

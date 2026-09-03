@@ -16,15 +16,15 @@ describe('contentCover', () => {
     )
   })
   it('ignora la relación sin resolver (depth 0: id numérico)', () => {
-    expect(contentCover({ id: 3, coverImage: 7 as unknown as Media, contentType: 'AUDIO' })).toBe(
-      '/landing/formato-podcasts.webp',
-    )
+    expect(
+      contentCover({ id: 3, coverImage: 7 as unknown as Media, contentType: 'INTERVIEW' }),
+    ).toBe('/landing/formato-podcasts.webp')
   })
   it('cubre los 11 tipos de contenido', () => {
     const types: Content['contentType'][] = [
       'TUTORIAL',
       'PILL',
-      'AUDIO',
+      'INTERVIEW',
       'GUIDE',
       'CHECKLIST',
       'TEMPLATE',

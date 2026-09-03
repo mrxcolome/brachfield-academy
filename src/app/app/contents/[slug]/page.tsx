@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props) {
 }
 
 const PLAYER_TYPES: Content['contentType'][] = ['TUTORIAL', 'PILL', 'WEBINAR']
-const AUDIO_TYPES: Content['contentType'][] = ['AUDIO']
+const AUDIO_TYPES: Content['contentType'][] = ['INTERVIEW']
 const DOWNLOAD_TYPES: Content['contentType'][] = ['GUIDE', 'CHECKLIST', 'TEMPLATE']
 
 /** Texto del primer párrafo del body (para no repetir el excerpt si son iguales). */
@@ -89,17 +89,16 @@ export default async function ContentPage({ params }: Props) {
       ) : (
         isPlayer && <PlayerPlaceholder kind="video" />
       )}
-      {isAudio &&
-        (audioSrc ? (
-          <div className="mb-5 rounded-xl bg-player p-5">
-            {/* eslint-disable-next-line jsx-a11y/media-has-caption -- la transcripción está debajo */}
-            <audio controls preload="metadata" src={audioSrc} className="w-full">
-              Tu navegador no puede reproducir este audio.
-            </audio>
-          </div>
-        ) : (
-          <PlayerPlaceholder kind="audio" />
-        ))}
+      {audioSrc ? (
+        <div className="mb-5 rounded-xl bg-player p-5">
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption -- la transcripción está debajo */}
+          <audio controls preload="metadata" src={audioSrc} className="w-full">
+            Tu navegador no puede reproducir este audio.
+          </audio>
+        </div>
+      ) : (
+        isAudio && <PlayerPlaceholder kind="audio" />
+      )}
 
       <p className="mb-1.5 font-mono text-[11px] tracking-wide text-muted uppercase">
         {meta.label}

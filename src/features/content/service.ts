@@ -142,7 +142,7 @@ export const CONTENT_TYPE_META: Record<
 > = {
   TUTORIAL: { label: 'Tutorial', glyph: '▶', kind: 'video' },
   PILL: { label: 'Píldora', glyph: '◆', kind: 'video' },
-  AUDIO: { label: 'Podcast', glyph: '◑', kind: 'podcast' },
+  INTERVIEW: { label: 'Entrevista', glyph: '◑', kind: 'podcast' },
   WEBINAR: { label: 'Sesión en directo', glyph: '◉', kind: 'webinar' },
   GUIDE: { label: 'Guía', glyph: '▤', kind: 'guia' },
   CHECKLIST: { label: 'Checklist', glyph: '✓', kind: 'checklist' },

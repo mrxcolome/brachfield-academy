@@ -10,7 +10,7 @@ import type { Content, Course } from '@/payload/payload-types'
 export const DEFAULT_COVER_BY_TYPE: Record<Content['contentType'], string> = {
   TUTORIAL: '/landing/formato-videos.webp',
   PILL: '/landing/formato-recursos.webp',
-  AUDIO: '/landing/formato-podcasts.webp',
+  INTERVIEW: '/landing/formato-podcasts.webp',
   GUIDE: '/landing/formato-guias.webp',
   CHECKLIST: '/landing/formato-checklists.webp',
   TEMPLATE: '/landing/formato-plantillas.webp',

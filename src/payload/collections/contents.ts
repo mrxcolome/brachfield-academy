@@ -47,7 +47,7 @@ export const Contents: CollectionConfig = {
         // es un atributo de la pieza (streamId/audioFile/documentFile).
         { label: 'Tutorial', value: 'TUTORIAL' },
         { label: 'Píldora', value: 'PILL' },
-        { label: 'Podcast', value: 'AUDIO' },
+        { label: 'Entrevista', value: 'INTERVIEW' },
         { label: 'Sesión en directo (replay)', value: 'WEBINAR' },
         { label: 'Guía', value: 'GUIDE' },
         { label: 'Checklist', value: 'CHECKLIST' },
@@ -104,7 +104,7 @@ export const Contents: CollectionConfig = {
       label: 'Archivo de audio',
       type: 'upload',
       relationTo: 'media',
-      admin: { condition: (data) => data?.contentType === 'AUDIO' },
+      admin: { description: 'Cualquier pieza puede llevar audio: el formato es un atributo.' },
     },
     {
       name: 'documentFile',

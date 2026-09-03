@@ -41,10 +41,27 @@ export function Sidebar({ showAdmin = false }: { showAdmin?: boolean }) {
         })}
         {showAdmin && (
           <Link
+            href="/app/sala"
+            aria-current={pathname.startsWith('/app/sala') ? 'page' : undefined}
+            className={cn(
+              'mt-4 flex items-center gap-2.5 rounded-md border-t border-border-soft px-3 py-2.5 pt-4 text-[13.5px] no-underline',
+              pathname.startsWith('/app/sala')
+                ? 'font-semibold text-brand'
+                : 'font-medium text-ink-2 hover:text-ink',
+            )}
+          >
+            <span aria-hidden className="w-4 text-center">
+              ✎
+            </span>
+            Sala de profesores
+          </Link>
+        )}
+        {showAdmin && (
+          <Link
             href="/app/admin"
             aria-current={pathname.startsWith('/app/admin') ? 'page' : undefined}
             className={cn(
-              'mt-4 flex items-center gap-2.5 rounded-md border-t border-border-soft px-3 py-2.5 pt-4 text-[13.5px] no-underline',
+              'flex items-center gap-2.5 rounded-md px-3 py-2.5 text-[13.5px] no-underline',
               pathname.startsWith('/app/admin')
                 ? 'font-semibold text-brand'
                 : 'font-medium text-ink-2 hover:text-ink',

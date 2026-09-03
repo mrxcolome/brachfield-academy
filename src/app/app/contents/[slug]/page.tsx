@@ -27,9 +27,9 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-const PLAYER_TYPES: Content['contentType'][] = ['VIDEO', 'WEBINAR']
+const PLAYER_TYPES: Content['contentType'][] = ['TUTORIAL', 'PILL', 'WEBINAR']
 const AUDIO_TYPES: Content['contentType'][] = ['AUDIO']
-const DOWNLOAD_TYPES: Content['contentType'][] = ['PDF', 'GUIDE', 'CHECKLIST', 'TEMPLATE', 'TOOL']
+const DOWNLOAD_TYPES: Content['contentType'][] = ['GUIDE', 'CHECKLIST', 'TEMPLATE']
 
 /** Texto del primer párrafo del body (para no repetir el excerpt si son iguales). */
 function firstParagraphText(body: Content['body']): string {
@@ -84,12 +84,11 @@ export default async function ContentPage({ params }: Props) {
       </p>
 
       {/* Player / cabecera según formato */}
-      {isPlayer &&
-        (content.streamId ? (
-          <StreamPlayer streamId={content.streamId} title={content.title} />
-        ) : (
-          <PlayerPlaceholder kind="video" />
-        ))}
+      {content.streamId ? (
+        <StreamPlayer streamId={content.streamId} title={content.title} />
+      ) : (
+        isPlayer && <PlayerPlaceholder kind="video" />
+      )}
       {isAudio &&
         (audioSrc ? (
           <div className="mb-5 rounded-xl bg-player p-5">

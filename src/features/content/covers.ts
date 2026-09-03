@@ -8,17 +8,15 @@
 import type { Content, Course } from '@/payload/payload-types'
 
 export const DEFAULT_COVER_BY_TYPE: Record<Content['contentType'], string> = {
-  VIDEO: '/landing/formato-videos.webp',
+  TUTORIAL: '/landing/formato-videos.webp',
+  PILL: '/landing/formato-recursos.webp',
   AUDIO: '/landing/formato-podcasts.webp',
-  ARTICLE: '/landing/formato-guias.webp',
-  PDF: '/landing/formato-guias.webp',
   GUIDE: '/landing/formato-guias.webp',
   CHECKLIST: '/landing/formato-checklists.webp',
   TEMPLATE: '/landing/formato-plantillas.webp',
   WEBINAR: '/landing/formato-webinars.webp',
   CASE_STUDY: '/landing/formato-casos.webp',
   NEWS: '/landing/formato-actualizaciones.webp',
-  TOOL: '/landing/formato-recursos.webp',
 }
 
 /** Nombres de categoría del seed → foto de área de la serie de marca. */

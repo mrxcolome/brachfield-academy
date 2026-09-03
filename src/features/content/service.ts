@@ -140,17 +140,15 @@ export const CONTENT_TYPE_META: Record<
     kind: 'video' | 'podcast' | 'articulo' | 'guia' | 'checklist' | 'plantilla' | 'webinar' | 'caso'
   }
 > = {
-  VIDEO: { label: 'Vídeo', glyph: '▶', kind: 'video' },
+  TUTORIAL: { label: 'Tutorial', glyph: '▶', kind: 'video' },
+  PILL: { label: 'Píldora', glyph: '◆', kind: 'video' },
   AUDIO: { label: 'Podcast', glyph: '◑', kind: 'podcast' },
-  ARTICLE: { label: 'Artículo', glyph: '▤', kind: 'articulo' },
-  PDF: { label: 'PDF', glyph: '↓', kind: 'guia' },
+  WEBINAR: { label: 'Sesión en directo', glyph: '◉', kind: 'webinar' },
   GUIDE: { label: 'Guía', glyph: '▤', kind: 'guia' },
   CHECKLIST: { label: 'Checklist', glyph: '✓', kind: 'checklist' },
   TEMPLATE: { label: 'Plantilla', glyph: '▦', kind: 'plantilla' },
-  WEBINAR: { label: 'Webinar', glyph: '◉', kind: 'webinar' },
   CASE_STUDY: { label: 'Caso práctico', glyph: '▣', kind: 'caso' },
   NEWS: { label: 'Actualidad', glyph: '◈', kind: 'articulo' },
-  TOOL: { label: 'Herramienta', glyph: '▦', kind: 'plantilla' },
 }
 
 export const LEVEL_META: Record<NonNullable<Content['level']>, string> = {

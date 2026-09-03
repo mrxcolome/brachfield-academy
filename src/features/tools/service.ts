@@ -3,7 +3,7 @@ import { cms } from '@/lib/cms'
 import { db } from '@/lib/db'
 import type { Content } from '@/payload/payload-types'
 
-export const TOOL_TYPES: Content['contentType'][] = ['TEMPLATE', 'CHECKLIST', 'TOOL']
+export const TOOL_TYPES: Content['contentType'][] = ['TEMPLATE', 'CHECKLIST']
 
 /** Herramientas publicadas, con documentFile resuelto (depth 1). */
 export async function getTools(): Promise<Content[]> {

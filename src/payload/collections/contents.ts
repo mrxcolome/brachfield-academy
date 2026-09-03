@@ -42,17 +42,18 @@ export const Contents: CollectionConfig = {
       required: true,
       index: true,
       options: [
-        { label: 'Vídeo', value: 'VIDEO' },
-        { label: 'Podcast / Audio', value: 'AUDIO' },
-        { label: 'Artículo', value: 'ARTICLE' },
-        { label: 'PDF', value: 'PDF' },
+        // Catálogo por CONCEPTOS (decisión del propietario 3/09/2026): lo que
+        // busca el alumno, no el formato. El formato (vídeo/audio/descarga)
+        // es un atributo de la pieza (streamId/audioFile/documentFile).
+        { label: 'Tutorial', value: 'TUTORIAL' },
+        { label: 'Píldora', value: 'PILL' },
+        { label: 'Podcast', value: 'AUDIO' },
+        { label: 'Sesión en directo (replay)', value: 'WEBINAR' },
         { label: 'Guía', value: 'GUIDE' },
         { label: 'Checklist', value: 'CHECKLIST' },
         { label: 'Plantilla', value: 'TEMPLATE' },
-        { label: 'Webinar', value: 'WEBINAR' },
         { label: 'Caso práctico', value: 'CASE_STUDY' },
         { label: 'Actualidad', value: 'NEWS' },
-        { label: 'Herramienta', value: 'TOOL' },
       ],
     },
     {
@@ -94,7 +95,8 @@ export const Contents: CollectionConfig = {
       type: 'text',
       admin: {
         description: 'Para vídeos: el UID del vídeo en Cloudflare Stream',
-        condition: (data) => data?.contentType === 'VIDEO' || data?.contentType === 'WEBINAR',
+        condition: (data) =>
+          ['TUTORIAL', 'PILL', 'WEBINAR', 'CASE_STUDY'].includes(data?.contentType),
       },
     },
     {

@@ -6,7 +6,7 @@ import type { Event } from '@/payload/payload-types'
 export type CmsEvent = Event
 
 export const EVENT_TYPE_LABEL: Record<Event['eventType'], string> = {
-  WEBINAR: 'Webinar',
+  WEBINAR: 'Sesión en directo',
   QA: 'Q&A en directo',
   MASTERCLASS: 'Masterclass',
   CASE: 'Caso práctico',

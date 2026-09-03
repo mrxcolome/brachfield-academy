@@ -283,7 +283,7 @@ async function main() {
         title: v.title,
         slug: v.slug,
         excerpt: v.excerpt,
-        contentType: 'VIDEO',
+        contentType: 'PILL',
         level: 'INTERMEDIATE',
         duration: v.duration,
         premium: true,

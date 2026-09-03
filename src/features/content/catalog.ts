@@ -324,10 +324,10 @@ export const whatsInside = [
   },
   {
     g: '▶',
-    l: 'Vídeos',
+    l: 'Tutoriales',
     img: '/landing/formato-videos.webp',
     k: 'video',
-    d: 'Lecciones breves y directas sobre situaciones concretas de crédito y cobro.',
+    d: 'Aprende a hacer una cosa concreta, paso a paso: un burofax, un scoring, una reclamación.',
   },
   {
     g: '◑',
@@ -366,24 +366,24 @@ export const whatsInside = [
   },
   {
     g: '◉',
-    l: 'Webinars',
+    l: 'Sesiones en directo',
     img: '/landing/formato-webinars.webp',
     k: 'webinar',
-    d: 'Sesiones en directo con Pere Brachfield y turno de preguntas.',
+    d: 'En vivo con Pere Brachfield, con turno de preguntas — y su replay si no llegas.',
   },
   {
     g: '◈',
-    l: 'Actualizaciones',
+    l: 'Actualidad',
     img: '/landing/formato-actualizaciones.webp',
     k: 'articulo',
-    d: 'Cambios legislativos y de mercado, explicados de forma ejecutiva.',
+    d: 'Lo que cambia en morosidad, legislación y mercado, explicado de forma ejecutiva.',
   },
   {
-    g: '▥',
-    l: 'Recursos',
+    g: '◆',
+    l: 'Píldoras',
     img: '/landing/formato-recursos.webp',
-    k: 'plantilla',
-    d: 'Calculadoras, scripts y otras herramientas de uso diario.',
+    k: 'video',
+    d: 'Una idea aplicable en cinco minutos: el consejo justo para el problema de hoy.',
   },
 ] as const
 

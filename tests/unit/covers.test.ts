@@ -6,7 +6,7 @@ const media = { id: 1, url: '/api/media/file/portada.jpg' } as Media
 
 describe('contentCover', () => {
   it('prioriza la portada subida por el editor', () => {
-    expect(contentCover({ id: 1, coverImage: media, contentType: 'VIDEO' })).toBe(
+    expect(contentCover({ id: 1, coverImage: media, contentType: 'TUTORIAL' })).toBe(
       '/api/media/file/portada.jpg',
     )
   })
@@ -22,17 +22,15 @@ describe('contentCover', () => {
   })
   it('cubre los 11 tipos de contenido', () => {
     const types: Content['contentType'][] = [
-      'VIDEO',
+      'TUTORIAL',
+      'PILL',
       'AUDIO',
-      'ARTICLE',
-      'PDF',
       'GUIDE',
       'CHECKLIST',
       'TEMPLATE',
       'WEBINAR',
       'CASE_STUDY',
       'NEWS',
-      'TOOL',
     ]
     for (const t of types) expect(DEFAULT_COVER_BY_TYPE[t]).toMatch(/^\/landing\//)
   })

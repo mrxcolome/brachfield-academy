@@ -25,7 +25,7 @@ export default async function SalaCursoPage({
   params: Promise<{ id: string }>
   searchParams: Promise<{ paso?: string }>
 }) {
-  await requireRole('ADMIN', 'EDITOR')
+  const { role } = await requireRole('ADMIN', 'EDITOR')
   const { id: rawId } = await params
   const id = Number.parseInt(rawId, 10)
   if (!Number.isFinite(id)) notFound()
@@ -43,11 +43,18 @@ export default async function SalaCursoPage({
         </Link>
         <p className="mt-4 rounded-lg border border-border bg-surface p-6 text-sm text-ink-2">
           <strong>{course.title}</strong> tiene varios módulos creados en el CMS. La Sala editará
-          estos cursos en la fase 2; de momento se retoca en el{' '}
-          <a href="/admin" target="_blank" rel="noreferrer">
-            modo experto
-          </a>
-          .
+          estos cursos en la fase 2; de momento{' '}
+          {role === 'ADMIN' ? (
+            <>
+              se retoca en el{' '}
+              <a href="/admin" target="_blank" rel="noreferrer">
+                modo experto
+              </a>
+              .
+            </>
+          ) : (
+            'los retoca el administrador.'
+          )}
         </p>
       </div>
     )

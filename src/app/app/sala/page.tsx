@@ -26,7 +26,7 @@ function StatusPill({ status }: { status: 'draft' | 'published' }) {
 }
 
 export default async function SalaHomePage() {
-  await requireRole('ADMIN', 'EDITOR')
+  const { role } = await requireRole('ADMIN', 'EDITOR')
   const [courses, contents] = await Promise.all([listSalaCourses(), listSalaContents()])
   const conceptLabel = (v: string) => SALA_CONCEPTS.find((c) => c.value === v)?.label ?? v
 
@@ -131,11 +131,18 @@ export default async function SalaHomePage() {
       </section>
 
       <p className="mt-8 text-[12.5px] text-muted">
-        ¿Algo que la Sala aún no hace (tags, SEO, publicación programada)? Está en el{' '}
-        <a href="/admin" target="_blank" rel="noreferrer">
-          modo experto (CMS)
-        </a>
-        .
+        ¿Algo que la Sala aún no hace (tags, SEO, publicación programada)?{' '}
+        {role === 'ADMIN' ? (
+          <>
+            Está en el{' '}
+            <a href="/admin" target="_blank" rel="noreferrer">
+              modo experto (CMS)
+            </a>
+            .
+          </>
+        ) : (
+          'Pídeselo al administrador.'
+        )}
       </p>
     </div>
   )

@@ -1,19 +1,29 @@
 import Link from 'next/link'
 
-// Los 4 pasos del asistente de la Sala (Backstage v1.1: sin módulos).
-export const SALA_STEPS = ['El curso', 'La portada', 'Las lecciones', 'Publicar'] as const
-
-export function SalaSteps({ courseId, current }: { courseId: number; current: 1 | 2 | 3 | 4 }) {
+// Indicador de pasos de los asistentes de la Sala (cursos y contenidos).
+export function WizardSteps({
+  labels,
+  current,
+  href,
+}: {
+  labels: readonly string[]
+  current: number
+  href: (n: number) => string
+}) {
+  const last = labels.length
   return (
-    <ol aria-label={`Paso ${current} de 4`} className="mb-6 flex items-center gap-2">
-      {SALA_STEPS.map((label, i) => {
-        const n = (i + 1) as 1 | 2 | 3 | 4
+    <ol aria-label={`Paso ${current} de ${last}`} className="mb-6 flex items-center gap-2">
+      {labels.map((label, i) => {
+        const n = i + 1
         const done = n < current
         const active = n === current
         return (
-          <li key={label} className={`flex items-center gap-2 ${n < 4 ? 'flex-1' : 'flex-none'}`}>
+          <li
+            key={label}
+            className={`flex items-center gap-2 ${n < last ? 'flex-1' : 'flex-none'}`}
+          >
             <Link
-              href={`/app/sala/${courseId}?paso=${n}`}
+              href={href(n)}
               aria-current={active ? 'step' : undefined}
               className="flex items-center gap-2 no-underline"
             >
@@ -35,10 +45,22 @@ export function SalaSteps({ courseId, current }: { courseId: number; current: 1 
                 {label}
               </span>
             </Link>
-            {n < 4 && <span aria-hidden className="h-px min-w-3 flex-1 bg-border-input" />}
+            {n < last && <span aria-hidden className="h-px min-w-3 flex-1 bg-border-input" />}
           </li>
         )
       })}
     </ol>
+  )
+}
+
+export const SALA_STEPS = ['El curso', 'La portada', 'Las lecciones', 'Publicar'] as const
+
+export function SalaSteps({ courseId, current }: { courseId: number; current: 1 | 2 | 3 | 4 }) {
+  return (
+    <WizardSteps
+      labels={SALA_STEPS}
+      current={current}
+      href={(n) => `/app/sala/${courseId}?paso=${n}`}
+    />
   )
 }

@@ -427,11 +427,11 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: '¿Tengo acceso a todo el contenido desde el primer día?',
-    a: 'Sí. La membresía incluye acceso completo desde el primer minuto: todos los cursos, vídeos, podcasts, guías, plantillas, casos prácticos y replays de sesiones anteriores. No hay niveles ni contenido bloqueado.',
+    a: 'Sí. La membresía incluye acceso completo desde el primer minuto: todos los cursos, tutoriales, píldoras, entrevistas, guías, plantillas, casos prácticos y los replays de las sesiones en directo. No hay niveles ni contenido bloqueado.',
   },
   {
     q: '¿Se publican contenidos nuevos con regularidad?',
-    a: 'Cada semana se publica contenido nuevo: vídeos cortos, análisis de actualidad o herramientas. Además hay una masterclass mensual en directo y una sesión mensual de "Pregunta a Pere".',
+    a: 'Cada semana se publica contenido nuevo: píldoras, tutoriales, actualidad o plantillas. Además hay una masterclass mensual en directo y una sesión mensual de "Pregunta a Pere".',
   },
   {
     q: '¿Puedo utilizarlo para formar a mi equipo?',
@@ -447,7 +447,7 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: '¿Puedo acceder desde el móvil?',
-    a: 'Sí. La plataforma funciona en cualquier dispositivo con navegador: ordenador, tablet y móvil. Los vídeos, podcasts y artículos están especialmente optimizados para consumo móvil.',
+    a: 'Sí. La plataforma funciona en cualquier dispositivo con navegador: ordenador, tablet y móvil. Los vídeos, los audios y la lectura están especialmente optimizados para consumo móvil.',
   },
   {
     q: '¿Hay permanencia mínima?',
@@ -493,9 +493,9 @@ export const trainingAreas = [
 ]
 
 export const pricingIncludes = [
-  'Biblioteca completa de cursos y vídeos',
+  'Cursos, tutoriales y píldoras de Pere',
   'Todas las herramientas y plantillas descargables',
-  'Podcasts y guías legales actualizadas',
+  'Entrevistas, guías y casos prácticos',
   'Sesiones mensuales en directo con Pere',
   'Pregunta a Pere ilimitada',
   'Certificados de finalización',

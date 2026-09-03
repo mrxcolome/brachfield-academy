@@ -9,9 +9,9 @@ import { SignupSteps } from '../steps'
 export const metadata = { title: 'Activa tu acceso', robots: { index: false } }
 
 const INCLUDES = [
-  'Biblioteca completa de cursos y vídeos',
+  'Cursos, tutoriales y píldoras de Pere Brachfield',
   'Todas las herramientas y plantillas descargables',
-  'Podcasts y guías legales actualizadas',
+  'Entrevistas, guías y casos prácticos',
   'Sesiones mensuales en directo con Pere',
   'Certificados de finalización',
   'Acceso desde cualquier dispositivo',

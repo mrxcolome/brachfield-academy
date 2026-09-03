@@ -94,9 +94,7 @@ export const Contents: CollectionConfig = {
       label: 'ID de Cloudflare Stream',
       type: 'text',
       admin: {
-        description: 'Para vídeos: el UID del vídeo en Cloudflare Stream',
-        condition: (data) =>
-          ['TUTORIAL', 'PILL', 'WEBINAR', 'CASE_STUDY'].includes(data?.contentType),
+        description: 'Si la pieza lleva vídeo: el UID del vídeo en Cloudflare Stream.',
       },
     },
     {
@@ -112,8 +110,7 @@ export const Contents: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       admin: {
-        condition: (data) =>
-          ['PDF', 'GUIDE', 'CHECKLIST', 'TEMPLATE', 'TOOL'].includes(data?.contentType),
+        description: 'Si la pieza tiene descarga (plantilla, checklist, PDF de la guía…).',
       },
     },
     {

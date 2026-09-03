@@ -142,11 +142,14 @@ function slugify(title: string): string {
     .slice(0, 80)
 }
 
-async function uniqueSlug(title: string): Promise<string> {
+async function uniqueSlug(
+  title: string,
+  collection: 'courses' | 'contents' = 'courses',
+): Promise<string> {
   const payload = await cms()
-  const base = slugify(title) || 'curso'
+  const base = slugify(title) || 'pieza'
   const taken = await payload.find({
-    collection: 'courses',
+    collection,
     draft: true,
     depth: 0,
     limit: 50,
@@ -377,6 +380,7 @@ export async function logSala(
   user: { email: string; name: string },
   action: 'CREATE' | 'UPDATE' | 'DELETE',
   docTitle: string,
+  collection: 'courses' | 'contents' = 'courses',
 ): Promise<void> {
   try {
     await db.editorialActivity.create({
@@ -384,7 +388,7 @@ export async function logSala(
         editorEmail: user.email,
         editorName: user.name,
         action,
-        collection: 'courses',
+        collection,
         docTitle,
       },
     })
@@ -393,7 +397,200 @@ export async function logSala(
   }
   track('editorial_change', {
     userId: `editor:${user.email}`,
-    properties: { action, collection: 'courses', docTitle, source: 'sala' },
+    properties: { action, collection, docTitle, source: 'sala' },
     person: { email: user.email, name: user.name },
+  })
+}
+
+// ─────────────── Contenidos sueltos (los otros 9 conceptos) ──────────────
+
+import type { Content } from '@/payload/payload-types'
+
+import { type SalaConceptType } from './concepts'
+export { SALA_CONCEPTS, type SalaConceptType } from './concepts'
+
+export interface SalaContent {
+  id: number
+  title: string
+  slug: string
+  conceptType: SalaConceptType
+  excerpt: string
+  status: 'draft' | 'published'
+  updatedAt: string
+  categoryId: number | null
+  level: NonNullable<Content['level']> | null
+  duration: string | null
+  coverUrl: string | null
+  streamId: string | null
+  text: string
+  audioName: string | null
+  documentName: string | null
+}
+
+function toSalaContent(doc: Content): SalaContent {
+  const cover = doc.coverImage
+  const category = doc.categories?.[0]
+  const mediaName = (m: Content['audioFile']): string | null =>
+    m && typeof m === 'object' ? (m.filename ?? 'archivo') : null
+  return {
+    id: Number(doc.id),
+    title: doc.title,
+    slug: doc.slug,
+    conceptType: doc.contentType,
+    excerpt: doc.excerpt ?? '',
+    status: doc._status === 'published' ? 'published' : 'draft',
+    updatedAt: doc.updatedAt,
+    categoryId:
+      category == null
+        ? null
+        : typeof category === 'object'
+          ? Number(category.id)
+          : Number(category),
+    level: doc.level ?? null,
+    duration: doc.duration ?? null,
+    coverUrl: cover && typeof cover === 'object' && cover.url ? cover.url : null,
+    streamId: doc.streamId ?? null,
+    text: doc.body ? lexicalToText(doc.body) : '',
+    audioName: mediaName(doc.audioFile),
+    documentName: mediaName(doc.documentFile),
+  }
+}
+
+export async function listSalaContents(): Promise<SalaContent[]> {
+  const payload = await cms()
+  const res = await payload.find({
+    collection: 'contents',
+    draft: true,
+    depth: 1,
+    limit: 100,
+    sort: '-updatedAt',
+    overrideAccess: true,
+  })
+  return res.docs.map(toSalaContent)
+}
+
+export async function getSalaContent(id: number): Promise<SalaContent | null> {
+  const payload = await cms()
+  const doc = await payload
+    .findByID({ collection: 'contents', id, draft: true, depth: 1, overrideAccess: true })
+    .catch(() => null)
+  return doc ? toSalaContent(doc) : null
+}
+
+export interface SalaContentBasics {
+  title: string
+  excerpt: string
+  categoryId: number
+  conceptType: SalaConceptType
+  level?: NonNullable<Content['level']>
+}
+
+export async function createSalaContent(input: SalaContentBasics): Promise<number> {
+  const payload = await cms()
+  const doc = await payload.create({
+    collection: 'contents',
+    draft: true,
+    overrideAccess: true,
+    data: {
+      title: input.title,
+      slug: await uniqueSlug(input.title, 'contents'),
+      excerpt: input.excerpt,
+      contentType: input.conceptType,
+      categories: [input.categoryId],
+      level: input.level ?? null,
+      premium: true,
+      _status: 'draft',
+    },
+  })
+  return Number(doc.id)
+}
+
+export async function updateSalaContentBasics(id: number, input: SalaContentBasics): Promise<void> {
+  const payload = await cms()
+  await payload.update({
+    collection: 'contents',
+    id,
+    draft: true,
+    overrideAccess: true,
+    data: {
+      title: input.title,
+      excerpt: input.excerpt,
+      contentType: input.conceptType,
+      categories: [input.categoryId],
+      level: input.level ?? null,
+    },
+  })
+}
+
+export async function setSalaContentMaterial(
+  id: number,
+  input: { streamId?: string; duration?: string; text?: string },
+): Promise<void> {
+  const payload = await cms()
+  await payload.update({
+    collection: 'contents',
+    id,
+    draft: true,
+    overrideAccess: true,
+    data: {
+      streamId: input.streamId?.trim() || null,
+      duration: input.duration?.trim() || null,
+      body: input.text?.trim() ? (textToLexical(input.text) as Content['body']) : null,
+    },
+  })
+}
+
+/** Sube portada, audio o documento y lo vincula al contenido. */
+export async function attachSalaContentFile(
+  id: number,
+  kind: 'cover' | 'audio' | 'document',
+  file: { data: Buffer; name: string; mimetype: string; size: number },
+  alt: string,
+): Promise<void> {
+  const payload = await cms()
+  const media = await payload.create({
+    collection: 'media',
+    overrideAccess: true,
+    data: { alt },
+    file,
+  })
+  const field = kind === 'cover' ? 'coverImage' : kind === 'audio' ? 'audioFile' : 'documentFile'
+  await payload.update({
+    collection: 'contents',
+    id,
+    draft: true,
+    overrideAccess: true,
+    data: { [field]: media.id },
+  })
+}
+
+export async function publishSalaContent(id: number): Promise<{ error?: string }> {
+  const piece = await getSalaContent(id)
+  if (!piece) return { error: 'Contenido no encontrado' }
+  if (!piece.title.trim()) return { error: 'Falta el título (paso 1).' }
+  if (!piece.excerpt.trim()) return { error: 'Faltan las dos frases de resumen (paso 1).' }
+  if (piece.categoryId == null) return { error: 'Falta el área de conocimiento (paso 1).' }
+  if (!piece.streamId && !piece.text.trim() && !piece.audioName && !piece.documentName) {
+    return {
+      error: 'La pieza necesita al menos un material: vídeo, texto, audio o archivo (paso 2).',
+    }
+  }
+  const payload = await cms()
+  await payload.update({
+    collection: 'contents',
+    id,
+    overrideAccess: true,
+    data: { _status: 'published', publishedAt: new Date().toISOString() },
+  })
+  return {}
+}
+
+export async function unpublishSalaContent(id: number): Promise<void> {
+  const payload = await cms()
+  await payload.update({
+    collection: 'contents',
+    id,
+    overrideAccess: true,
+    data: { _status: 'draft' },
   })
 }

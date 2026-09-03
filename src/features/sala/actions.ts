@@ -178,3 +178,131 @@ export async function estadoVideo(
   if (!info) return { error: 'No se pudo consultar Cloudflare' }
   return { ok: true, ready: info.ready, duration: info.duration }
 }
+
+// ─────────────── Contenidos sueltos (los otros 9 conceptos) ──────────────
+
+import {
+  attachSalaContentFile,
+  createSalaContent,
+  getSalaContent,
+  publishSalaContent,
+  setSalaContentMaterial,
+  unpublishSalaContent,
+  updateSalaContentBasics,
+  SALA_CONCEPTS,
+  type SalaContentBasics,
+} from './service'
+
+const conceptSchema = z.object({
+  title: z.string().trim().min(3, 'El título necesita al menos 3 caracteres').max(160),
+  excerpt: z.string().trim().min(10, 'Cuenta en dos frases qué se lleva el alumno').max(500),
+  categoryId: z.coerce.number().int().positive('Elige el área de conocimiento'),
+  conceptType: z.enum(SALA_CONCEPTS.map((c) => c.value) as [string, ...string[]]),
+  level: z.enum(['BEGINNER', 'INTERMEDIATE', 'ADVANCED']).optional(),
+})
+
+export async function crearContenido(raw: unknown): Promise<Result & { id?: number }> {
+  const { user } = await requireRole('ADMIN', 'EDITOR')
+  const parsed = conceptSchema.safeParse(raw)
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Revisa los datos' }
+  const id = await createSalaContent(parsed.data as SalaContentBasics)
+  await logSala(user, 'CREATE', parsed.data.title, 'contents')
+  revalidate()
+  return { ok: true, id }
+}
+
+export async function guardarContenido(raw: unknown): Promise<Result> {
+  const { user } = await requireRole('ADMIN', 'EDITOR')
+  const parsed = conceptSchema.extend({ id: idSchema }).safeParse(raw)
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? 'Revisa los datos' }
+  const { id, ...basics } = parsed.data
+  await updateSalaContentBasics(id, basics as SalaContentBasics)
+  await logSala(user, 'UPDATE', basics.title, 'contents')
+  revalidate()
+  revalidatePath(`/app/sala/contenido/${id}`)
+  return { ok: true }
+}
+
+export async function guardarMaterial(raw: unknown): Promise<Result> {
+  await requireRole('ADMIN', 'EDITOR')
+  const parsed = z
+    .object({
+      id: idSchema,
+      streamId: z.string().trim().max(64).optional(),
+      duration: z.string().trim().max(30).optional(),
+      text: z.string().trim().max(40000).optional(),
+    })
+    .safeParse(raw)
+  if (!parsed.success) return { error: 'Revisa los datos del material' }
+  const { id, ...material } = parsed.data
+  await setSalaContentMaterial(id, material)
+  revalidate()
+  revalidatePath(`/app/sala/contenido/${id}`)
+  return { ok: true }
+}
+
+const FILE_KINDS = ['cover', 'audio', 'document'] as const
+
+export async function subirArchivoContenido(formData: FormData): Promise<Result> {
+  await requireRole('ADMIN', 'EDITOR')
+  const id = idSchema.safeParse(formData.get('id'))
+  const kind = z.enum(FILE_KINDS).safeParse(formData.get('kind'))
+  const file = formData.get('file')
+  if (!id.success || !kind.success || !(file instanceof File)) {
+    return { error: 'Solicitud no válida' }
+  }
+  if (kind.data === 'cover' && !file.type.startsWith('image/')) {
+    return { error: 'La portada debe ser una imagen' }
+  }
+  if (file.size > 4 * 1024 * 1024) {
+    return {
+      error:
+        kind.data === 'audio'
+          ? 'Máximo 4 MB por aquí. Para audios largos, súbelo en el modo experto (Media) y vincúlalo — o publica la entrevista en vídeo.'
+          : 'Máximo 4 MB — reduce el archivo y vuelve a probar',
+    }
+  }
+  const piece = await getSalaContent(id.data)
+  if (!piece) return { error: 'Contenido no encontrado' }
+  await attachSalaContentFile(
+    id.data,
+    kind.data,
+    {
+      data: Buffer.from(await file.arrayBuffer()),
+      name: file.name,
+      mimetype: file.type,
+      size: file.size,
+    },
+    kind.data === 'cover' ? `Portada de ${piece.title}` : `${piece.title} (${kind.data})`,
+  )
+  revalidate()
+  revalidatePath(`/app/sala/contenido/${id.data}`)
+  return { ok: true }
+}
+
+export async function publicarContenido(raw: unknown): Promise<Result> {
+  const { user } = await requireRole('ADMIN', 'EDITOR')
+  const parsed = idSchema.safeParse(raw)
+  if (!parsed.success) return { error: 'Solicitud no válida' }
+  const res = await publishSalaContent(parsed.data)
+  if (res.error) return { error: res.error }
+  const piece = await getSalaContent(parsed.data)
+  await logSala(user, 'UPDATE', `${piece?.title ?? 'Contenido'} (publicado)`, 'contents')
+  revalidate()
+  revalidatePath(`/app/sala/contenido/${parsed.data}`)
+  revalidatePath('/app/library')
+  revalidatePath('/app/explore')
+  return { ok: true }
+}
+
+export async function despublicarContenido(raw: unknown): Promise<Result> {
+  const { user } = await requireRole('ADMIN', 'EDITOR')
+  const parsed = idSchema.safeParse(raw)
+  if (!parsed.success) return { error: 'Solicitud no válida' }
+  const piece = await getSalaContent(parsed.data)
+  await unpublishSalaContent(parsed.data)
+  await logSala(user, 'UPDATE', `${piece?.title ?? 'Contenido'} (retirado a borrador)`, 'contents')
+  revalidate()
+  revalidatePath(`/app/sala/contenido/${parsed.data}`)
+  return { ok: true }
+}

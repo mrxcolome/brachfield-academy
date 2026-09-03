@@ -6,7 +6,7 @@ import { anadirLeccion, borrarLeccion, guardarLeccion, moverLeccion } from '@/fe
 import type { SalaLesson } from '@/features/sala/service'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { VideoUpload } from './video-upload'
+import { VideoUpload } from '../video-upload'
 
 interface DraftLesson {
   title: string

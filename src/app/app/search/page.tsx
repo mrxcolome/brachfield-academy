@@ -141,7 +141,7 @@ export default async function SearchPage({
         <EmptyState
           icon="⌕"
           title="¿Qué necesitas resolver hoy?"
-          description="Busca en cursos, lecciones, vídeos, transcripciones, guías y plantillas. Sin preocuparte por los acentos."
+          description="Busca en cursos, tutoriales, entrevistas, guías, plantillas y transcripciones. Sin preocuparte por los acentos."
         />
       ) : results.length === 0 ? (
         <EmptyState

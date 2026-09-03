@@ -25,7 +25,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </div>
       <p className="mb-5 text-sm text-muted">
         {role === 'ADMIN'
-          ? 'Miembros, preguntas y actividad. El contenido se publica desde el CMS.'
+          ? 'Alumnos, preguntas y actividad. El contenido se publica desde el CMS.'
           : 'Preguntas de los alumnos, eventos y huecos del buscador.'}
       </p>
       <AdminTabs isAdmin={role === 'ADMIN'} />

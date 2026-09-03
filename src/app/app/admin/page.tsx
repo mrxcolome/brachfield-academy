@@ -20,7 +20,7 @@ export default async function AdminOverviewPage() {
   return (
     <div>
       <div className="mb-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        <Kpi value={kpis.activeMembers} label="Miembros activos" />
+        <Kpi value={kpis.activeMembers} label="Alumnos activos" />
         <Kpi value={kpis.newUsers30d} label="Altas (30 días)" />
         <Kpi value={kpis.downloads30d} label="Descargas (30 días)" />
         <Kpi value={kpis.upcomingReservations} label="Plazas reservadas" />

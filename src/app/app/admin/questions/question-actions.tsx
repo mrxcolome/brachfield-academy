@@ -30,7 +30,7 @@ export function QuestionActions({ questionId }: { questionId: string }) {
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         rows={3}
-        placeholder="Escribe la respuesta para el miembro…"
+        placeholder="Escribe la respuesta para el alumno…"
         className="mb-2 w-full rounded-md border border-border-input bg-bg px-3 py-2 text-[13px] placeholder:text-muted-2 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-brand-link"
       />
       <div className="flex flex-wrap items-center gap-2">

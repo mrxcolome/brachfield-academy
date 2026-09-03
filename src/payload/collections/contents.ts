@@ -72,7 +72,7 @@ export const Contents: CollectionConfig = {
       type: 'text',
       admin: { description: 'Ej. "8 min", "2h 35min"' },
     },
-    { name: 'premium', label: 'Solo miembros', type: 'checkbox', defaultValue: true },
+    { name: 'premium', label: 'Solo alumnos', type: 'checkbox', defaultValue: true },
     { name: 'featured', label: 'Destacado', type: 'checkbox', defaultValue: false },
     { name: 'thumbnail', label: 'Miniatura', type: 'upload', relationTo: 'media' },
     {

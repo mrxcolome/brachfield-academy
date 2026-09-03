@@ -397,7 +397,7 @@ async function main() {
       slug: 'pregunta-a-pere-mensual',
       eventType: 'QA',
       description:
-        'Sesión abierta de preguntas y respuestas: Pere responde en directo a las dudas enviadas por los miembros.',
+        'Sesión abierta de preguntas y respuestas: Pere responde en directo a las dudas enviadas por los alumnos.',
       startAt: in30(27),
       capacity: 300,
     },

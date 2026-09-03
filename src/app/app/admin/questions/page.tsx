@@ -24,8 +24,8 @@ export default async function AdminQuestionsPage() {
     return (
       <EmptyState
         icon="?"
-        title="No hay preguntas de miembros"
-        description="Cuando la sección «Pregunta a Pere» esté abierta a los miembros, la cola aparecerá aquí."
+        title="No hay preguntas de alumnos"
+        description="Cuando la sección «Pregunta a Pere» esté abierta a los alumnos, la cola aparecerá aquí."
       />
     )
   }

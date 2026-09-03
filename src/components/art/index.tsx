@@ -343,7 +343,7 @@ export function DashboardMock({ style }: { style?: CSSProperties }) {
   }
   return (
     <div
-      aria-label="Vista del panel del miembro"
+      aria-label="Vista del panel del alumno"
       role="img"
       style={{
         display: 'flex',

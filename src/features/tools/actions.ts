@@ -11,7 +11,7 @@ import type { Media } from '@/payload/payload-types'
 const schema = z.object({ contentSlug: z.string().min(1) })
 
 /**
- * Descarga autorizada: solo miembros activos, el contenido se resuelve
+ * Descarga autorizada: solo alumnos con suscripción activa, el contenido se resuelve
  * server-side desde el CMS y cada descarga queda en download_log.
  */
 export async function requestDownload(raw: unknown): Promise<{ url?: string; error?: string }> {

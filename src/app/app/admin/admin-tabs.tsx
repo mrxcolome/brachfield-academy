@@ -6,17 +6,18 @@ import { cn } from '@/lib/cn'
 
 const TABS = [
   { href: '/app/admin', label: 'Resumen' },
-  { href: '/app/admin/users', label: 'Alumnos' },
-  { href: '/app/admin/editors', label: 'Editores' },
+  { href: '/app/admin/users', label: 'Alumnos', adminOnly: true },
+  { href: '/app/admin/editors', label: 'Editores', adminOnly: true },
   { href: '/app/admin/questions', label: 'Preguntas' },
   { href: '/app/admin/events', label: 'Eventos' },
 ] as const
 
-export function AdminTabs() {
+export function AdminTabs({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname()
+  const tabs = TABS.filter((tab) => isAdmin || !('adminOnly' in tab))
   return (
     <nav aria-label="Secciones de administración" className="mb-6 flex flex-wrap gap-2">
-      {TABS.map((tab) => {
+      {tabs.map((tab) => {
         const active = pathname === tab.href
         return (
           <Link

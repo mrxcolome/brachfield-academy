@@ -5,7 +5,7 @@ import { AdminTabs } from './admin-tabs'
 export const metadata = { title: 'Administración' }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  await requireRole('ADMIN', 'EDITOR')
+  const { role } = await requireRole('ADMIN', 'EDITOR')
   return (
     <div className="mx-auto max-w-5xl">
       <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
@@ -21,7 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <p className="mb-5 text-sm text-muted">
         Miembros, preguntas y actividad. El contenido se publica desde el CMS.
       </p>
-      <AdminTabs />
+      <AdminTabs isAdmin={role === 'ADMIN'} />
       {children}
     </div>
   )

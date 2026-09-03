@@ -8,7 +8,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { role } = await requireRole('ADMIN', 'EDITOR')
   return (
     <div className="mx-auto max-w-5xl">
-      <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
+      <Link href="/app/sala" className="text-[13px] text-brand-link">
+        ← Sala de profesores
+      </Link>
+      <div className="mt-2 mb-1 flex flex-wrap items-baseline justify-between gap-2">
         <h1 className="text-2xl font-bold">Administración</h1>
         {role === 'ADMIN' && (
           <Link

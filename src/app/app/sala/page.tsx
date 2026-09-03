@@ -33,7 +33,15 @@ export default async function SalaHomePage() {
   return (
     <div className="mx-auto max-w-3xl">
       <header className="mb-6">
-        <h1 className="text-2xl font-bold">Sala de profesores</h1>
+        <div className="flex flex-wrap items-baseline justify-between gap-2">
+          <h1 className="text-2xl font-bold">Sala de profesores</h1>
+          <Link
+            href="/app/admin"
+            className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
+          >
+            ⚙ Administración →
+          </Link>
+        </div>
         <p className="mt-1 text-sm text-muted">
           Crea y publica paso a paso, sin tocar el CMS. Diez conceptos: el curso y las nueve piezas
           sueltas.

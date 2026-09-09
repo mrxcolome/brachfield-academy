@@ -40,7 +40,7 @@ export default async function AppHome() {
       },
       { excludeCourseSlug: continueLearning?.courseSlug },
     ),
-    getNewThisWeek(3),
+    getNewThisWeek(3, 30),
     getUpcomingEvents(),
   ])
   const nextEvent = upcoming[0] ?? null
@@ -86,6 +86,51 @@ export default async function AppHome() {
           </div>
         </section>
       )}
+
+      <section aria-labelledby="need-title" className="mb-8">
+        <h2 id="need-title" className="mb-3 text-[13px] font-semibold text-ink-2">
+          ¿Qué necesitas hoy?
+        </h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            {
+              href: '/app/learning',
+              title: 'Aprender',
+              promise: 'Un tema completo, paso a paso',
+              detail: 'Cursos y tutoriales, con tu progreso guardado.',
+            },
+            {
+              href: '/app/library',
+              title: 'Resolver',
+              promise: 'Una duda concreta, ahora',
+              detail: 'Guías, checklists y plantillas listas para usar.',
+            },
+            {
+              href: '/app/updates',
+              title: 'Ponerte al día',
+              promise: 'Lo último en morosidad y crédito',
+              detail: 'Actualidad del sector y sesiones en directo.',
+            },
+          ].map((card) => (
+            <Link
+              key={card.href}
+              href={card.href}
+              className="rounded-lg border border-border bg-surface p-4.5 text-inherit no-underline"
+            >
+              <span className="mb-1 flex items-baseline justify-between gap-2">
+                <span className="text-[15.5px] font-bold text-brand">{card.title}</span>
+                <span aria-hidden className="text-sm font-semibold text-brand-link">
+                  →
+                </span>
+              </span>
+              <span className="mb-1 block text-[13px] font-semibold text-ink-2">
+                «{card.promise}»
+              </span>
+              <span className="block text-[12.5px] leading-relaxed text-muted">{card.detail}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {recommended.length > 0 && (
         <section aria-labelledby="rec-title" className="mb-8">
@@ -164,7 +209,7 @@ export default async function AppHome() {
                 {EVENT_TYPE_LABEL[nextEvent.eventType]} · {formatEventDate(nextEvent.startAt)}
               </p>
               <Link
-                href="/app/events"
+                href="/app/updates"
                 className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
               >
                 Reservar plaza →
@@ -178,7 +223,7 @@ export default async function AppHome() {
         </section>
 
         <section className="rounded-lg border border-border bg-surface p-5">
-          <h2 className="mb-2 text-[13px] font-semibold text-ink-2">Nuevo esta semana</h2>
+          <h2 className="mb-2 text-[13px] font-semibold text-ink-2">Nuevo este mes</h2>
           {newThisWeek.length > 0 ? (
             <ul className="m-0 flex list-none flex-col gap-2 p-0">
               {newThisWeek.map((c) => (
@@ -197,9 +242,15 @@ export default async function AppHome() {
             </ul>
           ) : (
             <p className="text-[13px] leading-relaxed text-ink-3">
-              Cada semana publicamos contenido nuevo — lo encontrarás aquí y en Explorar.
+              Cada mes publicamos contenido nuevo — lo encontrarás aquí y en «Nuevo este mes».
             </p>
           )}
+          <Link
+            href="/app/new"
+            className="mt-3 inline-block text-[13px] font-semibold text-brand-link no-underline hover:underline"
+          >
+            Ver todo lo nuevo →
+          </Link>
         </section>
       </div>
     </div>

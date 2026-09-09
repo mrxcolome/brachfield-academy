@@ -104,10 +104,10 @@ export async function getRecommendations(
   return out.slice(0, limit)
 }
 
-/** Contenidos publicados en los últimos 7 días (briefing: "nuevo esta semana"). */
-export async function getNewThisWeek(limit = 4): Promise<Content[]> {
+/** Contenidos publicados en los últimos `days` días (dashboard: «Nuevo este mes»). */
+export async function getNewThisWeek(limit = 4, days = 7): Promise<Content[]> {
   const payload = await cms()
-  const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
+  const weekAgo = new Date(Date.now() - days * 86400000).toISOString()
   const res = await payload.find({
     collection: 'contents',
     where: {

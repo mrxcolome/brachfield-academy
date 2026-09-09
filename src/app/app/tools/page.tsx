@@ -7,7 +7,7 @@ import { DownloadButton } from '@/components/product/download-button'
 import { Badge } from '@/components/ui/badge'
 import { EmptyState } from '@/components/ui/empty-state'
 
-export const metadata = { title: 'Herramientas' }
+export const metadata = { title: 'Plantillas y checklists' }
 
 export default async function ToolsPage() {
   await requireActiveMember()
@@ -22,9 +22,9 @@ export default async function ToolsPage() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      <h1 className="mb-1 text-2xl font-bold">Herramientas</h1>
+      <h1 className="mb-1 text-2xl font-bold">Plantillas y checklists</h1>
       <p className="mb-7 text-sm text-muted">
-        Plantillas, checklists y documentos listos para usar en tu trabajo de hoy.
+        Documentos listos para descargar, adaptar y usar en tu trabajo de hoy.
       </p>
 
       {tools.length === 0 ? (

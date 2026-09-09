@@ -6,7 +6,7 @@ test.use({ storageState: 'tests/e2e/.auth/member.json' })
 
 test('descargar una plantilla registra la descarga', async ({ page }) => {
   await page.goto('/app/tools')
-  await expect(page.getByRole('heading', { name: 'Herramientas' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Plantillas y checklists' })).toBeVisible()
 
   // En dev el fichero se sirve vía Payload; en prod sería URL firmada de R2
   const requestPromise = page.waitForRequest(/\/api\/media\/file\/|r2\.cloudflarestorage\.com/, {

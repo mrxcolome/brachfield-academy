@@ -37,6 +37,9 @@
   /* acentos puntuales */
   --color-accent: #e88800;
   --color-accent-ink: #7a4a00;
+  /* naranja profundo: legible como texto pequeño sobre blanco (~5:1) */
+  --color-accent-strong: #a85c00;
+  --color-accent-soft: #fdf2e2;
   --color-garnet: #a21e26;
 
   /* semánticos */

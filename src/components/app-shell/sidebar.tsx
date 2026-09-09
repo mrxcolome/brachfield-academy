@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { SIDEBAR_NAV } from '@/features/navigation'
+import { SIDEBAR_NAV, NEW_NAV_ITEM } from '@/features/navigation'
 import { BrandLogo } from '@/components/brand/logo'
 import { cn } from '@/lib/cn'
 
@@ -39,6 +39,21 @@ export function Sidebar({ showAdmin = false }: { showAdmin?: boolean }) {
             </Link>
           )
         })}
+        <Link
+          href={NEW_NAV_ITEM.href}
+          aria-current={pathname.startsWith(NEW_NAV_ITEM.href) ? 'page' : undefined}
+          className={cn(
+            'mt-3 flex items-center gap-2.5 rounded-md border-t border-border-soft px-3 py-2.5 pt-4 text-[13.5px] font-semibold no-underline',
+            pathname.startsWith(NEW_NAV_ITEM.href)
+              ? 'bg-accent-soft text-accent-strong'
+              : 'text-accent-strong hover:bg-accent-soft/60',
+          )}
+        >
+          <span aria-hidden className="w-4 text-center text-accent">
+            {NEW_NAV_ITEM.glyph}
+          </span>
+          {NEW_NAV_ITEM.label}
+        </Link>
         {showAdmin && (
           <Link
             href="/app/sala"

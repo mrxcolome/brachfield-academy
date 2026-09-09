@@ -1,11 +1,13 @@
-// Flujo 8: eventos — reservar plaza, persistencia y cancelación.
+// Flujo 8: sesiones en directo (en Actualidad) — reservar plaza, persistencia y cancelación.
 import { test, expect } from '@playwright/test'
 
 test.use({ storageState: 'tests/e2e/.auth/member.json' })
 
-test('reservar y cancelar plaza en un evento', async ({ page }) => {
+test('reservar y cancelar plaza en una sesión en directo', async ({ page }) => {
+  // /app/events redirige a Actualidad (rediseño 2026-09-09)
   await page.goto('/app/events')
-  await expect(page.getByRole('heading', { name: 'Eventos' })).toBeVisible()
+  await expect(page).toHaveURL(/\/app\/updates/)
+  await expect(page.getByRole('heading', { name: 'Actualidad' })).toBeVisible()
 
   await page.getByRole('button', { name: 'Reservar plaza' }).first().click()
   await expect(page.getByText('✓ Plaza reservada').first()).toBeVisible({ timeout: 10000 })

@@ -251,13 +251,16 @@ export interface Content {
     [k: string]: unknown;
   } | null;
   /**
-   * Para vídeos: el UID del vídeo en Cloudflare Stream
+   * Si la pieza lleva vídeo: el UID del vídeo en Cloudflare Stream.
    */
   streamId?: string | null;
   /**
    * Cualquier pieza puede llevar audio: el formato es un atributo.
    */
   audioFile?: (number | null) | Media;
+  /**
+   * Si la pieza tiene descarga (plantilla, checklist, PDF de la guía…).
+   */
   documentFile?: (number | null) | Media;
   /**
    * Fragmentos con marca de tiempo (clicables en el player)

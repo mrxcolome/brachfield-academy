@@ -9,7 +9,7 @@ const TABS = [
   { href: '/app/admin/users', label: 'Alumnos', adminOnly: true },
   { href: '/app/admin/editors', label: 'Editores', adminOnly: true },
   { href: '/app/admin/questions', label: 'Preguntas' },
-  { href: '/app/admin/events', label: 'Eventos' },
+  { href: '/app/admin/events', label: 'Directos' },
 ] as const
 
 export function AdminTabs({ isAdmin }: { isAdmin: boolean }) {

@@ -14,6 +14,7 @@ export function MobileNav() {
     >
       {MOBILE_NAV.map((item) => {
         const active = item.href === '/app' ? pathname === '/app' : pathname.startsWith(item.href)
+        const nuevo = item.href === '/app/new'
         return (
           <Link
             key={item.href}
@@ -21,7 +22,13 @@ export function MobileNav() {
             aria-current={active ? 'page' : undefined}
             className={cn(
               'flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] no-underline',
-              active ? 'font-bold text-brand' : 'font-medium text-muted-2',
+              active
+                ? nuevo
+                  ? 'font-bold text-accent-strong'
+                  : 'font-bold text-brand'
+                : nuevo
+                  ? 'font-semibold text-accent-strong'
+                  : 'font-medium text-muted-2',
             )}
           >
             <span aria-hidden className="text-base leading-none">

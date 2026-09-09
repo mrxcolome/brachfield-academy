@@ -6,7 +6,7 @@ import { editorialHooks } from '../activity'
 export const Events: CollectionConfig = {
   slug: 'events',
   hooks: editorialHooks('events'),
-  labels: { singular: 'Evento', plural: 'Eventos' },
+  labels: { singular: 'Sesión en directo', plural: 'Sesiones en directo' },
   admin: {
     useAsTitle: 'title',
     group: 'Contenido',

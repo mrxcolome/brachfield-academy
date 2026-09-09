@@ -33,6 +33,7 @@ export function SectorNewsRefresh() {
             <span className="text-muted">
               · curación: {result.curator === 'claude' ? 'IA' : 'palabras clave'}
               {result.repaired > 0 && ` · ${result.repaired} imágenes recuperadas`}
+              {result.labeled > 0 && ` · ${result.labeled} noticias antiguas etiquetadas`}
             </span>
           </p>
           <ul className="mt-1 flex list-none flex-col gap-0.5 p-0 font-mono text-[11.5px]">

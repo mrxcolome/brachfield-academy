@@ -25,7 +25,7 @@ const STEPS: Step[] = [
   {
     selector: 'aside a[href="/app/explore"]',
     title: 'Explorar',
-    text: 'El escaparate de todo el catálogo: los cursos y las nueve tipologías de piezas, cada una con su promesa. Cuando no sepas por dónde empezar, empieza aquí.',
+    text: 'El escaparate de todo el catálogo: los cursos y las ocho tipologías de piezas, cada una con su promesa. Cuando no sepas por dónde empezar, empieza aquí.',
   },
   {
     selector: 'aside a[href="/app/updates"]',

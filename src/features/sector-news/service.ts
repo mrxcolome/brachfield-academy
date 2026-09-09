@@ -13,6 +13,10 @@ import { isRelevantHeadline } from './relevance'
 
 const MAX_HEADLINES_TO_CURATE = 60
 const MAX_SELECTED_PER_RUN = 2
+// Frescura: algunos RSS arrastran piezas viejas — una «noticia del día»
+// nunca puede tener más de una semana (sufrido en el estreno: un artículo
+// de febrero se coló en el tablón).
+const MAX_ITEM_AGE_DAYS = 7
 
 export const NEWS_TOPICS = [
   'Morosidad',
@@ -44,6 +48,8 @@ export interface RefreshResult {
   added: number
   /** Noticias antiguas guardadas sin imagen a las que se les recuperó la real. */
   repaired: number
+  /** Noticias antiguas sin etiqueta a las que se les puso tema y clave. */
+  labeled: number
   curator: 'claude' | 'keywords'
   sources: { name: string; items: number; error?: string }[]
 }
@@ -126,6 +132,9 @@ async function fetchArticleImage(url: string): Promise<string | null> {
   }
 }
 
+const EDITOR_SYSTEM =
+  'Eres el editor de actualidad de la academia de Credit Management de Pere Brachfield. Tu público: responsables financieros y de cobros de empresas españolas. Solo te interesan noticias con impacto directo en su trabajo: morosidad, impagos, plazos de pago, concursos de acreedores, insolvencias, intereses de demora, crédito comercial, seguros de crédito, normativa de pagos y datos macro que afecten al cobro. Descarta política general, bolsa, deporte y cualquier titular sin relación clara. Eres MUY selectivo: solo lo verdaderamente destacado del día.'
+
 interface CatalogRef {
   kind: 'course' | 'content'
   slug: string
@@ -170,8 +179,7 @@ async function curateWithClaude(
     const response = await client.messages.create({
       model: 'claude-opus-5',
       max_tokens: 2000,
-      system:
-        'Eres el editor de actualidad de la academia de Credit Management de Pere Brachfield. Tu público: responsables financieros y de cobros de empresas españolas. Solo te interesan noticias con impacto directo en su trabajo: morosidad, impagos, plazos de pago, concursos de acreedores, insolvencias, intereses de demora, crédito comercial, seguros de crédito, normativa de pagos y datos macro que afecten al cobro. Descarta política general, bolsa, deporte y cualquier titular sin relación clara. Eres MUY selectivo: solo lo verdaderamente destacado del día.',
+      system: EDITOR_SYSTEM,
       messages: [
         {
           role: 'user',
@@ -214,6 +222,68 @@ Responde SOLO con un array JSON: [{"i": <número del titular>, "clave": "...", "
   }
 }
 
+/** Autocuración editorial: noticias ya publicadas sin etiqueta temática (las
+ *  de la versión inicial del tablón, o de una pasada sin IA) — Claude les pone
+ *  tema y, si les falta, la clave didáctica. Nunca lanza; 0 si no hay clave API. */
+async function backfillCuration(): Promise<number> {
+  if (!process.env.ANTHROPIC_API_KEY) return 0
+  const rows = await db.sectorNews.findMany({
+    where: { topic: null },
+    orderBy: { publishedAt: 'desc' },
+    take: 6,
+  })
+  if (rows.length === 0) return 0
+  try {
+    const client = new Anthropic()
+    const listado = rows.map((r, i) => `${i}. [${r.source}] ${r.title}`).join('\n')
+    const response = await client.messages.create({
+      model: 'claude-opus-5',
+      max_tokens: 1500,
+      system: EDITOR_SYSTEM,
+      messages: [
+        {
+          role: 'user',
+          content: `Estas noticias ya están publicadas en el tablón de la academia, pero sin etiqueta temática ni clave:\n\n${listado}\n\nPara CADA una:
+- "tema": una etiqueta exacta de esta lista: ${NEWS_TOPICS.join(' · ')}
+- "clave": UNA frase didáctica que responda «¿por qué te importa esto si gestionas el crédito de tu empresa?» — concreta, sin repetir el titular.
+
+Responde SOLO con un array JSON: [{"i": <número>, "tema": "...", "clave": "..."}].`,
+        },
+      ],
+    })
+    const text = response.content.find((b) => b.type === 'text')?.text ?? ''
+    const start = text.indexOf('[')
+    const end = text.lastIndexOf(']')
+    if (start === -1 || end <= start) return 0
+    const parsed = JSON.parse(text.slice(start, end + 1)) as {
+      i: number
+      tema?: string
+      clave?: string
+    }[]
+    if (!Array.isArray(parsed)) return 0
+    let labeled = 0
+    for (const p of parsed) {
+      if (!Number.isInteger(p.i) || p.i < 0 || p.i >= rows.length) continue
+      const row = rows[p.i]!
+      const topic =
+        NEWS_TOPICS.find((t) => t.toLowerCase() === String(p.tema ?? '').toLowerCase()) ?? null
+      if (!topic) continue
+      await db.sectorNews.update({
+        where: { id: row.id },
+        data: {
+          topic,
+          summary: row.summary || String(p.clave ?? '').slice(0, 300),
+        },
+      })
+      labeled++
+    }
+    return labeled
+  } catch (err) {
+    console.error('[sector-news] etiquetado de noticias antiguas falló:', err)
+    return 0
+  }
+}
+
 /** Ejecuta una pasada completa: recoger → curar → guardar. El histórico no
  *  se poda: la sección es un archivo cronológico. */
 export async function refreshSectorNews(): Promise<RefreshResult> {
@@ -228,7 +298,10 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
       })
     ).map((r) => r.url),
   )
-  const fresh = all.filter((i) => !known.has(i.url)).slice(0, MAX_HEADLINES_TO_CURATE)
+  const maxAge = MAX_ITEM_AGE_DAYS * 24 * 60 * 60 * 1000
+  const fresh = all
+    .filter((i) => !known.has(i.url) && Date.now() - i.publishedAt.getTime() < maxAge)
+    .slice(0, MAX_HEADLINES_TO_CURATE)
 
   let selected: { item: ParsedItem; pick: Omit<CuratedPick, 'index'> }[] = []
   let curator: RefreshResult['curator'] = 'keywords'
@@ -282,5 +355,7 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
     repaired++
   }
 
-  return { ok: true, added: selected.length, repaired, curator, sources }
+  const labeled = await backfillCuration()
+
+  return { ok: true, added: selected.length, repaired, labeled, curator, sources }
 }

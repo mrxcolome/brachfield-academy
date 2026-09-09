@@ -80,7 +80,7 @@ export function WelcomeHome({
       <section aria-labelledby="tiles-title" className="mb-8">
         <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="tiles-title" className="text-[13px] font-semibold text-ink-2">
-            Diez maneras de ayudarte
+            Nueve maneras de ayudarte
           </h2>
           <Link
             href="/app/explore"

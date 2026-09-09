@@ -57,10 +57,4 @@ export const COMPACT_TILES = [
     promise: 'Qué pasó y qué aprender',
     href: '/app/library?tipo=CASE_STUDY',
   },
-  {
-    glyph: '◈',
-    label: 'Actualidad',
-    promise: 'Lo que ha cambiado esta semana',
-    href: '/app/updates',
-  },
 ] as const

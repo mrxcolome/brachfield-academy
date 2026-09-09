@@ -30,7 +30,6 @@ describe('contentCover', () => {
       'TEMPLATE',
       'WEBINAR',
       'CASE_STUDY',
-      'NEWS',
     ]
     for (const t of types) expect(DEFAULT_COVER_BY_TYPE[t]).toMatch(/^\/landing\//)
   })

@@ -16,7 +16,6 @@ export const DEFAULT_COVER_BY_TYPE: Record<Content['contentType'], string> = {
   TEMPLATE: '/landing/formato-plantillas.webp',
   WEBINAR: '/landing/formato-webinars.webp',
   CASE_STUDY: '/landing/formato-casos.webp',
-  NEWS: '/landing/formato-actualizaciones.webp',
 }
 
 /** Nombres de categoría del seed → foto de área de la serie de marca. */

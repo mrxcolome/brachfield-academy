@@ -4,6 +4,7 @@ import * as migration_20260816_173220_add_cover_images from './20260816_173220_a
 import * as migration_20260817_ensure_cover_images from './20260817_ensure_cover_images'
 import * as migration_20260903_112701_rename_content_concepts from './20260903_112701_rename_content_concepts'
 import * as migration_20260903_113609_rename_audio_to_interview from './20260903_113609_rename_audio_to_interview'
+import * as migration_20260910_083000_remove_news_type from './20260910_083000_remove_news_type'
 
 export const migrations = [
   {
@@ -35,5 +36,10 @@ export const migrations = [
     up: migration_20260903_113609_rename_audio_to_interview.up,
     down: migration_20260903_113609_rename_audio_to_interview.down,
     name: '20260903_113609_rename_audio_to_interview',
+  },
+  {
+    up: migration_20260910_083000_remove_news_type.up,
+    down: migration_20260910_083000_remove_news_type.down,
+    name: '20260910_083000_remove_news_type',
   },
 ]

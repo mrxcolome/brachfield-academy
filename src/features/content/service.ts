@@ -148,7 +148,6 @@ export const CONTENT_TYPE_META: Record<
   CHECKLIST: { label: 'Checklist', glyph: '✓', kind: 'checklist' },
   TEMPLATE: { label: 'Plantilla', glyph: '▦', kind: 'plantilla' },
   CASE_STUDY: { label: 'Caso práctico', glyph: '▣', kind: 'caso' },
-  NEWS: { label: 'Actualidad', glyph: '◈', kind: 'articulo' },
 }
 
 export const LEVEL_META: Record<NonNullable<Content['level']>, string> = {

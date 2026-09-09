@@ -44,10 +44,4 @@ export const SALA_CONCEPTS: {
     glyph: '▣',
     hint: 'Una situación real, analizada',
   },
-  {
-    value: 'NEWS',
-    label: 'Actualidad',
-    glyph: '◈',
-    hint: 'Lo que ha cambiado en morosidad y crédito',
-  },
 ]

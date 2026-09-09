@@ -53,7 +53,6 @@ export const Contents: CollectionConfig = {
         { label: 'Checklist', value: 'CHECKLIST' },
         { label: 'Plantilla', value: 'TEMPLATE' },
         { label: 'Caso práctico', value: 'CASE_STUDY' },
-        { label: 'Actualidad', value: 'NEWS' },
       ],
     },
     {

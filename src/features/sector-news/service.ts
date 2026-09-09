@@ -42,7 +42,13 @@ async function fetchAllSources(): Promise<{
   for (const source of NEWS_SOURCES) {
     try {
       const res = await fetch(source.url, {
-        headers: { 'user-agent': 'BrachfieldAcademy/1.0 (tablon de actualidad)' },
+        // UA de navegador: algunos medios (p. ej. El Economista) responden 403
+        // a lectores RSS que no lo parezcan — comprobado en el estreno (9/09).
+        headers: {
+          'user-agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36',
+          accept: 'application/rss+xml, application/xml, text/xml, */*',
+        },
         signal: AbortSignal.timeout(10000),
         cache: 'no-store',
       })

@@ -8,7 +8,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import { db } from '@/lib/db'
 import { getPublishedContents, getPublishedCourses } from '@/features/content/service'
 import { NEWS_SOURCES } from './sources'
-import { parseRssItems, type ParsedItem } from './parse'
+import { parseRssItems, extractArticleImage, type ParsedItem } from './parse'
 import { isRelevantHeadline } from './relevance'
 
 const MAX_HEADLINES_TO_CURATE = 60
@@ -42,12 +42,29 @@ export interface SectorNewsItem {
 export interface RefreshResult {
   ok: boolean
   added: number
+  /** Noticias antiguas guardadas sin imagen a las que se les recuperó la real. */
+  repaired: number
   curator: 'claude' | 'keywords'
   sources: { name: string; items: number; error?: string }[]
 }
 
-export async function getSectorNews(limit = 30): Promise<SectorNewsItem[]> {
-  return db.sectorNews.findMany({ orderBy: { publishedAt: 'desc' }, take: limit })
+export async function getSectorNews(limit = 30, topic?: string): Promise<SectorNewsItem[]> {
+  return db.sectorNews.findMany({
+    where: topic ? { topic } : undefined,
+    orderBy: { publishedAt: 'desc' },
+    take: limit,
+  })
+}
+
+/** Temas con alguna noticia publicada, en el orden canónico de NEWS_TOPICS. */
+export async function getSectorNewsTopics(): Promise<string[]> {
+  const rows = await db.sectorNews.findMany({
+    where: { topic: { not: null } },
+    distinct: ['topic'],
+    select: { topic: true },
+  })
+  const present = new Set(rows.map((r) => r.topic))
+  return NEWS_TOPICS.filter((t) => present.has(t))
 }
 
 async function fetchAllSources(): Promise<{
@@ -85,6 +102,28 @@ async function fetchAllSources(): Promise<{
     }
   }
   return { items, sources }
+}
+
+const FETCH_HEADERS = {
+  'user-agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36',
+  accept: 'text/html, application/xhtml+xml, */*',
+}
+
+/** Visita el artículo y saca su imagen principal (og:image) — para noticias
+ *  cuyo RSS no la trae. Nunca lanza; timeout corto para no comer el cron. */
+async function fetchArticleImage(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, {
+      headers: FETCH_HEADERS,
+      signal: AbortSignal.timeout(5000),
+      cache: 'no-store',
+    })
+    if (!res.ok) return null
+    return extractArticleImage(await res.text())
+  } catch {
+    return null
+  }
 }
 
 interface CatalogRef {
@@ -207,6 +246,7 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
   }
 
   for (const { item, pick } of selected) {
+    const imageUrl = item.imageUrl ?? (await fetchArticleImage(item.url))
     await db.sectorNews.upsert({
       where: { url: item.url },
       create: {
@@ -214,7 +254,7 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
         url: item.url,
         source: item.source,
         summary: pick.summary,
-        imageUrl: item.imageUrl,
+        imageUrl,
         topic: pick.topic,
         relatedSlug: pick.related?.slug ?? null,
         relatedTitle: pick.related?.title ?? null,
@@ -225,5 +265,22 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
     })
   }
 
-  return { ok: true, added: selected.length, curator, sources }
+  // Autocuración: noticias guardadas sin imagen (p. ej. las de la versión
+  // anterior del tablón) — se intenta recuperar la real del artículo.
+  const missing = await db.sectorNews.findMany({
+    where: { imageUrl: null },
+    orderBy: { publishedAt: 'desc' },
+    take: 6,
+    select: { id: true, url: true },
+  })
+  const found = await Promise.all(missing.map((row) => fetchArticleImage(row.url)))
+  let repaired = 0
+  for (const [i, row] of missing.entries()) {
+    const img = found[i]
+    if (!img) continue
+    await db.sectorNews.update({ where: { id: row.id }, data: { imageUrl: img } })
+    repaired++
+  }
+
+  return { ok: true, added: selected.length, repaired, curator, sources }
 }

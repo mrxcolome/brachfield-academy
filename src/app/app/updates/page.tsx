@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { requireActiveMember } from '@/features/auth/guards'
 import { getPublishedContents } from '@/features/content/service'
-import { getSectorNews } from '@/features/sector-news/service'
+import { getSectorNews, getSectorNewsTopics, NEWS_TOPICS } from '@/features/sector-news/service'
 import { contentCover } from '@/features/content/covers'
 import { isNew } from '@/features/content/fresh'
 import { NewBadge } from '@/components/product/content-card'
@@ -66,9 +66,12 @@ function NewsCard({ item, hero = false }: { item: SectorNewsItem; hero?: boolean
             </span>
           )}
           {item.topic && (
-            <span className="rounded-full bg-brand-soft px-2.5 py-0.5 text-[11px] font-semibold text-brand-link">
+            <Link
+              href={`/app/updates?tema=${encodeURIComponent(item.topic)}`}
+              className="rounded-full bg-brand-soft px-2.5 py-0.5 text-[11px] font-semibold text-brand-link no-underline hover:bg-brand hover:text-white"
+            >
               {item.topic}
-            </span>
+            </Link>
           )}
           <span className="font-mono text-[11px] text-muted">
             {item.source} · {dateFmt.format(item.publishedAt)}
@@ -109,23 +112,65 @@ function NewsCard({ item, hero = false }: { item: SectorNewsItem; hero?: boolean
 }
 
 /** Actualidad (10/09: solo noticias — los directos vuelven a su propia página
- *  «Sesiones en directo»): la retícula del sector y el análisis de la academia. */
-export default async function UpdatesPage() {
+ *  «Sesiones en directo»): la retícula del sector y el análisis de la academia.
+ *  ?tema=X filtra la retícula por etiqueta temática (chips + etiqueta clicable). */
+export default async function UpdatesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tema?: string }>
+}) {
   await requireActiveMember()
-  const [news, board] = await Promise.all([
+  const { tema } = await searchParams
+  const topic = NEWS_TOPICS.find((t) => t === tema)
+  const [news, board, topics] = await Promise.all([
     getPublishedContents({ type: 'NEWS', limit: 12 }),
-    getSectorNews(30),
+    getSectorNews(30, topic),
+    getSectorNewsTopics(),
   ])
 
   return (
     <div className="mx-auto max-w-4xl">
       <h1 className="mb-1 text-2xl font-bold">Actualidad</h1>
-      <p className="mb-7 text-sm text-muted">
+      <p className="mb-5 text-sm text-muted">
         Cada día, la noticia (o dos) que de verdad importa en morosidad y crédito — con la clave de
         por qué te afecta. El titular lleva a la fuente original.
       </p>
 
-      {news.length === 0 && board.length === 0 ? (
+      {topics.length > 0 && (
+        <nav aria-label="Filtrar por tema" className="mb-6 flex flex-wrap gap-2">
+          <Link
+            href="/app/updates"
+            className={`rounded-full px-3 py-1 text-[12.5px] font-semibold no-underline ${
+              !topic
+                ? 'bg-brand text-white'
+                : 'border border-border-chip bg-surface text-ink-2 hover:border-brand-link'
+            }`}
+          >
+            Todas
+          </Link>
+          {topics.map((t) => (
+            <Link
+              key={t}
+              href={`/app/updates?tema=${encodeURIComponent(t)}`}
+              className={`rounded-full px-3 py-1 text-[12.5px] font-semibold no-underline ${
+                topic === t
+                  ? 'bg-brand text-white'
+                  : 'border border-border-chip bg-surface text-ink-2 hover:border-brand-link'
+              }`}
+            >
+              {t}
+            </Link>
+          ))}
+        </nav>
+      )}
+
+      {topic && board.length === 0 ? (
+        <EmptyState
+          icon="◈"
+          title={`Aún no hay noticias de ${topic}`}
+          description="En cuanto el sector se mueva en este tema, la encontrarás aquí."
+        />
+      ) : news.length === 0 && board.length === 0 ? (
         <EmptyState
           icon="◈"
           title="Aún no hay noticias publicadas"
@@ -139,7 +184,7 @@ export default async function UpdatesPage() {
             ))}
           </div>
 
-          {news.length > 0 && (
+          {news.length > 0 && !topic && (
             <div className="mt-10">
               <h2 className="mb-3 text-[13px] font-semibold text-ink-2">
                 El análisis de la academia

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseRssItems } from '@/features/sector-news/parse'
+import { parseRssItems, extractArticleImage } from '@/features/sector-news/parse'
 import { isRelevantHeadline } from '@/features/sector-news/relevance'
 
 const RSS = `<?xml version="1.0" encoding="UTF-8"?>
@@ -47,5 +47,24 @@ describe('isRelevantHeadline', () => {
   it('descarta titulares fuera del nicho', () => {
     expect(isRelevantHeadline('El Real Madrid gana la Champions')).toBe(false)
     expect(isRelevantHeadline('Nueva subida del precio de la vivienda')).toBe(false)
+  })
+})
+
+describe('extractArticleImage', () => {
+  it('saca og:image con property antes de content', () => {
+    const html = '<head><meta property="og:image" content="https://m.io/foto.jpg"/></head>'
+    expect(extractArticleImage(html)).toBe('https://m.io/foto.jpg')
+  })
+
+  it('saca og:image con content antes de property y decodifica &amp;', () => {
+    const html = '<meta content="https://m.io/f.jpg?w=1200&amp;h=630" property="og:image:url">'
+    expect(extractArticleImage(html)).toBe('https://m.io/f.jpg?w=1200&h=630')
+  })
+
+  it('cae a twitter:image y devuelve null si no hay nada', () => {
+    expect(extractArticleImage('<meta name="twitter:image" content="https://m.io/tw.png">')).toBe(
+      'https://m.io/tw.png',
+    )
+    expect(extractArticleImage('<html><body>sin metas</body></html>')).toBeNull()
   })
 })

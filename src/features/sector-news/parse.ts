@@ -30,6 +30,20 @@ function tag(block: string, name: string): string | null {
   return m?.[1] != null ? unwrap(m[1]) : null
 }
 
+/** Extrae la imagen principal (og:image / twitter:image) del HTML de un
+ *  artículo — para noticias cuyo RSS no trae imagen. */
+export function extractArticleImage(html: string): string | null {
+  const m =
+    html.match(
+      /<meta[^>]*(?:property|name)=["']og:image(?::url)?["'][^>]*content=["'](https?:[^"']+)["']/i,
+    ) ??
+    html.match(
+      /<meta[^>]*content=["'](https?:[^"']+)["'][^>]*(?:property|name)=["']og:image(?::url)?["']/i,
+    ) ??
+    html.match(/<meta[^>]*name=["']twitter:image["'][^>]*content=["'](https?:[^"']+)["']/i)
+  return m?.[1] ? m[1].replace(/&amp;/g, '&') : null
+}
+
 export function parseRssItems(xml: string, source: string): ParsedItem[] {
   const items: ParsedItem[] = []
   for (const m of xml.matchAll(/<item[\s>][\s\S]*?<\/item>/gi)) {

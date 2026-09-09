@@ -43,10 +43,10 @@ export function Sidebar({ showAdmin = false }: { showAdmin?: boolean }) {
           href={NEW_NAV_ITEM.href}
           aria-current={pathname.startsWith(NEW_NAV_ITEM.href) ? 'page' : undefined}
           className={cn(
-            'mt-3 flex items-center gap-2.5 rounded-md border-t border-border-soft px-3 py-2.5 pt-4 text-[13.5px] font-semibold no-underline',
+            'mt-4 flex items-center gap-2.5 rounded-md px-3 py-2.5 text-[13.5px] font-semibold no-underline',
             pathname.startsWith(NEW_NAV_ITEM.href)
-              ? 'bg-accent-soft text-accent-strong'
-              : 'text-accent-strong hover:bg-accent-soft/60',
+              ? 'bg-accent-soft text-accent'
+              : 'text-accent hover:bg-accent-soft/60',
           )}
         >
           <span aria-hidden className="w-4 text-center text-accent">
@@ -59,7 +59,7 @@ export function Sidebar({ showAdmin = false }: { showAdmin?: boolean }) {
             href="/app/sala"
             aria-current={pathname.startsWith('/app/sala') ? 'page' : undefined}
             className={cn(
-              'mt-4 flex items-center gap-2.5 rounded-md border-t border-border-soft px-3 py-2.5 pt-4 text-[13.5px] no-underline',
+              'flex items-center gap-2.5 rounded-md px-3 py-2.5 text-[13.5px] no-underline',
               // Administración cuelga de la Sala: la entrada queda marcada también allí
               pathname.startsWith('/app/sala') || pathname.startsWith('/app/admin')
                 ? 'font-semibold text-brand'

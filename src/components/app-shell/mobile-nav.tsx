@@ -24,10 +24,10 @@ export function MobileNav() {
               'flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] no-underline',
               active
                 ? nuevo
-                  ? 'font-bold text-accent-strong'
+                  ? 'font-bold text-accent'
                   : 'font-bold text-brand'
                 : nuevo
-                  ? 'font-semibold text-accent-strong'
+                  ? 'font-semibold text-accent'
                   : 'font-medium text-muted-2',
             )}
           >

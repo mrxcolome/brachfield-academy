@@ -28,28 +28,11 @@ export function SectorNewsRefresh() {
         <div className="mt-3 text-[12.5px] leading-relaxed text-ink-2">
           <p>
             {result.added > 0
-              ? `${result.added} titulares nuevos añadidos`
-              : 'Sin titulares nuevos relevantes'}{' '}
+              ? `${result.added} noticias destacadas añadidas`
+              : 'Hoy sin noticias destacadas nuevas'}{' '}
             <span className="text-muted">
               · curación: {result.curator === 'claude' ? 'IA' : 'palabras clave'}
             </span>
-          </p>
-          <p className="mt-1">
-            {result.article ? (
-              <>
-                Crónica publicada:{' '}
-                <a
-                  href={`/app/contents/${result.article.slug}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-semibold text-brand-link"
-                >
-                  «{result.article.title}» ↗
-                </a>
-              </>
-            ) : (
-              <span className="text-muted">Redactor: {result.writerStatus}</span>
-            )}
           </p>
           <ul className="mt-1 flex list-none flex-col gap-0.5 p-0 font-mono text-[11.5px]">
             {result.sources.map((s) => (

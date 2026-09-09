@@ -395,13 +395,22 @@ model EditorialActivity {
 // Tablón de actualidad del sector (2026-09-09): titulares de fuentes fiables
 // (RSS) curados a diario por IA. Los enlaces llevan siempre a la fuente.
 model SectorNews {
-  id          String   @id @default(cuid())
-  title       String
-  url         String   @unique
-  source      String
-  summary     String   @default("")
-  publishedAt DateTime
-  fetchedAt   DateTime @default(now())
+  id           String   @id @default(cuid())
+  title        String
+  url          String   @unique
+  source       String
+  // «La clave para ti»: por qué le importa esta noticia a un credit manager
+  summary      String   @default("")
+  // Imagen de la noticia (del RSS); sin ella, respaldo de la serie de marca
+  imageUrl     String?
+  // Etiqueta temática (Morosidad, Normativa, Concursos…)
+  topic        String?
+  // Contenido del catálogo relacionado (opcional)
+  relatedSlug  String?
+  relatedTitle String?
+  relatedKind  String? // 'course' | 'content'
+  publishedAt  DateTime
+  fetchedAt    DateTime @default(now())
 
   @@index([publishedAt(sort: Desc)])
   @@map("sector_news")

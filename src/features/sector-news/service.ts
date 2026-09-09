@@ -1,19 +1,29 @@
-// El tablón «El sector, al día»: recogida de fuentes RSS + curación diaria.
-// Con ANTHROPIC_API_KEY, Claude hace de editor (selecciona lo relevante para
-// un credit manager y escribe un resumen de una línea); sin ella, el filtro
-// por palabras clave (relevance.ts) mantiene el tablón digno.
+// «El sector, al día» (v2 visual, decisión del propietario 9/09: curación
+// honesta, nada de redacción sintética firmada): cada día 1-2 noticias
+// destacadas del nicho, con imagen, etiqueta temática, la clave didáctica
+// para el alumno y, si procede, el contenido relacionado del catálogo.
+// El histórico no se borra: cronológico, lo más nuevo arriba.
 import 'server-only'
 import Anthropic from '@anthropic-ai/sdk'
 import { db } from '@/lib/db'
+import { getPublishedContents, getPublishedCourses } from '@/features/content/service'
 import { NEWS_SOURCES } from './sources'
 import { parseRssItems, type ParsedItem } from './parse'
 import { isRelevantHeadline } from './relevance'
-import { generateArticle, publishArticle, hasArticleToday } from './writer'
-import { getCategories } from '@/features/content/service'
 
 const MAX_HEADLINES_TO_CURATE = 60
-const MAX_SELECTED_PER_RUN = 6
-const PRUNE_AFTER_DAYS = 45
+const MAX_SELECTED_PER_RUN = 2
+
+export const NEWS_TOPICS = [
+  'Morosidad',
+  'Impagos',
+  'Normativa',
+  'Concursos',
+  'Plazos de pago',
+  'Macroeconomía',
+  'Financiación',
+  'Riesgo de crédito',
+] as const
 
 export interface SectorNewsItem {
   id: string
@@ -21,6 +31,11 @@ export interface SectorNewsItem {
   url: string
   source: string
   summary: string
+  imageUrl: string | null
+  topic: string | null
+  relatedSlug: string | null
+  relatedTitle: string | null
+  relatedKind: string | null
   publishedAt: Date
 }
 
@@ -29,13 +44,9 @@ export interface RefreshResult {
   added: number
   curator: 'claude' | 'keywords'
   sources: { name: string; items: number; error?: string }[]
-  /** Crónica del día redactada y publicada (o null si hoy no la hubo). */
-  article: { title: string; slug: string } | null
-  /** Qué hizo (o por qué no hizo nada) el redactor en esta pasada. */
-  writerStatus: string
 }
 
-export async function getSectorNews(limit = 10): Promise<SectorNewsItem[]> {
+export async function getSectorNews(limit = 30): Promise<SectorNewsItem[]> {
   return db.sectorNews.findMany({ orderBy: { publishedAt: 'desc' }, take: limit })
 }
 
@@ -48,8 +59,8 @@ async function fetchAllSources(): Promise<{
   for (const source of NEWS_SOURCES) {
     try {
       const res = await fetch(source.url, {
-        // UA de navegador: algunos medios (p. ej. El Economista) responden 403
-        // a lectores RSS que no lo parezcan — comprobado en el estreno (9/09).
+        // UA de navegador: algunos medios responden 403 a lectores RSS
+        // que no lo parezcan — comprobado en el estreno (9/09).
         headers: {
           'user-agent':
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36',
@@ -76,24 +87,61 @@ async function fetchAllSources(): Promise<{
   return { items, sources }
 }
 
-/** Claude como editor: devuelve los índices elegidos con su resumen de una
- *  línea, o null si no hay clave o la llamada falla (→ fallback keywords). */
+interface CatalogRef {
+  kind: 'course' | 'content'
+  slug: string
+  title: string
+}
+
+async function catalogRefs(): Promise<CatalogRef[]> {
+  const [courses, contents] = await Promise.all([
+    getPublishedCourses(),
+    getPublishedContents({ limit: 50 }),
+  ])
+  return [
+    ...courses.map((c) => ({ kind: 'course' as const, slug: c.slug ?? '', title: c.title })),
+    ...contents.map((c) => ({ kind: 'content' as const, slug: c.slug ?? '', title: c.title })),
+  ].filter((r) => r.slug)
+}
+
+interface CuratedPick {
+  index: number
+  summary: string
+  topic: string | null
+  related: CatalogRef | null
+}
+
+/** Claude como editor: elige las 1-2 noticias MÁS destacadas del día para un
+ *  credit manager, escribe «la clave para ti», etiqueta el tema y sugiere
+ *  contenido relacionado del catálogo. null → fallback por palabras clave. */
 async function curateWithClaude(
   items: ParsedItem[],
-): Promise<{ index: number; summary: string }[] | null> {
+  catalog: CatalogRef[],
+): Promise<CuratedPick[] | null> {
   if (!process.env.ANTHROPIC_API_KEY) return null
   try {
     const client = new Anthropic()
-    const listado = items.map((it, i) => `${i}. [${it.source}] ${it.title}`).join('\n')
+    const listado = items
+      .map(
+        (it, i) =>
+          `${i}. [${it.source}] ${it.title}${it.description ? ` — ${it.description.slice(0, 180)}` : ''}`,
+      )
+      .join('\n')
+    const catalogo = catalog.map((c, i) => `${i}. ${c.title}`).join('\n')
     const response = await client.messages.create({
       model: 'claude-opus-5',
       max_tokens: 2000,
       system:
-        'Eres el editor del tablón de actualidad de una academia de Credit Management dirigida por Pere Brachfield. Tu público: responsables financieros y de cobros de empresas españolas. Solo te interesan noticias con impacto directo en su trabajo: morosidad, impagos, plazos de pago, concursos de acreedores, insolvencias, intereses de demora, crédito comercial, seguros de crédito, normativa de pagos (Ley Crear y Crecer, factura electrónica) y datos macro de morosidad. Descarta política general, bolsa, deporte, motor y cualquier titular sin relación clara.',
+        'Eres el editor de actualidad de la academia de Credit Management de Pere Brachfield. Tu público: responsables financieros y de cobros de empresas españolas. Solo te interesan noticias con impacto directo en su trabajo: morosidad, impagos, plazos de pago, concursos de acreedores, insolvencias, intereses de demora, crédito comercial, seguros de crédito, normativa de pagos y datos macro que afecten al cobro. Descarta política general, bolsa, deporte y cualquier titular sin relación clara. Eres MUY selectivo: solo lo verdaderamente destacado del día.',
       messages: [
         {
           role: 'user',
-          content: `Titulares de hoy:\n\n${listado}\n\nElige como máximo ${MAX_SELECTED_PER_RUN} titulares relevantes (puede que ninguno lo sea) y escribe para cada uno un resumen de UNA frase, neutro y útil, sin repetir el titular. Responde SOLO con un array JSON: [{"i": <número del titular>, "resumen": "<frase>"}]. Si ninguno es relevante, responde [].`,
+          content: `Titulares de hoy:\n\n${listado}\n\nCatálogo de la academia (cursos y piezas):\n\n${catalogo}\n\nElige como máximo ${MAX_SELECTED_PER_RUN} titulares realmente destacados (puede que ninguno lo sea). Para cada elegido:
+- "clave": UNA frase didáctica que responda «¿por qué te importa esto si gestionas el crédito de tu empresa?» — concreta, sin repetir el titular.
+- "tema": una etiqueta exacta de esta lista: ${NEWS_TOPICS.join(' · ')}
+- "rel": el número del elemento del catálogo que más ayude a profundizar en el tema, o -1 si ninguno encaja de verdad.
+
+Responde SOLO con un array JSON: [{"i": <número del titular>, "clave": "...", "tema": "...", "rel": <número o -1>}]. Si ninguno es destacado, responde [].`,
         },
       ],
     })
@@ -101,23 +149,38 @@ async function curateWithClaude(
     const start = text.indexOf('[')
     const end = text.lastIndexOf(']')
     if (start === -1 || end <= start) return null
-    const parsed = JSON.parse(text.slice(start, end + 1)) as { i: number; resumen: string }[]
+    const parsed = JSON.parse(text.slice(start, end + 1)) as {
+      i: number
+      clave?: string
+      tema?: string
+      rel?: number
+    }[]
     if (!Array.isArray(parsed)) return null
     return parsed
       .filter((p) => Number.isInteger(p.i) && p.i >= 0 && p.i < items.length)
       .slice(0, MAX_SELECTED_PER_RUN)
-      .map((p) => ({ index: p.i, summary: String(p.resumen ?? '').slice(0, 300) }))
+      .map((p) => ({
+        index: p.i,
+        summary: String(p.clave ?? '').slice(0, 300),
+        topic:
+          NEWS_TOPICS.find((t) => t.toLowerCase() === String(p.tema ?? '').toLowerCase()) ?? null,
+        related:
+          typeof p.rel === 'number' && p.rel >= 0 && p.rel < catalog.length
+            ? (catalog[p.rel] ?? null)
+            : null,
+      }))
   } catch (err) {
     console.error('[sector-news] curación con Claude falló:', err)
     return null
   }
 }
 
-/** Ejecuta una pasada completa: recoger → curar → guardar → podar. */
+/** Ejecuta una pasada completa: recoger → curar → guardar. El histórico no
+ *  se poda: la sección es un archivo cronológico. */
 export async function refreshSectorNews(): Promise<RefreshResult> {
   const { items: all, sources } = await fetchAllSources()
 
-  // sin duplicar lo ya publicado en el tablón
+  // sin duplicar lo ya publicado en la sección
   const known = new Set(
     (
       await db.sectorNews.findMany({
@@ -128,78 +191,39 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
   )
   const fresh = all.filter((i) => !known.has(i.url)).slice(0, MAX_HEADLINES_TO_CURATE)
 
-  let selected: { item: ParsedItem; summary: string }[] = []
+  let selected: { item: ParsedItem; pick: Omit<CuratedPick, 'index'> }[] = []
   let curator: RefreshResult['curator'] = 'keywords'
   if (fresh.length > 0) {
-    const curated = await curateWithClaude(fresh)
+    const curated = await curateWithClaude(fresh, await catalogRefs())
     if (curated) {
       curator = 'claude'
-      selected = curated.map((c) => ({ item: fresh[c.index]!, summary: c.summary }))
+      selected = curated.map((c) => ({ item: fresh[c.index]!, pick: c }))
     } else {
       selected = fresh
         .filter((i) => isRelevantHeadline(i.title))
         .slice(0, MAX_SELECTED_PER_RUN)
-        .map((item) => ({ item, summary: '' }))
+        .map((item) => ({ item, pick: { summary: '', topic: null, related: null } }))
     }
   }
 
-  for (const { item, summary } of selected) {
+  for (const { item, pick } of selected) {
     await db.sectorNews.upsert({
       where: { url: item.url },
       create: {
         title: item.title,
         url: item.url,
         source: item.source,
-        summary,
+        summary: pick.summary,
+        imageUrl: item.imageUrl,
+        topic: pick.topic,
+        relatedSlug: pick.related?.slug ?? null,
+        relatedTitle: pick.related?.title ?? null,
+        relatedKind: pick.related?.kind ?? null,
         publishedAt: item.publishedAt,
       },
       update: {},
     })
   }
 
-  await db.sectorNews.deleteMany({
-    where: { publishedAt: { lt: new Date(Date.now() - PRUNE_AFTER_DAYS * 86400000) } },
-  })
-
-  // La crónica del día «como Pere»: máximo una al día (guardia en el
-  // catálogo). Entrada: los titulares frescos de esta pasada o, si no los
-  // hay, lo recogido en el tablón durante las últimas 24 horas — así el
-  // botón puede estrenar la crónica aunque los titulares ya estén guardados.
-  let article: RefreshResult['article'] = null
-  let writerStatus = 'sin ANTHROPIC_API_KEY'
-  if (process.env.ANTHROPIC_API_KEY) {
-    if (await hasArticleToday()) {
-      writerStatus = 'ya hay crónica publicada hoy (tope: una al día)'
-    } else {
-      let input: ParsedItem[] = selected.map((s) => s.item)
-      if (input.length === 0) {
-        const recent = await db.sectorNews.findMany({
-          where: { fetchedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
-          orderBy: { publishedAt: 'desc' },
-          take: 12,
-        })
-        input = recent.map((r) => ({
-          title: r.title,
-          url: r.url,
-          source: r.source,
-          publishedAt: r.publishedAt,
-          description: r.summary,
-        }))
-      }
-      if (input.length === 0) {
-        writerStatus = 'sin titulares en las últimas 24 horas'
-      } else {
-        const categories = (await getCategories()).map((c) => c.name)
-        const outcome = await generateArticle(input, categories)
-        if (outcome.article) {
-          article = await publishArticle(outcome.article)
-          writerStatus = 'crónica publicada'
-        } else {
-          writerStatus = outcome.reason ?? 'sin crónica'
-        }
-      }
-    }
-  }
-
-  return { ok: true, added: selected.length, curator, sources, article, writerStatus }
+  return { ok: true, added: selected.length, curator, sources }
 }

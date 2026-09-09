@@ -7,8 +7,10 @@ export interface ParsedItem {
   url: string
   source: string
   publishedAt: Date
-  /** Entradilla del RSS (texto plano, recortado): materia prima del redactor. */
+  /** Entradilla del RSS (texto plano, recortado). */
   description: string
+  /** Imagen de la noticia (media:content, enclosure o <img> de la entradilla). */
+  imageUrl: string | null
 }
 
 function unwrap(value: string): string {
@@ -39,7 +41,13 @@ export function parseRssItems(xml: string, source: string): ParsedItem[] {
     const publishedAt = dateRaw ? new Date(dateRaw) : new Date()
     if (Number.isNaN(publishedAt.getTime())) continue
     const description = (tag(block, 'description') ?? '').slice(0, 500)
-    items.push({ title, url, source, publishedAt, description })
+    const media =
+      block.match(/<media:content[^>]*url="(https?:[^"]+)"/i)?.[1] ??
+      block.match(/<enclosure[^>]*url="(https?:[^"]+\.(?:jpe?g|png|webp|gif)[^"]*)"/i)?.[1] ??
+      block.match(/<enclosure[^>]*type="image[^"]*"[^>]*url="(https?:[^"]+)"/i)?.[1] ??
+      block.match(/<img[^>]*src="(https?:[^"]+)"/i)?.[1] ??
+      null
+    items.push({ title, url, source, publishedAt, description, imageUrl: media })
   }
   return items
 }

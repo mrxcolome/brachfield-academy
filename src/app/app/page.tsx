@@ -147,7 +147,7 @@ export default async function AppHome({
               href: '/app/updates',
               title: 'Ponerte al día',
               promise: 'Lo último en morosidad y crédito',
-              detail: 'Actualidad del sector y sesiones en directo.',
+              detail: 'Cada día, la noticia del sector que importa.',
             },
           ].map((card) => (
             <Link
@@ -247,7 +247,7 @@ export default async function AppHome({
                 {EVENT_TYPE_LABEL[nextEvent.eventType]} · {formatEventDate(nextEvent.startAt)}
               </p>
               <Link
-                href="/app/updates"
+                href="/app/events"
                 className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
               >
                 Reservar plaza →

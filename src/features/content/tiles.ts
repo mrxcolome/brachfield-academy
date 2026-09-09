@@ -33,7 +33,7 @@ export const MEDIUM_TILES = [
     label: 'Sesiones en directo',
     promise: 'Con Pere, en vivo — y su replay',
     img: '/landing/formato-webinars.webp',
-    href: '/app/updates',
+    href: '/app/events',
   },
 ] as const
 

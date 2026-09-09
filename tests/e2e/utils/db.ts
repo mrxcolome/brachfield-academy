@@ -36,9 +36,12 @@ export async function prepareE2eState(): Promise<void> {
     await c.query(
       `update "user" set "emailVerified" = true where email like '%@e2e.brachfieldacademy.test'`,
     )
+    // El miembro es un alumno "veterano" (alta >14 días y tour visto): así ve
+    // el Inicio de trabajo («Hola, …») y no la bienvenida de primer aterrizaje.
     await c.query(
       `update "user" set "onboardingStatus"='COMPLETED', "professionalProfile"='COLLECTIONS',
-         level='INTERMEDIATE', interests=ARRAY['Mejorar el recobro'], role='MEMBER'
+         level='INTERMEDIATE', interests=ARRAY['Mejorar el recobro'], role='MEMBER',
+         "createdAt" = now() - interval '30 days', "tourSeenAt" = now()
        where email = $1`,
       [MEMBER_EMAIL],
     )
@@ -48,7 +51,8 @@ export async function prepareE2eState(): Promise<void> {
       [FRESH_EMAIL],
     )
     await c.query(
-      `update "user" set "onboardingStatus"='COMPLETED', role='ADMIN' where email = $1`,
+      `update "user" set "onboardingStatus"='COMPLETED', role='ADMIN',
+         "createdAt" = now() - interval '30 days', "tourSeenAt" = now() where email = $1`,
       [ADMIN_EMAIL],
     )
 

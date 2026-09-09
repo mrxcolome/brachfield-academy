@@ -28,6 +28,8 @@ test('un miembro nuevo completa el onboarding y llega al dashboard', async ({ pa
   await page.getByRole('button', { name: 'Entrar en mi Academia' }).click()
 
   await page.waitForURL(/\/app$/, { timeout: 15000 })
-  await expect(page.getByRole('heading', { name: /Hola/ })).toBeVisible()
-  await expect(page.getByText('Recomendado para ti')).toBeVisible()
+  // El alumno recién llegado aterriza en la bienvenida de primer aterrizaje
+  // (2026-09-09), no en el Inicio de trabajo.
+  await expect(page.getByRole('heading', { name: /Bienvenido/ })).toBeVisible()
+  await expect(page.getByText('Tus primeros pasos')).toBeVisible()
 })

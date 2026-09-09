@@ -5,7 +5,12 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
 async function expectNoSeriousViolations(page: import('@playwright/test').Page) {
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze()
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa'])
+    // «Nuevo este mes» va en el naranja puro del logo por decisión expresa del
+    // propietario (9/09), asumiendo que no llega al contraste AA sobre blanco.
+    .exclude('nav a[href="/app/new"]')
+    .analyze()
   const serious = results.violations.filter(
     (v) => v.impact === 'serious' || v.impact === 'critical',
   )

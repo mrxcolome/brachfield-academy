@@ -59,7 +59,7 @@ export async function getWelcomeState(userId: string): Promise<WelcomeState> {
       key: 'directo',
       label: 'Reservar plaza en el próximo directo',
       detail: formatEventDate(nextEvent.startAt),
-      href: '/app/updates',
+      href: '/app/events',
       done: reservations > 0,
     })
   }

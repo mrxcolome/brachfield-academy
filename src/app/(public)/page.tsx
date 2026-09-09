@@ -358,7 +358,7 @@ export default function LandingPage() {
             </ul>
             <Link
               href="/signup"
-              className="block rounded-md bg-accent px-4 py-3 text-center text-sm font-bold text-accent-ink no-underline hover:opacity-90"
+              className="block rounded-md bg-accent px-4 py-3 text-center text-sm font-bold text-brand no-underline hover:opacity-90"
             >
               Quiero ser alumno
             </Link>

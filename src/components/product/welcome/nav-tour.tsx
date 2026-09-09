@@ -30,7 +30,7 @@ const STEPS: Step[] = [
   {
     selector: 'aside a[href="/app/updates"]',
     title: 'Actualidad',
-    text: 'Lo que cambia en morosidad y crédito — y las sesiones en directo con Pere: reserva tu plaza y mira los replays.',
+    text: 'Cada día, la noticia del sector que de verdad importa — con la clave de por qué te afecta a ti. Las sesiones en directo con Pere las encontrarás desde Explorar.',
   },
   {
     selector: 'aside a[href="/app/new"]',

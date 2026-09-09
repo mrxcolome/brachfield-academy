@@ -8,7 +8,7 @@ import { SmartCover } from '@/components/product/smart-cover'
 /** Etiqueta naranja de los primeros 30 días, superpuesta a la portada. */
 export function NewBadge() {
   return (
-    <span className="absolute top-2 left-2 rounded-[5px] bg-accent px-1.5 py-0.5 font-mono text-[10px] font-semibold tracking-wider text-white">
+    <span className="absolute top-2 left-2 rounded-[5px] bg-accent-strong px-1.5 py-0.5 font-mono text-[10px] font-semibold tracking-wider text-white">
       NUEVO
     </span>
   )

@@ -16,7 +16,7 @@ test.describe('admin', () => {
 
   test('ve los KPIs del resumen', async ({ page }) => {
     await page.goto('/app/admin')
-    await expect(page.getByText('Miembros activos')).toBeVisible()
+    await expect(page.getByText('Alumnos activos')).toBeVisible()
     await expect(page.getByText('Preguntas pendientes')).toBeVisible()
   })
 

@@ -1,11 +1,6 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { requireActiveMember } from '@/features/auth/guards'
-import { getPublishedContents } from '@/features/content/service'
 import { getSectorNews, getSectorNewsTopics, NEWS_TOPICS } from '@/features/sector-news/service'
-import { contentCover } from '@/features/content/covers'
-import { isNew } from '@/features/content/fresh'
-import { NewBadge } from '@/components/product/content-card'
 import { NewsImage } from '@/components/product/news-image'
 import { EmptyState } from '@/components/ui/empty-state'
 import type { SectorNewsItem } from '@/features/sector-news/service'
@@ -112,7 +107,7 @@ function NewsCard({ item, hero = false }: { item: SectorNewsItem; hero?: boolean
 }
 
 /** Actualidad (10/09: solo noticias — los directos vuelven a su propia página
- *  «Sesiones en directo»): la retícula del sector y el análisis de la academia.
+ *  «Sesiones en directo»): la retícula «El sector, al día», sin más bloques.
  *  ?tema=X filtra la retícula por etiqueta temática (chips + etiqueta clicable). */
 export default async function UpdatesPage({
   searchParams,
@@ -122,11 +117,7 @@ export default async function UpdatesPage({
   await requireActiveMember()
   const { tema } = await searchParams
   const topic = NEWS_TOPICS.find((t) => t === tema)
-  const [news, board, topics] = await Promise.all([
-    getPublishedContents({ type: 'NEWS', limit: 12 }),
-    getSectorNews(30, topic),
-    getSectorNewsTopics(),
-  ])
+  const [board, topics] = await Promise.all([getSectorNews(30, topic), getSectorNewsTopics()])
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -164,66 +155,22 @@ export default async function UpdatesPage({
         </nav>
       )}
 
-      {topic && board.length === 0 ? (
+      {board.length === 0 ? (
         <EmptyState
           icon="◈"
-          title={`Aún no hay noticias de ${topic}`}
-          description="En cuanto el sector se mueva en este tema, la encontrarás aquí."
-        />
-      ) : news.length === 0 && board.length === 0 ? (
-        <EmptyState
-          icon="◈"
-          title="Aún no hay noticias publicadas"
-          description="Cuando algo cambie en morosidad y crédito, lo encontrarás aquí."
+          title={topic ? `Aún no hay noticias de ${topic}` : 'Aún no hay noticias publicadas'}
+          description={
+            topic
+              ? 'En cuanto el sector se mueva en este tema, la encontrarás aquí.'
+              : 'Cuando algo cambie en morosidad y crédito, lo encontrarás aquí.'
+          }
         />
       ) : (
-        <>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {board.map((item, i) => (
-              <NewsCard key={item.id} item={item} hero={i === 0} />
-            ))}
-          </div>
-
-          {news.length > 0 && !topic && (
-            <div className="mt-10">
-              <h2 className="mb-3 text-[13px] font-semibold text-ink-2">
-                El análisis de la academia
-              </h2>
-              <div className="flex flex-col gap-3">
-                {news.map((item) => (
-                  <Link
-                    key={item.id}
-                    href={`/app/contents/${item.slug}`}
-                    className="flex items-center gap-4 rounded-lg border border-border bg-surface p-3.5 text-inherit no-underline"
-                  >
-                    <span className="relative w-28 flex-none overflow-hidden rounded-md sm:w-33">
-                      <Image
-                        src={contentCover(item)}
-                        alt=""
-                        width={264}
-                        height={149}
-                        className="aspect-video w-full object-cover"
-                      />
-                      {isNew(item.publishedAt) && <NewBadge />}
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="mb-0.5 block font-mono text-[10.5px] tracking-wide text-muted uppercase">
-                        Actualidad
-                        {item.publishedAt ? ` · ${dateFmt.format(new Date(item.publishedAt))}` : ''}
-                      </span>
-                      <span className="block text-sm leading-snug font-semibold">{item.title}</span>
-                      {item.excerpt ? (
-                        <span className="mt-0.5 line-clamp-2 block text-[12.5px] leading-relaxed text-muted">
-                          {item.excerpt}
-                        </span>
-                      ) : null}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-        </>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {board.map((item, i) => (
+            <NewsCard key={item.id} item={item} hero={i === 0} />
+          ))}
+        </div>
       )}
     </div>
   )

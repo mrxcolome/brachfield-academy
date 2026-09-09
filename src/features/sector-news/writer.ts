@@ -28,13 +28,20 @@ export interface GeneratedArticle {
   fuenteUrl: string
 }
 
+export interface GenerateOutcome {
+  article: GeneratedArticle | null
+  /** Motivo legible cuando no hay crónica (criterio, error de API…). */
+  reason?: string
+}
+
 /** Redacta (o decide no redactar) la crónica del día a partir de los
- *  titulares frescos. Devuelve null si no hay historia que lo merezca. */
+ *  titulares frescos. */
 export async function generateArticle(
   items: ParsedItem[],
   categories: string[],
-): Promise<GeneratedArticle | null> {
-  if (!process.env.ANTHROPIC_API_KEY || items.length === 0) return null
+): Promise<GenerateOutcome> {
+  if (!process.env.ANTHROPIC_API_KEY) return { article: null, reason: 'sin ANTHROPIC_API_KEY' }
+  if (items.length === 0) return { article: null, reason: 'sin titulares de entrada' }
   const client = new Anthropic()
   const listado = items
     .map(
@@ -59,22 +66,24 @@ Reglas estrictas:
 - 3 o 4 párrafos de 60-110 palabras, terminando con la recomendación práctica.
 - Elegir la categoría más adecuada de esta lista exacta: ${categories.join(' · ')}
 
-Responde SOLO con un objeto JSON:
-{"titular": "...", "entradilla": "...", "parrafos": ["...", "..."], "categoria": "...", "fuente": {"nombre": "...", "url": "..."}}`,
+Responde SOLO con un objeto JSON (fuente_i = el número del titular en el que te basas):
+{"titular": "...", "entradilla": "...", "parrafos": ["...", "..."], "categoria": "...", "fuente_i": 0}`,
         },
       ],
     })
     const text = response.content.find((b) => b.type === 'text')?.text.trim() ?? ''
-    if (text === 'null' || text.toLowerCase().startsWith('null')) return null
+    if (text === 'null' || text.toLowerCase().startsWith('null'))
+      return { article: null, reason: 'criterio editorial: ninguna noticia lo merecía' }
     const start = text.indexOf('{')
     const end = text.lastIndexOf('}')
-    if (start === -1 || end <= start) return null
+    if (start === -1 || end <= start)
+      return { article: null, reason: 'respuesta del redactor no interpretable' }
     const raw = JSON.parse(text.slice(start, end + 1)) as {
       titular?: string
       entradilla?: string
       parrafos?: string[]
       categoria?: string
-      fuente?: { nombre?: string; url?: string }
+      fuente_i?: number
     }
     if (
       !raw.titular ||
@@ -82,22 +91,29 @@ Responde SOLO con un objeto JSON:
       !Array.isArray(raw.parrafos) ||
       raw.parrafos.length === 0
     )
-      return null
-    const fuenteUrl = raw.fuente?.url ?? ''
-    // la fuente citada debe ser una de las noticias reales del listado
-    const match = items.find((it) => it.url === fuenteUrl)
-    if (!match) return null
+      return { article: null, reason: 'crónica incompleta (campos vacíos)' }
+    // la fuente citada es, por índice, una de las noticias reales del listado
+    const match =
+      typeof raw.fuente_i === 'number' && raw.fuente_i >= 0 && raw.fuente_i < items.length
+        ? items[raw.fuente_i]!
+        : null
+    if (!match) return { article: null, reason: 'fuente citada no reconocida' }
     return {
-      titular: raw.titular.slice(0, 180),
-      entradilla: raw.entradilla.slice(0, 400),
-      parrafos: raw.parrafos.map((p) => String(p)).slice(0, 5),
-      categoria: raw.categoria ?? '',
-      fuenteNombre: raw.fuente?.nombre ?? match.source,
-      fuenteUrl,
+      article: {
+        titular: raw.titular.slice(0, 180),
+        entradilla: raw.entradilla.slice(0, 400),
+        parrafos: raw.parrafos.map((p) => String(p)).slice(0, 5),
+        categoria: raw.categoria ?? '',
+        fuenteNombre: match.source,
+        fuenteUrl: match.url,
+      },
     }
   } catch (err) {
     console.error('[sector-news] redacción falló:', err)
-    return null
+    return {
+      article: null,
+      reason: `error del redactor: ${err instanceof Error ? err.message.slice(0, 140) : 'desconocido'}`,
+    }
   }
 }
 

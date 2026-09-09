@@ -14,6 +14,10 @@ function Kpi({ value, label }: { value: number; label: string }) {
   )
 }
 
+// El botón del tablón ejecuta la redacción con Claude (server action de
+// esta ruta): ampliar el tope de ejecución por encima de los 10s por defecto.
+export const maxDuration = 60
+
 export default async function AdminOverviewPage() {
   await requireRole('ADMIN', 'EDITOR')
   const [kpis, searches] = await Promise.all([getAdminKpis(), getSearchStats()])

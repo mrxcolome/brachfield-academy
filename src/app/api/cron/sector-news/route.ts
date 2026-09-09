@@ -4,6 +4,8 @@ import { NextResponse } from 'next/server'
 import { refreshSectorNews } from '@/features/sector-news/service'
 
 export const dynamic = 'force-dynamic'
+// La redacción con Claude puede tardar >10s: ampliar el tope de la función.
+export const maxDuration = 60
 
 export async function GET(req: Request): Promise<NextResponse> {
   const secret = process.env.CRON_SECRET

@@ -31,6 +31,8 @@ export interface RefreshResult {
   sources: { name: string; items: number; error?: string }[]
   /** Crónica del día redactada y publicada (o null si hoy no la hubo). */
   article: { title: string; slug: string } | null
+  /** Qué hizo (o por qué no hizo nada) el redactor en esta pasada. */
+  writerStatus: string
 }
 
 export async function getSectorNews(limit = 10): Promise<SectorNewsItem[]> {
@@ -164,28 +166,40 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
   // hay, lo recogido en el tablón durante las últimas 24 horas — así el
   // botón puede estrenar la crónica aunque los titulares ya estén guardados.
   let article: RefreshResult['article'] = null
-  if (process.env.ANTHROPIC_API_KEY && !(await hasArticleToday())) {
-    let input: ParsedItem[] = selected.map((s) => s.item)
-    if (input.length === 0) {
-      const recent = await db.sectorNews.findMany({
-        where: { fetchedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
-        orderBy: { publishedAt: 'desc' },
-        take: 12,
-      })
-      input = recent.map((r) => ({
-        title: r.title,
-        url: r.url,
-        source: r.source,
-        publishedAt: r.publishedAt,
-        description: r.summary,
-      }))
-    }
-    if (input.length > 0) {
-      const categories = (await getCategories()).map((c) => c.name)
-      const generated = await generateArticle(input, categories)
-      if (generated) article = await publishArticle(generated)
+  let writerStatus = 'sin ANTHROPIC_API_KEY'
+  if (process.env.ANTHROPIC_API_KEY) {
+    if (await hasArticleToday()) {
+      writerStatus = 'ya hay crónica publicada hoy (tope: una al día)'
+    } else {
+      let input: ParsedItem[] = selected.map((s) => s.item)
+      if (input.length === 0) {
+        const recent = await db.sectorNews.findMany({
+          where: { fetchedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
+          orderBy: { publishedAt: 'desc' },
+          take: 12,
+        })
+        input = recent.map((r) => ({
+          title: r.title,
+          url: r.url,
+          source: r.source,
+          publishedAt: r.publishedAt,
+          description: r.summary,
+        }))
+      }
+      if (input.length === 0) {
+        writerStatus = 'sin titulares en las últimas 24 horas'
+      } else {
+        const categories = (await getCategories()).map((c) => c.name)
+        const outcome = await generateArticle(input, categories)
+        if (outcome.article) {
+          article = await publishArticle(outcome.article)
+          writerStatus = 'crónica publicada'
+        } else {
+          writerStatus = outcome.reason ?? 'sin crónica'
+        }
+      }
     }
   }
 
-  return { ok: true, added: selected.length, curator, sources, article }
+  return { ok: true, added: selected.length, curator, sources, article, writerStatus }
 }

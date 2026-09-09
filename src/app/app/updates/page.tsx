@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { requireActiveMember } from '@/features/auth/guards'
 import { getPublishedContents } from '@/features/content/service'
+import { getSectorNews } from '@/features/sector-news/service'
 import { getUpcomingEvents, getReplayEvents, EVENT_TYPE_LABEL } from '@/features/events/service'
 import { getReservedCounts, getUserReservations } from '@/features/events/reservations'
 import { formatEventDate } from '@/features/events/format'
@@ -25,8 +26,9 @@ const dateFmt = new Intl.DateTimeFormat('es-ES', {
  *  sector y las citas en directo con Pere. Absorbe la antigua página Eventos. */
 export default async function UpdatesPage() {
   const { user } = await requireActiveMember()
-  const [news, upcoming, replays] = await Promise.all([
+  const [news, board, upcoming, replays] = await Promise.all([
     getPublishedContents({ type: 'NEWS', limit: 12 }),
+    getSectorNews(10),
     getUpcomingEvents(),
     getReplayEvents(),
   ])
@@ -47,7 +49,7 @@ export default async function UpdatesPage() {
           <h2 id="sector-title" className="mb-3 text-[13px] font-semibold text-ink-2">
             El sector, al día
           </h2>
-          {news.length === 0 ? (
+          {news.length === 0 && board.length === 0 ? (
             <EmptyState
               icon="◈"
               title="Aún no hay noticias publicadas"
@@ -85,6 +87,42 @@ export default async function UpdatesPage() {
                   </span>
                 </Link>
               ))}
+            </div>
+          )}
+
+          {board.length > 0 && (
+            <div className="mt-6">
+              <h3 className="mb-1 text-[13px] font-semibold text-ink-2">El tablón del sector</h3>
+              <p className="mb-3 text-[12.5px] text-muted">
+                Titulares seleccionados cada mañana de fuentes fiables — el enlace lleva a la fuente
+                original.
+              </p>
+              <div className="flex flex-col gap-2.5">
+                {board.map((item) => (
+                  <a
+                    key={item.id}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg border border-border bg-surface p-3.5 text-inherit no-underline"
+                  >
+                    <span className="block text-sm leading-snug font-semibold">
+                      {item.title}{' '}
+                      <span aria-hidden className="text-brand-link">
+                        ↗
+                      </span>
+                    </span>
+                    {item.summary ? (
+                      <span className="mt-0.5 block text-[12.5px] leading-relaxed text-muted">
+                        {item.summary}
+                      </span>
+                    ) : null}
+                    <span className="mt-1 block font-mono text-[11px] text-muted">
+                      {item.source} · {dateFmt.format(item.publishedAt)}
+                    </span>
+                  </a>
+                ))}
+              </div>
             </div>
           )}
         </section>

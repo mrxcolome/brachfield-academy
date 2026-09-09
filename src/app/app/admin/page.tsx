@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { requireRole } from '@/features/auth/guards'
+import { SectorNewsRefresh } from './sector-news-refresh'
 import { getAdminKpis, getSearchStats } from '@/features/admin/service'
 
 export const metadata = { title: 'Administración · Resumen' }
@@ -64,6 +65,15 @@ export default async function AdminOverviewPage() {
           )}
         </section>
       </div>
+
+      <section className="mt-4 rounded-lg border border-border bg-surface p-5">
+        <h2 className="mb-1 text-[13px] font-semibold text-ink-2">Tablón «El sector, al día»</h2>
+        <p className="mb-3 text-[12.5px] text-muted">
+          Los titulares del sector se refrescan solos cada mañana; desde aquí puedes forzar una
+          actualización y ver el estado de cada fuente.
+        </p>
+        <SectorNewsRefresh />
+      </section>
 
       <p className="mt-5 text-[12.5px] text-muted">
         Los indicadores completos de producto llegan en la fase de Analytics.{' '}

@@ -391,3 +391,18 @@ model EditorialActivity {
   @@index([editorEmail, createdAt(sort: Desc)])
   @@map("editorial_activity")
 }
+
+// Tablón de actualidad del sector (2026-09-09): titulares de fuentes fiables
+// (RSS) curados a diario por IA. Los enlaces llevan siempre a la fuente.
+model SectorNews {
+  id          String   @id @default(cuid())
+  title       String
+  url         String   @unique
+  source      String
+  summary     String   @default("")
+  publishedAt DateTime
+  fetchedAt   DateTime @default(now())
+
+  @@index([publishedAt(sort: Desc)])
+  @@map("sector_news")
+}

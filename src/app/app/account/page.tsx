@@ -86,6 +86,13 @@ export default async function AccountPage() {
           Gestionar mi suscripción →
         </Link>
       </div>
+
+      <div className="rounded-lg border border-border bg-surface p-5">
+        <h2 className="mb-2 text-[13px] font-semibold text-ink-2">¿Te perdiste el tour?</h2>
+        <Link href="/app?tour=1" className="text-sm font-semibold">
+          Volver a ver el tour del área de alumnos →
+        </Link>
+      </div>
     </div>
   )
 }

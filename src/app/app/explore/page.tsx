@@ -4,65 +4,9 @@ import { requireActiveMember } from '@/features/auth/guards'
 import { getFeaturedContents, getPublishedCourses, getCategories } from '@/features/content/service'
 import { ContentCard } from '@/components/product/content-card'
 import { EmptyState } from '@/components/ui/empty-state'
+import { COURSES_TILE, MEDIUM_TILES, COMPACT_TILES } from '@/features/content/tiles'
 
 export const metadata = { title: 'Explorar' }
-
-// El escaparate del catálogo (rediseño 2026-09-09): las 10 tipologías con su
-// promesa. Cursos manda (2×2); ver/escuchar en mediano; consulta en compacto.
-const MEDIUM_TILES = [
-  {
-    label: 'Tutoriales',
-    promise: 'Aprende a hacer esto, paso a paso',
-    img: '/landing/formato-videos.webp',
-    href: '/app/library?tipo=TUTORIAL',
-  },
-  {
-    label: 'Píldoras',
-    promise: 'Una idea en 5 minutos',
-    img: '/landing/formato-recursos.webp',
-    href: '/app/library?tipo=PILL',
-  },
-  {
-    label: 'Entrevistas',
-    promise: 'Escucha a quien lo vive',
-    img: '/landing/formato-podcasts.webp',
-    href: '/app/library?tipo=INTERVIEW',
-  },
-  {
-    label: 'Sesiones en directo',
-    promise: 'Con Pere, en vivo — y su replay',
-    img: '/landing/formato-webinars.webp',
-    href: '/app/updates',
-  },
-] as const
-
-const COMPACT_TILES = [
-  {
-    glyph: '▤',
-    label: 'Guías',
-    promise: 'La referencia para consultar',
-    href: '/app/library?tipo=GUIDE',
-  },
-  { glyph: '✓', label: 'Checklists', promise: 'Verifica que no te dejas nada', href: '/app/tools' },
-  {
-    glyph: '▦',
-    label: 'Plantillas',
-    promise: 'Listas para adaptar y usar hoy',
-    href: '/app/tools',
-  },
-  {
-    glyph: '▣',
-    label: 'Casos prácticos',
-    promise: 'Qué pasó y qué aprender',
-    href: '/app/library?tipo=CASE_STUDY',
-  },
-  {
-    glyph: '◈',
-    label: 'Actualidad',
-    promise: 'Lo que ha cambiado esta semana',
-    href: '/app/updates',
-  },
-] as const
 
 export default async function ExplorePage() {
   await requireActiveMember()
@@ -82,12 +26,12 @@ export default async function ExplorePage() {
       <section aria-label="Tipologías de contenido" className="mb-3.5">
         <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
           <Link
-            href="/app/learning"
+            href={COURSES_TILE.href}
             className="flex flex-col overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline sm:col-span-2 lg:row-span-2"
           >
             <div className="relative aspect-video w-full lg:aspect-auto lg:min-h-0 lg:flex-1">
               <Image
-                src="/landing/formato-cursos.webp"
+                src={COURSES_TILE.img}
                 alt=""
                 fill
                 sizes="(max-width: 1024px) 100vw, 520px"

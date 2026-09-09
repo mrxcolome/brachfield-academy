@@ -114,6 +114,10 @@ model User {
   role                Role                 @default(MEMBER)
   lastLoginAt         DateTime?
   loginCount          Int                  @default(0)
+  // Primer aterrizaje (2026-09-09): tour de navegación visto y vídeo de
+  // bienvenida visto — alimentan la checklist «Tus primeros pasos».
+  tourSeenAt          DateTime?
+  welcomeVideoSeenAt  DateTime?
   onboardingStatus    OnboardingStatus     @default(PENDING)
   professionalProfile ProfessionalProfile?
   level               Level?

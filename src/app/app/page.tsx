@@ -11,11 +11,20 @@ import { Avatar } from '@/components/art'
 import { SmartCover } from '@/components/product/smart-cover'
 import { contentCover, courseCover } from '@/features/content/covers'
 import { Progress } from '@/components/ui/progress'
+import { getWelcomeState } from '@/features/welcome/service'
+import { getPublishedCourses } from '@/features/content/service'
+import { WelcomeHome } from './welcome-home'
+import { NavTour } from '@/components/product/welcome/nav-tour'
 
 export const metadata = { title: 'Inicio' }
 
-export default async function AppHome() {
+export default async function AppHome({
+  searchParams,
+}: {
+  searchParams: Promise<{ tour?: string }>
+}) {
   const { user } = await requireActiveMember()
+  const { tour: tourParam } = await searchParams
   const dbUser = await db.user.findUniqueOrThrow({
     where: { id: user.id },
     select: {
@@ -30,6 +39,34 @@ export default async function AppHome() {
 
   const firstName = dbUser.name.split(' ')[0] ?? dbUser.name
   const continueLearning = await getContinueLearning(user.id)
+  const welcome = await getWelcomeState(user.id)
+  // el tour se abre solo la primera vez, o al pedirlo desde Tu cuenta (?tour=1)
+  const showTour = (welcome.active && welcome.tourPending) || tourParam === '1'
+
+  if (welcome.active) {
+    const recommended = await getRecommendations(user.id, {
+      professionalProfile: dbUser.professionalProfile,
+      level: dbUser.level,
+      interests: dbUser.interests,
+    })
+    const recCourse = recommended.find((r) => r.kind === 'course')
+    const firstCourse =
+      (recCourse?.kind === 'course' ? recCourse.course : null) ??
+      (await getPublishedCourses())[0] ??
+      null
+    return (
+      <>
+        {showTour && <NavTour />}
+        <WelcomeHome
+          firstName={firstName}
+          welcome={welcome}
+          firstCourse={firstCourse}
+          continueLearning={continueLearning}
+        />
+      </>
+    )
+  }
+
   const [recommended, newThisWeek, upcoming] = await Promise.all([
     getRecommendations(
       user.id,
@@ -47,6 +84,7 @@ export default async function AppHome() {
 
   return (
     <div className="mx-auto max-w-5xl">
+      {showTour && <NavTour />}
       <h1 className="text-2xl font-bold">Hola, {firstName}</h1>
       <p className="mt-0.5 mb-7 text-sm text-muted">¿Qué quieres aprender hoy?</p>
 

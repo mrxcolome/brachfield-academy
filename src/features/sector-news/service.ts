@@ -8,7 +8,7 @@ import { db } from '@/lib/db'
 import { NEWS_SOURCES } from './sources'
 import { parseRssItems, type ParsedItem } from './parse'
 import { isRelevantHeadline } from './relevance'
-import { generateArticle, publishArticle } from './writer'
+import { generateArticle, publishArticle, hasArticleToday } from './writer'
 import { getCategories } from '@/features/content/service'
 
 const MAX_HEADLINES_TO_CURATE = 60
@@ -159,17 +159,32 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
     where: { publishedAt: { lt: new Date(Date.now() - PRUNE_AFTER_DAYS * 86400000) } },
   })
 
-  // La crónica del día «como Pere»: solo sobre titulares frescos (así una
-  // segunda pulsación del botón no duplica la pieza) y como mucho una por
-  // pasada — habrá días sin crónica, y está bien.
+  // La crónica del día «como Pere»: máximo una al día (guardia en el
+  // catálogo). Entrada: los titulares frescos de esta pasada o, si no los
+  // hay, lo recogido en el tablón durante las últimas 24 horas — así el
+  // botón puede estrenar la crónica aunque los titulares ya estén guardados.
   let article: RefreshResult['article'] = null
-  if (curator === 'claude' && selected.length > 0) {
-    const categories = (await getCategories()).map((c) => c.name)
-    const generated = await generateArticle(
-      selected.map((s) => s.item),
-      categories,
-    )
-    if (generated) article = await publishArticle(generated)
+  if (process.env.ANTHROPIC_API_KEY && !(await hasArticleToday())) {
+    let input: ParsedItem[] = selected.map((s) => s.item)
+    if (input.length === 0) {
+      const recent = await db.sectorNews.findMany({
+        where: { fetchedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
+        orderBy: { publishedAt: 'desc' },
+        take: 12,
+      })
+      input = recent.map((r) => ({
+        title: r.title,
+        url: r.url,
+        source: r.source,
+        publishedAt: r.publishedAt,
+        description: r.summary,
+      }))
+    }
+    if (input.length > 0) {
+      const categories = (await getCategories()).map((c) => c.name)
+      const generated = await generateArticle(input, categories)
+      if (generated) article = await publishArticle(generated)
+    }
   }
 
   return { ok: true, added: selected.length, curator, sources, article }

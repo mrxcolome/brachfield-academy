@@ -101,6 +101,26 @@ Responde SOLO con un objeto JSON:
   }
 }
 
+/** ¿Ya se publicó una crónica de Actualidad hoy? (tope: una al día,
+ *  aunque el botón se pulse varias veces o el cron se repita). */
+export async function hasArticleToday(): Promise<boolean> {
+  const payload = await cms()
+  const startOfDay = new Date()
+  startOfDay.setHours(0, 0, 0, 0)
+  const res = await payload.find({
+    collection: 'contents',
+    where: {
+      and: [
+        { contentType: { equals: 'NEWS' } },
+        { publishedAt: { greater_than: startOfDay.toISOString() } },
+      ],
+    },
+    limit: 1,
+    depth: 0,
+  })
+  return res.docs.length > 0
+}
+
 // ── Publicación en el catálogo ─────────────────────────────────
 
 function textNode(text: string) {

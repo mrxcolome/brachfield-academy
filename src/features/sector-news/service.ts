@@ -8,6 +8,8 @@ import { db } from '@/lib/db'
 import { NEWS_SOURCES } from './sources'
 import { parseRssItems, type ParsedItem } from './parse'
 import { isRelevantHeadline } from './relevance'
+import { generateArticle, publishArticle } from './writer'
+import { getCategories } from '@/features/content/service'
 
 const MAX_HEADLINES_TO_CURATE = 60
 const MAX_SELECTED_PER_RUN = 6
@@ -27,6 +29,8 @@ export interface RefreshResult {
   added: number
   curator: 'claude' | 'keywords'
   sources: { name: string; items: number; error?: string }[]
+  /** Crónica del día redactada y publicada (o null si hoy no la hubo). */
+  article: { title: string; slug: string } | null
 }
 
 export async function getSectorNews(limit = 10): Promise<SectorNewsItem[]> {
@@ -155,5 +159,18 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
     where: { publishedAt: { lt: new Date(Date.now() - PRUNE_AFTER_DAYS * 86400000) } },
   })
 
-  return { ok: true, added: selected.length, curator, sources }
+  // La crónica del día «como Pere»: solo sobre titulares frescos (así una
+  // segunda pulsación del botón no duplica la pieza) y como mucho una por
+  // pasada — habrá días sin crónica, y está bien.
+  let article: RefreshResult['article'] = null
+  if (curator === 'claude' && selected.length > 0) {
+    const categories = (await getCategories()).map((c) => c.name)
+    const generated = await generateArticle(
+      selected.map((s) => s.item),
+      categories,
+    )
+    if (generated) article = await publishArticle(generated)
+  }
+
+  return { ok: true, added: selected.length, curator, sources, article }
 }

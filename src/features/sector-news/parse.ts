@@ -7,6 +7,8 @@ export interface ParsedItem {
   url: string
   source: string
   publishedAt: Date
+  /** Entradilla del RSS (texto plano, recortado): materia prima del redactor. */
+  description: string
 }
 
 function unwrap(value: string): string {
@@ -36,7 +38,8 @@ export function parseRssItems(xml: string, source: string): ParsedItem[] {
     if (!title || !url || !url.startsWith('http')) continue
     const publishedAt = dateRaw ? new Date(dateRaw) : new Date()
     if (Number.isNaN(publishedAt.getTime())) continue
-    items.push({ title, url, source, publishedAt })
+    const description = (tag(block, 'description') ?? '').slice(0, 500)
+    items.push({ title, url, source, publishedAt, description })
   }
   return items
 }

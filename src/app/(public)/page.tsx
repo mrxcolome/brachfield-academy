@@ -171,10 +171,10 @@ export default async function LandingPage() {
           <Image
             src="/landing/pere-hero.webp"
             alt="Pere Brachfield, fundador de Brachfield Academy"
-            width={900}
+            width={1200}
             height={1200}
             priority
-            className="order-first aspect-[2/1] w-full rounded-xl object-cover object-top lg:order-none lg:aspect-[3/4]"
+            className="order-first aspect-[2/1] w-full rounded-xl object-cover object-top lg:order-none lg:aspect-square"
           />
         </div>
       </section>

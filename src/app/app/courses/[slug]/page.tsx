@@ -75,9 +75,12 @@ export default async function CoursePage({ params }: Props) {
 
         <h2 className="mb-3 text-sm font-semibold">Contenido del curso</h2>
         <div className="flex max-w-xl flex-col gap-3">
-          {(course.modules ?? []).map((m) => (
+          {(course.modules ?? []).map((m, _i, all) => (
             <div key={m.id} className="rounded-md border border-border-soft bg-surface p-4">
-              <p className="mb-1.5 text-[13px] font-semibold">{m.name}</p>
+              {/* Cursos lineales (10/09): el módulo técnico único no se anuncia */}
+              {!(all.length === 1 && m.name === 'Contenido') && (
+                <p className="mb-1.5 text-[13px] font-semibold">{m.name}</p>
+              )}
               {(m.lessons ?? []).map((l) => {
                 const isDone = done.has(l.id ?? '')
                 return (

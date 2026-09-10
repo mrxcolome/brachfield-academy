@@ -59,11 +59,14 @@ export default async function LessonPage({ params }: Props) {
           aria-label="Lecciones del curso"
           className="max-h-105 overflow-y-auto py-2 lg:max-h-none"
         >
-          {(course.modules ?? []).map((m) => (
+          {(course.modules ?? []).map((m, _i, all) => (
             <div key={m.id}>
-              <p className="px-4 pt-3 pb-1.5 font-mono text-[11px] font-semibold tracking-wide text-muted uppercase">
-                {m.name}
-              </p>
+              {/* Cursos lineales (10/09): el módulo técnico único no se anuncia */}
+              {!(all.length === 1 && m.name === 'Contenido') && (
+                <p className="px-4 pt-3 pb-1.5 font-mono text-[11px] font-semibold tracking-wide text-muted uppercase">
+                  {m.name}
+                </p>
+              )}
               {(m.lessons ?? []).map((l) => {
                 const isCurrent = l.id === lessonId
                 const isDone = done.has(l.id ?? '')
@@ -109,7 +112,8 @@ export default async function LessonPage({ params }: Props) {
           ))}
 
         <p className="mb-1.5 font-mono text-[11px] tracking-wide text-muted uppercase">
-          Lección {index + 1} de {lessons.length} · {lesson.moduleName}
+          Lección {index + 1} de {lessons.length}
+          {lesson.moduleName !== 'Contenido' ? ` · ${lesson.moduleName}` : ''}
         </p>
         <h1 className="mb-4 text-2xl font-bold">{lesson.title}</h1>
 

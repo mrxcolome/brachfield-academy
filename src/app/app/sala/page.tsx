@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { requireRole } from '@/features/auth/guards'
 import { listSalaContents, listSalaCourses, SALA_CONCEPTS } from '@/features/sala/service'
+import { BorrarButton } from './delete-button'
 
 export const metadata = { title: 'Sala de profesores' }
 
@@ -102,9 +103,10 @@ export default async function SalaHomePage() {
                     href={`/app/sala/${c.id}`}
                     className="rounded-sm border border-border-input px-4 py-2 text-[13px] font-semibold text-ink no-underline hover:bg-bg"
                   >
-                    {c.status === 'draft' ? 'Continuar' : 'Abrir'}
+                    {c.status === 'draft' ? 'Continuar' : 'Editar'}
                   </Link>
                 )}
+                <BorrarButton kind="curso" id={c.id} title={c.title} />
               </li>
             ))}
           </ol>
@@ -136,8 +138,9 @@ export default async function SalaHomePage() {
                   href={`/app/sala/contenido/${p.id}`}
                   className="rounded-sm border border-border-input px-4 py-2 text-[13px] font-semibold text-ink no-underline hover:bg-bg"
                 >
-                  {p.status === 'draft' ? 'Continuar' : 'Abrir'}
+                  {p.status === 'draft' ? 'Continuar' : 'Editar'}
                 </Link>
+                <BorrarButton kind="pieza" id={p.id} title={p.title} />
               </li>
             ))}
           </ol>

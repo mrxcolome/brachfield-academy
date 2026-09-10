@@ -12,6 +12,10 @@ import {
   getSalaCourse,
   lessonProgressCount,
   logSala,
+  courseProgressCount,
+  deleteSalaCourse,
+  contentFavoriteCount,
+  deleteSalaContent,
   moveSalaLesson,
   publishSalaCourse,
   setSalaCover,
@@ -124,6 +128,19 @@ export async function borrarLeccion(raw: unknown): Promise<Result & { warning?: 
   if (progress > 0 && !parsed.data.confirm) return { warning: progress }
   await deleteSalaLesson(parsed.data.id, parsed.data.lessonId)
   revalidate(parsed.data.id)
+  return { ok: true }
+}
+
+export async function borrarCurso(raw: unknown): Promise<Result & { warning?: number }> {
+  const { user } = await requireRole('ADMIN', 'EDITOR')
+  const parsed = z.object({ id: idSchema, confirm: z.boolean().optional() }).safeParse(raw)
+  if (!parsed.success) return { error: 'Solicitud no válida' }
+  const progress = await courseProgressCount(parsed.data.id)
+  if (progress > 0 && !parsed.data.confirm) return { warning: progress }
+  const course = await getSalaCourse(parsed.data.id)
+  await deleteSalaCourse(parsed.data.id)
+  await logSala(user, 'DELETE', course?.title ?? `Curso ${parsed.data.id}`)
+  revalidate()
   return { ok: true }
 }
 
@@ -277,6 +294,19 @@ export async function subirArchivoContenido(formData: FormData): Promise<Result>
   )
   revalidate()
   revalidatePath(`/app/sala/contenido/${id.data}`)
+  return { ok: true }
+}
+
+export async function borrarContenido(raw: unknown): Promise<Result & { warning?: number }> {
+  const { user } = await requireRole('ADMIN', 'EDITOR')
+  const parsed = z.object({ id: idSchema, confirm: z.boolean().optional() }).safeParse(raw)
+  if (!parsed.success) return { error: 'Solicitud no válida' }
+  const favorites = await contentFavoriteCount(parsed.data.id)
+  if (favorites > 0 && !parsed.data.confirm) return { warning: favorites }
+  const piece = await getSalaContent(parsed.data.id)
+  await deleteSalaContent(parsed.data.id)
+  await logSala(user, 'DELETE', piece?.title ?? `Contenido ${parsed.data.id}`, 'contents')
+  revalidate()
   return { ok: true }
 }
 

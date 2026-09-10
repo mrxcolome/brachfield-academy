@@ -594,3 +594,32 @@ export async function unpublishSalaContent(id: number): Promise<void> {
     data: { _status: 'draft' },
   })
 }
+
+// ── Borrado (10/09: gestión completa desde la Sala) ──────────────────────
+
+/** Alumnos con progreso en alguna lección del curso (aviso previo al borrado).
+ *  Cuenta TODOS los módulos, también en cursos multi-módulo del CMS. */
+export async function courseProgressCount(id: number): Promise<number> {
+  const payload = await cms()
+  const course = (await payload
+    .findByID({ collection: 'courses', id, depth: 0, overrideAccess: true })
+    .catch(() => null)) as Course | null
+  const ids = (course?.modules ?? []).flatMap((m) => (m.lessons ?? []).map((l) => String(l.id)))
+  if (ids.length === 0) return 0
+  return db.userProgress.count({ where: { contentId: { in: ids } } })
+}
+
+export async function deleteSalaCourse(id: number): Promise<void> {
+  const payload = await cms()
+  await payload.delete({ collection: 'courses', id, overrideAccess: true })
+}
+
+/** Favoritos que apuntan a la pieza (aviso previo al borrado). */
+export async function contentFavoriteCount(id: number): Promise<number> {
+  return db.favorite.count({ where: { contentId: String(id) } })
+}
+
+export async function deleteSalaContent(id: number): Promise<void> {
+  const payload = await cms()
+  await payload.delete({ collection: 'contents', id, overrideAccess: true })
+}

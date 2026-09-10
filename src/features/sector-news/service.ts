@@ -345,7 +345,7 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
     .filter((i) => !known.has(i.url) && i.publishedAt >= weekAgo && capacityOf(i.publishedAt) > 0)
     .slice(0, MAX_HEADLINES_TO_CURATE)
 
-  let selected: { item: ParsedItem; pick: Omit<CuratedPick, 'index'> }[] = []
+  const selected: { item: ParsedItem; pick: Omit<CuratedPick, 'index'> }[] = []
   let curator: RefreshResult['curator'] = 'keywords'
   if (fresh.length > 0) {
     const curated = await curateWithClaude(fresh, await catalogRefs())

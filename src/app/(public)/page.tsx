@@ -77,6 +77,34 @@ const PERE_BOOKS = [
   { t: 'Tratamiento legal de los impagados', e: 'Atelier Libros Jurídicos', c: 'bg-accent' },
 ]
 
+// Testimonios: datos de EJEMPLO (10/09). Encendidos por decisión del
+// propietario MIENTRAS la academia está en prelanzamiento (PRELAUNCH=true,
+// sin indexar): es la maqueta para que Pere recoja 3 citas reales.
+// ⚠️ ANTES DE ABRIR: sustituir por testimonios reales con permiso o poner
+// false — reseñas inventadas en una web comercial abierta son competencia
+// desleal. Ítem añadido a docs/LAUNCH_CHECKLIST.md.
+const TESTIMONIALS_LIVE = true
+const TESTIMONIALS = [
+  {
+    quote:
+      'Aplicando el método de Pere redujimos los cobros pendientes de más de 90 días a menos de la mitad en un año. Es formación que se paga sola.',
+    name: 'Carlos Serra',
+    role: 'Credit Manager en Netprocess',
+  },
+  {
+    quote:
+      'Por fin alguien que explica la reclamación de deudas en lenguaje de empresa, no de abogado. Las plantillas las usamos tal cual.',
+    name: 'Clara Vedruna',
+    role: 'Directora Financiera en Grupo Sastres',
+  },
+  {
+    quote:
+      'Llevo 20 años cobrando facturas y aun así cada sesión con Pere me llevo algo nuevo. Su experiencia con morosos no está en ningún manual.',
+    name: 'Jose Ignacio Ramirez',
+    role: 'Responsable de Cobros en Cocisa',
+  },
+]
+
 const newsDateFmt = new Intl.DateTimeFormat('es-ES', {
   day: 'numeric',
   month: 'long',
@@ -468,6 +496,32 @@ export default async function LandingPage() {
           ))}
         </div>
       </Section>
+
+      {/* Testimonios (encendido controlado por TESTIMONIALS_LIVE) */}
+      {TESTIMONIALS_LIVE && (
+        <Section className="bg-brand-soft">
+          <h2 className="mb-7 text-2xl font-bold">Lo que dicen quienes ya cobran mejor</h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {TESTIMONIALS.map((t) => (
+              <figure
+                key={t.name}
+                className="m-0 flex flex-col justify-between rounded-lg border border-border-soft bg-surface p-5"
+              >
+                <blockquote className="m-0">
+                  <span aria-hidden className="block text-3xl leading-none text-garnet">
+                    “
+                  </span>
+                  <p className="mt-1 text-[15px] leading-relaxed text-ink-2">{t.quote}</p>
+                </blockquote>
+                <figcaption className="mt-4">
+                  <p className="text-sm font-bold">{t.name}</p>
+                  <p className="text-xs text-muted">{t.role}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </Section>
+      )}
 
       {/* Pricing */}
       <section id="precio" className="bg-surface-dark text-center text-white">

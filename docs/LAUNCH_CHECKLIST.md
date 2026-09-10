@@ -66,6 +66,13 @@ noindex, robots.txt bloquea todo y el sitemap va vacío (decisión del
 propietario 2026-08-28: no aparecer en buscadores hasta el estreno).
 EL DÍA DEL LANZAMIENTO: cambiar a `false` y hacer push — un solo commit.
 
+⚠️ EN EL MISMO COMMIT: los **testimonios de la landing** son de EJEMPLO
+(nombres ficticios, encendidos solo para el prelanzamiento — decisión del
+propietario 10/09 para que Pere recoja citas reales). Antes de abrir:
+sustituirlos por 3 testimonios reales con permiso, o poner
+`TESTIMONIALS_LIVE = false` en `src/app/(public)/page.tsx`. Reseñas
+inventadas en una web comercial abierta = competencia desleal.
+
 ## 4 · Dominio definitivo — ✅ hecho (2026-08-28)
 
 **brachfieldacademy.com** registrado en Cloudflare Registrar y conectado:

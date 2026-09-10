@@ -12,11 +12,27 @@ import { parseRssItems, extractArticleImage, type ParsedItem } from './parse'
 import { isRelevantHeadline } from './relevance'
 
 const MAX_HEADLINES_TO_CURATE = 60
-const MAX_SELECTED_PER_RUN = 2
+// Hasta 2 noticias POR DÍA: los RSS llevan varios días de titulares, así que
+// cada pasada también completa los días recientes que quedaron cojos.
+const MAX_PER_DAY = 2
 // Frescura: algunos RSS arrastran piezas viejas — una «noticia del día»
 // nunca puede tener más de una semana (sufrido en el estreno: un artículo
 // de febrero se coló en el tablón).
 const MAX_ITEM_AGE_DAYS = 7
+// Nacimiento de la sección: nada anterior puede quedar en el tablón, pase lo
+// que pase (guardarraíl en código; no depende del workflow de migraciones).
+const SECTION_EPOCH = new Date('2026-09-01T00:00:00Z')
+
+// Día (Europe/Madrid) como clave estable YYYY-MM-DD
+const dayKeyFmt = new Intl.DateTimeFormat('en-CA', {
+  dateStyle: 'short',
+  timeZone: 'Europe/Madrid',
+})
+const dayLabelFmt = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  timeZone: 'Europe/Madrid',
+})
 
 export const NEWS_TOPICS = [
   'Morosidad',
@@ -159,9 +175,11 @@ interface CuratedPick {
   related: CatalogRef | null
 }
 
-/** Claude como editor: elige las 1-2 noticias MÁS destacadas del día para un
- *  credit manager, escribe «la clave para ti», etiqueta el tema y sugiere
- *  contenido relacionado del catálogo. null → fallback por palabras clave. */
+/** Claude como editor: para CADA DÍA presente en los titulares elige los 1-2
+ *  realmente destacados para un credit manager, escribe «la clave para ti»,
+ *  etiqueta el tema y sugiere contenido relacionado del catálogo. Así una
+ *  pasada también completa los días recientes que los RSS aún llevan.
+ *  null → fallback por palabras clave. */
 async function curateWithClaude(
   items: ParsedItem[],
   catalog: CatalogRef[],
@@ -172,23 +190,23 @@ async function curateWithClaude(
     const listado = items
       .map(
         (it, i) =>
-          `${i}. [${it.source}] ${it.title}${it.description ? ` — ${it.description.slice(0, 180)}` : ''}`,
+          `${i}. [${dayLabelFmt.format(it.publishedAt)} · ${it.source}] ${it.title}${it.description ? ` — ${it.description.slice(0, 180)}` : ''}`,
       )
       .join('\n')
     const catalogo = catalog.map((c, i) => `${i}. ${c.title}`).join('\n')
     const response = await client.messages.create({
       model: 'claude-opus-5',
-      max_tokens: 2000,
+      max_tokens: 3000,
       system: EDITOR_SYSTEM,
       messages: [
         {
           role: 'user',
-          content: `Titulares de hoy:\n\n${listado}\n\nCatálogo de la academia (cursos y piezas):\n\n${catalogo}\n\nElige como máximo ${MAX_SELECTED_PER_RUN} titulares realmente destacados (puede que ninguno lo sea). Para cada elegido:
+          content: `Titulares de los últimos días (cada uno con su fecha):\n\n${listado}\n\nCatálogo de la academia (cursos y piezas):\n\n${catalogo}\n\nPara CADA DÍA presente en la lista, elige los titulares realmente destacados de ese día — como máximo ${MAX_PER_DAY} por día, y puede que un día no tenga ninguno digno. Para cada elegido:
 - "clave": UNA frase didáctica que responda «¿por qué te importa esto si gestionas el crédito de tu empresa?» — concreta, sin repetir el titular.
 - "tema": una etiqueta exacta de esta lista: ${NEWS_TOPICS.join(' · ')}
 - "rel": el número del elemento del catálogo que más ayude a profundizar en el tema, o -1 si ninguno encaja de verdad.
 
-Responde SOLO con un array JSON: [{"i": <número del titular>, "clave": "...", "tema": "...", "rel": <número o -1>}]. Si ninguno es destacado, responde [].`,
+Responde SOLO con un array JSON: [{"i": <número del titular>, "clave": "...", "tema": "...", "rel": <número o -1>}]. Si ningún titular es destacado, responde [].`,
         },
       ],
     })
@@ -203,19 +221,22 @@ Responde SOLO con un array JSON: [{"i": <número del titular>, "clave": "...", "
       rel?: number
     }[]
     if (!Array.isArray(parsed)) return null
-    return parsed
-      .filter((p) => Number.isInteger(p.i) && p.i >= 0 && p.i < items.length)
-      .slice(0, MAX_SELECTED_PER_RUN)
-      .map((p) => ({
-        index: p.i,
-        summary: String(p.clave ?? '').slice(0, 300),
-        topic:
-          NEWS_TOPICS.find((t) => t.toLowerCase() === String(p.tema ?? '').toLowerCase()) ?? null,
-        related:
-          typeof p.rel === 'number' && p.rel >= 0 && p.rel < catalog.length
-            ? (catalog[p.rel] ?? null)
-            : null,
-      }))
+    return (
+      parsed
+        .filter((p) => Number.isInteger(p.i) && p.i >= 0 && p.i < items.length)
+        // tope de cordura global; el tope fino (por día) lo aplica el llamador
+        .slice(0, MAX_PER_DAY * (MAX_ITEM_AGE_DAYS + 1))
+        .map((p) => ({
+          index: p.i,
+          summary: String(p.clave ?? '').slice(0, 300),
+          topic:
+            NEWS_TOPICS.find((t) => t.toLowerCase() === String(p.tema ?? '').toLowerCase()) ?? null,
+          related:
+            typeof p.rel === 'number' && p.rel >= 0 && p.rel < catalog.length
+              ? (catalog[p.rel] ?? null)
+              : null,
+        }))
+    )
   } catch (err) {
     console.error('[sector-news] curación con Claude falló:', err)
     return null
@@ -284,10 +305,16 @@ Responde SOLO con un array JSON: [{"i": <número>, "tema": "...", "clave": "..."
   }
 }
 
-/** Ejecuta una pasada completa: recoger → curar → guardar. El histórico no
- *  se poda: la sección es un archivo cronológico. */
+/** Ejecuta una pasada completa: recoger → curar por días → guardar. El
+ *  histórico no se poda: la sección es un archivo cronológico que crece con
+ *  1-2 noticias por día (los RSS llevan varios días, así que cada pasada
+ *  también completa los días recientes que quedaron cojos). */
 export async function refreshSectorNews(): Promise<RefreshResult> {
   const { items: all, sources } = await fetchAllSources()
+
+  // Guardarraíl: nada anterior al nacimiento de la sección puede quedar en
+  // el tablón (restos de RSS que arrastraban piezas viejas).
+  await db.sectorNews.deleteMany({ where: { publishedAt: { lt: SECTION_EPOCH } } })
 
   // sin duplicar lo ya publicado en la sección
   const known = new Set(
@@ -298,23 +325,43 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
       })
     ).map((r) => r.url),
   )
-  const maxAge = MAX_ITEM_AGE_DAYS * 24 * 60 * 60 * 1000
+
+  // Hueco por día: cuántas noticias caben aún en cada día de la última semana
+  const weekAgo = new Date(Date.now() - MAX_ITEM_AGE_DAYS * 24 * 60 * 60 * 1000)
+  const stored = await db.sectorNews.findMany({
+    where: { publishedAt: { gte: weekAgo } },
+    select: { publishedAt: true },
+  })
+  const capacity = new Map<string, number>()
+  for (const s of stored) {
+    const k = dayKeyFmt.format(s.publishedAt)
+    capacity.set(k, (capacity.get(k) ?? MAX_PER_DAY) - 1)
+  }
+  const capacityOf = (d: Date) => capacity.get(dayKeyFmt.format(d)) ?? MAX_PER_DAY
+
   const fresh = all
-    .filter((i) => !known.has(i.url) && Date.now() - i.publishedAt.getTime() < maxAge)
+    .filter((i) => !known.has(i.url) && i.publishedAt >= weekAgo && capacityOf(i.publishedAt) > 0)
     .slice(0, MAX_HEADLINES_TO_CURATE)
 
   let selected: { item: ParsedItem; pick: Omit<CuratedPick, 'index'> }[] = []
   let curator: RefreshResult['curator'] = 'keywords'
   if (fresh.length > 0) {
     const curated = await curateWithClaude(fresh, await catalogRefs())
-    if (curated) {
-      curator = 'claude'
-      selected = curated.map((c) => ({ item: fresh[c.index]!, pick: c }))
-    } else {
-      selected = fresh
-        .filter((i) => isRelevantHeadline(i.title))
-        .slice(0, MAX_SELECTED_PER_RUN)
-        .map((item) => ({ item, pick: { summary: '', topic: null, related: null } }))
+    const candidates = curated
+      ? curated.map((c) => ({ item: fresh[c.index]!, pick: c as Omit<CuratedPick, 'index'> }))
+      : fresh
+          .filter((i) => isRelevantHeadline(i.title))
+          .map((item) => ({
+            item,
+            pick: { summary: '', topic: null, related: null } as Omit<CuratedPick, 'index'>,
+          }))
+    if (curated) curator = 'claude'
+    // Respetar el tope por día aunque el curador (o el fallback) se pase
+    for (const c of candidates) {
+      const left = capacityOf(c.item.publishedAt)
+      if (left <= 0) continue
+      capacity.set(dayKeyFmt.format(c.item.publishedAt), left - 1)
+      selected.push(c)
     }
   }
 

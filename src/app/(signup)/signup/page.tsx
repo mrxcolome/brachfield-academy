@@ -11,7 +11,7 @@ import { SignupSteps } from '../steps'
 
 // Lo que se lleva el alumno, contado en el momento de la decisión.
 const BENEFITS = [
-  'Cursos, tutoriales y píldoras de Pere Brachfield',
+  'Cursos, consejos y artículos de Pere Brachfield',
   'Todas las herramientas y plantillas descargables',
   'Sesiones mensuales en directo con Pere',
   'Pregunta a Pere: consultas ilimitadas',

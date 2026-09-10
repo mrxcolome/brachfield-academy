@@ -140,8 +140,8 @@ export const CONTENT_TYPE_META: Record<
     kind: 'video' | 'podcast' | 'articulo' | 'guia' | 'checklist' | 'plantilla' | 'webinar' | 'caso'
   }
 > = {
-  TUTORIAL: { label: 'Tutorial', glyph: '▶', kind: 'video' },
-  PILL: { label: 'Píldora', glyph: '◆', kind: 'video' },
+  ADVICE: { label: 'Consejo', glyph: '▶', kind: 'video' },
+  ARTICLE: { label: 'Artículo', glyph: '◆', kind: 'articulo' },
   INTERVIEW: { label: 'Entrevista', glyph: '◑', kind: 'podcast' },
   WEBINAR: { label: 'Sesión en directo', glyph: '◉', kind: 'webinar' },
   GUIDE: { label: 'Guía', glyph: '▤', kind: 'guia' },

@@ -12,16 +12,16 @@ export const COURSES_TILE = {
 
 export const MEDIUM_TILES = [
   {
-    label: 'Tutoriales',
-    promise: 'Aprende a hacer esto, paso a paso',
+    label: 'Consejos',
+    promise: 'El consejo práctico de Pere',
     img: '/landing/formato-videos.webp',
-    href: '/app/library?tipo=TUTORIAL',
+    href: '/app/library?tipo=ADVICE',
   },
   {
-    label: 'Píldoras',
-    promise: 'Una idea en 5 minutos',
+    label: 'Artículos',
+    promise: 'La pluma de Pere, al grano',
     img: '/landing/formato-recursos.webp',
-    href: '/app/library?tipo=PILL',
+    href: '/app/library?tipo=ARTICLE',
   },
   {
     label: 'Entrevistas',

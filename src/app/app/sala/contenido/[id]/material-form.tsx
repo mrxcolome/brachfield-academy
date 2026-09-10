@@ -163,7 +163,7 @@ export function MaterialForm({ piece }: { piece: SalaContent }) {
         pieceId={piece.id}
         kind="audio"
         label="Audio"
-        hint="Para piezas en audio (entrevistas, píldoras). Máximo 4 MB por aquí; audios largos, mejor la entrevista en vídeo o subirlo desde el modo experto."
+        hint="Para piezas en audio (entrevistas, consejos). Máximo 4 MB por aquí; audios largos, mejor la entrevista en vídeo o subirlo desde el modo experto."
         current={piece.audioName}
         accept="audio/*"
       />
@@ -186,7 +186,7 @@ export function MaterialForm({ piece }: { piece: SalaContent }) {
       </div>
       <p className="text-[12.5px] text-muted">
         Una pieza necesita al menos un material (vídeo, texto, audio o archivo) para publicarse —
-        pero pueden combinarse: una guía con su PDF, un tutorial con texto de apoyo…
+        pero pueden combinarse: una guía con su PDF, un consejo con texto de apoyo…
       </p>
     </div>
   )

@@ -9,7 +9,7 @@ import { SignupSteps } from '../steps'
 export const metadata = { title: 'Activa tu acceso', robots: { index: false } }
 
 const INCLUDES = [
-  'Cursos, tutoriales y píldoras de Pere Brachfield',
+  'Cursos, consejos y artículos de Pere Brachfield',
   'Todas las herramientas y plantillas descargables',
   'Entrevistas, guías y casos prácticos',
   'Sesiones mensuales en directo con Pere',

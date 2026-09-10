@@ -47,7 +47,7 @@ function Section({
 // «Actualidad» sale de aquí — las noticias tienen su propia sección abajo.
 const formatByLabel = Object.fromEntries(whatsInside.map((w) => [w.l, w]))
 const HERO_FORMAT = formatByLabel['Cursos']!
-const MEDIUM_FORMATS = ['Tutoriales', 'Píldoras', 'Entrevistas', 'Sesiones en directo'].map(
+const MEDIUM_FORMATS = ['Consejos', 'Artículos', 'Entrevistas', 'Sesiones en directo'].map(
   (l) => formatByLabel[l]!,
 )
 const COMPACT_FORMATS = ['Guías', 'Checklists', 'Plantillas', 'Casos prácticos'].map(
@@ -148,7 +148,7 @@ export default async function LandingPage() {
               prevenir impagos y cobrar a tiempo.
             </p>
             <p className="mb-7 hidden text-sm leading-relaxed text-ink-3 sm:block">
-              Microlearning, cursos, herramientas y píldoras prácticas para prevenir la morosidad,
+              Microlearning, cursos, herramientas y consejos prácticos para prevenir la morosidad,
               gestionar el crédito comercial, negociar con deudores y recuperar impagados, tanto por
               vía extrajudicial como judicial, de la mano de Pere Brachfield.
             </p>

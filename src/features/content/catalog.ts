@@ -324,10 +324,10 @@ export const whatsInside = [
   },
   {
     g: '▶',
-    l: 'Tutoriales',
+    l: 'Consejos',
     img: '/landing/formato-videos.webp',
     k: 'video',
-    d: 'Aprende a hacer una cosa concreta, paso a paso: un burofax, un scoring, una reclamación.',
+    d: 'Los consejos prácticos de Pere: evitar impagados, recuperarlos, negociar con morosos.',
   },
   {
     g: '◑',
@@ -380,10 +380,10 @@ export const whatsInside = [
   },
   {
     g: '◆',
-    l: 'Píldoras',
+    l: 'Artículos',
     img: '/landing/formato-recursos.webp',
-    k: 'video',
-    d: 'Una idea aplicable en cinco minutos: el consejo justo para el problema de hoy.',
+    k: 'articulo',
+    d: 'Los artículos que Pere va publicando: análisis y criterio, al grano.',
   },
 ] as const
 
@@ -427,11 +427,11 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: '¿Tengo acceso a todo el contenido desde el primer día?',
-    a: 'Sí. La membresía incluye acceso completo desde el primer minuto: todos los cursos, tutoriales, píldoras, entrevistas, guías, plantillas, casos prácticos y los replays de las sesiones en directo. No hay niveles ni contenido bloqueado.',
+    a: 'Sí. La membresía incluye acceso completo desde el primer minuto: todos los cursos, consejos, artículos, entrevistas, guías, plantillas, casos prácticos y los replays de las sesiones en directo. No hay niveles ni contenido bloqueado.',
   },
   {
     q: '¿Se publican contenidos nuevos con regularidad?',
-    a: 'Cada semana se publica contenido nuevo: píldoras, tutoriales, actualidad o plantillas. Además hay una masterclass mensual en directo y una sesión mensual de "Pregunta a Pere".',
+    a: 'Cada semana se publica contenido nuevo: consejos, artículos, actualidad o plantillas. Además hay una masterclass mensual en directo y una sesión mensual de "Pregunta a Pere".',
   },
   {
     q: '¿Puedo utilizarlo para formar a mi equipo?',
@@ -493,7 +493,7 @@ export const trainingAreas = [
 ]
 
 export const pricingIncludes = [
-  'Cursos, tutoriales y píldoras de Pere',
+  'Cursos, consejos y artículos de Pere',
   'Todas las herramientas y plantillas descargables',
   'Entrevistas, guías y casos prácticos',
   'Sesiones mensuales en directo con Pere',

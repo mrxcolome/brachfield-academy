@@ -135,7 +135,7 @@ export default async function AppHome({
               href: '/app/learning',
               title: 'Aprender',
               promise: 'Un tema completo, paso a paso',
-              detail: 'Cursos y tutoriales, con tu progreso guardado.',
+              detail: 'Cursos y consejos de Pere, con tu progreso guardado.',
             },
             {
               href: '/app/library',

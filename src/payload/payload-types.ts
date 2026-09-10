@@ -223,7 +223,7 @@ export interface Content {
    * Imagen de la tarjeta y la ficha (ideal 16:9, mín. 800px de ancho). Si se deja vacía, se usa una foto automática según el formato del contenido.
    */
   coverImage?: (number | null) | Media;
-  contentType: 'TUTORIAL' | 'PILL' | 'INTERVIEW' | 'WEBINAR' | 'GUIDE' | 'CHECKLIST' | 'TEMPLATE' | 'CASE_STUDY';
+  contentType: 'ADVICE' | 'ARTICLE' | 'INTERVIEW' | 'WEBINAR' | 'GUIDE' | 'CHECKLIST' | 'TEMPLATE' | 'CASE_STUDY';
   level?: ('BEGINNER' | 'INTERMEDIATE' | 'ADVANCED') | null;
   /**
    * Ej. "8 min", "2h 35min"

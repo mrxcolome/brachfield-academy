@@ -45,8 +45,8 @@ export const Contents: CollectionConfig = {
         // Catálogo por CONCEPTOS (decisión del propietario 3/09/2026): lo que
         // busca el alumno, no el formato. El formato (vídeo/audio/descarga)
         // es un atributo de la pieza (streamId/audioFile/documentFile).
-        { label: 'Tutorial', value: 'TUTORIAL' },
-        { label: 'Píldora', value: 'PILL' },
+        { label: 'Consejo', value: 'ADVICE' },
+        { label: 'Artículo', value: 'ARTICLE' },
         { label: 'Entrevista', value: 'INTERVIEW' },
         { label: 'Sesión en directo (replay)', value: 'WEBINAR' },
         { label: 'Guía', value: 'GUIDE' },

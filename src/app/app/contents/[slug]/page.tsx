@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props) {
   }
 }
 
-const PLAYER_TYPES: Content['contentType'][] = ['TUTORIAL', 'PILL', 'WEBINAR']
+const PLAYER_TYPES: Content['contentType'][] = ['ADVICE', 'ARTICLE', 'WEBINAR']
 const AUDIO_TYPES: Content['contentType'][] = ['INTERVIEW']
 const DOWNLOAD_TYPES: Content['contentType'][] = ['GUIDE', 'CHECKLIST', 'TEMPLATE']
 

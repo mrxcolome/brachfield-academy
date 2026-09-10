@@ -62,7 +62,7 @@ export default async function SalaHomePage() {
           + Crear una pieza
         </Link>
         <span className="text-[12.5px] text-muted">
-          Pieza = tutorial, píldora, entrevista, guía, checklist, plantilla…
+          Pieza = consejo, artículo, entrevista, guía, checklist, plantilla…
         </span>
       </div>
 

@@ -12,12 +12,12 @@ export const SALA_CONCEPTS: {
   hint: string
 }[] = [
   {
-    value: 'TUTORIAL',
-    label: 'Tutorial',
+    value: 'ADVICE',
+    label: 'Consejo',
     glyph: '▶',
-    hint: 'Aprende a hacer una cosa concreta, paso a paso',
+    hint: 'Consejos prácticos de Pere: evitar impagados, recuperarlos…',
   },
-  { value: 'PILL', label: 'Píldora', glyph: '◆', hint: 'Una idea aplicable en cinco minutos' },
+  { value: 'ARTICLE', label: 'Artículo', glyph: '◆', hint: 'Un artículo firmado por Pere' },
   {
     value: 'INTERVIEW',
     label: 'Entrevista',

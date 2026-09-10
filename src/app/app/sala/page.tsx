@@ -87,7 +87,9 @@ export default async function SalaHomePage() {
                 className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-border bg-surface p-4"
               >
                 <div className="min-w-52 flex-1">
-                  <p className="font-semibold">{c.title}</p>
+                  <p className="font-semibold">
+                    {c.title.trim() || <span className="text-muted">(Sin título)</span>}
+                  </p>
                   <p className="text-[12.5px] text-muted">
                     {c.lessons.length} {c.lessons.length === 1 ? 'lección' : 'lecciones'} ·
                     actualizado {dateFmt.format(new Date(c.updatedAt))}
@@ -127,7 +129,9 @@ export default async function SalaHomePage() {
                 className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-border bg-surface p-4"
               >
                 <div className="min-w-52 flex-1">
-                  <p className="font-semibold">{p.title}</p>
+                  <p className="font-semibold">
+                    {p.title.trim() || <span className="text-muted">(Sin título)</span>}
+                  </p>
                   <p className="text-[12.5px] text-muted">
                     {conceptLabel(p.conceptType)} · actualizado{' '}
                     {dateFmt.format(new Date(p.updatedAt))}

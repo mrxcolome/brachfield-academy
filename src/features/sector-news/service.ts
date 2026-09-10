@@ -71,8 +71,10 @@ export interface RefreshResult {
 }
 
 export async function getSectorNews(limit = 30, topic?: string): Promise<SectorNewsItem[]> {
+  // El filtro de época también en LECTURA: una fila anterior al nacimiento de
+  // la sección jamás se muestra, aunque el refresco aún no la haya borrado.
   return db.sectorNews.findMany({
-    where: topic ? { topic } : undefined,
+    where: { publishedAt: { gte: SECTION_EPOCH }, ...(topic ? { topic } : {}) },
     orderBy: { publishedAt: 'desc' },
     take: limit,
   })
@@ -81,7 +83,7 @@ export async function getSectorNews(limit = 30, topic?: string): Promise<SectorN
 /** Temas con alguna noticia publicada, en el orden canónico de NEWS_TOPICS. */
 export async function getSectorNewsTopics(): Promise<string[]> {
   const rows = await db.sectorNews.findMany({
-    where: { topic: { not: null } },
+    where: { topic: { not: null }, publishedAt: { gte: SECTION_EPOCH } },
     distinct: ['topic'],
     select: { topic: true },
   })
@@ -365,8 +367,13 @@ export async function refreshSectorNews(): Promise<RefreshResult> {
     }
   }
 
-  for (const { item, pick } of selected) {
-    const imageUrl = item.imageUrl ?? (await fetchArticleImage(item.url))
+  // Imágenes en paralelo (una pasada grande de relleno puede traer ~14
+  // noticias; en serie, los timeouts de 5s se comerían el límite de 60s)
+  const selectedImages = await Promise.all(
+    selected.map(({ item }) => item.imageUrl ?? fetchArticleImage(item.url)),
+  )
+  for (const [idx, { item, pick }] of selected.entries()) {
+    const imageUrl = selectedImages[idx] ?? null
     await db.sectorNews.upsert({
       where: { url: item.url },
       create: {

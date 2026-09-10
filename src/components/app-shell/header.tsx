@@ -31,7 +31,7 @@ export function Header({ userName, unreadCount }: { userName: string; unreadCoun
           {unreadCount > 0 && (
             <span
               aria-hidden
-              className="absolute -top-0.5 -right-0.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-accent px-1 font-mono text-[10px] font-bold text-accent-ink"
+              className="absolute -top-0.5 -right-0.5 flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-accent-strong px-1 font-mono text-[10px] font-bold text-white"
             >
               {unreadCount > 9 ? '9+' : unreadCount}
             </span>

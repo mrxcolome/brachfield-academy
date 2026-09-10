@@ -33,6 +33,12 @@ export default async function SalaHomePage() {
   return (
     <div className="mx-auto max-w-3xl">
       <header className="mb-6">
+        <Link
+          href="/app"
+          className="mb-3 inline-block text-[13px] font-semibold text-muted no-underline hover:text-ink"
+        >
+          ← Volver a la academia
+        </Link>
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h1 className="text-2xl font-bold">Sala de profesores</h1>
           <Link

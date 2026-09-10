@@ -1,4 +1,7 @@
 {
-  "nota": "URLs temporales del CDN de Magnific (caducan). Retiradas tras el fetch del 10/09 (retratos de estudio de Pere).",
-  "imagenes": {}
+  "nota": "URLs temporales del CDN de Magnific (caducan). Retirarlas tras el fetch.",
+  "imagenes": {
+    "pere-estudio-v3": "https://pikaso.cdnpk.net/private/production/5410766217/render.jpg?token=exp=1789257600~hmac=ee5ee33c330e6ba334a88b074b9c30622128b62901d44f5f27c7711680a1b532",
+    "pere-estudio-v4": "https://pikaso.cdnpk.net/private/production/5410765375/render.jpg?token=exp=1789257600~hmac=1d8ec1a33af05a426c47149ce7e9da1e18d9eafab0b10bc687680938f2a8d845"
+  }
 }

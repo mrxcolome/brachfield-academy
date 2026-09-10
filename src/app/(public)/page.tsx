@@ -135,13 +135,15 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* La autoridad de Pere, en cifras (prueba social mínima y real) */}
-      <section className="border-y border-border-soft bg-surface">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-5 px-5 py-7 sm:grid-cols-4">
+      {/* La autoridad de Pere, en cifras (prueba social mínima y real).
+          Banda navy con números en el naranja del logo — v2 tras el feedback
+          del propietario («muy pobre a nivel visual»). */}
+      <section className="bg-surface-dark text-white">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-y-8 px-5 py-10 text-center sm:grid-cols-4 sm:divide-x sm:divide-white/10">
           {PERE_STATS.map((s) => (
-            <div key={s.d}>
-              <p className="text-2xl font-bold text-brand">{s.n}</p>
-              <p className="mt-0.5 text-xs leading-snug text-ink-3">{s.d}</p>
+            <div key={s.d} className="px-4">
+              <p className="text-3xl font-bold text-accent sm:text-4xl">{s.n}</p>
+              <p className="mx-auto mt-2 max-w-44 text-xs leading-snug text-on-dark-muted">{s.d}</p>
             </div>
           ))}
         </div>

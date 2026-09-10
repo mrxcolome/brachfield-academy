@@ -1,7 +1,9 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import { Portrait, Avatar } from '@/components/art'
+import { Portrait } from '@/components/art'
+import { getSectorNews } from '@/features/sector-news/service'
+import { NewsImage } from '@/components/product/news-image'
 import {
   aboutPere,
   creditProcess,
@@ -13,6 +15,10 @@ import {
   whatsInside,
   pricingIncludes,
 } from '@/features/content/catalog'
+
+// ISR: la landing enseña las noticias reales del tablón — se regenera cada
+// hora para estar siempre «viva» sin perder el servido estático.
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   description:
@@ -36,7 +42,35 @@ function Section({
   )
 }
 
-export default function LandingPage() {
+// La retícula jerárquica de formatos (la misma jerarquía que Explorar,
+// aprobada por el propietario): Cursos grande, 4 medianas, 4 compactas.
+// «Actualidad» sale de aquí — las noticias tienen su propia sección abajo.
+const formatByLabel = Object.fromEntries(whatsInside.map((w) => [w.l, w]))
+const HERO_FORMAT = formatByLabel['Cursos']!
+const MEDIUM_FORMATS = ['Tutoriales', 'Píldoras', 'Entrevistas', 'Sesiones en directo'].map(
+  (l) => formatByLabel[l]!,
+)
+const COMPACT_FORMATS = ['Guías', 'Checklists', 'Plantillas', 'Casos prácticos'].map(
+  (l) => formatByLabel[l]!,
+)
+
+const PERE_STATS = [
+  { n: '+35', d: 'años de experiencia en morosidad y crédito' },
+  { n: '32', d: 'libros publicados sobre la materia' },
+  { n: 'Cientos', d: 'de empresas y profesionales formados' },
+  { n: '1990', d: 'fundación de Brachfield Credit & Risk Consultants' },
+]
+
+const newsDateFmt = new Intl.DateTimeFormat('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  timeZone: 'Europe/Madrid',
+})
+
+export default async function LandingPage() {
+  // Las 3 últimas noticias del tablón real (si aún no hay, la sección se oculta)
+  const news = (await getSectorNews(3).catch(() => [])).filter((n) => n.topic)
+
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -101,6 +135,18 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* La autoridad de Pere, en cifras (prueba social mínima y real) */}
+      <section className="border-y border-border-soft bg-surface">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-5 px-5 py-7 sm:grid-cols-4">
+          {PERE_STATS.map((s) => (
+            <div key={s.d}>
+              <p className="text-2xl font-bold text-brand">{s.n}</p>
+              <p className="mt-0.5 text-xs leading-snug text-ink-3">{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* El ciclo completo del crédito */}
       <Section className="bg-bg">
         <h2 className="mb-2 text-2xl font-bold">El proceso del credit management</h2>
@@ -108,18 +154,16 @@ export default function LandingPage() {
           Una escuela especializada en todo el ciclo de vida del crédito comercial B2B, de la
           concesión a la recuperación.
         </p>
-        <ol className="mb-7 flex flex-wrap items-center gap-y-2.5">
+        {/* Pasos numerados (decisión del propietario 10/09: los chips con
+            flechas eran demasiado pequeños para leerse como proceso) */}
+        <ol className="mb-7 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
           {creditProcess.map((step, i) => (
-            <li key={step} className="flex items-center">
-              <span className="rounded-full border border-border-chip bg-surface px-3.5 py-1.5 text-[13px] font-semibold text-ink-2">
-                {step}
-              </span>
-              {i < creditProcess.length - 1 && (
-                // Granate: acento puntual de la paleta (el color del logo).
-                <span aria-hidden className="px-1.5 text-garnet">
-                  →
-                </span>
-              )}
+            <li key={step} className="rounded-lg border border-border-soft bg-surface p-3.5">
+              {/* Granate: acento puntual de la paleta (el color del logo). */}
+              <p className="font-mono text-[11px] font-bold text-garnet">
+                {String(i + 1).padStart(2, '0')}
+              </p>
+              <p className="mt-1 text-[13px] leading-snug font-semibold text-ink-2">{step}</p>
             </li>
           ))}
         </ol>
@@ -131,36 +175,62 @@ export default function LandingPage() {
         </p>
       </Section>
 
-      {/* Qué encontrarás dentro */}
+      {/* Qué encontrarás dentro — la misma retícula jerárquica que Explorar */}
       <Section id="membresia" className="bg-surface">
         <h2 className="mb-2 text-2xl font-bold">Qué encontrarás dentro</h2>
         <p className="mb-7 text-sm leading-relaxed text-ink-3">
-          Diez formatos pensados para distintos momentos: desde una lectura de cinco minutos hasta
-          un curso completo, siempre con el mismo criterio: practicidad.
+          Nueve formatos para distintos momentos — desde una lectura de cinco minutos hasta un curso
+          completo — con los cursos como columna vertebral. Siempre con el mismo criterio:
+          practicidad.
         </p>
-        <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-5">
-          {whatsInside.map((w) => (
+        <div className="mb-3.5 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="flex flex-col overflow-hidden rounded-lg border border-border-soft bg-surface sm:col-span-2 lg:row-span-2">
+            <div className="relative aspect-video w-full lg:aspect-auto lg:min-h-0 lg:flex-1">
+              <Image
+                src={HERO_FORMAT.img}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 520px"
+                className="object-cover"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5 p-5">
+              <p className="text-lg font-bold text-brand">Cursos</p>
+              <p className="text-[13.5px] font-semibold text-ink-2">
+                «Aprende un tema completo» — con lecciones y tu progreso guardado
+              </p>
+              <p className="text-[12.5px] leading-relaxed text-muted">{HERO_FORMAT.d}</p>
+            </div>
+          </div>
+          {MEDIUM_FORMATS.map((w) => (
             <div
               key={w.l}
-              className="overflow-hidden rounded-lg border border-border-soft bg-surface"
+              className="flex flex-col overflow-hidden rounded-lg border border-border-soft bg-surface"
             >
-              <Image
-                src={w.img}
-                alt=""
-                width={800}
-                height={450}
-                className="w-full object-cover"
-                style={{ aspectRatio: '16/9' }}
-              />
-              <div className="p-3.5">
-                <p className="text-[13.5px] font-semibold">
-                  <span aria-hidden className="mr-1.5 text-brand-link">
-                    {w.g}
-                  </span>
-                  {w.l}
-                </p>
-                <p className="mt-1 text-xs leading-relaxed text-ink-3">{w.d}</p>
+              <div className="relative aspect-video w-full">
+                <Image
+                  src={w.img}
+                  alt=""
+                  fill
+                  sizes="(max-width: 640px) 100vw, 250px"
+                  className="object-cover"
+                />
               </div>
+              <div className="p-3">
+                <p className="mb-0.5 text-[13px] font-bold text-brand">{w.l}</p>
+                <p className="text-[11.5px] leading-snug text-muted">{w.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
+          {COMPACT_FORMATS.map((w) => (
+            <div key={w.l} className="rounded-lg border border-border-soft bg-surface p-4">
+              <p className="mb-1 flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-[15px] text-brand">
+                <span aria-hidden>{w.g}</span>
+              </p>
+              <p className="mt-2 text-sm font-bold text-brand">{w.l}</p>
+              <p className="mt-1 text-xs leading-relaxed text-ink-3">{w.d}</p>
             </div>
           ))}
         </div>
@@ -248,25 +318,53 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Sesiones en directo — solo desktop (regla móvil del propietario) */}
-      <Section className="hidden bg-brand-soft sm:block">
-        <h2 className="mb-6 text-2xl font-bold">Sesiones en directo con Pere Brachfield</h2>
-        <div className="flex max-w-xl flex-wrap items-center gap-4 rounded-lg bg-surface p-5">
-          <Avatar size={56} />
-          <div className="min-w-52 flex-1">
-            <p className="text-[15px] font-semibold">
-              Masterclass: reclamar una deuda sin deteriorar la relación comercial
-            </p>
-            <p className="mt-1 font-mono text-xs text-muted">18 septiembre · 17:00 · 75 min</p>
+      {/* El sector, al día — noticias REALES del tablón: la prueba de que la
+          academia está viva. Si aún no hay noticias, la sección no sale. */}
+      {news.length > 0 && (
+        <Section className="bg-bg">
+          <h2 className="mb-2 text-2xl font-bold">El sector, al día</h2>
+          <p className="mb-6 max-w-2xl text-sm leading-relaxed text-ink-3">
+            Cada mañana, la academia destaca la noticia (o dos) de morosidad y crédito que de verdad
+            afecta a quien gestiona el cobro — con la clave de por qué te importa. Esto es lo
+            último:
+          </p>
+          <div className="grid gap-3.5 sm:grid-cols-3">
+            {news.map((n) => (
+              <a
+                key={n.id}
+                href={n.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col overflow-hidden rounded-lg border border-border-soft bg-surface text-inherit no-underline"
+              >
+                <NewsImage
+                  src={n.imageUrl}
+                  fallback="/landing/formato-actualizaciones.webp"
+                  className="aspect-video w-full object-cover"
+                />
+                <div className="flex flex-1 flex-col p-3.5">
+                  <p className="mb-1.5 flex flex-wrap items-center gap-2">
+                    <span className="rounded-full bg-brand-soft px-2.5 py-0.5 text-[11px] font-semibold text-brand-link">
+                      {n.topic}
+                    </span>
+                    <span className="font-mono text-[11px] text-muted">
+                      {n.source} · {newsDateFmt.format(n.publishedAt)}
+                    </span>
+                  </p>
+                  <p className="text-sm leading-snug font-semibold">{n.title}</p>
+                </div>
+              </a>
+            ))}
           </div>
-          <Link
-            href="/signup"
-            className="rounded-sm bg-brand px-4 py-2.5 text-[13px] font-semibold whitespace-nowrap text-white no-underline hover:bg-brand-hover"
-          >
-            Reservar plaza
-          </Link>
-        </div>
-      </Section>
+          <p className="mt-5 text-sm text-ink-3">
+            Dentro de la academia, cada noticia llega con «la clave para ti» y el contenido
+            relacionado para profundizar.{' '}
+            <Link href="/signup" className="font-semibold text-brand-link">
+              Quiero estar al día →
+            </Link>
+          </p>
+        </Section>
+      )}
 
       {/* Recursos — solo desktop (regla móvil del propietario) */}
       <Section className="hidden bg-surface sm:block">

@@ -61,6 +61,22 @@ const PERE_STATS = [
   { n: '1990', d: 'fundación de Brachfield Credit & Risk Consultants' },
 ]
 
+// Títulos reales de Pere (perebrachfield.com/consultoria y Amazon; el
+// propietario pasó capturas el 10/09). Tarjetas tipográficas tipo lomo —
+// si algún día llegan las portadas en buena resolución, se sustituyen.
+const PERE_BOOKS = [
+  { t: 'Jaque a los impagados', e: 'Gestión 2000', c: 'bg-brand' },
+  { t: 'La lucha contra la morosidad', e: 'Gestión 2000', c: 'bg-garnet' },
+  {
+    t: 'Credit Management: cómo conceder créditos y evitar los impagos',
+    e: 'Profit Editorial',
+    c: 'bg-accent',
+  },
+  { t: 'Guía práctica para el recobro de deudas', e: 'FC Editorial', c: 'bg-brand' },
+  { t: 'Instrumentos para gestionar y cobrar impagados', e: 'Profit Editorial', c: 'bg-garnet' },
+  { t: 'Tratamiento legal de los impagados', e: 'Atelier Libros Jurídicos', c: 'bg-accent' },
+]
+
 const newsDateFmt = new Intl.DateTimeFormat('es-ES', {
   day: 'numeric',
   month: 'long',
@@ -125,12 +141,12 @@ export default async function LandingPage() {
             <p className="font-mono text-[13px] text-ink-2">39 €/mes · Cancela cuando quieras</p>
           </div>
           <Image
-            src="/landing/hero.webp"
-            alt="Director financiero revisando indicadores de crédito en su oficina"
-            width={1200}
-            height={900}
+            src="/landing/pere-hero.webp"
+            alt="Pere Brachfield, fundador de Brachfield Academy"
+            width={900}
+            height={1200}
             priority
-            className="order-first aspect-[2/1] w-full rounded-xl object-cover lg:order-none lg:aspect-[4/3]"
+            className="order-first aspect-[2/1] w-full rounded-xl object-cover object-top lg:order-none lg:aspect-[3/4]"
           />
         </div>
       </section>
@@ -409,6 +425,28 @@ export default async function LandingPage() {
               ))}
             </div>
           </div>
+        </div>
+        <div className="mt-10">
+          <p className="mb-4 text-sm font-semibold text-ink-2">
+            De sus 32 libros, algunos títulos de referencia:
+          </p>
+          <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-6">
+            {PERE_BOOKS.map((b) => (
+              <div
+                key={b.t}
+                className="flex min-h-36 flex-col overflow-hidden rounded-lg border border-border-soft bg-surface"
+              >
+                <span aria-hidden className={`h-1.5 w-full ${b.c}`} />
+                <div className="flex flex-1 flex-col justify-between p-3.5">
+                  <p className="text-[13px] leading-snug font-bold">{b.t}</p>
+                  <p className="mt-3 font-mono text-[10.5px] text-muted uppercase">{b.e}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-ink-3">
+            Disponibles en las principales librerías y en Amazon.
+          </p>
         </div>
       </Section>
 

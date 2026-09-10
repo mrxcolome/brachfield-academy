@@ -243,30 +243,24 @@ export function Cover({
   )
 }
 
-/** Avatar monograma de Pere Brachfield (sustituible por foto real). */
+/** Avatar de Pere Brachfield — foto real (facilitada por el propietario 10/09). */
 export function Avatar({ size = 36, style }: { size?: number; style?: CSSProperties }) {
   return (
-    <div
-      aria-label="Pere Brachfield"
-      role="img"
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/brand/pere-square.webp"
+      alt="Pere Brachfield"
+      width={size}
+      height={size}
       style={{
         width: size,
         height: size,
         borderRadius: '100%',
         flex: 'none',
-        background: `linear-gradient(135deg, ${NAVY} 0%, ${NAVY_SOFT} 100%)`,
-        color: '#fff',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: 600,
-        fontSize: size * 0.38,
-        letterSpacing: '0.02em',
+        objectFit: 'cover',
         ...style,
       }}
-    >
-      PB
-    </div>
+    />
   )
 }
 
@@ -281,55 +275,14 @@ export function Portrait({
   label?: string
 }) {
   return (
-    <div
-      className={className}
-      style={{ position: 'relative', overflow: 'hidden', background: NAVY, ...style }}
-      role="img"
-      aria-label={label}
-    >
-      <svg
-        viewBox="0 0 200 150"
-        preserveAspectRatio="xMidYMid slice"
-        style={{ width: '100%', height: '100%', display: 'block' }}
-      >
-        <circle cx={100} cy={190} r={110} fill={NAVY_SOFT} opacity={0.5} />
-        <circle cx={100} cy={58} r={26} fill={NAVY_FAINT} opacity={0.9} />
-        <path d="M 48 150 Q 48 96 100 96 Q 152 96 152 150 Z" fill={NAVY_FAINT} opacity={0.9} />
-        <circle
-          cx={100}
-          cy={58}
-          r={34}
-          fill="none"
-          stroke={AMBER}
-          strokeWidth={1.6}
-          strokeDasharray="3 5"
-          opacity={0.8}
-        />
-        <text
-          x={100}
-          y={64}
-          textAnchor="middle"
-          fill={NAVY}
-          fontSize={17}
-          fontWeight={700}
-          fontFamily="var(--font-sans)"
-        >
-          PB
-        </text>
-      </svg>
-      <span
-        style={{
-          position: 'absolute',
-          left: 10,
-          bottom: 8,
-          fontSize: 10,
-          color: 'rgba(255,255,255,.85)',
-          letterSpacing: '0.06em',
-          fontFamily: 'var(--font-mono)',
-        }}
-      >
-        {label.toUpperCase()}
-      </span>
+    <div className={className} style={{ position: 'relative', overflow: 'hidden', ...style }}>
+      {/* Foto real de Pere (facilitada por el propietario 10/09) */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/brand/pere-square.webp"
+        alt={label}
+        style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }}
+      />
     </div>
   )
 }

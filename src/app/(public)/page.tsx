@@ -82,7 +82,7 @@ const CYCLE_NODES = [
 const PERE_STATS = [
   { n: '+35', d: 'años de experiencia en morosidad y crédito' },
   { n: '32', d: 'libros publicados sobre la materia' },
-  { n: 'Cientos', d: 'de empresas y profesionales formados' },
+  { n: '+200', d: 'empresas y profesionales formados' },
   { n: '1990', d: 'fundación de Brachfield Credit & Risk Consultants' },
 ]
 

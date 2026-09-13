@@ -11,7 +11,6 @@ import {
   knowledgeAreas,
   personas,
   sampleTools,
-  trainingAreas,
   whatsInside,
   pricingIncludes,
 } from '@/features/content/catalog'
@@ -53,6 +52,20 @@ const MEDIUM_FORMATS = ['Consejos', 'Artículos', 'Entrevistas', 'Sesiones en di
 const COMPACT_FORMATS = ['Guías', 'Checklists', 'Plantillas', 'Casos prácticos'].map(
   (l) => formatByLabel[l]!,
 )
+
+// El viaje del crédito (rediseño 10/09, petición del propietario: que se VEA
+// que la formación cubre el ciclo completo). Etiquetas de creditProcess +
+// una pregunta didáctica por etapa. Dos puestas en escena: viaje horizontal
+// en escritorio, línea de tiempo vertical en móvil.
+const JOURNEY_HINTS = [
+  '¿A quién fío, cuánto y con qué garantías?',
+  'Blindar la venta antes de emitir la factura',
+  'Cobrar a tiempo, con proceso y sin fricciones',
+  'Cuando el cliente se retrasa, hablar con método',
+  'Recuperar el impagado sin perder al cliente',
+  'Burofax, monitorio o demanda: la vía legal',
+  'Cobrar, cerrar y aprender para la próxima',
+]
 
 const PERE_STATS = [
   { n: '+35', d: 'años de experiencia en morosidad y crédito' },
@@ -152,18 +165,14 @@ export default async function LandingPage() {
               gestionar el crédito comercial, negociar con deudores y recuperar impagados, tanto por
               vía extrajudicial como judicial, de la mano de Pere Brachfield.
             </p>
-            <div className="mb-4 flex flex-wrap gap-3">
+            {/* Un único CTA (decisión del propietario 13/09): toda la fuerza
+                para «Quiero ser alumno» */}
+            <div className="mb-4">
               <Link
                 href="/signup"
-                className="rounded-md bg-brand px-5 py-3.5 text-[15px] font-semibold text-white no-underline hover:bg-brand-hover"
+                className="inline-block rounded-md bg-brand px-6 py-3.5 text-[15px] font-semibold text-white no-underline hover:bg-brand-hover"
               >
                 Quiero ser alumno
-              </Link>
-              <Link
-                href="/courses"
-                className="rounded-md border border-border-chip px-5 py-3.5 text-[15px] font-semibold text-brand no-underline hover:bg-surface"
-              >
-                Explorar cursos
               </Link>
             </div>
             <p className="font-mono text-[13px] text-ink-2">39 €/mes · Cancela cuando quieras</p>
@@ -193,32 +202,72 @@ export default async function LandingPage() {
         </div>
       </section>
 
-      {/* El ciclo completo del crédito */}
+      {/* El ciclo completo del crédito — el viaje visual (10/09): en
+          escritorio, 7 hitos sobre una línea que va del azul al granate;
+          en móvil, línea de tiempo vertical. Que se VEA que la formación
+          cubre el ciclo de la vida del crédito de punta a punta. */}
       <Section className="bg-bg">
-        <h2 className="mb-2 text-2xl font-bold">El proceso del credit management</h2>
-        <p className="mb-6 text-sm leading-relaxed text-ink-3">
-          Una escuela especializada en todo el ciclo de vida del crédito comercial B2B, de la
-          concesión a la recuperación.
+        <h2 className="mb-2 text-2xl font-bold">El ciclo de la vida del crédito</h2>
+        <p className="mb-9 max-w-2xl text-sm leading-relaxed text-ink-3">
+          El crédito comercial es un viaje de siete etapas — y Brachfield Academy es la única
+          escuela que te forma en todas, de la concesión a la recuperación.
         </p>
-        {/* Pasos numerados (decisión del propietario 10/09: los chips con
-            flechas eran demasiado pequeños para leerse como proceso) */}
-        <ol className="mb-7 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
-          {creditProcess.map((step, i) => (
-            <li key={step} className="rounded-lg border border-border-soft bg-surface p-3.5">
-              {/* Granate: acento puntual de la paleta (el color del logo). */}
-              <p className="font-mono text-[11px] font-bold text-garnet">
-                {String(i + 1).padStart(2, '0')}
-              </p>
-              <p className="mt-1 text-[13px] leading-snug font-semibold text-ink-2">{step}</p>
-            </li>
-          ))}
-        </ol>
-        <p className="text-sm leading-relaxed text-ink-2">
-          <span className="font-semibold text-ink">Formación en:</span> {trainingAreas.join(' · ')}
-        </p>
-        <p className="mt-1.5 text-sm text-ink-3">
-          Con el conocimiento y la experiencia de Pere Brachfield.
-        </p>
+
+        {/* Escritorio: viaje horizontal */}
+        <div className="hidden lg:block">
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute top-5 right-[7%] left-[7%] h-1 rounded-full"
+              style={{ background: 'linear-gradient(90deg, #172B49 0%, #A21E26 100%)' }}
+            />
+            <ol className="relative m-0 grid list-none grid-cols-7 gap-3 p-0">
+              {creditProcess.map((step, i) => (
+                <li key={step} className="flex flex-col items-center text-center">
+                  <span
+                    className="z-10 flex h-10 w-10 items-center justify-center rounded-full font-mono text-[14px] font-bold text-white ring-6 ring-bg"
+                    style={{ background: i === creditProcess.length - 1 ? '#A21E26' : '#172B49' }}
+                  >
+                    {i + 1}
+                  </span>
+                  <p className="mt-3 text-[13.5px] leading-snug font-bold">{step}</p>
+                  <p className="mt-1 text-[12px] leading-snug text-ink-3">{JOURNEY_HINTS[i]}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <p className="mx-auto mt-9 w-fit rounded-full bg-brand-soft px-5 py-2.5 text-[13.5px] font-semibold text-brand">
+            ✓ La academia te forma en las siete etapas — sin huecos
+          </p>
+        </div>
+
+        {/* Móvil y tableta: línea de tiempo vertical */}
+        <div className="lg:hidden">
+          <ol className="relative m-0 flex list-none flex-col gap-6 p-0">
+            <div
+              aria-hidden
+              className="absolute top-2 bottom-2 left-[19px] w-1 rounded-full"
+              style={{ background: 'linear-gradient(180deg, #172B49 0%, #A21E26 100%)' }}
+            />
+            {creditProcess.map((step, i) => (
+              <li key={step} className="relative flex items-start gap-4">
+                <span
+                  className="z-10 flex h-10 w-10 flex-none items-center justify-center rounded-full font-mono text-[14px] font-bold text-white ring-4 ring-bg"
+                  style={{ background: i === creditProcess.length - 1 ? '#A21E26' : '#172B49' }}
+                >
+                  {i + 1}
+                </span>
+                <div className="pt-1.5">
+                  <p className="text-[14.5px] leading-snug font-bold">{step}</p>
+                  <p className="mt-0.5 text-[12.5px] leading-snug text-ink-3">{JOURNEY_HINTS[i]}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-7 rounded-full bg-brand-soft px-5 py-2.5 text-center text-[13px] font-semibold text-brand">
+            ✓ Las siete etapas, cubiertas — sin huecos
+          </p>
+        </div>
       </Section>
 
       {/* Qué encontrarás dentro — la misma retícula jerárquica que Explorar */}

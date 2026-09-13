@@ -362,7 +362,7 @@ export default async function LandingPage() {
               </div>
               <div className="p-3">
                 <p className="mb-0.5 text-sm font-bold text-brand">{w.l}</p>
-                <p className="text-[11px] leading-snug text-muted">{w.d}</p>
+                <p className="mt-0.5 text-sm leading-snug text-muted">{w.d}</p>
               </div>
             </div>
           ))}

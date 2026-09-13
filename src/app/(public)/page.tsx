@@ -67,6 +67,18 @@ const JOURNEY_HINTS = [
   'Cobrar, cerrar y aprender para la próxima',
 ]
 
+// Posiciones de los 7 nudos sobre el anillo (contenedor fijo de 460px,
+// radio 210, nudo de 44px) — precalculadas, sin trigonometría en cliente.
+const CYCLE_NODES = [
+  { step: 0, x: 208, y: -2 },
+  { step: 1, x: 372, y: 77 },
+  { step: 2, x: 413, y: 255 },
+  { step: 3, x: 299, y: 397 },
+  { step: 4, x: 117, y: 397 },
+  { step: 5, x: 3, y: 255 },
+  { step: 6, x: 44, y: 77 },
+]
+
 const PERE_STATS = [
   { n: '+35', d: 'años de experiencia en morosidad y crédito' },
   { n: '32', d: 'libros publicados sobre la materia' },
@@ -146,17 +158,17 @@ export default async function LandingPage() {
             (decisión del propietario, 2026-08-20). */}
         <div className="mx-auto grid max-w-6xl items-center gap-6 px-5 py-8 sm:gap-10 sm:py-20 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="mb-5 hidden rounded-full bg-surface px-3.5 py-1.5 text-xs font-semibold text-brand-link sm:inline-block">
+            <p className="mb-5 hidden rounded-full bg-surface px-3.5 py-1.5 text-sm font-semibold text-brand-link sm:inline-block">
               Por Pere Brachfield · Credit &amp; Risk Consultants desde 1990
             </p>
-            <h1 className="mb-4 text-[25px] leading-[1.2] font-bold tracking-tight sm:text-4xl sm:leading-[1.15]">
+            <h1 className="mb-4 text-2xl leading-[1.2] font-bold tracking-tight sm:text-4xl sm:leading-[1.15]">
               Aprende a prevenir impagos.
               <br />
               Gestiona mejor el crédito.
               <br />
               Cobra lo que te deben.
             </h1>
-            <p className="mb-3 text-[17px] leading-relaxed text-ink-2">
+            <p className="mb-3 text-lg leading-relaxed text-ink-2">
               Todo el conocimiento que necesitas para gestionar mejor el crédito a clientes,
               prevenir impagos y cobrar a tiempo.
             </p>
@@ -170,12 +182,12 @@ export default async function LandingPage() {
             <div className="mb-4">
               <Link
                 href="/signup"
-                className="inline-block rounded-md bg-brand px-6 py-3.5 text-[15px] font-semibold text-white no-underline hover:bg-brand-hover"
+                className="inline-block rounded-md bg-brand px-6 py-3.5 text-sm font-semibold text-white no-underline hover:bg-brand-hover"
               >
                 Quiero ser alumno
               </Link>
             </div>
-            <p className="font-mono text-[13px] text-ink-2">39 €/mes · Cancela cuando quieras</p>
+            <p className="font-mono text-sm text-ink-2">39 €/mes · Cancela cuando quieras</p>
           </div>
           <Image
             src="/landing/pere-hero.webp"
@@ -195,8 +207,8 @@ export default async function LandingPage() {
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-y-8 px-5 py-10 text-center sm:grid-cols-4 sm:divide-x sm:divide-white/10">
           {PERE_STATS.map((s) => (
             <div key={s.d} className="px-4">
-              <p className="text-3xl font-bold text-accent sm:text-4xl">{s.n}</p>
-              <p className="mx-auto mt-2 max-w-44 text-xs leading-snug text-on-dark-muted">{s.d}</p>
+              <p className="text-4xl font-bold text-accent">{s.n}</p>
+              <p className="mx-auto mt-2 max-w-44 text-sm leading-snug text-on-dark-muted">{s.d}</p>
             </div>
           ))}
         </div>
@@ -213,33 +225,70 @@ export default async function LandingPage() {
           escuela que te forma en todas, de la concesión a la recuperación.
         </p>
 
-        {/* Escritorio: viaje horizontal */}
-        <div className="hidden lg:block">
-          <div className="relative">
+        {/* Escritorio: la rueda del crédito (v2 13/09 — la línea de hitos
+            «seguía siendo muy pobre»): anillo con degradado de la paleta,
+            7 nudos numerados, el marcador 7/7 en el centro y la leyenda
+            editorial al lado. El ciclo, dibujado como ciclo. */}
+        <div className="hidden items-center gap-16 lg:grid lg:grid-cols-[460px_1fr]">
+          <div className="relative h-[460px] w-[460px]">
             <div
               aria-hidden
-              className="absolute top-5 right-[7%] left-[7%] h-1 rounded-full"
-              style={{ background: 'linear-gradient(90deg, #172B49 0%, #A21E26 100%)' }}
+              className="absolute inset-0 rounded-full"
+              style={{
+                background:
+                  'conic-gradient(from 10deg, #172B49 0%, #172B49 35%, #A21E26 78%, #E88800 96%, #172B49 100%)',
+                mask: 'radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px))',
+                WebkitMask:
+                  'radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px))',
+              }}
             />
-            <ol className="relative m-0 grid list-none grid-cols-7 gap-3 p-0">
-              {creditProcess.map((step, i) => (
-                <li key={step} className="flex flex-col items-center text-center">
-                  <span
-                    className="z-10 flex h-10 w-10 items-center justify-center rounded-full font-mono text-[14px] font-bold text-white ring-6 ring-bg"
-                    style={{ background: i === creditProcess.length - 1 ? '#A21E26' : '#172B49' }}
-                  >
-                    {i + 1}
-                  </span>
-                  <p className="mt-3 text-[13.5px] leading-snug font-bold">{step}</p>
-                  <p className="mt-1 text-[12px] leading-snug text-ink-3">{JOURNEY_HINTS[i]}</p>
-                </li>
-              ))}
-            </ol>
+            {CYCLE_NODES.map((n, i) => (
+              <span
+                key={n.step}
+                aria-hidden
+                className="absolute flex h-11 w-11 items-center justify-center rounded-full font-mono text-sm font-bold text-white shadow-md"
+                style={{
+                  left: n.x,
+                  top: n.y,
+                  background: i === CYCLE_NODES.length - 1 ? '#A21E26' : '#172B49',
+                }}
+              >
+                {i + 1}
+              </span>
+            ))}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+              <p className="text-4xl font-bold text-brand">
+                7<span className="text-garnet">/7</span>
+              </p>
+              <p className="mt-1.5 text-sm font-bold text-ink-2">etapas cubiertas</p>
+              <p className="mt-1 max-w-44 text-sm leading-snug text-muted">
+                de la concesión del crédito a la recuperación de la deuda
+              </p>
+            </div>
           </div>
-          <p className="mx-auto mt-9 w-fit rounded-full bg-brand-soft px-5 py-2.5 text-[13.5px] font-semibold text-brand">
-            ✓ La academia te forma en las siete etapas — sin huecos
-          </p>
+          <ol className="m-0 flex list-none flex-col p-0">
+            {creditProcess.map((step, i) => (
+              <li
+                key={step}
+                className="flex items-start gap-4 border-b border-border-soft py-3.5 first:pt-0 last:border-0"
+              >
+                <span
+                  className="mt-0.5 flex h-8 w-8 flex-none items-center justify-center rounded-full font-mono text-sm font-bold text-white"
+                  style={{ background: i === creditProcess.length - 1 ? '#A21E26' : '#172B49' }}
+                >
+                  {i + 1}
+                </span>
+                <div>
+                  <p className="text-sm leading-snug font-bold">{step}</p>
+                  <p className="mt-0.5 text-sm leading-snug text-ink-3">{JOURNEY_HINTS[i]}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
+        <p className="mx-auto mt-10 hidden w-fit rounded-full bg-brand-soft px-5 py-2.5 text-sm font-semibold text-brand lg:block">
+          ✓ La academia te forma en las siete etapas — sin huecos
+        </p>
 
         {/* Móvil y tableta: línea de tiempo vertical */}
         <div className="lg:hidden">
@@ -252,19 +301,19 @@ export default async function LandingPage() {
             {creditProcess.map((step, i) => (
               <li key={step} className="relative flex items-start gap-4">
                 <span
-                  className="z-10 flex h-10 w-10 flex-none items-center justify-center rounded-full font-mono text-[14px] font-bold text-white ring-4 ring-bg"
+                  className="z-10 flex h-10 w-10 flex-none items-center justify-center rounded-full font-mono text-sm font-bold text-white ring-4 ring-bg"
                   style={{ background: i === creditProcess.length - 1 ? '#A21E26' : '#172B49' }}
                 >
                   {i + 1}
                 </span>
                 <div className="pt-1.5">
-                  <p className="text-[14.5px] leading-snug font-bold">{step}</p>
-                  <p className="mt-0.5 text-[12.5px] leading-snug text-ink-3">{JOURNEY_HINTS[i]}</p>
+                  <p className="text-sm leading-snug font-bold">{step}</p>
+                  <p className="mt-0.5 text-sm leading-snug text-ink-3">{JOURNEY_HINTS[i]}</p>
                 </div>
               </li>
             ))}
           </ol>
-          <p className="mt-7 rounded-full bg-brand-soft px-5 py-2.5 text-center text-[13px] font-semibold text-brand">
+          <p className="mt-7 rounded-full bg-brand-soft px-5 py-2.5 text-center text-sm font-semibold text-brand">
             ✓ Las siete etapas, cubiertas — sin huecos
           </p>
         </div>
@@ -291,10 +340,10 @@ export default async function LandingPage() {
             </div>
             <div className="flex flex-col gap-1.5 p-5">
               <p className="text-lg font-bold text-brand">Cursos</p>
-              <p className="text-[13.5px] font-semibold text-ink-2">
+              <p className="text-sm font-semibold text-ink-2">
                 «Aprende un tema completo» — con lecciones y tu progreso guardado
               </p>
-              <p className="text-[12.5px] leading-relaxed text-muted">{HERO_FORMAT.d}</p>
+              <p className="text-sm leading-relaxed text-muted">{HERO_FORMAT.d}</p>
             </div>
           </div>
           {MEDIUM_FORMATS.map((w) => (
@@ -312,8 +361,8 @@ export default async function LandingPage() {
                 />
               </div>
               <div className="p-3">
-                <p className="mb-0.5 text-[13px] font-bold text-brand">{w.l}</p>
-                <p className="text-[11.5px] leading-snug text-muted">{w.d}</p>
+                <p className="mb-0.5 text-sm font-bold text-brand">{w.l}</p>
+                <p className="text-[11px] leading-snug text-muted">{w.d}</p>
               </div>
             </div>
           ))}
@@ -321,11 +370,11 @@ export default async function LandingPage() {
         <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
           {COMPACT_FORMATS.map((w) => (
             <div key={w.l} className="rounded-lg border border-border-soft bg-surface p-4">
-              <p className="mb-1 flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-[15px] text-brand">
+              <p className="mb-1 flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-sm text-brand">
                 <span aria-hidden>{w.g}</span>
               </p>
               <p className="mt-2 text-sm font-bold text-brand">{w.l}</p>
-              <p className="mt-1 text-xs leading-relaxed text-ink-3">{w.d}</p>
+              <p className="mt-1 text-sm leading-relaxed text-ink-3">{w.d}</p>
             </div>
           ))}
         </div>
@@ -366,7 +415,7 @@ export default async function LandingPage() {
               />
               <div className="p-3.5">
                 <p className="text-sm font-semibold">{a.l}</p>
-                <p className="mt-1 text-xs leading-relaxed text-ink-3">{a.d}</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink-3">{a.d}</p>
               </div>
             </div>
           ))}
@@ -396,7 +445,7 @@ export default async function LandingPage() {
       <section className="border-y border-border-soft bg-surface">
         <div className="mx-auto grid max-w-6xl sm:grid-cols-2 sm:divide-x sm:divide-border-soft">
           <div className="bg-surface p-8 sm:p-12">
-            <h3 className="mb-3 text-xl font-bold">Formación práctica, no solo teoría</h3>
+            <h3 className="mb-3 text-lg font-bold">Formación práctica, no solo teoría</h3>
             <p className="text-sm leading-relaxed text-ink-3">
               El objetivo no es acumular conocimiento, sino resolver situaciones reales: qué decir a
               un cliente que no paga, cuándo escalar una reclamación, cómo estructurar tu política
@@ -404,7 +453,7 @@ export default async function LandingPage() {
             </p>
           </div>
           <div className="bg-surface p-8 sm:p-12">
-            <h3 className="mb-3 text-xl font-bold">Contenido nuevo cada semana</h3>
+            <h3 className="mb-3 text-lg font-bold">Contenido nuevo cada semana</h3>
             <p className="text-sm leading-relaxed text-ink-3">
               La morosidad y la legislación cambian constantemente. Brachfield Academy se actualiza
               para que tú no tengas que estar pendiente de todo.
@@ -479,9 +528,9 @@ export default async function LandingPage() {
                 style={{ aspectRatio: '16/9' }}
               />
               <div className="p-3.5">
-                <p className="font-mono text-[10.5px] font-semibold text-muted">▦ PLANTILLA</p>
+                <p className="font-mono text-[11px] font-semibold text-muted">▦ PLANTILLA</p>
                 <p className="mt-1.5 text-sm leading-snug font-semibold">{t.l}</p>
-                <p className="mt-1 text-xs leading-relaxed text-ink-3">{t.d}</p>
+                <p className="mt-1 text-sm leading-relaxed text-ink-3">{t.d}</p>
               </div>
             </div>
           ))}
@@ -515,13 +564,13 @@ export default async function LandingPage() {
               >
                 <span aria-hidden className={`h-1.5 w-full ${b.c}`} />
                 <div className="flex flex-1 flex-col justify-between p-3.5">
-                  <p className="text-[13px] leading-snug font-bold">{b.t}</p>
-                  <p className="mt-3 font-mono text-[10.5px] text-muted uppercase">{b.e}</p>
+                  <p className="text-sm leading-snug font-bold">{b.t}</p>
+                  <p className="mt-3 font-mono text-[11px] text-muted uppercase">{b.e}</p>
                 </div>
               </div>
             ))}
           </div>
-          <p className="mt-4 text-xs text-ink-3">
+          <p className="mt-4 text-sm text-ink-3">
             Disponibles en las principales librerías y en Amazon.
           </p>
         </div>
@@ -538,7 +587,7 @@ export default async function LandingPage() {
           {personas.map((p) => (
             <span
               key={p}
-              className="rounded-full bg-brand-soft px-4 py-2 text-[13.5px] font-semibold text-brand"
+              className="rounded-full bg-brand-soft px-4 py-2 text-sm font-semibold text-brand"
             >
               {p}
             </span>
@@ -557,14 +606,14 @@ export default async function LandingPage() {
                 className="m-0 flex flex-col justify-between rounded-lg border border-border-soft bg-surface p-5"
               >
                 <blockquote className="m-0">
-                  <span aria-hidden className="block text-3xl leading-none text-garnet">
+                  <span aria-hidden className="block text-4xl leading-none text-garnet">
                     “
                   </span>
-                  <p className="mt-1 text-[15px] leading-relaxed text-ink-2">{t.quote}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-ink-2">{t.quote}</p>
                 </blockquote>
                 <figcaption className="mt-4">
                   <p className="text-sm font-bold">{t.name}</p>
-                  <p className="text-xs text-muted">{t.role}</p>
+                  <p className="text-sm text-muted">{t.role}</p>
                 </figcaption>
               </figure>
             ))}
@@ -582,9 +631,9 @@ export default async function LandingPage() {
               Plan Profesional
             </p>
             <p className="text-center text-4xl font-bold">
-              39 €<span className="text-base font-medium text-on-dark-muted">/mes</span>
+              39 €<span className="text-sm font-medium text-on-dark-muted">/mes</span>
             </p>
-            <p className="mt-1 mb-6 text-center font-mono text-xs text-on-dark-muted">
+            <p className="mt-1 mb-6 text-center font-mono text-sm text-on-dark-muted">
               IVA incluido · facturación mensual
             </p>
             <ul className="mb-7 flex list-none flex-col gap-2.5 p-0 text-sm text-on-dark">
@@ -603,7 +652,7 @@ export default async function LandingPage() {
             >
               Quiero ser alumno
             </Link>
-            <p className="mt-3 text-center font-mono text-xs text-on-dark-muted">
+            <p className="mt-3 text-center font-mono text-sm text-on-dark-muted">
               Sin permanencia · cancela cuando quieras
             </p>
           </div>
@@ -641,7 +690,7 @@ export default async function LandingPage() {
           </p>
           <Link
             href="/signup"
-            className="inline-block rounded-md bg-brand px-6 py-3.5 text-[15px] font-semibold text-white no-underline hover:bg-brand-hover"
+            className="inline-block rounded-md bg-brand px-6 py-3.5 text-sm font-semibold text-white no-underline hover:bg-brand-hover"
           >
             Quiero ser alumno
           </Link>

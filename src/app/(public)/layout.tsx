@@ -10,7 +10,7 @@ function Topbar() {
         <div className="mx-auto flex max-w-6xl justify-end px-5 py-1.5">
           <Link
             href="/login"
-            className="whitespace-nowrap text-[13px] font-medium text-white no-underline"
+            className="whitespace-nowrap text-sm font-medium text-white no-underline"
           >
             Acceso alumnos
           </Link>
@@ -29,7 +29,7 @@ function Topbar() {
           {/* Desktop: enlace discreto — el protagonismo es del CTA de alta. */}
           <Link
             href="/login"
-            className="hidden whitespace-nowrap text-[13.5px] font-medium text-ink-2 underline decoration-border-input underline-offset-4 hover:text-brand-link hover:decoration-brand-link sm:inline"
+            className="hidden whitespace-nowrap text-sm font-medium text-ink-2 underline decoration-border-input underline-offset-4 hover:text-brand-link hover:decoration-brand-link sm:inline"
           >
             Acceso alumnos
           </Link>
@@ -42,7 +42,7 @@ function Topbar() {
 function Footer() {
   return (
     <footer className="border-t border-border-soft bg-surface">
-      <div className="mx-auto max-w-6xl px-5 py-8 text-[13px] text-muted">
+      <div className="mx-auto max-w-6xl px-5 py-8 text-sm text-muted">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row">
           <div>
             <BrandLogo height={22} />
@@ -60,7 +60,7 @@ function Footer() {
             </a>
           </div>
         </div>
-        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-border-soft pt-4 text-[12.5px]">
+        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-border-soft pt-4 text-sm">
           <Link href="/legal/aviso-legal" className="text-inherit">
             Aviso legal
           </Link>

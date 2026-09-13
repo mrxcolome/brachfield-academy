@@ -1,145 +1,438 @@
 <!doctype html>
 <html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<title>Guía de estilos · Brachfield Academy</title>
-<style>
-  :root{
-    --navy:#172b49; --navy-hover:#101f36; --link:#2b4a7e; --navy-soft:#edf1f7;
-    --garnet:#a21e26; --naranja:#e88800; --naranja-fuerte:#a85c00; --naranja-soft:#fdf2e2;
-    --bg:#f7f5f1; --surface:#fff; --ink:#26241f; --ink-2:#3f3d38; --muted:#6d6a62;
-    --borde:#e5e1d8; --dark:#10151f; --dark-2:#1a2230;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);
-    font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.5}
-  .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-  main{max-width:960px;margin:0 auto;padding:48px 20px 80px}
-  header.top{background:var(--surface);border-bottom:1px solid var(--borde);padding:18px 20px}
-  header.top .in{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:12px}
-  header.top img{height:26px}
-  h1{font-size:24px;margin:24px 0 4px}
-  .sub{color:var(--muted);font-size:14px;margin:0 0 40px}
-  h2{font-size:24px;margin:56px 0 6px;padding-top:24px;border-top:1px solid var(--borde)}
-  .nota{font-size:14px;color:var(--muted);margin:0 0 22px}
-  /* colores */
-  .paleta{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
-  .sw{background:var(--surface);border:1px solid var(--borde);border-radius:10px;overflow:hidden}
-  .sw .c{height:64px}
-  .sw .t{padding:10px 12px;font-size:14px}
-  .sw .t b{display:block}
-  .sw .t span{font-size:11px;color:var(--muted)}
-  /* tipografía */
-  .tipo{background:var(--surface);border:1px solid var(--borde);border-radius:10px;padding:6px 22px}
-  .tipo .fila{display:grid;grid-template-columns:110px 1fr;gap:18px;align-items:baseline;
-    padding:18px 0;border-bottom:1px solid var(--borde)}
-  .tipo .fila:last-child{border-bottom:0}
-  .tipo .meta{font-size:11px;color:var(--muted)}
-  .tipo .meta b{display:block;font-size:14px;color:var(--ink)}
-  .uso{font-size:11px;color:var(--muted);display:block;margin-top:4px}
-  /* botones y sellos */
-  .fila-ej{display:flex;flex-wrap:wrap;gap:14px;align-items:center;
-    background:var(--surface);border:1px solid var(--borde);border-radius:10px;padding:22px}
-  .btn{display:inline-block;border-radius:6px;padding:12px 22px;font-size:14px;font-weight:600;
-    text-decoration:none;border:0;cursor:default}
-  .btn-primario{background:var(--navy);color:#fff}
-  .btn-secundario{background:transparent;color:var(--navy);border:1px solid #d8d3c8}
-  .btn-naranja{background:var(--naranja);color:var(--navy);font-weight:700}
-  .chip{border-radius:999px;background:var(--navy-soft);color:var(--link);
-    padding:3px 11px;font-size:11px;font-weight:600}
-  .pillb{border-radius:999px;background:var(--navy-soft);color:var(--navy);
-    padding:10px 20px;font-size:14px;font-weight:600}
-  .sello{border-radius:5px;background:var(--naranja-fuerte);color:#fff;
-    padding:3px 7px;font-size:10px;font-weight:600;letter-spacing:.08em}
-  .naranja-txt{color:var(--naranja);font-weight:700}
-  .banda-oscura{background:var(--dark);border-radius:10px;padding:26px 22px;display:flex;
-    gap:40px;flex-wrap:wrap;justify-content:center;text-align:center;color:#fff}
-  .banda-oscura .n{font-size:36px;font-weight:700;color:var(--naranja)}
-  .banda-oscura .d{font-size:11px;color:#b9c0cc;max-width:150px}
-  ul.reglas{background:var(--surface);border:1px solid var(--borde);border-radius:10px;
-    margin:0;padding:22px 22px 22px 40px;font-size:14px}
-  ul.reglas li{margin-bottom:10px}
-  ul.reglas li:last-child{margin-bottom:0}
-  code{background:var(--navy-soft);border-radius:4px;padding:1px 6px;font-size:12px}
-</style>
-</head>
-<body>
-<header class="top"><div class="in">
-  <img src="/brand/logo.svg" alt="Brachfield Academy">
-  <span class="mono" style="font-size:11px;color:var(--muted)">GUÍA DE ESTILOS · v1 · septiembre 2026</span>
-</div></header>
-<main>
-  <h1>Guía de estilos</h1>
-  <p class="sub">La referencia visual de brachfieldacademy.com — colores, tipografía y componentes, con sus reglas de uso.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Guía de estilos · Brachfield Academy</title>
+    <style>
+      :root {
+        --navy: #172b49;
+        --navy-hover: #101f36;
+        --link: #2b4a7e;
+        --navy-soft: #edf1f7;
+        --garnet: #a21e26;
+        --naranja: #e88800;
+        --naranja-fuerte: #a85c00;
+        --naranja-soft: #fdf2e2;
+        --bg: #f7f5f1;
+        --surface: #fff;
+        --ink: #26241f;
+        --ink-2: #3f3d38;
+        --muted: #6d6a62;
+        --borde: #e5e1d8;
+        --dark: #10151f;
+        --dark-2: #1a2230;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.5;
+      }
+      .mono {
+        font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 20px 80px;
+      }
+      header.top {
+        background: var(--surface);
+        border-bottom: 1px solid var(--borde);
+        padding: 18px 20px;
+      }
+      header.top .in {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      header.top img {
+        height: 26px;
+      }
+      h1 {
+        font-size: 24px;
+        margin: 24px 0 4px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 40px;
+      }
+      h2 {
+        font-size: 24px;
+        margin: 56px 0 6px;
+        padding-top: 24px;
+        border-top: 1px solid var(--borde);
+      }
+      .nota {
+        font-size: 14px;
+        color: var(--muted);
+        margin: 0 0 22px;
+      }
+      /* colores */
+      .paleta {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 14px;
+      }
+      .sw {
+        background: var(--surface);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .sw .c {
+        height: 64px;
+      }
+      .sw .t {
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+      .sw .t b {
+        display: block;
+      }
+      .sw .t span {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      /* tipografía */
+      .tipo {
+        background: var(--surface);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        padding: 6px 22px;
+      }
+      .tipo .fila {
+        display: grid;
+        grid-template-columns: 110px 1fr;
+        gap: 18px;
+        align-items: baseline;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--borde);
+      }
+      .tipo .fila:last-child {
+        border-bottom: 0;
+      }
+      .tipo .meta {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .tipo .meta b {
+        display: block;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .uso {
+        font-size: 11px;
+        color: var(--muted);
+        display: block;
+        margin-top: 4px;
+      }
+      /* botones y sellos */
+      .fila-ej {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+        background: var(--surface);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        padding: 22px;
+      }
+      .btn {
+        display: inline-block;
+        border-radius: 6px;
+        padding: 12px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 0;
+        cursor: default;
+      }
+      .btn-primario {
+        background: var(--navy);
+        color: #fff;
+      }
+      .btn-secundario {
+        background: transparent;
+        color: var(--navy);
+        border: 1px solid #d8d3c8;
+      }
+      .btn-naranja {
+        background: var(--naranja);
+        color: var(--navy);
+        font-weight: 700;
+      }
+      .chip {
+        border-radius: 999px;
+        background: var(--navy-soft);
+        color: var(--link);
+        padding: 3px 11px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .pillb {
+        border-radius: 999px;
+        background: var(--navy-soft);
+        color: var(--navy);
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .sello {
+        border-radius: 5px;
+        background: var(--naranja-fuerte);
+        color: #fff;
+        padding: 3px 7px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+      }
+      .naranja-txt {
+        color: var(--naranja);
+        font-weight: 700;
+      }
+      .banda-oscura {
+        background: var(--dark);
+        border-radius: 10px;
+        padding: 26px 22px;
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+      }
+      .banda-oscura .n {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--naranja);
+      }
+      .banda-oscura .d {
+        font-size: 11px;
+        color: #b9c0cc;
+        max-width: 150px;
+      }
+      ul.reglas {
+        background: var(--surface);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        margin: 0;
+        padding: 22px 22px 22px 40px;
+        font-size: 14px;
+      }
+      ul.reglas li {
+        margin-bottom: 10px;
+      }
+      ul.reglas li:last-child {
+        margin-bottom: 0;
+      }
+      code {
+        background: var(--navy-soft);
+        border-radius: 4px;
+        padding: 1px 6px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="in">
+        <img src="/brand/logo.svg" alt="Brachfield Academy" />
+        <span class="mono" style="font-size: 11px; color: var(--muted)"
+          >GUÍA DE ESTILOS · v1 · septiembre 2026</span
+        >
+      </div>
+    </header>
+    <main>
+      <h1>Guía de estilos</h1>
+      <p class="sub">
+        La referencia visual de brachfieldacademy.com — colores, tipografía y componentes, con sus
+        reglas de uso.
+      </p>
 
-  <h2>1 · Colores</h2>
-  <p class="nota">El azul es la marca y la acción. El granate y el naranja son los colores del logo: acentos puntuales, nunca protagonistas de grandes superficies claras.</p>
-  <div class="paleta">
-    <div class="sw"><div class="c" style="background:#172b49"></div><div class="t"><b>Azul marca</b><span class="mono">#172B49 · botones, títulos, nudos</span></div></div>
-    <div class="sw"><div class="c" style="background:#a21e26"></div><div class="t"><b>Granate</b><span class="mono">#A21E26 · detalles (logo), etapa final</span></div></div>
-    <div class="sw"><div class="c" style="background:#e88800"></div><div class="t"><b>Naranja</b><span class="mono">#E88800 · cifras en oscuro, CTA precio</span></div></div>
-    <div class="sw"><div class="c" style="background:#a85c00"></div><div class="t"><b>Naranja fuerte</b><span class="mono">#A85C00 · sellos NUEVO/HOY (AA)</span></div></div>
-    <div class="sw"><div class="c" style="background:#edf1f7"></div><div class="t"><b>Azul suave</b><span class="mono">#EDF1F7 · fondos de chip y héroe</span></div></div>
-    <div class="sw"><div class="c" style="background:#fdf2e2"></div><div class="t"><b>Naranja suave</b><span class="mono">#FDF2E2 · fondo activo de acento</span></div></div>
-    <div class="sw"><div class="c" style="background:#f7f5f1;border-bottom:1px solid var(--borde)"></div><div class="t"><b>Papel</b><span class="mono">fondo general cálido</span></div></div>
-    <div class="sw"><div class="c" style="background:#10151f"></div><div class="t"><b>Azul noche</b><span class="mono">bandas de cifras y precio</span></div></div>
-  </div>
+      <h2>1 · Colores</h2>
+      <p class="nota">
+        El azul es la marca y la acción. El granate y el naranja son los colores del logo: acentos
+        puntuales, nunca protagonistas de grandes superficies claras.
+      </p>
+      <div class="paleta">
+        <div class="sw">
+          <div class="c" style="background: #172b49"></div>
+          <div class="t">
+            <b>Azul marca</b><span class="mono">#172B49 · botones, títulos, nudos</span>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="c" style="background: #a21e26"></div>
+          <div class="t">
+            <b>Granate</b><span class="mono">#A21E26 · detalles (logo), etapa final</span>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="c" style="background: #e88800"></div>
+          <div class="t">
+            <b>Naranja</b><span class="mono">#E88800 · cifras en oscuro, CTA precio</span>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="c" style="background: #a85c00"></div>
+          <div class="t">
+            <b>Naranja fuerte</b><span class="mono">#A85C00 · sellos NUEVO/HOY (AA)</span>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="c" style="background: #edf1f7"></div>
+          <div class="t">
+            <b>Azul suave</b><span class="mono">#EDF1F7 · fondos de chip y héroe</span>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="c" style="background: #fdf2e2"></div>
+          <div class="t">
+            <b>Naranja suave</b><span class="mono">#FDF2E2 · fondo activo de acento</span>
+          </div>
+        </div>
+        <div class="sw">
+          <div class="c" style="background: #f7f5f1; border-bottom: 1px solid var(--borde)"></div>
+          <div class="t"><b>Papel</b><span class="mono">fondo general cálido</span></div>
+        </div>
+        <div class="sw">
+          <div class="c" style="background: #10151f"></div>
+          <div class="t"><b>Azul noche</b><span class="mono">bandas de cifras y precio</span></div>
+        </div>
+      </div>
 
-  <h2>2 · Tipografía</h2>
-  <p class="nota">Escala única de <b>4 tamaños</b> (decidida el 13/09 — antes había 19). Si un texto no encaja en uno de estos cuatro, se replantea el texto, no la escala.</p>
-  <div class="tipo">
-    <div class="fila"><div class="meta"><b>36 px</b>display · negrita</div>
-      <div><span style="font-size:36px;font-weight:700;line-height:1.15">Cobra lo que te deben.</span>
-      <span class="uso">Titular del héroe, números de la banda de cifras, el precio «39 €».</span></div></div>
-    <div class="fila"><div class="meta"><b>24 px</b>título · negrita</div>
-      <div><span style="font-size:24px;font-weight:700">El ciclo de la vida del crédito</span>
-      <span class="uso">Títulos de sección (todos). También el titular del héroe en móvil.</span></div></div>
-    <div class="fila"><div class="meta"><b>14 px</b>texto</div>
-      <div><span style="font-size:14px">Todo el conocimiento que necesitas para gestionar mejor el crédito a clientes, prevenir impagos y cobrar a tiempo.</span>
-      <span class="uso">TODO lo demás: subtítulos (en negrita), párrafos, tarjetas, botones, listas, FAQ, notas.</span></div></div>
-    <div class="fila"><div class="meta"><b>11 px</b>micro · mono</div>
-      <div><span class="mono" style="font-size:11px;color:var(--muted)">EXPANSIÓN · 9 DE SEPTIEMBRE — PROFIT EDITORIAL — 39 €/MES · CANCELA CUANDO QUIERAS</span>
-      <span class="uso">Microtextos en monoespaciada: fuente y fecha de noticias, editoriales, condiciones.</span></div></div>
-  </div>
+      <h2>2 · Tipografía</h2>
+      <p class="nota">
+        Escala única de <b>4 tamaños</b> (decidida el 13/09 — antes había 19). Si un texto no encaja
+        en uno de estos cuatro, se replantea el texto, no la escala.
+      </p>
+      <div class="tipo">
+        <div class="fila">
+          <div class="meta"><b>36 px</b>display · negrita</div>
+          <div>
+            <span style="font-size: 36px; font-weight: 700; line-height: 1.15"
+              >Cobra lo que te deben.</span
+            >
+            <span class="uso"
+              >Titular del héroe, números de la banda de cifras, el precio «39 €».</span
+            >
+          </div>
+        </div>
+        <div class="fila">
+          <div class="meta"><b>24 px</b>título · negrita</div>
+          <div>
+            <span style="font-size: 24px; font-weight: 700">El ciclo de la vida del crédito</span>
+            <span class="uso"
+              >Títulos de sección (todos). También el titular del héroe en móvil.</span
+            >
+          </div>
+        </div>
+        <div class="fila">
+          <div class="meta"><b>14 px</b>texto</div>
+          <div>
+            <span style="font-size: 14px"
+              >Todo el conocimiento que necesitas para gestionar mejor el crédito a clientes,
+              prevenir impagos y cobrar a tiempo.</span
+            >
+            <span class="uso"
+              >TODO lo demás: subtítulos (en negrita), párrafos, tarjetas, botones, listas, FAQ,
+              notas.</span
+            >
+          </div>
+        </div>
+        <div class="fila">
+          <div class="meta"><b>11 px</b>micro · mono</div>
+          <div>
+            <span class="mono" style="font-size: 11px; color: var(--muted)"
+              >EXPANSIÓN · 9 DE SEPTIEMBRE — PROFIT EDITORIAL — 39 €/MES · CANCELA CUANDO
+              QUIERAS</span
+            >
+            <span class="uso"
+              >Microtextos en monoespaciada: fuente y fecha de noticias, editoriales,
+              condiciones.</span
+            >
+          </div>
+        </div>
+      </div>
 
-  <h2>3 · Botones</h2>
-  <p class="nota">Un único protagonista por pantalla: «Quiero ser alumno». El naranja solo se usa sobre la banda azul noche del precio.</p>
-  <div class="fila-ej">
-    <span class="btn btn-primario">Quiero ser alumno</span>
-    <span class="btn btn-secundario">Editar</span>
-    <span class="btn btn-naranja">Quiero ser alumno</span>
-    <span style="font-size:11px;color:var(--muted)">← este último, solo sobre fondo azul noche</span>
-  </div>
+      <h2>3 · Botones</h2>
+      <p class="nota">
+        Un único protagonista por pantalla: «Quiero ser alumno». El naranja solo se usa sobre la
+        banda azul noche del precio.
+      </p>
+      <div class="fila-ej">
+        <span class="btn btn-primario">Quiero ser alumno</span>
+        <span class="btn btn-secundario">Editar</span>
+        <span class="btn btn-naranja">Quiero ser alumno</span>
+        <span style="font-size: 11px; color: var(--muted)"
+          >← este último, solo sobre fondo azul noche</span
+        >
+      </div>
 
-  <h2>4 · Chips y sellos</h2>
-  <div class="fila-ej">
-    <span class="chip">Morosidad</span>
-    <span class="pillb">✓ La academia te forma en las siete etapas — sin huecos</span>
-    <span class="sello">NUEVO</span>
-    <span class="sello">HOY</span>
-    <span class="naranja-txt" style="font-size:14px">✦ Nuevo este mes</span>
-  </div>
-  <p class="nota" style="margin-top:10px">Los sellos van en naranja fuerte con texto blanco (contraste AA). El naranja puro del logo se reserva para texto de acento sobre claro («Nuevo este mes») y cifras sobre oscuro.</p>
+      <h2>4 · Chips y sellos</h2>
+      <div class="fila-ej">
+        <span class="chip">Morosidad</span>
+        <span class="pillb">✓ La academia te forma en las siete etapas — sin huecos</span>
+        <span class="sello">NUEVO</span>
+        <span class="sello">HOY</span>
+        <span class="naranja-txt" style="font-size: 14px">✦ Nuevo este mes</span>
+      </div>
+      <p class="nota" style="margin-top: 10px">
+        Los sellos van en naranja fuerte con texto blanco (contraste AA). El naranja puro del logo
+        se reserva para texto de acento sobre claro («Nuevo este mes») y cifras sobre oscuro.
+      </p>
 
-  <h2>5 · La banda oscura</h2>
-  <p class="nota">Las cifras y el precio viven en azul noche con los números en naranja: son los dos momentos de máximo contraste de la página y se responden entre sí.</p>
-  <div class="banda-oscura">
-    <div><div class="n">+35</div><div class="d">años de experiencia en morosidad y crédito</div></div>
-    <div><div class="n">32</div><div class="d">libros publicados sobre la materia</div></div>
-    <div><div class="n">1990</div><div class="d">fundación de Brachfield Credit &amp; Risk Consultants</div></div>
-  </div>
+      <h2>5 · La banda oscura</h2>
+      <p class="nota">
+        Las cifras y el precio viven en azul noche con los números en naranja: son los dos momentos
+        de máximo contraste de la página y se responden entre sí.
+      </p>
+      <div class="banda-oscura">
+        <div>
+          <div class="n">+35</div>
+          <div class="d">años de experiencia en morosidad y crédito</div>
+        </div>
+        <div>
+          <div class="n">32</div>
+          <div class="d">libros publicados sobre la materia</div>
+        </div>
+        <div>
+          <div class="n">1990</div>
+          <div class="d">fundación de Brachfield Credit &amp; Risk Consultants</div>
+        </div>
+      </div>
 
-  <h2>6 · Reglas rápidas</h2>
-  <ul class="reglas">
-    <li>El logo va siempre tal cual: sin recolorear, sin deformar, sin reconstruir.</li>
-    <li>Fotos: la serie de marca (oficinas cálidas, luz natural) y el retrato de estudio de Pere. Nada de stock frío.</li>
-    <li>Granate y naranja son acentos: si una pantalla tiene más granate/naranja que azul, algo sobra.</li>
-    <li>Contraste AA siempre; la única excepción pactada es «Nuevo este mes» en naranja puro del menú.</li>
-    <li>Escala tipográfica cerrada: <code>36 / 24 / 14 / 11</code>. Sin excepciones nuevas sin decisión del propietario.</li>
-    <li>Un solo CTA protagonista por pantalla: «Quiero ser alumno».</li>
-  </ul>
-</main>
-</body>
+      <h2>6 · Reglas rápidas</h2>
+      <ul class="reglas">
+        <li>El logo va siempre tal cual: sin recolorear, sin deformar, sin reconstruir.</li>
+        <li>
+          Fotos: la serie de marca (oficinas cálidas, luz natural) y el retrato de estudio de Pere.
+          Nada de stock frío.
+        </li>
+        <li>
+          Granate y naranja son acentos: si una pantalla tiene más granate/naranja que azul, algo
+          sobra.
+        </li>
+        <li>
+          Contraste AA siempre; la única excepción pactada es «Nuevo este mes» en naranja puro del
+          menú.
+        </li>
+        <li>
+          Escala tipográfica cerrada: <code>36 / 24 / 14 / 11</code>. Sin excepciones nuevas sin
+          decisión del propietario.
+        </li>
+        <li>Un solo CTA protagonista por pantalla: «Quiero ser alumno».</li>
+      </ul>
+    </main>
+  </body>
 </html>

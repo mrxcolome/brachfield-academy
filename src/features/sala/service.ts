@@ -93,9 +93,12 @@ function toSalaCourse(doc: Course): SalaCourse {
   const category = doc.categories?.[0]
   return {
     id: Number(doc.id),
-    title: doc.title,
-    slug: doc.slug,
-    description: doc.description,
+    // Un borrador puede traer null en campos "required" (Payload no valida
+    // borradores): normalizar aquí evita que un .trim() posterior reviente
+    // la Sala entera (sufrido en prod el 12-13/09 con un curso sin título).
+    title: doc.title ?? '',
+    slug: doc.slug ?? '',
+    description: doc.description ?? '',
     status: doc._status === 'published' ? 'published' : 'draft',
     updatedAt: doc.updatedAt,
     categoryId:
@@ -434,8 +437,8 @@ function toSalaContent(doc: Content): SalaContent {
     m && typeof m === 'object' ? (m.filename ?? 'archivo') : null
   return {
     id: Number(doc.id),
-    title: doc.title,
-    slug: doc.slug,
+    title: doc.title ?? '',
+    slug: doc.slug ?? '',
     conceptType: doc.contentType,
     excerpt: doc.excerpt ?? '',
     status: doc._status === 'published' ? 'published' : 'draft',

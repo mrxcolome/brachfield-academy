@@ -86,20 +86,25 @@ const PERE_STATS = [
   { n: '1990', d: 'fundación de Brachfield Credit & Risk Consultants' },
 ]
 
-// Títulos reales de Pere (perebrachfield.com/consultoria y Amazon; el
-// propietario pasó capturas el 10/09). Tarjetas tipográficas tipo lomo —
-// si algún día llegan las portadas en buena resolución, se sustituyen.
+// Portadas REALES de los libros de Pere, recortadas de las capturas que
+// pasó el propietario (perebrachfield.com/consultoria y Amazon, 10/09) y
+// servidas desde public/landing/libros/. Sustituyen a las tarjetas
+// tipográficas (13/09: «pon las ilustraciones de los libros»).
 const PERE_BOOKS = [
-  { t: 'Jaque a los impagados', e: 'Gestión 2000', c: 'bg-brand' },
-  { t: 'La lucha contra la morosidad', e: 'Gestión 2000', c: 'bg-garnet' },
+  { t: 'Jaque a los impagados', img: '/landing/libros/jaque.webp', w: 318 },
+  { t: 'La lucha contra la morosidad', img: '/landing/libros/lucha.webp', w: 319 },
   {
     t: 'Credit Management: cómo conceder créditos y evitar los impagos',
-    e: 'Profit Editorial',
-    c: 'bg-accent',
+    img: '/landing/libros/credit.webp',
+    w: 444,
   },
-  { t: 'Guía práctica para el recobro de deudas', e: 'FC Editorial', c: 'bg-brand' },
-  { t: 'Instrumentos para gestionar y cobrar impagados', e: 'Profit Editorial', c: 'bg-garnet' },
-  { t: 'Tratamiento legal de los impagados', e: 'Atelier Libros Jurídicos', c: 'bg-accent' },
+  { t: 'Guía práctica para el recobro de deudas', img: '/landing/libros/guia.webp', w: 469 },
+  {
+    t: 'Instrumentos para gestionar y cobrar impagados',
+    img: '/landing/libros/instrumentos.webp',
+    w: 319,
+  },
+  { t: 'Tratamiento legal de los impagados', img: '/landing/libros/tratamiento.webp', w: 462 },
 ]
 
 // Testimonios: datos de EJEMPLO (10/09). Encendidos por decisión del
@@ -556,18 +561,16 @@ export default async function LandingPage() {
           <p className="mb-4 text-sm font-semibold text-ink-2">
             De sus 32 libros, algunos títulos de referencia:
           </p>
-          <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="flex flex-wrap items-end gap-x-5 gap-y-6">
             {PERE_BOOKS.map((b) => (
-              <div
+              <Image
                 key={b.t}
-                className="flex min-h-36 flex-col overflow-hidden rounded-lg border border-border-soft bg-surface"
-              >
-                <span aria-hidden className={`h-1.5 w-full ${b.c}`} />
-                <div className="flex flex-1 flex-col justify-between p-3.5">
-                  <p className="text-sm leading-snug font-bold">{b.t}</p>
-                  <p className="mt-3 font-mono text-[11px] text-muted uppercase">{b.e}</p>
-                </div>
-              </div>
+                src={b.img}
+                alt={`Portada de «${b.t}»`}
+                width={b.w}
+                height={480}
+                className="h-36 w-auto rounded-[3px] shadow-md sm:h-44"
+              />
             ))}
           </div>
           <p className="mt-4 text-sm text-ink-3">

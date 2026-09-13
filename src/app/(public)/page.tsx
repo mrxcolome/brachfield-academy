@@ -168,7 +168,7 @@ export default async function LandingPage() {
               <br />
               Cobra lo que te deben.
             </h1>
-            <p className="mb-3 text-lg leading-relaxed text-ink-2">
+            <p className="mb-3 text-sm leading-relaxed text-ink-2">
               Todo el conocimiento que necesitas para gestionar mejor el crédito a clientes,
               prevenir impagos y cobrar a tiempo.
             </p>
@@ -339,7 +339,7 @@ export default async function LandingPage() {
               />
             </div>
             <div className="flex flex-col gap-1.5 p-5">
-              <p className="text-lg font-bold text-brand">Cursos</p>
+              <p className="text-sm font-bold text-brand">Cursos</p>
               <p className="text-sm font-semibold text-ink-2">
                 «Aprende un tema completo» — con lecciones y tu progreso guardado
               </p>
@@ -445,7 +445,7 @@ export default async function LandingPage() {
       <section className="border-y border-border-soft bg-surface">
         <div className="mx-auto grid max-w-6xl sm:grid-cols-2 sm:divide-x sm:divide-border-soft">
           <div className="bg-surface p-8 sm:p-12">
-            <h3 className="mb-3 text-lg font-bold">Formación práctica, no solo teoría</h3>
+            <h3 className="mb-3 text-sm font-bold">Formación práctica, no solo teoría</h3>
             <p className="text-sm leading-relaxed text-ink-3">
               El objetivo no es acumular conocimiento, sino resolver situaciones reales: qué decir a
               un cliente que no paga, cuándo escalar una reclamación, cómo estructurar tu política
@@ -453,7 +453,7 @@ export default async function LandingPage() {
             </p>
           </div>
           <div className="bg-surface p-8 sm:p-12">
-            <h3 className="mb-3 text-lg font-bold">Contenido nuevo cada semana</h3>
+            <h3 className="mb-3 text-sm font-bold">Contenido nuevo cada semana</h3>
             <p className="text-sm leading-relaxed text-ink-3">
               La morosidad y la legislación cambian constantemente. Brachfield Academy se actualiza
               para que tú no tengas que estar pendiente de todo.

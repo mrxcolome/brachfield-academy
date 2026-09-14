@@ -86,25 +86,25 @@ const PERE_STATS = [
   { n: '1990', d: 'fundación de Brachfield Credit & Risk Consultants' },
 ]
 
-// Portadas REALES de los libros de Pere, recortadas de las capturas que
-// pasó el propietario (perebrachfield.com/consultoria y Amazon, 10/09) y
-// servidas desde public/landing/libros/. Sustituyen a las tarjetas
-// tipográficas (13/09: «pon las ilustraciones de los libros»).
+// Los libros de Pere en 3D (14/09): renders de Magnific hechos a partir de
+// las portadas reales (que siguen en public/landing/libros/ como másteres),
+// con lomo, canto de páginas y sombra propia sobre fondo blanco — por eso
+// la estantería va sobre panel blanco. h fija 600; w real por archivo.
 const PERE_BOOKS = [
-  { t: 'Jaque a los impagados', img: '/landing/libros/jaque.webp', w: 318 },
-  { t: 'La lucha contra la morosidad', img: '/landing/libros/lucha.webp', w: 319 },
+  { t: 'Jaque a los impagados', img: '/landing/libros/jaque-3d.webp', w: 512 },
+  { t: 'La lucha contra la morosidad', img: '/landing/libros/lucha-3d.webp', w: 522 },
   {
     t: 'Credit Management: cómo conceder créditos y evitar los impagos',
-    img: '/landing/libros/credit.webp',
-    w: 444,
+    img: '/landing/libros/credit-3d.webp',
+    w: 502,
   },
-  { t: 'Guía práctica para el recobro de deudas', img: '/landing/libros/guia.webp', w: 469 },
+  { t: 'Guía práctica para el recobro de deudas', img: '/landing/libros/guia-3d.webp', w: 428 },
   {
     t: 'Instrumentos para gestionar y cobrar impagados',
-    img: '/landing/libros/instrumentos.webp',
-    w: 319,
+    img: '/landing/libros/instrumentos-3d.webp',
+    w: 530,
   },
-  { t: 'Tratamiento legal de los impagados', img: '/landing/libros/tratamiento.webp', w: 462 },
+  { t: 'Tratamiento legal de los impagados', img: '/landing/libros/tratamiento-3d.webp', w: 505 },
 ]
 
 // Testimonios: datos de EJEMPLO (10/09). Encendidos por decisión del
@@ -561,15 +561,15 @@ export default async function LandingPage() {
           <p className="mb-4 text-sm font-semibold text-ink-2">
             De sus 32 libros, algunos títulos de referencia:
           </p>
-          <div className="flex flex-wrap items-end gap-x-5 gap-y-6">
+          <div className="flex flex-wrap items-end justify-center gap-x-2 gap-y-6 rounded-lg border border-border-soft bg-surface px-4 py-5 sm:justify-between">
             {PERE_BOOKS.map((b) => (
               <Image
                 key={b.t}
                 src={b.img}
-                alt={`Portada de «${b.t}»`}
+                alt={`Libro «${b.t}»`}
                 width={b.w}
-                height={480}
-                className="h-36 w-auto rounded-[3px] shadow-md sm:h-44"
+                height={600}
+                className="h-40 w-auto sm:h-48"
               />
             ))}
           </div>

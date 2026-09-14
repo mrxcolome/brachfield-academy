@@ -464,10 +464,8 @@ export const aboutPere = {
   short:
     'Abogado, profesor universitario, conferenciante y especialista en credit management y gestión de la morosidad, con más de 35 años de experiencia en la prevención de impagos, la gestión del crédito comercial y la recuperación de deudas.',
   long: [
-    'Pere Brachfield es abogado, profesor universitario, conferenciante y especialista en credit management y gestión de la morosidad, con más de 35 años de experiencia en la prevención de impagos, la gestión del crédito comercial y la recuperación de deudas.',
-    'Fundador de Brachfield Credit & Risk Consultants, ha asesorado y formado a cientos de empresas y profesionales de distintos sectores en la prevención y gestión de los riesgos de crédito, la organización de departamentos de crédito, las estrategias de recobro y la reclamación de deudas, tanto por vía extrajudicial como judicial.',
-    'Autor de 32 libros y cientos de artículos sobre gestión del crédito, lucha contra la morosidad y reclamación de deudas, ha desarrollado una amplia labor docente, combinando el conocimiento jurídico con la experiencia práctica de la gestión del crédito empresarial.',
-    'En Brachfield Academy ponemos toda esta experiencia al alcance de profesionales y empresas mediante formación práctica, conocimiento especializado y herramientas para prevenir impagos, gestionar el crédito y mejorar la recuperación de las deudas.',
+    'Pere Brachfield es abogado, profesor universitario, conferenciante y especialista de referencia en credit management y gestión de la morosidad: más de 35 años previniendo impagos, gestionando crédito comercial y recuperando deudas, y 32 libros publicados sobre la materia.',
+    'Fundador de Brachfield Credit & Risk Consultants, ha asesorado y formado a más de 200 empresas y profesionales. Brachfield Academy pone toda esa experiencia a tu alcance: formación práctica y herramientas para prevenir impagos, gestionar el crédito y cobrar mejor.',
   ],
 }
 

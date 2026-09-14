@@ -563,18 +563,26 @@ export default async function LandingPage() {
           </p>
           <div className="flex flex-wrap items-end justify-center gap-x-2 gap-y-6 rounded-lg border border-border-soft bg-surface px-4 py-5 sm:justify-between">
             {PERE_BOOKS.map((b) => (
-              <Image
+              <a
                 key={b.t}
-                src={b.img}
-                alt={`Libro «${b.t}»`}
-                width={b.w}
-                height={600}
-                className="h-40 w-auto sm:h-48"
-              />
+                href={`https://www.amazon.es/s?k=${encodeURIComponent(`Pere Brachfield ${b.t}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Ver «${b.t}» en Amazon`}
+                className="transition-transform hover:-translate-y-1"
+              >
+                <Image
+                  src={b.img}
+                  alt={`Libro «${b.t}»`}
+                  width={b.w}
+                  height={600}
+                  className="h-40 w-auto sm:h-48"
+                />
+              </a>
             ))}
           </div>
           <p className="mt-4 text-sm text-ink-3">
-            Disponibles en las principales librerías y en Amazon.
+            Disponibles en las principales librerías — haz clic en un libro para verlo en Amazon.
           </p>
         </div>
       </Section>

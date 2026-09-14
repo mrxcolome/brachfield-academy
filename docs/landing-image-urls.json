@@ -1,7 +1,11 @@
 {
   "nota": "URLs temporales del CDN de Magnific (caducan). Retirarlas tras el fetch.",
   "imagenes": {
-    "pere-estudio-v3": "https://pikaso.cdnpk.net/private/production/5410766217/render.jpg?token=exp=1789257600~hmac=ee5ee33c330e6ba334a88b074b9c30622128b62901d44f5f27c7711680a1b532",
-    "pere-estudio-v4": "https://pikaso.cdnpk.net/private/production/5410765375/render.jpg?token=exp=1789257600~hmac=1d8ec1a33af05a426c47149ce7e9da1e18d9eafab0b10bc687680938f2a8d845"
+    "libros/jaque-3d": "https://pikaso.cdnpk.net/private/production/5441218331/render.png?token=exp=1789776000~hmac=887bf121d929b2375d8ae7067e0fe8524e663cb7b44651542c2886dd1f6a99f2",
+    "libros/lucha-3d": "https://pikaso.cdnpk.net/private/production/5441220067/render.png?token=exp=1789776000~hmac=02879d4d56f8847f16a2a39cf147c0ec6dca62f61bd36395346304773729e047",
+    "libros/credit-3d": "https://pikaso.cdnpk.net/private/production/5441221609/render.png?token=exp=1789776000~hmac=ef4af717628fb88be2962c3934d5a6799ae17a3eec1a9ff7eb270fb82d64f884",
+    "libros/guia-3d": "https://pikaso.cdnpk.net/private/production/5441222747/render.png?token=exp=1789776000~hmac=eb21cd8bd831440d9a0456e102910fa84546bff5c79ad6b9cd484e59a0b4ff76",
+    "libros/instrumentos-3d": "https://pikaso.cdnpk.net/private/production/5441236965/render.png?token=exp=1789776000~hmac=b0f9a18104d3639948e7946aef832ee2deb063db76990b2f53b518796e7248a8",
+    "libros/tratamiento-3d": "https://pikaso.cdnpk.net/private/production/5441238678/render.png?token=exp=1789776000~hmac=4338c3b134215e3f7ca19a9d9718e9cd7ed5261579df69c4cf7b0a5e69e5ca41"
   }
 }

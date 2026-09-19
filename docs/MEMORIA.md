@@ -60,13 +60,12 @@ Vercel (una API key se quemó una vez por pegarla en el chat; se revocó al inst
 
 ## 4 · Arquitectura en una página
 
-Next.js 15.4 (App Router, **no subir a 15.5** hasta que Payload lo soporte) + TypeScript estricto
-
-- Tailwind 4. Postgres con **dos capas**: Prisma (usuarios, suscripciones, progreso, favoritos,
-  noticias…, migraciones en `prisma/migrations`) y **Payload CMS 3** embebido en `/admin` (contenido
-  editorial, schema `payload`, migraciones en `src/migrations`). Auth con Better Auth. La **Sala de
-  profesores** (`/app/sala`) es una capa guiada sobre la Local API de Payload. El código de producto
-  vive en `src/features/*` (un directorio por dominio) y las páginas en `src/app`.
+Next.js 15.4 (App Router, **no subir a 15.5** hasta que Payload lo soporte), TypeScript estricto
+y Tailwind 4. Postgres con **dos capas**: Prisma (usuarios, suscripciones, progreso, favoritos,
+noticias…, migraciones en `prisma/migrations`) y **Payload CMS 3** embebido en `/admin` (contenido
+editorial, schema `payload`, migraciones en `src/migrations`). Auth con Better Auth. La **Sala de
+profesores** (`/app/sala`) es una capa guiada sobre la Local API de Payload. El código de producto
+vive en `src/features/*` (un directorio por dominio) y las páginas en `src/app`.
 
 Piezas singulares:
 

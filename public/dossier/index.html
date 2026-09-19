@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Dossier del proyecto · Brachfield Academy</title>
+    <style>
+      :root {
+        --navy: #172b49;
+        --link: #2b4a7e;
+        --navy-soft: #edf1f7;
+        --garnet: #a21e26;
+        --naranja: #e88800;
+        --naranja-fuerte: #a85c00;
+        --bg: #f7f5f1;
+        --surface: #fff;
+        --ink: #26241f;
+        --ink-2: #3f3d38;
+        --muted: #6d6a62;
+        --borde: #e5e1d8;
+        --dark: #10151f;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.55;
+      }
+      .mono {
+        font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      }
+      a {
+        color: var(--link);
+      }
+      main {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px 80px;
+      }
+      header.top {
+        background: var(--surface);
+        border-bottom: 1px solid var(--borde);
+        padding: 18px 20px;
+      }
+      header.top .in {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      header.top img {
+        height: 26px;
+      }
+      .portada {
+        background: var(--dark);
+        color: #fff;
+        margin: 0 -20px;
+        padding: 64px 20px 56px;
+        text-align: center;
+      }
+      .portada h1 {
+        font-size: 36px;
+        margin: 0 0 10px;
+        line-height: 1.15;
+      }
+      .portada p {
+        color: #b9c0cc;
+        font-size: 14px;
+        max-width: 560px;
+        margin: 0 auto;
+      }
+      .portada .n {
+        color: var(--naranja);
+        font-weight: 700;
+      }
+      h2 {
+        font-size: 24px;
+        margin: 64px 0 6px;
+        padding-top: 28px;
+        border-top: 1px solid var(--borde);
+      }
+      h3 {
+        font-size: 14px;
+        margin: 26px 0 6px;
+      }
+      p,
+      li {
+        font-size: 14px;
+      }
+      .nota {
+        color: var(--muted);
+        margin: 0 0 20px;
+      }
+      figure {
+        margin: 22px 0;
+      }
+      figure img {
+        width: 100%;
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        display: block;
+      }
+      figcaption {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 8px;
+        font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      }
+      .tarjetas {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 14px;
+        margin: 20px 0;
+      }
+      .tarjeta {
+        background: var(--surface);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        padding: 18px;
+      }
+      .tarjeta b {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--navy);
+      }
+      .tarjeta p {
+        margin: 0;
+        color: var(--ink-2);
+        font-size: 14px;
+      }
+      ul {
+        padding-left: 22px;
+        margin: 10px 0;
+      }
+      li {
+        margin-bottom: 7px;
+      }
+      .ok {
+        color: #2e7d4f;
+        font-weight: 700;
+      }
+      .pend {
+        color: var(--naranja-fuerte);
+        font-weight: 700;
+      }
+      .banda {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 34px;
+        justify-content: center;
+        text-align: center;
+        background: var(--dark);
+        border-radius: 10px;
+        padding: 26px 20px;
+        margin: 22px 0;
+        color: #fff;
+      }
+      .banda .n {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--naranja);
+      }
+      .banda .d {
+        font-size: 11px;
+        color: #b9c0cc;
+        max-width: 150px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--borde);
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--borde);
+        vertical-align: top;
+      }
+      th {
+        background: var(--navy-soft);
+        color: var(--navy);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      .pie {
+        margin-top: 70px;
+        padding-top: 20px;
+        border-top: 1px solid var(--borde);
+        font-size: 11px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top">
+      <div class="in">
+        <img src="/brand/logo.svg" alt="Brachfield Academy" />
+        <span class="mono" style="font-size: 11px; color: var(--muted)"
+          >DOSSIER DEL PROYECTO · septiembre 2026</span
+        >
+      </div>
+    </header>
+    <main>
+      <div class="portada">
+        <h1>Brachfield Academy</h1>
+        <p>
+          La escuela online de credit management de <span class="n">Pere Brachfield</span>: prevenir
+          impagos, gestionar el crédito y cobrar lo que te deben. Membresía única de
+          <span class="n">39&nbsp;€/mes</span>, todo incluido. Este dossier resume qué se ha
+          construido y cómo funciona.
+        </p>
+      </div>
+
+      <h2>1 · Qué es</h2>
+      <p>
+        Una plataforma de membresía B2B sobre <b>brachfieldacademy.com</b> para responsables
+        financieros, credit managers y responsables de cobros. Tres trabajos del alumno:
+        <b>aprender</b> (cursos con progreso), <b>consultar</b> (guías, plantillas, checklists y
+        buscador) y <b>actualizarse</b> (noticias del sector cada día y sesiones en directo con
+        Pere). Plan único de 39&nbsp;€/mes con IVA, sin permanencia.
+      </p>
+      <div class="banda">
+        <div>
+          <div class="n">+35</div>
+          <div class="d">años de experiencia de Pere en morosidad y crédito</div>
+        </div>
+        <div>
+          <div class="n">32</div>
+          <div class="d">libros publicados sobre la materia</div>
+        </div>
+        <div>
+          <div class="n">10</div>
+          <div class="d">tipologías de contenido: el curso y nueve piezas</div>
+        </div>
+        <div>
+          <div class="n">39 €</div>
+          <div class="d">al mes, un solo plan, todo incluido</div>
+        </div>
+      </div>
+
+      <h2>2 · El sitio público</h2>
+      <p class="nota">
+        La cara comercial: presenta a Pere, demuestra que la academia está viva y lleva a un único
+        botón — «Quiero ser alumno».
+      </p>
+      <figure>
+        <img
+          src="/dossier/landing-heroe.webp"
+          alt="Héroe de la landing con el retrato de estudio de Pere"
+        />
+        <figcaption>
+          El héroe: retrato de estudio de Pere y un único CTA. Debajo, la banda de cifras.
+        </figcaption>
+      </figure>
+      <figure>
+        <img src="/dossier/ciclo.webp" alt="La rueda del ciclo de la vida del crédito" />
+        <figcaption>
+          La rueda del crédito: las 7 etapas cubiertas, dibujadas como el ciclo que son.
+        </figcaption>
+      </figure>
+      <ul>
+        <li>
+          <b>Retrato y libros reales</b>: la foto de estudio de Pere (con retoque de iluminación
+          profesional) y sus seis títulos de referencia en render 3D, cada uno enlazado a Amazon.
+        </li>
+        <li>
+          <b>«El sector, al día»</b>: la landing enseña las últimas noticias reales del tablón y se
+          regenera sola cada hora — siempre parece recién hecha.
+        </li>
+        <li>
+          <b>Identidad cerrada</b>: paleta, escala tipográfica de 4 tamaños y componentes
+          documentados en la <a href="/guia-estilos.html">guía de estilos</a>.
+        </li>
+        <li>
+          <b>Registro y cobro</b>: alta con verificación por email, pago con Stripe y acceso
+          inmediato; el alumno aterriza en un onboarding de 4 pasos que personaliza sus
+          recomendaciones.
+        </li>
+      </ul>
+
+      <h2>3 · La zona de alumnos</h2>
+      <p class="nota">
+        Menú de seis entradas (Inicio, Mi formación, Explorar, Actualidad, Favoritos y «Nuevo este
+        mes» en naranja), buscador global y experiencia de primera visita con tour guiado.
+      </p>
+      <figure>
+        <img src="/dossier/inicio-alumno.webp" alt="Inicio de la zona de alumnos" />
+        <figcaption>
+          El primer aterrizaje: la bienvenida-escaparate con el tour guiado en marcha. Después, el
+          Inicio de trabajo: continuar donde lo dejaste y recomendaciones por perfil.
+        </figcaption>
+      </figure>
+      <div class="tarjetas">
+        <div class="tarjeta">
+          <b>Primer aterrizaje</b>
+          <p>
+            El alumno nuevo ve una bienvenida-escaparate con las diez maneras de ayudarle, la
+            checklist «Tus primeros pasos» y un tour de 6 paradas sobre el menú real.
+          </p>
+        </div>
+        <div class="tarjeta">
+          <b>Cursos con progreso</b>
+          <p>
+            Lecciones en vídeo o texto, progreso guardado, «continúa donde lo dejaste» y
+            recomendaciones según el perfil del onboarding.
+          </p>
+        </div>
+        <div class="tarjeta">
+          <b>Explorar con jerarquía</b>
+          <p>
+            El escaparate del catálogo: Cursos en grande y las piezas (Consejos, Artículos,
+            Entrevistas, Sesiones en directo, Guías, Checklists, Plantillas, Casos).
+          </p>
+        </div>
+        <div class="tarjeta">
+          <b>Buscador que entiende</b>
+          <p>
+            Busca en títulos, textos y transcripciones, sin preocuparse por acentos («buro»
+            encuentra «burofax»).
+          </p>
+        </div>
+        <div class="tarjeta">
+          <b>Sesiones en directo</b>
+          <p>
+            Página propia con reserva de plaza, recordatorio por email el día antes y los replays de
+            las sesiones pasadas.
+          </p>
+        </div>
+        <div class="tarjeta">
+          <b>Favoritos y descargas</b>
+          <p>
+            Cualquier pieza se guarda con un clic; las plantillas y checklists se descargan listas
+            para adaptar.
+          </p>
+        </div>
+      </div>
+
+      <h2>4 · Actualidad: el tablón que se alimenta solo</h2>
+      <p class="nota">La clave anti-bajas: contenido nuevo cada día sin trabajo editorial.</p>
+      <figure>
+        <img src="/dossier/actualidad.webp" alt="Sección Actualidad con la retícula de noticias" />
+        <figcaption>
+          La retícula de noticias: imagen, tema clicable, «la clave para ti» y enlace a la fuente.
+        </figcaption>
+      </figure>
+      <p>
+        Cada mañana a las 7:30, un proceso automático lee la prensa económica española (Expansión,
+        Cinco Días, elDiario.es, RTVE, Europa Press), y un curador con IA — con criterio de credit
+        manager — elige la noticia (o dos) que de verdad afecta a quien gestiona el cobro. Cada
+        noticia se publica con su imagen real, su etiqueta temática, una frase didáctica («la clave
+        para ti») y, si procede, el contenido de la academia que ayuda a profundizar. El histórico
+        se conserva en orden cronológico y se puede filtrar por tema.
+      </p>
+
+      <h2>5 · La Sala de profesores</h2>
+      <p class="nota">
+        Pere y Cristina publican sin tocar el gestor técnico: la Sala es un asistente paso a paso.
+      </p>
+      <figure>
+        <img src="/dossier/sala.webp" alt="La Sala de profesores" />
+        <figcaption>
+          La Sala: crear, editar, publicar, retirar y borrar cursos y piezas — en modo
+          concentración.
+        </figcaption>
+      </figure>
+      <ul>
+        <li>
+          Crear un <b>curso</b> (título → lecciones → portada → publicar) o una <b>pieza</b> de
+          cualquiera de las nueve tipologías, con vídeo directo del navegador a Cloudflare Stream,
+          texto o archivo descargable.
+        </li>
+        <li>
+          Editar y borrar con red de seguridad: si hay alumnos con progreso o favoritos, avisa con
+          la cifra antes.
+        </li>
+        <li>
+          Todo queda registrado en la actividad editorial; el CMS completo sigue disponible como
+          «modo experto».
+        </li>
+      </ul>
+
+      <h2>6 · Administración</h2>
+      <p>
+        Panel para el equipo con: <b>Resumen</b> (alumnos activos, altas, descargas, reservas,
+        búsquedas más frecuentes y búsquedas sin resultado — ideas de contenido),
+        <b>Alumnos</b> (ficha con cronología completa y gestión de roles), <b>Preguntas</b> (cola de
+        «Pregunta a Pere»), <b>Directos</b> (aforos y reservas) y <b>Editores</b> (actividad
+        editorial). Además, el botón «Actualizar el tablón ahora» refresca las noticias a demanda e
+        informa del estado de cada fuente.
+      </p>
+
+      <h2>7 · Debajo del capó</h2>
+      <p class="nota">Tecnología moderna y de coste contenido, explicada en una línea por pieza.</p>
+      <table>
+        <tr>
+          <th>Pieza</th>
+          <th>Qué hace</th>
+        </tr>
+        <tr>
+          <td><b>Vercel + Next.js</b></td>
+          <td>La web y su servidor. Cada mejora se publica automáticamente al guardarse.</td>
+        </tr>
+        <tr>
+          <td><b>Neon (Postgres)</b></td>
+          <td>La base de datos: alumnos, suscripciones, progreso, favoritos, noticias.</td>
+        </tr>
+        <tr>
+          <td><b>Payload CMS</b></td>
+          <td>El almacén editorial que hay bajo la Sala de profesores y el modo experto.</td>
+        </tr>
+        <tr>
+          <td><b>Stripe</b></td>
+          <td>
+            Cobros de la membresía, facturas y portal del cliente (en modo prueba hasta el estreno).
+          </td>
+        </tr>
+        <tr>
+          <td><b>Cloudflare</b></td>
+          <td>El dominio, los archivos descargables (R2) y el vídeo en streaming (Stream).</td>
+        </tr>
+        <tr>
+          <td><b>Resend</b></td>
+          <td>Los emails: verificación, confirmaciones y recordatorios de directos.</td>
+        </tr>
+        <tr>
+          <td><b>Claude (IA)</b></td>
+          <td>
+            El curador del tablón de noticias: selecciona, etiqueta y escribe «la clave para ti».
+          </td>
+        </tr>
+        <tr>
+          <td><b>PostHog + Sentry</b></td>
+          <td>Analítica de uso sin cookies de rastreo, y alertas si algo falla.</td>
+        </tr>
+        <tr>
+          <td><b>Calidad</b></td>
+          <td>
+            73 pruebas automáticas (54 unitarias + 19 de recorrido completo, incluida accesibilidad)
+            se ejecutan antes de cada publicación.
+          </td>
+        </tr>
+      </table>
+
+      <h2>8 · Identidad visual</h2>
+      <p>
+        Azul marca <span class="mono">#172B49</span> para la acción, granate
+        <span class="mono">#A21E26</span> y naranja <span class="mono">#E88800</span> como acentos
+        del logo, fondo papel cálido y escala tipográfica cerrada de 4 tamaños (36 / 24 / 14 / 11).
+        Referencia completa con ejemplos en
+        <a href="/guia-estilos.html">brachfieldacademy.com/guia-estilos.html</a>.
+      </p>
+
+      <h2>9 · Estado del proyecto y camino al estreno</h2>
+      <h3><span class="ok">✓ Construido y funcionando</span></h3>
+      <ul>
+        <li>
+          Sitio público completo, registro + pago + onboarding, zona de alumnos entera (cursos,
+          biblioteca, buscador, favoritos, directos con reserva, notificaciones), tablón automático
+          de noticias, Sala de profesores, panel de administración, emails, analítica y pruebas
+          automáticas.
+        </li>
+        <li>
+          Dominio definitivo conectado y correo con remitente propio (hola@brachfieldacademy.com).
+        </li>
+        <li>
+          Contenido de demostración cargado: 6 cursos y decenas de piezas para enseñar el producto.
+        </li>
+      </ul>
+      <h3><span class="pend">◌ Pendiente para abrir</span> (pasos del propietario)</h3>
+      <ul>
+        <li>
+          Sustituir el contenido demo por el contenido real de Pere (desde la Sala de profesores).
+        </li>
+        <li>El vídeo de bienvenida de Pere (1 minuto) para el aterrizaje de los alumnos nuevos.</li>
+        <li>
+          Los 3 testimonios reales con permiso (los actuales son maqueta y están señalizados como
+          tal).
+        </li>
+        <li>Stripe en modo real, textos legales definitivos y Vercel Pro.</li>
+        <li>
+          El día D: apagar el modo prelanzamiento (la web pasa a indexarse en Google) y dar de alta
+          Google Search Console.
+        </li>
+      </ul>
+
+      <p class="pie">
+        Dossier del proyecto Brachfield Academy · septiembre 2026 · documento interno, sin indexar ·
+        se actualiza junto al producto en brachfieldacademy.com/dossier/
+      </p>
+    </main>
+  </body>
+</html>

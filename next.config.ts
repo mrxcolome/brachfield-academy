@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: '/(.*)', headers: securityHeaders }]
   },
+  async rewrites() {
+    // Documentos estáticos con URL limpia (el public/ de Next no sirve
+    // índices de carpeta): /dossier → public/dossier/index.html
+    return [{ source: '/dossier', destination: '/dossier/index.html' }]
+  },
 }
 
 export default withPayload(withNextIntl(nextConfig))

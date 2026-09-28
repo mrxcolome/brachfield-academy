@@ -59,8 +59,8 @@ export default async function AdminEditorsPage() {
                     </dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-muted">Accesos al CMS</dt>
-                    <dd className="font-semibold">{e.cmsLoginCount}</dd>
+                    <dt className="text-muted">Accesos</dt>
+                    <dd className="font-semibold">{e.accessCount}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-muted">Cambios últimos 30 días</dt>

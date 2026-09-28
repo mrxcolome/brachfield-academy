@@ -241,20 +241,20 @@ export async function getEditorialActivity() {
     }
   }
 
-  // Último acceso a la APP (la Sala de profesores entra por aquí, no por el
+  // Accesos por la APP (la Sala de profesores entra por aquí, no por el
   // CMS): sin esto, un editor que solo usa la Sala parecía «sin accesos».
   const appUsers = await db.user.findMany({
     where: { email: { in: [...byEmail.keys()] } },
-    select: { email: true, lastLoginAt: true },
+    select: { email: true, lastLoginAt: true, loginCount: true },
   })
-  const appLoginByEmail = new Map(appUsers.map((u) => [u.email, u.lastLoginAt]))
+  const appByEmail = new Map(appUsers.map((u) => [u.email, u]))
 
   const changesByEmail = new Map(changes30d.map((c) => [c.editorEmail, c._count._all]))
   const loginByEmail = new Map(logins.map((l) => [l.editorEmail, l]))
   const summary = [...byEmail.entries()]
     .map(([email, e]) => {
       const cmsLogin = loginByEmail.get(email)?._max.createdAt ?? null
-      const appLogin = appLoginByEmail.get(email) ?? null
+      const appLogin = appByEmail.get(email)?.lastLoginAt ?? null
       const lastAccess =
         cmsLogin && appLogin ? (cmsLogin > appLogin ? cmsLogin : appLogin) : (cmsLogin ?? appLogin)
       return {
@@ -262,7 +262,9 @@ export async function getEditorialActivity() {
         name: e.name,
         lastActivity: e.lastActivity,
         lastAccess,
-        cmsLoginCount: loginByEmail.get(email)?._count._all ?? 0,
+        // Entradas por cualquiera de las dos puertas: panel CMS + app (Sala)
+        accessCount:
+          (loginByEmail.get(email)?._count._all ?? 0) + (appByEmail.get(email)?.loginCount ?? 0),
         changes30d: changesByEmail.get(email) ?? 0,
       }
     })

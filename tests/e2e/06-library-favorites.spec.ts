@@ -15,7 +15,9 @@ test('filtrar la biblioteca, guardar un favorito y verlo en Favoritos', async ({
   await page.getByRole('link', { name: /Checklist para prevenir impagos/ }).click()
   await page.waitForURL(/\/app\/contents\//)
   await page.getByRole('button', { name: 'Guardar' }).click()
-  await expect(page.getByRole('button', { name: 'Quitar de guardados' })).toBeVisible()
+  // El botón cambia en optimista y se deshabilita mientras guarda: esperar a
+  // que vuelva a estar habilitado garantiza que el favorito ya está en BD.
+  await expect(page.getByRole('button', { name: 'Quitar de guardados' })).toBeEnabled()
 
   // Aparece en Favoritos
   await page.goto('/app/favorites')

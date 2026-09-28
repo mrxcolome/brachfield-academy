@@ -231,17 +231,41 @@ export async function getEditorialActivity() {
     }),
   ])
 
+  // Una tarjeta por EMAIL (si el editor se renombró en el panel, gana el
+  // nombre más reciente) — antes se desdoblaba por (email, nombre).
+  const byEmail = new Map<string, { name: string; lastActivity: Date | null }>()
+  for (const e of editors) {
+    const prev = byEmail.get(e.editorEmail)
+    if (!prev || (e._max.createdAt?.getTime() ?? 0) > (prev.lastActivity?.getTime() ?? 0)) {
+      byEmail.set(e.editorEmail, { name: e.editorName, lastActivity: e._max.createdAt })
+    }
+  }
+
+  // Último acceso a la APP (la Sala de profesores entra por aquí, no por el
+  // CMS): sin esto, un editor que solo usa la Sala parecía «sin accesos».
+  const appUsers = await db.user.findMany({
+    where: { email: { in: [...byEmail.keys()] } },
+    select: { email: true, lastLoginAt: true },
+  })
+  const appLoginByEmail = new Map(appUsers.map((u) => [u.email, u.lastLoginAt]))
+
   const changesByEmail = new Map(changes30d.map((c) => [c.editorEmail, c._count._all]))
   const loginByEmail = new Map(logins.map((l) => [l.editorEmail, l]))
-  const summary = editors
-    .map((e) => ({
-      email: e.editorEmail,
-      name: e.editorName,
-      lastActivity: e._max.createdAt,
-      lastLogin: loginByEmail.get(e.editorEmail)?._max.createdAt ?? null,
-      loginCount: loginByEmail.get(e.editorEmail)?._count._all ?? 0,
-      changes30d: changesByEmail.get(e.editorEmail) ?? 0,
-    }))
+  const summary = [...byEmail.entries()]
+    .map(([email, e]) => {
+      const cmsLogin = loginByEmail.get(email)?._max.createdAt ?? null
+      const appLogin = appLoginByEmail.get(email) ?? null
+      const lastAccess =
+        cmsLogin && appLogin ? (cmsLogin > appLogin ? cmsLogin : appLogin) : (cmsLogin ?? appLogin)
+      return {
+        email,
+        name: e.name,
+        lastActivity: e.lastActivity,
+        lastAccess,
+        cmsLoginCount: loginByEmail.get(email)?._count._all ?? 0,
+        changes30d: changesByEmail.get(email) ?? 0,
+      }
+    })
     .sort((a, b) => (b.lastActivity?.getTime() ?? 0) - (a.lastActivity?.getTime() ?? 0))
 
   return { recent, summary }

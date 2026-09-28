@@ -45,9 +45,12 @@ export async function prepareE2eState(): Promise<void> {
        where email = $1`,
       [MEMBER_EMAIL],
     )
+    // El recién llegado vuelve a ser "de hoy": si su alta envejece más de
+    // 14 días (WELCOME_WINDOW_DAYS), la bienvenida caduca y el flujo se rompe.
     await c.query(
       `update "user" set "onboardingStatus"='PENDING', "professionalProfile"=null,
-         level=null, interests=ARRAY[]::text[] where email = $1`,
+         level=null, interests=ARRAY[]::text[], "createdAt" = now(),
+         "tourSeenAt" = null, "welcomeVideoSeenAt" = null where email = $1`,
       [FRESH_EMAIL],
     )
     await c.query(

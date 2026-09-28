@@ -35,8 +35,8 @@ export default async function AdminEditorsPage() {
   return (
     <div>
       <p className="mb-4 text-sm text-muted">
-        Actividad del equipo editorial en el CMS: accesos y cambios de contenido. Se registra desde
-        el 28/08/26.
+        Actividad del equipo editorial, en la Sala de profesores y en el CMS. Se registra desde el
+        28/08/26.
       </p>
 
       {summary.length === 0 ? (
@@ -55,12 +55,12 @@ export default async function AdminEditorsPage() {
                   <div className="flex justify-between">
                     <dt className="text-muted">Último acceso</dt>
                     <dd className="font-mono text-[11.5px]">
-                      {e.lastLogin ? dateTime.format(e.lastLogin) : '—'}
+                      {e.lastAccess ? dateTime.format(e.lastAccess) : '—'}
                     </dd>
                   </div>
                   <div className="flex justify-between">
-                    <dt className="text-muted">Nº accesos</dt>
-                    <dd className="font-semibold">{e.loginCount}</dd>
+                    <dt className="text-muted">Accesos al CMS</dt>
+                    <dd className="font-semibold">{e.cmsLoginCount}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-muted">Cambios últimos 30 días</dt>

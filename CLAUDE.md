@@ -113,6 +113,6 @@ Borrado vía Payload con el workflow «Limpieza de contenidos de ejemplo» (docs
 `LISTAR` o `BORRAR courses=…;contents=…;events=…` → scripts/limpieza-contenidos.ts; resultado en
 docs/limpieza-resultado.txt). Borrados: los 6 cursos, las 12 piezas y los 2 directos del seed,
 3 borradores vacíos y las pruebas («Curso 1 Test Xavi», «Checklist Test Xavi», «titulo curso 1»,
-«título 0»). CONSERVADOS: curso #9 «El Credit Management» (borrador de Cristina), pieza #17
-(guía letras del Tesoro), categorías/etiquetas, tablón de noticias, usuarios y mediateca.
+«título 0»). Después, a petición del propietario, también el curso #9 «El Credit Management» y la pieza #17:
+el CMS queda SIN cursos, piezas ni directos. CONSERVADOS: categorías/etiquetas, tablón de noticias, usuarios y mediateca.
 NO volver a lanzar `seed_editorial` en producción (recrearía los ejemplos borrando lo real).

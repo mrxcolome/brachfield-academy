@@ -7,6 +7,7 @@ import {
   crearPortadasIA,
   estadoPortadasIA,
   subirArchivoContenido,
+  subirPortada,
   usarPortadaIA,
 } from '@/features/sala/actions'
 import { Button } from '@/components/ui/button'
@@ -14,8 +15,10 @@ import { cn } from '@/lib/cn'
 
 type Proposal = { task: string; status: 'pending' | 'done' | 'failed'; url?: string }
 
+type Target = { kind: 'pieza' | 'curso'; id: number }
+
 /** Propuestas de portada con IA: encarga dos, consulta cada 4 s y deja elegir una. */
-function AiCover({ pieceId, onUsed }: { pieceId: number; onUsed: () => void }) {
+function AiCover({ target, onUsed }: { target: Target; onUsed: () => void }) {
   const [indicaciones, setIndicaciones] = useState('')
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [error, setError] = useState<string | null>(null)
@@ -35,7 +38,7 @@ function AiCover({ pieceId, onUsed }: { pieceId: number; onUsed: () => void }) {
   function create() {
     setError(null)
     startTransition(async () => {
-      const res = await crearPortadasIA({ id: pieceId, indicaciones })
+      const res = await crearPortadasIA({ ...target, indicaciones })
       if (res.error || !res.tasks) return setError(res.error ?? 'No se pudo encargar')
       setProposals(res.tasks.map((task) => ({ task, status: 'pending' })))
     })
@@ -45,7 +48,7 @@ function AiCover({ pieceId, onUsed }: { pieceId: number; onUsed: () => void }) {
     setError(null)
     setUsing(url)
     startTransition(async () => {
-      const res = await usarPortadaIA({ id: pieceId, url })
+      const res = await usarPortadaIA({ ...target, url })
       setUsing(null)
       if (res.error) return setError(res.error)
       onUsed()
@@ -58,8 +61,8 @@ function AiCover({ pieceId, onUsed }: { pieceId: number; onUsed: () => void }) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-[13px] text-ink-3">
-        La IA lee el título, el resumen y el texto de la pieza y crea dos fotos de portada en el
-        estilo de la academia, sin textos ni logotipos. Tarda alrededor de un minuto.
+        La IA lee el título y el contenido y crea dos fotos de portada en el estilo de la academia,
+        sin textos ni logotipos. Tarda alrededor de un minuto.
       </p>
       <label className="flex flex-col gap-1.5">
         <span className="text-[12.5px] font-semibold">Indicaciones (opcional)</span>
@@ -124,14 +127,17 @@ function AiCover({ pieceId, onUsed }: { pieceId: number; onUsed: () => void }) {
   )
 }
 
-export function ContentCoverForm({
-  pieceId,
+/** Paso «La portada» de la Sala, común a piezas y cursos: subir una imagen o crearla con IA. */
+export function CoverPicker({
+  target,
   coverUrl,
   aiAvailable,
+  next,
 }: {
-  pieceId: number
+  target: Target
   coverUrl: string | null
   aiAvailable: boolean
+  next: { href: string; label: string }
 }) {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -143,11 +149,11 @@ export function ContentCoverForm({
     if (!file) return
     setError(null)
     const fd = new FormData()
-    fd.set('id', String(pieceId))
+    fd.set('id', String(target.id))
     fd.set('kind', 'cover')
     fd.set('file', file)
     startTransition(async () => {
-      const res = await subirArchivoContenido(fd)
+      const res = target.kind === 'curso' ? await subirPortada(fd) : await subirArchivoContenido(fd)
       if (res.error) setError(res.error)
       else router.refresh()
     })
@@ -164,7 +170,9 @@ export function ContentCoverForm({
         />
       ) : (
         <div className="flex aspect-video w-full max-w-md items-center justify-center rounded-lg border border-dashed border-border-input bg-bg px-4 text-center text-[13px] text-muted">
-          Sin portada propia: se usará la foto automática del tipo de pieza. Válido tal cual.
+          {target.kind === 'curso'
+            ? 'Sin portada propia: se usará la foto automática del área elegida. Válido tal cual.'
+            : 'Sin portada propia: se usará la foto automática del tipo de pieza. Válido tal cual.'}
         </div>
       )}
 
@@ -224,7 +232,7 @@ export function ContentCoverForm({
 
       {mode === 'ai' && (
         <AiCover
-          pieceId={pieceId}
+          target={target}
           onUsed={() => {
             setMode(null)
             router.refresh()
@@ -239,10 +247,10 @@ export function ContentCoverForm({
       )}
       <div className="border-t border-border-soft pt-4">
         <Link
-          href={`/app/sala/contenido/${pieceId}?paso=4`}
+          href={next.href}
           className="rounded-sm bg-brand px-5 py-2.5 text-sm font-semibold text-white no-underline hover:bg-brand-hover"
         >
-          Revisar y publicar →
+          {next.label}
         </Link>
       </div>
     </div>

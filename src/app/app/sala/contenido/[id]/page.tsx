@@ -8,7 +8,7 @@ import { portadaIADisponible } from '@/features/sala/cover-ai'
 import { WizardSteps } from '../../steps'
 import { ConceptForm } from '../concept-form'
 import { MaterialForm } from './material-form'
-import { ContentCoverForm } from './content-cover-form'
+import { CoverPicker } from '../../cover-picker'
 import { ContentPublishPanel } from './content-publish-panel'
 
 export const metadata = { title: 'Sala de profesores · Pieza' }
@@ -94,10 +94,11 @@ export default async function SalaContenidoPage({
         {paso === 2 && <MaterialForm piece={piece} conceptLabel={concept?.label ?? 'Pieza'} />}
 
         {paso === 3 && (
-          <ContentCoverForm
-            pieceId={piece.id}
+          <CoverPicker
+            target={{ kind: 'pieza', id: piece.id }}
             coverUrl={piece.coverUrl}
             aiAvailable={portadaIADisponible()}
+            next={{ href: `/app/sala/contenido/${piece.id}?paso=4`, label: 'Revisar y publicar →' }}
           />
         )}
 

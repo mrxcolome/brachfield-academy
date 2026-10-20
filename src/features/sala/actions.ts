@@ -356,25 +356,46 @@ import { describirPortada, portadaIADisponible } from './cover-ai'
 import { consultarTarea, crearTarea, urlPermitida, type TaskState } from './magnific'
 import { FORMAT_OPTIONS } from '@/features/content/format'
 
-/** Encarga dos propuestas de portada a partir del contenido de la pieza. */
+const coverTarget = z.object({ kind: z.enum(['pieza', 'curso']), id: idSchema })
+
+/** Lo que la IA lee para imaginar la portada: la pieza entera o el curso con sus lecciones. */
+async function coverSource(target: z.infer<typeof coverTarget>) {
+  if (target.kind === 'curso') {
+    const course = await getSalaCourse(target.id)
+    if (!course) return null
+    return {
+      concept: 'Curso',
+      format: `${course.lessons.length} lecciones`,
+      title: course.title,
+      excerpt: course.description,
+      text: course.lessons.map((l) => `- ${l.title}${l.text ? `: ${l.text}` : ''}`).join('\n'),
+      slug: course.slug,
+    }
+  }
+  const piece = await getSalaContent(target.id)
+  if (!piece) return null
+  return {
+    concept: SALA_CONCEPTS.find((c) => c.value === piece.conceptType)?.label ?? 'Pieza',
+    format: FORMAT_OPTIONS.find((f) => f.value === piece.format)?.label ?? 'sin definir',
+    title: piece.title,
+    excerpt: piece.excerpt,
+    text: piece.text,
+    slug: piece.slug,
+  }
+}
+
+/** Encarga dos propuestas de portada a partir del contenido de la pieza o del curso. */
 export async function crearPortadasIA(raw: unknown): Promise<Result & { tasks?: string[] }> {
   await requireRole('ADMIN', 'EDITOR')
   if (!portadaIADisponible()) return { error: 'La creación con IA no está activada todavía.' }
-  const parsed = z
-    .object({ id: idSchema, indicaciones: z.string().trim().max(500).optional() })
+  const parsed = coverTarget
+    .extend({ indicaciones: z.string().trim().max(500).optional() })
     .safeParse(raw)
   if (!parsed.success) return { error: 'Solicitud no válida' }
-  const piece = await getSalaContent(parsed.data.id)
-  if (!piece) return { error: 'Contenido no encontrado' }
+  const source = await coverSource(parsed.data)
+  if (!source) return { error: 'Contenido no encontrado' }
   try {
-    const prompt = await describirPortada({
-      concept: SALA_CONCEPTS.find((c) => c.value === piece.conceptType)?.label ?? 'Pieza',
-      format: FORMAT_OPTIONS.find((f) => f.value === piece.format)?.label ?? 'sin definir',
-      title: piece.title,
-      excerpt: piece.excerpt,
-      text: piece.text,
-      indicaciones: parsed.data.indicaciones,
-    })
+    const prompt = await describirPortada({ ...source, indicaciones: parsed.data.indicaciones })
     const seed = Math.floor(Math.random() * 1_000_000)
     const tasks = await Promise.all([crearTarea(prompt, seed), crearTarea(prompt, seed + 1)])
     return { ok: true, tasks }
@@ -393,28 +414,29 @@ export async function estadoPortadasIA(raw: unknown): Promise<TaskState[]> {
 /** Descarga la propuesta elegida (solo de Magnific), la optimiza y la pone de portada. */
 export async function usarPortadaIA(raw: unknown): Promise<Result> {
   await requireRole('ADMIN', 'EDITOR')
-  const parsed = z.object({ id: idSchema, url: z.string().url() }).safeParse(raw)
+  const parsed = coverTarget.extend({ url: z.string().url() }).safeParse(raw)
   if (!parsed.success || !urlPermitida(parsed.data.url)) return { error: 'Imagen no válida' }
-  const piece = await getSalaContent(parsed.data.id)
-  if (!piece) return { error: 'Contenido no encontrado' }
+  const source = await coverSource(parsed.data)
+  if (!source) return { error: 'Contenido no encontrado' }
   const res = await fetch(parsed.data.url, { signal: AbortSignal.timeout(30000) }).catch(() => null)
   if (!res?.ok) return { error: 'No se ha podido descargar la imagen. Prueba de nuevo.' }
   const data = await sharp(Buffer.from(await res.arrayBuffer()))
     .resize({ width: 1600, withoutEnlargement: true })
     .webp({ quality: 82 })
     .toBuffer()
-  await attachSalaContentFile(
-    parsed.data.id,
-    'cover',
-    {
-      data,
-      name: `portada-${piece.slug || piece.id}.webp`,
-      mimetype: 'image/webp',
-      size: data.length,
-    },
-    `Portada de ${piece.title}`,
-  )
-  revalidate()
-  revalidatePath(`/app/sala/contenido/${parsed.data.id}`)
+  const file = {
+    data,
+    name: `portada-${source.slug || parsed.data.id}.webp`,
+    mimetype: 'image/webp',
+    size: data.length,
+  }
+  if (parsed.data.kind === 'curso') {
+    await setSalaCover(parsed.data.id, file, `Portada del curso ${source.title}`)
+    revalidate(parsed.data.id)
+  } else {
+    await attachSalaContentFile(parsed.data.id, 'cover', file, `Portada de ${source.title}`)
+    revalidate()
+    revalidatePath(`/app/sala/contenido/${parsed.data.id}`)
+  }
   return { ok: true }
 }

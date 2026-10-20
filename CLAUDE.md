@@ -158,3 +158,22 @@ al descargar las fuentes por el proxy).
   consejo», «Nueva guía»…; selector plegado con «Cambiar tipo»).
 - 21/10/2026: la home de la Sala une cursos y piezas en UNA lista «Tu contenido» (orden por
   última edición, chips de filtro ?tipo=CURSO|ADVICE|…); fuera las secciones «Cursos» / «Piezas sueltas».
+
+## Documentación interna en /docs (21/10/2026, pedido del propietario)
+
+Los documentos sueltos (artifacts de Claude + /dossier) pasan a vivir en la web, solo para el
+equipo (requireRole ADMIN/EDITOR): **/docs** = portada con resumen de cada uno (src/app/docs/page.tsx,
+catálogo en src/features/docs/catalog.ts) y **/docs/<slug>** = HTML servido por la ruta
+src/app/docs/[slug]/route.ts desde content/docs/<slug>.html (fuera de public/; incluido en el
+paquete con outputFileTracingIncludes en next.config.ts). Estilo común public/docs/docs.css +
+plantilla content/docs/_plantilla.html (barra de navegación común); capturas en public/docs/img/.
+Cinco documentos: descubre (fusiona el antiguo «Descubre» de agosto y el Dossier de septiembre),
+manual-editor (reescrito para la Sala de profesores), playbook (propietario; sustituye a los dos
+playbooks de agosto), sala-de-maquinas (servicios y costes, + Claude y Magnific) y la guía de
+estilos pública (/guia-estilos.html, enlaza a /docs). /dossier redirige a /docs/descubre.
+Enlaces: «Manual del editor →» en la cabecera de la Sala y «Documentación →» en Administración.
+ACTUALIZAR estos documentos cuando cambie algo gordo (tipologías, Sala, servicios, costes).
+- La portada con IA vale también para los CURSOS (paso 2): componente común
+  src/app/app/sala/cover-picker.tsx (target pieza|curso); la IA lee título, descripción y lecciones.
+- Vercel: el proyecto del prototipo («brachfield-academy») lo borra el propietario (21/10); el
+  único proyecto real es «brachfield-academy-app» (ahí van las variables, p. ej. MAGNIFIC_API_KEY).

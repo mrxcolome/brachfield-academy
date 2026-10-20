@@ -13,19 +13,27 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </Link>
       <div className="mt-2 mb-1 flex flex-wrap items-baseline justify-between gap-2">
         <h1 className="text-2xl font-bold">Administración</h1>
-        {role === 'ADMIN' && (
-          <Link
-            href="/admin"
-            target="_blank"
+        <span className="flex flex-wrap gap-x-5 gap-y-1">
+          <a
+            href="/docs"
             className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
           >
-            Abrir el editor de contenido (CMS) ↗
-          </Link>
-        )}
+            Documentación →
+          </a>
+          {role === 'ADMIN' && (
+            <Link
+              href="/admin"
+              target="_blank"
+              className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
+            >
+              Abrir el editor de contenido (CMS) ↗
+            </Link>
+          )}
+        </span>
       </div>
       <p className="mb-5 text-sm text-muted">
         {role === 'ADMIN'
-          ? 'Alumnos, preguntas y actividad. El contenido se publica desde el CMS.'
+          ? 'Alumnos, preguntas y actividad. El contenido se publica desde la Sala de profesores.'
           : 'Preguntas de los alumnos, eventos y huecos del buscador.'}
       </p>
       <AdminTabs isAdmin={role === 'ADMIN'} />

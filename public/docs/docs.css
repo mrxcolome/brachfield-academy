@@ -1,0 +1,442 @@
+/* Documentación interna de Brachfield Academy (/docs). Hoja común a todos los documentos:
+   paleta y escala de la guía de estilos (azul #172B49 marca, granate/naranja solo acentos,
+   papel cálido, IBM Plex Sans + Mono). Cada documento solo escribe contenido con estas clases. */
+:root {
+  --paper: #f7f5f1;
+  --surface: #ffffff;
+  --ink: #000000;
+  --ink-2: #3d4250;
+  --muted: #6b707c;
+  --brand: #172b49;
+  --brand-soft: #eef2f8;
+  --garnet: #a21e26;
+  --orange: #e88800;
+  --orange-ink: #a85c00;
+  --orange-soft: #fdf2e2;
+  --line: #e4e0d8;
+  --line-strong: #c9c5bc;
+  --ok: #2e7d4f;
+  --code-bg: #efece6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: #10151f;
+    --surface: #161c28;
+    --ink: #eceae4;
+    --ink-2: #b6bac4;
+    --muted: #8a8f9b;
+    --brand: #a9bfe4;
+    --brand-soft: #1c2638;
+    --orange: #f0a03a;
+    --orange-ink: #f0a03a;
+    --orange-soft: #33270f;
+    --line: #262d3b;
+    --line-strong: #3a4252;
+    --ok: #63b088;
+    --code-bg: #1e2532;
+  }
+}
+:root[data-theme='dark'] {
+  --paper: #10151f;
+  --surface: #161c28;
+  --ink: #eceae4;
+  --ink-2: #b6bac4;
+  --muted: #8a8f9b;
+  --brand: #a9bfe4;
+  --brand-soft: #1c2638;
+  --orange: #f0a03a;
+  --orange-ink: #f0a03a;
+  --orange-soft: #33270f;
+  --line: #262d3b;
+  --line-strong: #3a4252;
+  --ok: #63b088;
+  --code-bg: #1e2532;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font:
+    16px/1.65 'IBM Plex Sans',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+}
+img {
+  max-width: 100%;
+}
+a {
+  color: var(--brand);
+  text-underline-offset: 3px;
+}
+code {
+  font:
+    0.86em 'IBM Plex Mono',
+    ui-monospace,
+    Menlo,
+    monospace;
+  background: var(--code-bg);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+/* ── Barra común de la documentación ───────────────────────────── */
+.suite-wrap {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.suite {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 22px;
+}
+.suite-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+.suite-brand img {
+  height: 20px;
+  width: auto;
+}
+.suite-brand span {
+  color: var(--muted);
+  font-weight: 500;
+}
+.suite-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font:
+    600 11px/1.6 'IBM Plex Mono',
+    ui-monospace,
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.suite-links a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  padding: 2px 0;
+}
+.suite-links a:hover,
+.suite-links a:focus-visible {
+  color: var(--ink);
+  border-bottom-color: var(--orange);
+  outline: none;
+}
+.suite-links [aria-current='page'] {
+  color: var(--orange-ink);
+  border-bottom-color: var(--orange);
+}
+
+/* ── Estructura ─────────────────────────────────────────────────── */
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+main.wide {
+  max-width: 980px;
+}
+.masthead {
+  padding: 56px 0 26px;
+  border-bottom: 1px solid var(--line-strong);
+}
+.eyebrow,
+.kicker {
+  font:
+    500 11px/1.4 'IBM Plex Mono',
+    ui-monospace,
+    monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orange-ink);
+  margin: 0 0 12px;
+}
+h1 {
+  font-size: clamp(30px, 5.5vw, 36px);
+  line-height: 1.15;
+  margin: 0 0 12px;
+  text-wrap: balance;
+  color: var(--brand);
+}
+h2 {
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 0 0 8px;
+  text-wrap: balance;
+  color: var(--brand);
+  scroll-margin-top: 20px;
+}
+h3 {
+  font-size: 17px;
+  line-height: 1.35;
+  margin: 26px 0 6px;
+}
+p {
+  margin: 0 0 12px;
+}
+.lede,
+.standfirst {
+  font-size: 18px;
+  color: var(--ink-2);
+}
+.meta {
+  font:
+    500 12px 'IBM Plex Mono',
+    ui-monospace,
+    monospace;
+  color: var(--muted);
+  margin-top: 14px;
+}
+section {
+  margin-top: 56px;
+}
+ul,
+ol {
+  padding-left: 22px;
+  margin: 8px 0 14px;
+}
+li {
+  margin: 6px 0;
+  color: var(--ink-2);
+}
+li strong,
+p strong {
+  color: var(--ink);
+}
+
+nav.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 18px 0 0;
+}
+nav.toc a {
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--brand);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+nav.toc a:hover,
+nav.toc a:focus-visible {
+  border-color: var(--orange);
+  outline: none;
+}
+
+/* ── Componentes ────────────────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 22px 0;
+}
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.stat b {
+  display: block;
+  font-size: 26px;
+  line-height: 1.2;
+  color: var(--brand);
+  font-variant-numeric: tabular-nums;
+}
+.stat span {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.card h3 {
+  margin: 0 0 6px;
+}
+.card p,
+.card li {
+  font-size: 15px;
+}
+.tag {
+  display: inline-block;
+  font:
+    600 10.5px/1.6 'IBM Plex Mono',
+    ui-monospace,
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  background: var(--brand-soft);
+  border-radius: 999px;
+  padding: 1px 9px;
+  vertical-align: middle;
+}
+.tag.orange {
+  color: var(--orange-ink);
+  background: var(--orange-soft);
+}
+
+.steps {
+  list-style: none;
+  padding: 0;
+  counter-reset: step;
+}
+.steps > li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 46px;
+  margin: 18px 0;
+}
+.steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font:
+    700 14px/32px 'IBM Plex Sans',
+    sans-serif;
+  text-align: center;
+}
+
+figure {
+  margin: 18px 0 8px;
+}
+figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+figcaption {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.callout {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brand);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  font-size: 15px;
+}
+.callout.warn {
+  border-left-color: var(--orange);
+}
+.callout p {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.tablewrap {
+  overflow-x: auto;
+  margin: 16px 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14.5px;
+}
+th {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--line);
+  white-space: nowrap;
+  font:
+    600 10.5px 'IBM Plex Mono',
+    ui-monospace,
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+.ok {
+  color: var(--ok);
+  font-weight: 600;
+}
+.pending {
+  color: var(--orange-ink);
+  font-weight: 600;
+}
+
+dl.gloss dt {
+  font-weight: 700;
+  margin-top: 14px;
+}
+dl.gloss dd {
+  margin: 2px 0 0;
+  color: var(--ink-2);
+}
+
+footer.doc {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 18px 16px 40px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+}
+main.wide + footer.doc {
+  max-width: 980px;
+}

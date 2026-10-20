@@ -17,11 +17,13 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: '/(.*)', headers: securityHeaders }]
   },
-  async rewrites() {
-    // Documentos estáticos con URL limpia (el public/ de Next no sirve
-    // índices de carpeta): /dossier → public/dossier/index.html
-    return [{ source: '/dossier', destination: '/dossier/index.html' }]
+  async redirects() {
+    // El dossier se fundió con «Descubre la Academy» en la documentación interna (21/10/2026)
+    return [{ source: '/dossier', destination: '/docs/descubre', permanent: false }]
   },
+  // Los HTML de la documentación interna (content/docs) los lee la ruta /docs/[slug] en el
+  // servidor: hay que incluirlos en el paquete de Vercel.
+  outputFileTracingIncludes: { '/docs/[slug]': ['./content/docs/*.html'] },
 }
 
 export default withPayload(withNextIntl(nextConfig))

@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>La sala de máquinas · Documentación · Brachfield Academy</title>
+    <link rel="icon" href="/icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/docs/docs.css" />
+  </head>
+  <body>
+    <div class="suite-wrap">
+      <nav class="suite" aria-label="Documentación">
+        <a class="suite-brand" href="/docs"
+          ><img src="/brand/icon.svg" alt="" />Brachfield Academy <span>· Documentación</span></a
+        >
+        <span class="suite-links">
+          <a href="/docs/descubre">Descubre la Academy</a>
+          <a href="/docs/manual-editor">Manual del editor</a>
+          <a href="/docs/playbook">Playbook del propietario</a>
+          <a href="/docs/sala-de-maquinas" aria-current="page">La sala de máquinas</a>
+          <a href="/guia-estilos.html">Guía de estilos</a>
+        </span>
+      </nav>
+    </div>
+    <main>
+      <header class="masthead">
+        <p class="eyebrow">
+          Para el propietario y el equipo · Sin tecnicismos · actualizado 21 de octubre de 2026
+        </p>
+        <h1>La sala de máquinas</h1>
+        <p class="standfirst">
+          Todo lo que hace funcionar Brachfield Academy por dentro: qué piezas son, qué hace cada
+          una, cuánto cuestan y dónde se gestionan. Escrito para leerse sin saber programar.
+        </p>
+        <nav class="toc" aria-label="Índice">
+          <a href="#viaje">El viaje de un alumno</a>
+          <a href="#piezas">Las piezas, una a una</a>
+          <a href="#cambio">Cómo viaja un cambio</a>
+          <a href="#costes">Qué cuesta</a>
+          <a href="#cuentas">Dónde vive cada cosa</a>
+          <a href="#preguntas">Preguntas frecuentes</a>
+          <a href="#glosario">Glosario</a>
+        </nav>
+      </header>
+
+      <section id="viaje">
+        <p class="kicker">La idea en dos minutos</p>
+        <h2>El viaje de un alumno cuenta todo el sistema</h2>
+        <p class="lede">
+          Piensa en la academia como en una escuela física. No la construyó una sola empresa: hay un
+          edificio, un guardián en la puerta, una caja registradora, un cartero, una videoteca… y,
+          desde octubre, un redactor y un ilustrador. Cada trabajo lo hace un especialista distinto,
+          y todos están coordinados. La mejor forma de entenderlo es seguir a un alumno:
+        </p>
+        <ol class="steps">
+          <li>
+            Josep entra en <strong>brachfieldacademy.com</strong>. La página que ve es
+            <strong>el edificio</strong>: código escrito con Next.js, en pie 24 horas al día gracias
+            a <strong>Vercel</strong>.
+          </li>
+          <li>
+            Se registra. <strong>Better Auth</strong>, el guardián de la puerta, crea su cuenta y
+            guarda su contraseña cifrada.
+          </li>
+          <li>
+            Le llega el correo de confirmación. Lo ha llevado <strong>Resend</strong>, el cartero,
+            con remitente hola@brachfieldacademy.com.
+          </li>
+          <li>
+            Se suscribe por 39 €/mes. <strong>Stripe</strong>, la caja registradora, gestiona el
+            cobro y la renovación — nosotros nunca vemos su tarjeta.
+          </li>
+          <li>
+            Abre «Actualidad» y lee «El sector, al día»: los titulares del día que ha elegido esta
+            mañana <strong>Claude</strong>, el redactor-documentalista, con una frase de «La clave
+            para ti» en cada uno.
+          </li>
+          <li>
+            Ve un consejo en vídeo de Pere. Sale de <strong>Cloudflare</strong>, la videoteca, que
+            también guarda las plantillas descargables y el propio dominio.
+          </li>
+          <li>
+            Termina la lección. <strong>Neon</strong>, el libro de registro, apunta su progreso, sus
+            favoritos y sus reservas.
+          </li>
+          <li>
+            Todo lo que Josep ve lo preparó Cristina en la <strong>Sala de profesores</strong>:
+            subió el vídeo directamente desde allí y pidió la portada a <strong>Magnific</strong>,
+            el ilustrador.
+          </li>
+          <li>
+            Mientras tanto, <strong>PostHog</strong> apunta la actividad en su observatorio,
+            <strong>Sentry</strong> está listo para vigilar que nada se rompa, y los planos de todo
+            descansan en <strong>GitHub</strong>, la notaría, con sus robots de guardia.
+          </li>
+        </ol>
+        <p>
+          Trece piezas, cada una haciendo un solo trabajo y haciéndolo bien. Ahora las vemos de
+          cerca.
+        </p>
+      </section>
+
+      <section id="piezas">
+        <p class="kicker">El inventario</p>
+        <h2>Las piezas, una a una</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Next.js + React <span class="tag">el edificio</span></h3>
+            <p>
+              El código de la web: la portada pública, la zona de alumnos, la Sala de profesores, el
+              registro. Código abierto, estándar mundial y sin coste de licencia.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Vercel <span class="tag">el solar y la luz</span></h3>
+            <p>
+              Donde el edificio está en pie, día y noche. Publica cada mejora automáticamente en un
+              par de minutos y hace sonar los <strong>despertadores</strong> diarios (el tablón de
+              noticias y los recordatorios de directos). El proyecto real se llama
+              <code>brachfield-academy-app</code>; el antiguo proyecto del prototipo ya se borró.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Neon <span class="tag">el libro de registro</span></h3>
+            <p>
+              La base de datos: alumnos, progreso, favoritos, reservas, el histórico del tablón y la
+              actividad de los editores. Es PostgreSQL, el formato más respetado del mundo, con
+              copias que permiten volver a un instante concreto. Los datos son nuestros y
+              exportables.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Payload + la Sala <span class="tag">la redacción</span></h3>
+            <p>
+              Payload es el editor completo (en /admin); la <strong>Sala de profesores</strong> (en
+              /app/sala) es su versión guiada, paso a paso, para crear cursos y las cinco piezas —
+              consejo, artículo, guía, checklist y plantilla. Los dos viven dentro de la propia web:
+              sin coste aparte. Su manual es el <a href="/docs/manual-editor">Manual del editor</a>.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Better Auth <span class="tag">el guardián</span></h3>
+            <p>
+              Gestiona las cuentas: registro, contraseñas (siempre cifradas — ni nosotros podemos
+              leerlas), inicios de sesión y su caducidad. Código abierto y sin coste; funciona
+              dentro de nuestra web, así que las credenciales no viajan a terceros.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Stripe <span class="tag">la caja</span></h3>
+            <p>
+              Cobra la suscripción de 39 €/mes, la renueva sola, emite recibos y deja cancelar en un
+              clic. Las tarjetas las custodia Stripe; nunca pasan por nuestros servidores.
+              <strong class="pending">Hoy funciona en modo de pruebas</strong>: el paso a cobros
+              reales es una tarea pendiente del <a href="/docs/playbook">Playbook</a>.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Resend <span class="tag">el cartero</span></h3>
+            <p>
+              Envía los correos de la academia — verificación, contraseña olvidada, reservas y
+              recordatorios — desde hola@brachfieldacademy.com, con el dominio verificado para que
+              lleguen a la bandeja de entrada. Gratis hasta 3.000 correos al mes.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Cloudflare <span class="tag">la caja fuerte y la videoteca</span></h3>
+            <p>
+              Varios trabajos en una casa: el <strong>dominio</strong> y su DNS, los
+              <strong>vídeos</strong> (Stream), los <strong>archivos descargables</strong> (R2) y el
+              reenvío de correo. Novedad: desde la Sala, el vídeo viaja
+              <strong>directamente</strong> del ordenador de Cristina a Stream, sin pasar por
+              nuestra web — por eso no hay límite práctico de tamaño.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Claude (Anthropic) <span class="tag orange">el redactor-documentalista</span></h3>
+            <p>
+              Nuevo desde septiembre. Cada mañana repasa los titulares de los medios económicos,
+              elige como mucho dos por día para «El sector, al día», les pone etiqueta temática y
+              escribe «La clave para ti». En la Sala, lee tu pieza y redacta el encargo para el
+              ilustrador. <strong>Nunca firma ni publica textos en nombre de Pere</strong>: resume y
+              enlaza siempre a la fuente.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Magnific <span class="tag orange">el ilustrador</span></h3>
+            <p>
+              Nuevo en octubre. En el paso 3 de la Sala, «Crearla con IA» le pide dos propuestas de
+              portada a partir del encargo de Claude; eliges una y entra como portada de la pieza.
+              Si prefieres, sigues pudiendo subir tu propia imagen.
+            </p>
+          </div>
+          <div class="card">
+            <h3>PostHog <span class="tag">el observatorio</span></h3>
+            <p>
+              Registra la actividad: quién entra, qué cursos avanzan, qué se descarga, qué se busca.
+              Alimenta las gráficas de retención y complementa la pestaña de actividad de tu
+              Administración. Servidores en Europa; gratuito.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Sentry <span class="tag">la alarma de incendios</span></h3>
+            <p>
+              Cuando esté conectado, detectará al instante cualquier error de la web y avisará con
+              el detalle exacto, sin esperar a que un alumno se queje. El código ya está preparado;
+              <strong class="pending">falta crear la cuenta y pegar su clave</strong> (lista de
+              lanzamiento). Gratis.
+            </p>
+          </div>
+          <div class="card">
+            <h3>GitHub <span class="tag">la notaría y sus robots</span></h3>
+            <p>
+              Guarda todo el código con su historial completo: cada cambio, recuperable para
+              siempre. Y aloja los <strong>robots</strong> (GitHub Actions), que trabajan solos o
+              con un botón — los ves en la tabla de abajo.
+            </p>
+          </div>
+        </div>
+
+        <h3>Los robots y los despertadores</h3>
+        <p>
+          Son tareas automáticas: unas se disparan con cada cambio, otras a una hora fija, otras
+          cuando alguien pulsa un botón.
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Robot</th>
+                <th>Qué hace</th>
+                <th>Cuándo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>CI</strong> (el inspector)</td>
+                <td>Pasa todas las comprobaciones y simula a un alumno recorriendo la web</td>
+                <td>Con cada cambio</td>
+              </tr>
+              <tr>
+                <td><strong>DB migrate (Neon)</strong></td>
+                <td>
+                  Aplica a la base de datos real los cambios de estructura, y se pone en rojo si no
+                  queda como el código espera
+                </td>
+                <td>Cuando un cambio lo necesita, o a mano</td>
+              </tr>
+              <tr>
+                <td><strong>Alta de miembro (cortesía)</strong></td>
+                <td>
+                  Da acceso gratuito a alguien del equipo o a un invitado, sin pasar por Stripe
+                </td>
+                <td>A mano</td>
+              </tr>
+              <tr>
+                <td><strong>Limpieza de contenidos</strong></td>
+                <td>
+                  Lista o borra contenidos del CMS de forma segura (así se vació el contenido de
+                  ejemplo el 20 de octubre)
+                </td>
+                <td>Bajo pedido</td>
+              </tr>
+              <tr>
+                <td><strong>Fetch landing images</strong></td>
+                <td>Descarga y optimiza imágenes de Magnific para la landing</td>
+                <td>Bajo pedido</td>
+              </tr>
+              <tr>
+                <td><strong>Despertador del tablón</strong> (Vercel)</td>
+                <td>Pide a Claude la selección de noticias del día</td>
+                <td>Cada día a las 7:30 (6:30 en horario de invierno)</td>
+              </tr>
+              <tr>
+                <td><strong>Despertador de directos</strong> (Vercel)</td>
+                <td>Envía el recordatorio a quien reservó una sesión</td>
+                <td>Cada día a las 9:00 (8:00 en invierno)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="cambio">
+        <p class="kicker">El circuito de calidad</p>
+        <h2>Cómo viaja un cambio hasta la web</h2>
+        <p class="lede">
+          Nada llega a los alumnos sin pasar un control. Cuando pides una mejora — un texto, un
+          botón, una funcionalidad — este es el recorrido, siempre el mismo:
+        </p>
+        <ol class="steps">
+          <li>
+            <strong>Se escribe el cambio</strong> y se sube a GitHub, que lo guarda con fecha, autor
+            y descripción.
+          </li>
+          <li>
+            <strong>El robot inspector lo examina</strong>: comprueba que el código es correcto, que
+            el registro funciona, que un no-suscriptor no ve un curso, que la web es accesible…
+          </li>
+          <li>
+            <strong>Si toca la base de datos</strong>, el robot de Neon aplica los cambios de
+            estructura y verifica que han quedado bien.
+          </li>
+          <li>
+            <strong>Si algo falla, se frena ahí.</strong> El semáforo se pone en rojo y se corrige
+            antes de seguir.
+          </li>
+          <li>
+            <strong>Vercel publica</strong> la nueva versión en todo el mundo. Del visto bueno a
+            estar en producción: dos o tres minutos.
+          </li>
+        </ol>
+        <div class="callout">
+          <p>
+            <strong>El contenido no viaja por aquí.</strong> Lo que Cristina publica en la Sala
+            aparece al instante, sin robots ni esperas: el circuito de arriba es solo para cambios
+            en la propia web.
+          </p>
+        </div>
+      </section>
+
+      <section id="costes">
+        <p class="kicker">La factura, sin sorpresas</p>
+        <h2>Qué cuesta todo esto</h2>
+        <div class="stats">
+          <div class="stat"><b>≈ 1 €</b><span>al mes de dominio, prorrateado</span></div>
+          <div class="stat"><b>1–1,5 $</b><span>al mes de Claude, gasto real observado</span></div>
+          <div class="stat"><b>0 €</b><span>licencias de software: el código es abierto</span></div>
+        </div>
+        <p>
+          Piezas con planes gratuitos generosos que solo cobran cuando el negocio ya factura. Cifras
+          orientativas:
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Pieza</th>
+                <th>Hoy</th>
+                <th>Cuando la academia crezca</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Cloudflare</strong> (dominio)</td>
+                <td>~10 €/año</td>
+                <td>Igual: no depende del tráfico</td>
+              </tr>
+              <tr>
+                <td><strong>Claude</strong> (Anthropic)</td>
+                <td>Saldo prepago; ~0,78 $ en los primeros 20 días de octubre</td>
+                <td>
+                  Sube poco: el tablón es una tarea diaria fija y cada portada es un encargo pequeño
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Magnific</strong></td>
+                <td>Por imagen generada, a cargo de la licencia del propietario</td>
+                <td>Proporcional a las portadas que se pidan (dos propuestas por portada)</td>
+              </tr>
+              <tr>
+                <td><strong>Stripe</strong></td>
+                <td>0 € (modo de pruebas)</td>
+                <td>
+                  Comisión por cobro, sin cuota fija (en tarjetas europeas, en torno al 1,5 % + 0,25
+                  €)
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Vercel</strong></td>
+                <td>Plan gratuito</td>
+                <td>Plan Pro (~20 $/mes), previsto al abrir al público</td>
+              </tr>
+              <tr>
+                <td><strong>Cloudflare Stream</strong> (vídeo)</td>
+                <td>Céntimos</td>
+                <td>
+                  Por minutos guardados y vistos: del orden de 10–30 €/mes con un catálogo amplio
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Neon</strong></td>
+                <td>0 €</td>
+                <td>~19 $/mes si el volumen lo pide</td>
+              </tr>
+              <tr>
+                <td><strong>Resend</strong></td>
+                <td>0 €</td>
+                <td>~20 $/mes al superar 3.000 correos mensuales</td>
+              </tr>
+              <tr>
+                <td><strong>PostHog · Sentry · R2 · GitHub</strong></td>
+                <td>0 €</td>
+                <td>Gratuitos o céntimos en cualquier escenario razonable</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warn">
+          <p>
+            <strong>Las dos piezas de IA son de prepago o por uso.</strong> Si el saldo de Claude se
+            agota, el tablón sigue publicando titulares, pero sin «La clave para ti» ni etiquetas, y
+            la Sala deja de ofrecer «Crearla con IA». Si falla Magnific, las portadas se suben a
+            mano. Nada se rompe: solo se pierde el toque editorial hasta recargar.
+          </p>
+        </div>
+      </section>
+
+      <section id="cuentas">
+        <p class="kicker">El llavero</p>
+        <h2>Dónde vive cada cosa</h2>
+        <p class="lede">
+          Todas las cuentas están a nombre del propietario. Si necesitas entrar a mirar o cambiar
+          algo, este es el mapa (las claves nunca se escriben en documentos: viven en las variables
+          de Vercel):
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Servicio</th>
+                <th>Qué gestionas ahí</th>
+                <th>Dirección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>La academia</strong></td>
+                <td>Web pública y zona de alumnos</td>
+                <td>brachfieldacademy.com</td>
+              </tr>
+              <tr>
+                <td><strong>La Sala de profesores</strong></td>
+                <td>Crear cursos y piezas, subir vídeos, portadas con IA</td>
+                <td>brachfieldacademy.com/app/sala</td>
+              </tr>
+              <tr>
+                <td><strong>El editor completo (CMS)</strong></td>
+                <td>Todo el contenido, directos, mediateca</td>
+                <td>brachfieldacademy.com/admin</td>
+              </tr>
+              <tr>
+                <td><strong>Tu Administración</strong></td>
+                <td>Alumnos, editores, preguntas, botón «Actualizar el tablón ahora»</td>
+                <td>brachfieldacademy.com/app/admin</td>
+              </tr>
+              <tr>
+                <td><strong>Vercel</strong></td>
+                <td>
+                  Proyecto <code>brachfield-academy-app</code>: despliegues, variables, logs,
+                  despertadores
+                </td>
+                <td>vercel.com</td>
+              </tr>
+              <tr>
+                <td><strong>Cloudflare</strong></td>
+                <td>Dominio, DNS, vídeos (Stream), archivos (R2)</td>
+                <td>dash.cloudflare.com</td>
+              </tr>
+              <tr>
+                <td><strong>Stripe</strong></td>
+                <td>Cobros, suscripciones, facturas</td>
+                <td>dashboard.stripe.com</td>
+              </tr>
+              <tr>
+                <td><strong>Anthropic</strong></td>
+                <td>Saldo de Claude, gasto y claves</td>
+                <td>console.anthropic.com</td>
+              </tr>
+              <tr>
+                <td><strong>Magnific</strong></td>
+                <td>Licencia y clave de API (la misma clave sirve también a perebrachfield.com)</td>
+                <td>magnific.com</td>
+              </tr>
+              <tr>
+                <td><strong>Neon</strong></td>
+                <td>La base de datos y sus copias</td>
+                <td>console.neon.tech</td>
+              </tr>
+              <tr>
+                <td><strong>Resend</strong></td>
+                <td>Correos enviados y dominio verificado</td>
+                <td>resend.com</td>
+              </tr>
+              <tr>
+                <td><strong>PostHog</strong></td>
+                <td>Analítica: personas, gráficas, embudos</td>
+                <td>eu.posthog.com</td>
+              </tr>
+              <tr>
+                <td><strong>GitHub</strong></td>
+                <td>El código, su historial y los robots (pestaña Actions)</td>
+                <td>github.com/mrxcolome/brachfield-academy</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="preguntas">
+        <p class="kicker">Las dudas razonables</p>
+        <h2>Preguntas que quizá te hagas</h2>
+        <h3>¿Los datos son nuestros?</h3>
+        <p>
+          Sí, todos. La base de datos es PostgreSQL estándar y se exporta cuando quieras; vídeos y
+          archivos se descargan de Cloudflare; el código está en tu GitHub. Ningún proveedor tiene
+          nada que no podamos llevarnos.
+        </p>
+        <h3>¿La IA escribe en nombre de Pere?</h3>
+        <p>
+          No. Fue una decisión expresa: Claude selecciona y resume noticias ajenas, siempre con
+          enlace a la fuente, y redacta encargos de imagen. No publica artículos ni opiniones
+          firmados. Los consejos, artículos y cursos son de Pere.
+        </p>
+        <h3>¿Qué pasa si el tablón un día sale vacío?</h3>
+        <p>
+          Puede ser que ese día no haya nada relevante para un credit manager — el redactor es
+          selectivo a propósito. Si sospechas de un fallo, pulsa «Actualizar el tablón ahora» en tu
+          Administración: te dice qué fuentes han respondido y si se ha usado la curación de Claude.
+        </p>
+        <h3>¿Y si un proveedor cierra o sube los precios?</h3>
+        <p>
+          Cada pieza es reemplazable porque todas hablan estándares. Las dos de IA, además, son
+          opcionales: sin ellas la academia funciona igual, con menos ayuda editorial. La única
+          mudanza con trabajo real sería la de los vídeos, y también es posible.
+        </p>
+        <h3>¿Ya cobramos de verdad?</h3>
+        <p>
+          Todavía no. Stripe está en modo de pruebas y la web sigue en prelanzamiento (invisible
+          para los buscadores). Los pasos para abrir están en el
+          <a href="/docs/playbook">Playbook del propietario</a>.
+        </p>
+        <h3>¿Es seguro?</h3>
+        <p>
+          Las contraseñas van cifradas de forma irreversible; las tarjetas jamás tocan nuestros
+          servidores; toda la web viaja cifrada; los permisos se comprueban en el servidor en cada
+          petición; y el proyecto pasó una revisión de seguridad antes de cerrar el desarrollo.
+        </p>
+      </section>
+
+      <section id="glosario">
+        <p class="kicker">Para hablar con propiedad</p>
+        <h2>Glosario mínimo</h2>
+        <dl class="gloss">
+          <dt>Servidor</dt>
+          <dd>
+            Un ordenador siempre encendido que entrega la web a quien la visita. Los nuestros los
+            pone Vercel.
+          </dd>
+          <dt>Base de datos</dt>
+          <dd>
+            El archivo ordenado donde se guarda la información viva: alumnos, progreso, reservas,
+            noticias del tablón. La nuestra es PostgreSQL, en Neon.
+          </dd>
+          <dt>CMS</dt>
+          <dd>
+            «Sistema de gestión de contenidos»: la herramienta para crear cursos sin tocar código.
+            El nuestro es Payload, en /admin, con la Sala como puerta amable.
+          </dd>
+          <dt>Desplegar</dt>
+          <dd>
+            Publicar una nueva versión de la web. Aquí ocurre solo cuando un cambio pasa todas las
+            comprobaciones.
+          </dd>
+          <dt>Robot (GitHub Actions)</dt>
+          <dd>
+            Una tarea automática que se ejecuta en los ordenadores de GitHub: revisar, migrar, dar
+            de alta, limpiar.
+          </dd>
+          <dt>Despertador (cron)</dt>
+          <dd>
+            Una tarea programada a una hora fija. Tenemos dos: el tablón y los recordatorios de
+            directos.
+          </dd>
+          <dt>API y clave de API</dt>
+          <dd>
+            La ventanilla por la que dos servicios se hablan, y el pase que identifica a quien
+            llama. Las claves son secretas y viven solo en Vercel.
+          </dd>
+          <dt>Saldo prepago</dt>
+          <dd>
+            Dinero cargado por adelantado que se va gastando con el uso, como una tarjeta de
+            transporte. Así funciona la cuenta de Claude.
+          </dd>
+          <dt>Dominio y DNS</dt>
+          <dd>
+            El dominio es la dirección (brachfieldacademy.com); el DNS es la guía telefónica que
+            dice a internet dónde encontrarla.
+          </dd>
+          <dt>Migración</dt>
+          <dd>
+            Un cambio ordenado en la estructura de la base de datos. Las aplica el robot de Neon.
+          </dd>
+        </dl>
+      </section>
+    </main>
+    <footer class="doc">
+      Brachfield Academy · Documentación interna · <a href="/docs">Volver al índice</a>
+    </footer>
+  </body>
+</html>

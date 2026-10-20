@@ -5,15 +5,22 @@ import { getCategories } from '@/features/content/service'
 import { getSalaCourse } from '@/features/sala/service'
 import { SalaSteps } from '../steps'
 import { BasicsForm } from '../basics-form'
-import { CoverForm } from './cover-form'
+import { CoverPicker } from '../cover-picker'
+import { portadaIADisponible } from '@/features/sala/cover-ai'
 import { LessonsEditor } from './lessons-editor'
 import { PublishPanel } from './publish-panel'
+
+// La portada con IA (Claude + Magnific) supera los 10 s por defecto de Vercel.
+export const maxDuration = 60
 
 export const metadata = { title: 'Sala de profesores · Curso' }
 
 const TITLES: Record<number, { h: string; sub: string }> = {
   1: { h: 'El curso', sub: 'Título, descripción y área. Es lo que ve el alumno en la tarjeta.' },
-  2: { h: 'La portada', sub: 'Opcional: sin portada propia, entra la automática del área.' },
+  2: {
+    h: 'La portada',
+    sub: 'Súbela o créala con IA. Opcional: sin portada propia, entra la automática del área.',
+  },
   3: { h: 'Las lecciones', sub: 'El contenido del curso, en el orden en que se estudiará.' },
   4: { h: 'Revisar y publicar', sub: 'Un último vistazo antes de abrir la puerta a los alumnos.' },
 }
@@ -91,7 +98,14 @@ export default async function SalaCursoPage({
           />
         )}
 
-        {paso === 2 && <CoverForm courseId={course.id} coverUrl={course.coverUrl} />}
+        {paso === 2 && (
+          <CoverPicker
+            target={{ kind: 'curso', id: course.id }}
+            coverUrl={course.coverUrl}
+            aiAvailable={portadaIADisponible()}
+            next={{ href: `/app/sala/${course.id}?paso=3`, label: 'Seguir con las lecciones →' }}
+          />
+        )}
 
         {paso === 3 && (
           <>

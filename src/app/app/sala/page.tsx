@@ -82,12 +82,20 @@ export default async function SalaHomePage({
         </Link>
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h1 className="text-2xl font-bold">Sala de profesores</h1>
-          <Link
-            href="/app/admin"
-            className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
-          >
-            ⚙ Administración →
-          </Link>
+          <span className="flex flex-wrap gap-x-5 gap-y-1">
+            <a
+              href="/docs/manual-editor"
+              className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
+            >
+              Manual del editor →
+            </a>
+            <Link
+              href="/app/admin"
+              className="text-[13px] font-semibold text-brand-link no-underline hover:underline"
+            >
+              ⚙ Administración →
+            </Link>
+          </span>
         </div>
         <p className="mt-1 text-sm text-muted">
           Crea y publica paso a paso, sin tocar el CMS. Seis tipologías: el curso y cinco piezas

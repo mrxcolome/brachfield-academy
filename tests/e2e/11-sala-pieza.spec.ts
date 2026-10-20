@@ -7,7 +7,10 @@ test.use({ storageState: 'tests/e2e/.auth/admin.json' })
 test('consejo de texto: formato a un clic y ficha sin reproductor', async ({ page }) => {
   const title = `Consejo e2e ${Date.now()}`
   await page.goto('/app/sala/contenido/nuevo')
-  await page.getByRole('button', { name: /Consejo/ }).first().click()
+  await page
+    .getByRole('button', { name: /Consejo/ })
+    .first()
+    .click()
   await page.getByLabel('Título').fill(title)
   await page.getByLabel(/frases/i).fill('Dos frases de prueba para la tarjeta del consejo.')
   await page.locator('#c-cat').selectOption({ index: 1 })

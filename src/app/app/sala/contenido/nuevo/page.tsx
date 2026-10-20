@@ -1,12 +1,21 @@
 import Link from 'next/link'
 import { requireRole } from '@/features/auth/guards'
 import { getCategories } from '@/features/content/service'
+import { SALA_CONCEPTS } from '@/features/sala/concepts'
 import { ConceptForm } from '../concept-form'
 
 export const metadata = { title: 'Sala de profesores · Nueva pieza' }
 
-export default async function SalaNuevoContenidoPage() {
+const FEMENINO = new Set(['GUIDE', 'CHECKLIST', 'TEMPLATE'])
+
+export default async function SalaNuevoContenidoPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tipo?: string }>
+}) {
   await requireRole('ADMIN', 'EDITOR')
+  const { tipo } = await searchParams
+  const concept = SALA_CONCEPTS.find((c) => c.value === tipo)
   const categories = await getCategories()
 
   return (
@@ -16,12 +25,19 @@ export default async function SalaNuevoContenidoPage() {
       </Link>
       <div className="mt-4 rounded-lg border border-border bg-surface p-6 sm:p-8">
         <p className="mb-1 font-mono text-[11px] tracking-wide text-muted uppercase">Paso 1 de 4</p>
-        <h1 className="mb-2 text-xl font-bold">La pieza</h1>
+        <h1 className="mb-2 text-xl font-bold">
+          {concept
+            ? `${FEMENINO.has(concept.value) ? 'Nueva' : 'Nuevo'} ${concept.label.toLowerCase()}`
+            : 'La pieza'}
+        </h1>
         <p className="mb-6 text-sm text-ink-2">
-          Elige el tipo de pieza y ponle nombre. El formato (vídeo, texto, audio o documento) viene
-          en el paso siguiente.
+          {concept ? 'Ponle nombre' : 'Elige el tipo de pieza y ponle nombre'}. El formato (vídeo,
+          texto, audio o documento) viene en el paso siguiente.
         </p>
-        <ConceptForm categories={categories.map((c) => ({ id: Number(c.id), name: c.name }))} />
+        <ConceptForm
+          categories={categories.map((c) => ({ id: Number(c.id), name: c.name }))}
+          initialConcept={concept?.value}
+        />
       </div>
     </div>
   )

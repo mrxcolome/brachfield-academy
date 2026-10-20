@@ -153,3 +153,6 @@ al descargar las fuentes por el proxy).
   de Prisma (migración 20261020200000_remove_user_level).
 - OJO local: correr el seed de Payload en modo dev deja una fila 'dev' en payload_migrations y
   `payload migrate` se queda colgado esperando respuesta: borrarla (batch = -1) antes de migrar.
+- 21/10/2026: la home de la Sala muestra «¿Qué quieres crear?» con SEIS botones (Curso + las 5
+  piezas). Cada pieza abre /app/sala/contenido/nuevo?tipo=X con el tipo ya elegido (título «Nuevo
+  consejo», «Nueva guía»…; selector plegado con «Cambiar tipo»).

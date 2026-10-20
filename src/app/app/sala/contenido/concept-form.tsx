@@ -11,12 +11,17 @@ import { Input } from '@/components/ui/input'
 export function ConceptForm({
   categories,
   piece,
+  initialConcept,
 }: {
   categories: { id: number; name: string }[]
   piece?: Pick<SalaContent, 'id' | 'title' | 'excerpt' | 'categoryId' | 'conceptType'>
+  /** Tipo elegido desde el botón de la Sala (?tipo=…): el selector queda plegado. */
+  initialConcept?: string
 }) {
   const router = useRouter()
-  const [concept, setConcept] = useState<string>(piece?.conceptType ?? '')
+  const [concept, setConcept] = useState<string>(piece?.conceptType ?? initialConcept ?? '')
+  const [picking, setPicking] = useState(!concept)
+  const chosen = SALA_CONCEPTS.find((c) => c.value === concept)
   const [error, setError] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
 
@@ -41,32 +46,56 @@ export function ConceptForm({
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
-      <div>
-        <p className="mb-2 text-[12.5px] font-semibold">¿Qué vas a publicar?</p>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {SALA_CONCEPTS.map((c) => (
-            <button
-              key={c.value}
-              type="button"
-              onClick={() => setConcept(c.value)}
-              aria-pressed={concept === c.value}
-              className={`rounded-lg border p-3 text-left ${
-                concept === c.value
-                  ? 'border-brand bg-brand-soft'
-                  : 'border-border-input bg-surface hover:border-brand-link'
-              }`}
-            >
-              <span className="flex items-center gap-2 text-[13.5px] font-bold">
-                <span aria-hidden className="text-brand-link">
-                  {c.glyph}
-                </span>
-                {c.label}
-              </span>
-              <span className="mt-1 block text-[11.5px] leading-snug text-muted">{c.hint}</span>
-            </button>
-          ))}
+      {chosen && !picking ? (
+        <div className="flex flex-wrap items-center gap-3 rounded-md bg-bg px-4 py-3">
+          <span
+            aria-hidden
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-soft text-brand-link"
+          >
+            {chosen.glyph}
+          </span>
+          <p className="text-sm">
+            Tipo: <strong>{chosen.label}</strong>
+          </p>
+          <button
+            type="button"
+            onClick={() => setPicking(true)}
+            className="ml-auto text-[13px] font-semibold text-brand-link underline"
+          >
+            Cambiar tipo
+          </button>
         </div>
-      </div>
+      ) : (
+        <div>
+          <p className="mb-2 text-[12.5px] font-semibold">¿Qué vas a publicar?</p>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {SALA_CONCEPTS.map((c) => (
+              <button
+                key={c.value}
+                type="button"
+                onClick={() => {
+                  setConcept(c.value)
+                  setPicking(false)
+                }}
+                aria-pressed={concept === c.value}
+                className={`rounded-lg border p-3 text-left ${
+                  concept === c.value
+                    ? 'border-brand bg-brand-soft'
+                    : 'border-border-input bg-surface hover:border-brand-link'
+                }`}
+              >
+                <span className="flex items-center gap-2 text-[13.5px] font-bold">
+                  <span aria-hidden className="text-brand-link">
+                    {c.glyph}
+                  </span>
+                  {c.label}
+                </span>
+                <span className="mt-1 block text-[11.5px] leading-snug text-muted">{c.hint}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <Input
         name="title"

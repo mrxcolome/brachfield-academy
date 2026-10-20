@@ -55,23 +55,45 @@ export default async function SalaHomePage() {
         </p>
       </header>
 
-      <div className="mb-10 flex flex-wrap items-center gap-3">
-        <Link
-          href="/app/sala/nuevo"
-          className="rounded-sm bg-brand px-5 py-3 text-sm font-semibold text-white no-underline hover:bg-brand-hover"
-        >
-          + Crear un curso
-        </Link>
-        <Link
-          href="/app/sala/contenido/nuevo"
-          className="rounded-sm border border-brand px-5 py-3 text-sm font-semibold text-brand no-underline hover:bg-brand-soft"
-        >
-          + Crear una pieza
-        </Link>
-        <span className="text-[12.5px] text-muted">
-          Pieza = consejo, artículo, entrevista, guía, checklist, plantilla…
-        </span>
-      </div>
+      {/* Un botón por tipología (pedido del propietario 21/10/2026): directo al asistente. */}
+      <section aria-labelledby="crear-title" className="mb-10">
+        <h2 id="crear-title" className="mb-3 text-[15px] font-bold">
+          ¿Qué quieres crear?
+        </h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {[
+            {
+              href: '/app/sala/nuevo',
+              glyph: '▣',
+              label: 'Curso',
+              hint: 'Un tema completo, en lecciones',
+            },
+            ...SALA_CONCEPTS.map((c) => ({
+              href: `/app/sala/contenido/nuevo?tipo=${c.value}`,
+              glyph: c.glyph,
+              label: c.label,
+              hint: c.hint,
+            })),
+          ].map((t) => (
+            <Link
+              key={t.href}
+              href={t.href}
+              className="flex flex-col gap-1 rounded-lg border border-border bg-surface p-4 text-inherit no-underline transition-colors hover:border-brand-link hover:bg-brand-soft"
+            >
+              <span className="flex items-center gap-2 text-[15px] font-bold text-brand">
+                <span
+                  aria-hidden
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-soft text-brand-link"
+                >
+                  {t.glyph}
+                </span>
+                + {t.label}
+              </span>
+              <span className="text-[12px] leading-snug text-muted">{t.hint}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <section className="mb-10">
         <h2 className="mb-3 text-[15px] font-bold">Cursos</h2>

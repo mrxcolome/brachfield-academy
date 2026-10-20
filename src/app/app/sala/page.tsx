@@ -26,10 +26,50 @@ function StatusPill({ status }: { status: 'draft' | 'published' }) {
   )
 }
 
-export default async function SalaHomePage() {
+const TYPES = [
+  { value: 'CURSO', label: 'Cursos' },
+  ...SALA_CONCEPTS.map((c) => ({
+    value: c.value as string,
+    label: c.value === 'CHECKLIST' ? 'Checklists' : `${c.label}s`,
+  })),
+]
+
+export default async function SalaHomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tipo?: string }>
+}) {
   const { role } = await requireRole('ADMIN', 'EDITOR')
+  const { tipo } = await searchParams
+  const filtro = TYPES.some((t) => t.value === tipo) ? tipo : undefined
   const [courses, contents] = await Promise.all([listSalaCourses(), listSalaContents()])
   const conceptLabel = (v: string) => SALA_CONCEPTS.find((c) => c.value === v)?.label ?? v
+
+  const all = [
+    ...courses.map((c) => ({
+      key: `curso-${c.id}`,
+      kind: 'curso' as const,
+      type: 'CURSO',
+      id: c.id,
+      title: c.title,
+      status: c.status,
+      updatedAt: c.updatedAt,
+      meta: `Curso · ${c.lessons.length} ${c.lessons.length === 1 ? 'lección' : 'lecciones'}`,
+      href: c.multiModule ? null : `/app/sala/${c.id}`,
+    })),
+    ...contents.map((p) => ({
+      key: `pieza-${p.id}`,
+      kind: 'pieza' as const,
+      type: p.conceptType as string,
+      id: p.id,
+      title: p.title,
+      status: p.status,
+      updatedAt: p.updatedAt,
+      meta: conceptLabel(p.conceptType),
+      href: `/app/sala/contenido/${p.id}`,
+    })),
+  ].sort((x, y) => y.updatedAt.localeCompare(x.updatedAt))
+  const items = filtro ? all.filter((it) => it.type === filtro) : all
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -95,78 +135,70 @@ export default async function SalaHomePage() {
         </div>
       </section>
 
-      <section className="mb-10">
-        <h2 className="mb-3 text-[15px] font-bold">Cursos</h2>
-        {courses.length === 0 ? (
+      {/* Una sola lista con todo (pedido del propietario 21/10/2026), lo último primero. */}
+      <section aria-labelledby="contenido-title">
+        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 id="contenido-title" className="text-[15px] font-bold">
+            Tu contenido
+          </h2>
+          <span className="text-[12.5px] text-muted">
+            {items.length} {items.length === 1 ? 'elemento' : 'elementos'}
+          </span>
+        </div>
+        {all.length > 0 && (
+          <nav aria-label="Filtrar por tipo" className="mb-4 flex flex-wrap gap-2">
+            {[{ value: '', label: 'Todo' }, ...TYPES].map((t) => {
+              const active = (filtro ?? '') === t.value
+              return (
+                <Link
+                  key={t.value || 'todo'}
+                  href={t.value ? `/app/sala?tipo=${t.value}` : '/app/sala'}
+                  aria-current={active ? 'true' : undefined}
+                  className={`rounded-full border px-3 py-1.5 text-xs font-semibold no-underline ${
+                    active
+                      ? 'border-brand bg-brand text-white'
+                      : 'border-border-chip bg-surface text-ink-2 hover:bg-bg'
+                  }`}
+                >
+                  {t.label}
+                </Link>
+              )
+            })}
+          </nav>
+        )}
+        {items.length === 0 ? (
           <p className="rounded-lg border border-border bg-surface p-5 text-sm text-muted">
-            Todavía no hay cursos.
+            {all.length === 0
+              ? 'Todavía no hay contenido. Elige arriba qué quieres crear: está a cuatro pasos.'
+              : 'Nada de este tipo todavía.'}
           </p>
         ) : (
           <ol className="flex flex-col gap-3">
-            {courses.map((c) => (
+            {items.map((it) => (
               <li
-                key={c.id}
+                key={it.key}
                 className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-border bg-surface p-4"
               >
                 <div className="min-w-52 flex-1">
                   <p className="font-semibold">
-                    {c.title.trim() || <span className="text-muted">(Sin título)</span>}
+                    {it.title.trim() || <span className="text-muted">(Sin título)</span>}
                   </p>
                   <p className="text-[12.5px] text-muted">
-                    {c.lessons.length} {c.lessons.length === 1 ? 'lección' : 'lecciones'} ·
-                    actualizado {dateFmt.format(new Date(c.updatedAt))}
+                    {it.meta} · actualizado {dateFmt.format(new Date(it.updatedAt))}
                   </p>
                 </div>
-                <StatusPill status={c.status} />
-                {c.multiModule ? (
-                  <span className="text-[12px] text-muted">
-                    Con módulos — se edita en el CMS (fase 2)
-                  </span>
-                ) : (
+                <StatusPill status={it.status} />
+                {it.href ? (
                   <Link
-                    href={`/app/sala/${c.id}`}
+                    href={it.href}
                     className="rounded-sm border border-border-input px-4 py-2 text-[13px] font-semibold text-ink no-underline hover:bg-bg"
                   >
-                    {c.status === 'draft' ? 'Continuar' : 'Editar'}
+                    {it.status === 'draft' ? 'Continuar' : 'Editar'}
                   </Link>
+                ) : (
+                  <span className="text-[12px] text-muted">Con módulos — se edita en el CMS</span>
                 )}
-                <BorrarButton kind="curso" id={c.id} title={c.title} />
-              </li>
-            ))}
-          </ol>
-        )}
-      </section>
-
-      <section>
-        <h2 className="mb-3 text-[15px] font-bold">Piezas sueltas</h2>
-        {contents.length === 0 ? (
-          <p className="rounded-lg border border-border bg-surface p-5 text-sm text-muted">
-            Todavía no hay piezas. La primera está a cuatro pasos.
-          </p>
-        ) : (
-          <ol className="flex flex-col gap-3">
-            {contents.map((p) => (
-              <li
-                key={p.id}
-                className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-border bg-surface p-4"
-              >
-                <div className="min-w-52 flex-1">
-                  <p className="font-semibold">
-                    {p.title.trim() || <span className="text-muted">(Sin título)</span>}
-                  </p>
-                  <p className="text-[12.5px] text-muted">
-                    {conceptLabel(p.conceptType)} · actualizado{' '}
-                    {dateFmt.format(new Date(p.updatedAt))}
-                  </p>
-                </div>
-                <StatusPill status={p.status} />
-                <Link
-                  href={`/app/sala/contenido/${p.id}`}
-                  className="rounded-sm border border-border-input px-4 py-2 text-[13px] font-semibold text-ink no-underline hover:bg-bg"
-                >
-                  {p.status === 'draft' ? 'Continuar' : 'Editar'}
-                </Link>
-                <BorrarButton kind="pieza" id={p.id} title={p.title} />
+                <BorrarButton kind={it.kind} id={it.id} title={it.title} />
               </li>
             ))}
           </ol>

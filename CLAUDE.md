@@ -156,3 +156,5 @@ al descargar las fuentes por el proxy).
 - 21/10/2026: la home de la Sala muestra «¿Qué quieres crear?» con SEIS botones (Curso + las 5
   piezas). Cada pieza abre /app/sala/contenido/nuevo?tipo=X con el tipo ya elegido (título «Nuevo
   consejo», «Nueva guía»…; selector plegado con «Cambiar tipo»).
+- 21/10/2026: la home de la Sala une cursos y piezas en UNA lista «Tu contenido» (orden por
+  última edición, chips de filtro ?tipo=CURSO|ADVICE|…); fuera las secciones «Cursos» / «Piezas sueltas».

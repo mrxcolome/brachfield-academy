@@ -1,0 +1,16 @@
+== CURSOS ==
+1 · published · 2026-08-10 · Cómo recuperar un impagado paso a paso
+2 · published · 2026-08-10 · Gestión y prevención de impagados
+3 · published · 2026-08-10 · Negociación avanzada con deudores
+4 · published · 2026-08-10 · Organización del departamento de Credit Management
+5 · published · 2026-08-10 · Análisis de riesgo de clientes
+6 · published · 2026-08-10 · Marco legal de la morosidad comercial
+7 · draft · 2026-08-17 · 
+8 · published · 2026-08-18 · Curso 1 Test Xavi
+9 · draft · 2026-09-15 · El Credit Management
+10 · published · 2026-10-20 · titulo curso 1
+
+== PIEZAS (contents) ==
+ERROR:  column "type" does not exist
+LINE 1: select id, type, _status, to_char(created_at,'YYYY-MM-DD'), ...
+                   ^

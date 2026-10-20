@@ -77,7 +77,6 @@ export async function getRecommendations(
       course,
       categories: names(course.categories),
       tags: names(course.tags),
-      level: null, // los cursos no van por niveles (decisión del propietario 2026-08-11)
       publishedAt: course.publishedAt ?? null,
     })),
     profile,
@@ -88,7 +87,6 @@ export async function getRecommendations(
       content,
       categories: names(content.categories),
       tags: names(content.tags),
-      level: content.level ?? null,
       publishedAt: content.publishedAt ?? null,
     })),
     profile,

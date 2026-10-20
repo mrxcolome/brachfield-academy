@@ -203,6 +203,7 @@ import {
   createSalaContent,
   getSalaContent,
   publishSalaContent,
+  setSalaContentFormat,
   setSalaContentMaterial,
   unpublishSalaContent,
   updateSalaContentBasics,
@@ -215,7 +216,6 @@ const conceptSchema = z.object({
   excerpt: z.string().trim().min(10, 'Cuenta en dos frases qué se lleva el alumno').max(500),
   categoryId: z.coerce.number().int().positive('Elige el área de conocimiento'),
   conceptType: z.enum(SALA_CONCEPTS.map((c) => c.value) as [string, ...string[]]),
-  level: z.enum(['BEGINNER', 'INTERMEDIATE', 'ADVANCED']).optional(),
 })
 
 export async function crearContenido(raw: unknown): Promise<Result & { id?: number }> {
@@ -240,11 +240,23 @@ export async function guardarContenido(raw: unknown): Promise<Result> {
   return { ok: true }
 }
 
+const formatSchema = z.enum(['VIDEO', 'TEXT', 'AUDIO', 'DOCUMENT'])
+
+export async function elegirFormato(raw: unknown): Promise<Result> {
+  await requireRole('ADMIN', 'EDITOR')
+  const parsed = z.object({ id: idSchema, format: formatSchema }).safeParse(raw)
+  if (!parsed.success) return { error: 'Formato no válido' }
+  await setSalaContentFormat(parsed.data.id, parsed.data.format)
+  revalidatePath(`/app/sala/contenido/${parsed.data.id}`)
+  return { ok: true }
+}
+
 export async function guardarMaterial(raw: unknown): Promise<Result> {
   await requireRole('ADMIN', 'EDITOR')
   const parsed = z
     .object({
       id: idSchema,
+      format: formatSchema,
       streamId: z.string().trim().max(64).optional(),
       duration: z.string().trim().max(30).optional(),
       text: z.string().trim().max(40000).optional(),
@@ -334,5 +346,75 @@ export async function despublicarContenido(raw: unknown): Promise<Result> {
   await logSala(user, 'UPDATE', `${piece?.title ?? 'Contenido'} (retirado a borrador)`, 'contents')
   revalidate()
   revalidatePath(`/app/sala/contenido/${parsed.data}`)
+  return { ok: true }
+}
+
+// ── Portada con IA (20/10/2026) ──────────────────────────────────────────
+
+import sharp from 'sharp'
+import { describirPortada, portadaIADisponible } from './cover-ai'
+import { consultarTarea, crearTarea, urlPermitida, type TaskState } from './magnific'
+import { FORMAT_OPTIONS } from '@/features/content/format'
+
+/** Encarga dos propuestas de portada a partir del contenido de la pieza. */
+export async function crearPortadasIA(raw: unknown): Promise<Result & { tasks?: string[] }> {
+  await requireRole('ADMIN', 'EDITOR')
+  if (!portadaIADisponible()) return { error: 'La creación con IA no está activada todavía.' }
+  const parsed = z
+    .object({ id: idSchema, indicaciones: z.string().trim().max(500).optional() })
+    .safeParse(raw)
+  if (!parsed.success) return { error: 'Solicitud no válida' }
+  const piece = await getSalaContent(parsed.data.id)
+  if (!piece) return { error: 'Contenido no encontrado' }
+  try {
+    const prompt = await describirPortada({
+      concept: SALA_CONCEPTS.find((c) => c.value === piece.conceptType)?.label ?? 'Pieza',
+      format: FORMAT_OPTIONS.find((f) => f.value === piece.format)?.label ?? 'sin definir',
+      title: piece.title,
+      excerpt: piece.excerpt,
+      text: piece.text,
+      indicaciones: parsed.data.indicaciones,
+    })
+    const seed = Math.floor(Math.random() * 1_000_000)
+    const tasks = await Promise.all([crearTarea(prompt, seed), crearTarea(prompt, seed + 1)])
+    return { ok: true, tasks }
+  } catch {
+    return { error: 'No se han podido encargar las propuestas. Prueba de nuevo en un momento.' }
+  }
+}
+
+export async function estadoPortadasIA(raw: unknown): Promise<TaskState[]> {
+  await requireRole('ADMIN', 'EDITOR')
+  const parsed = z.array(z.string().max(120)).max(4).safeParse(raw)
+  if (!parsed.success) return []
+  return Promise.all(parsed.data.map(consultarTarea))
+}
+
+/** Descarga la propuesta elegida (solo de Magnific), la optimiza y la pone de portada. */
+export async function usarPortadaIA(raw: unknown): Promise<Result> {
+  await requireRole('ADMIN', 'EDITOR')
+  const parsed = z.object({ id: idSchema, url: z.string().url() }).safeParse(raw)
+  if (!parsed.success || !urlPermitida(parsed.data.url)) return { error: 'Imagen no válida' }
+  const piece = await getSalaContent(parsed.data.id)
+  if (!piece) return { error: 'Contenido no encontrado' }
+  const res = await fetch(parsed.data.url, { signal: AbortSignal.timeout(30000) }).catch(() => null)
+  if (!res?.ok) return { error: 'No se ha podido descargar la imagen. Prueba de nuevo.' }
+  const data = await sharp(Buffer.from(await res.arrayBuffer()))
+    .resize({ width: 1600, withoutEnlargement: true })
+    .webp({ quality: 82 })
+    .toBuffer()
+  await attachSalaContentFile(
+    parsed.data.id,
+    'cover',
+    {
+      data,
+      name: `portada-${piece.slug || piece.id}.webp`,
+      mimetype: 'image/webp',
+      size: data.length,
+    },
+    `Portada de ${piece.title}`,
+  )
+  revalidate()
+  revalidatePath(`/app/sala/contenido/${parsed.data.id}`)
   return { ok: true }
 }

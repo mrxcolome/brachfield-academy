@@ -27,7 +27,6 @@ async function main() {
       country: 'ES',
       onboardingStatus: 'COMPLETED',
       professionalProfile: 'COLLECTIONS',
-      level: 'INTERMEDIATE',
       interests: ['recobro', 'negociación', 'prevención de impagos'],
       lastLoginAt: new Date(),
       subscriptions: {
@@ -90,7 +89,6 @@ async function main() {
       jobTitle: 'Controller',
       onboardingStatus: 'COMPLETED',
       professionalProfile: 'CONTROLLER',
-      level: 'ADVANCED',
       subscriptions: {
         create: {
           stripeSubscriptionId: 'sub_demo_marta',
@@ -112,7 +110,6 @@ async function main() {
       jobTitle: 'Director Financiero',
       onboardingStatus: 'COMPLETED',
       professionalProfile: 'CFO',
-      level: 'BEGINNER',
       subscriptions: {
         create: {
           stripeSubscriptionId: 'sub_demo_andreu',

@@ -2,17 +2,16 @@
 
 import { useState, useTransition } from 'react'
 import { saveOnboarding } from '@/features/onboarding/actions'
-import { GOAL_OPTIONS, LEVEL_OPTIONS, PROFILE_OPTIONS } from '@/features/onboarding/schemas'
+import { GOAL_OPTIONS, PROFILE_OPTIONS } from '@/features/onboarding/schemas'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/cn'
 
-const STEPS = ['Bienvenida', 'Perfil', 'Objetivos', 'Nivel'] as const
+const STEPS = ['Bienvenida', 'Perfil', 'Objetivos'] as const
 
 export function OnboardingForm({ firstName }: { firstName: string }) {
   const [step, setStep] = useState(0)
   const [profile, setProfile] = useState<string | null>(null)
   const [goals, setGoals] = useState<string[]>([])
-  const [level, setLevel] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
 
@@ -23,16 +22,13 @@ export function OnboardingForm({ firstName }: { firstName: string }) {
   function submit() {
     setError(null)
     startTransition(async () => {
-      const res = await saveOnboarding({ professionalProfile: profile, interests: goals, level })
+      const res = await saveOnboarding({ professionalProfile: profile, interests: goals })
       if (res?.error) setError(res.error)
     })
   }
 
   const canContinue =
-    step === 0 ||
-    (step === 1 && profile !== null) ||
-    (step === 2 && goals.length > 0) ||
-    (step === 3 && level !== null)
+    step === 0 || (step === 1 && profile !== null) || (step === 2 && goals.length > 0)
 
   return (
     <div className="w-full max-w-lg">
@@ -112,35 +108,6 @@ export function OnboardingForm({ firstName }: { firstName: string }) {
                   )}
                 >
                   {g}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <h1 className="mb-4 text-xl font-bold">¿Cuál es tu nivel?</h1>
-            <div className="mb-6 flex flex-col gap-2.5">
-              {LEVEL_OPTIONS.map((o) => (
-                <button
-                  key={o.value}
-                  type="button"
-                  onClick={() => setLevel(o.value)}
-                  aria-pressed={level === o.value}
-                  className={cn(
-                    'rounded-md border px-4 py-3.5 text-left transition-colors',
-                    level === o.value
-                      ? 'border-brand bg-brand-soft'
-                      : 'border-border-chip bg-surface hover:bg-bg',
-                  )}
-                >
-                  <span
-                    className={cn('block text-sm font-semibold', level === o.value && 'text-brand')}
-                  >
-                    {o.label}
-                  </span>
-                  <span className="mt-0.5 block text-[12.5px] text-muted">{o.desc}</span>
                 </button>
               ))}
             </div>

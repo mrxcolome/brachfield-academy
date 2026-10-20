@@ -23,20 +23,6 @@ export const GOAL_OPTIONS = [
   'Formarme como Credit Manager',
 ] as const
 
-export const LEVEL_OPTIONS = [
-  {
-    value: 'BEGINNER',
-    label: 'Iniciación',
-    desc: 'Empiezo ahora con la gestión de crédito y cobros',
-  },
-  {
-    value: 'INTERMEDIATE',
-    label: 'Intermedio',
-    desc: 'Tengo experiencia pero quiero sistematizar',
-  },
-  { value: 'ADVANCED', label: 'Avanzado', desc: 'Busco profundizar y estar al día' },
-] as const
-
 export const onboardingSchema = z.object({
   professionalProfile: z.enum([
     'CFO',
@@ -49,7 +35,6 @@ export const onboardingSchema = z.object({
     'OTHER',
   ]),
   interests: z.array(z.enum(GOAL_OPTIONS)).min(1, 'Elige al menos un objetivo').max(9),
-  level: z.enum(['BEGINNER', 'INTERMEDIATE', 'ADVANCED']),
 })
 
 export type OnboardingInput = z.infer<typeof onboardingSchema>

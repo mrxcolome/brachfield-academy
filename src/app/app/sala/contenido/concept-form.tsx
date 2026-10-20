@@ -8,19 +8,12 @@ import type { SalaContent } from '@/features/sala/service'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-const LEVELS = [
-  { value: '', label: 'Sin nivel' },
-  { value: 'BEGINNER', label: 'Iniciación' },
-  { value: 'INTERMEDIATE', label: 'Intermedio' },
-  { value: 'ADVANCED', label: 'Avanzado' },
-] as const
-
 export function ConceptForm({
   categories,
   piece,
 }: {
   categories: { id: number; name: string }[]
-  piece?: Pick<SalaContent, 'id' | 'title' | 'excerpt' | 'categoryId' | 'conceptType' | 'level'>
+  piece?: Pick<SalaContent, 'id' | 'title' | 'excerpt' | 'categoryId' | 'conceptType'>
 }) {
   const router = useRouter()
   const [concept, setConcept] = useState<string>(piece?.conceptType ?? '')
@@ -32,11 +25,7 @@ export function ConceptForm({
     setError(null)
     if (!concept) return setError('Elige primero qué vas a publicar')
     const data = Object.fromEntries(new FormData(e.currentTarget))
-    const payload = {
-      ...data,
-      conceptType: concept,
-      level: data.level || undefined,
-    }
+    const payload = { ...data, conceptType: concept }
     startTransition(async () => {
       if (piece) {
         const res = await guardarContenido({ ...payload, id: piece.id })
@@ -100,7 +89,7 @@ export function ConceptForm({
         />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 sm:col-span-2">
           <label htmlFor="c-cat" className="text-[12.5px] font-semibold">
             Área de conocimiento
           </label>
@@ -116,23 +105,6 @@ export function ConceptForm({
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="c-level" className="text-[12.5px] font-semibold">
-            Nivel (opcional)
-          </label>
-          <select
-            id="c-level"
-            name="level"
-            defaultValue={piece?.level ?? ''}
-            className="rounded-sm border border-border-input bg-surface px-3 py-2.5 text-sm"
-          >
-            {LEVELS.map((l) => (
-              <option key={l.value} value={l.value}>
-                {l.label}
               </option>
             ))}
           </select>

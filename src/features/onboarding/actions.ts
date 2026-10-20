@@ -18,7 +18,6 @@ export async function saveOnboarding(raw: unknown): Promise<{ error?: string }> 
     data: {
       professionalProfile: parsed.data.professionalProfile,
       interests: [...parsed.data.interests],
-      level: parsed.data.level,
       onboardingStatus: 'COMPLETED',
     },
   })
@@ -27,7 +26,6 @@ export async function saveOnboarding(raw: unknown): Promise<{ error?: string }> 
     userId: user.id,
     properties: {
       professionalProfile: parsed.data.professionalProfile,
-      level: parsed.data.level,
       interestsCount: parsed.data.interests.length,
     },
   })

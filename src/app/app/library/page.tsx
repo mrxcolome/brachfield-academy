@@ -1,11 +1,6 @@
 import Link from 'next/link'
 import { requireActiveMember } from '@/features/auth/guards'
-import {
-  getPublishedContents,
-  getCategories,
-  CONTENT_TYPE_META,
-  LEVEL_META,
-} from '@/features/content/service'
+import { getPublishedContents, getCategories, CONTENT_TYPE_META } from '@/features/content/service'
 import type { Content } from '@/payload/payload-types'
 import { ContentCard } from '@/components/product/content-card'
 import { EmptyState } from '@/components/ui/empty-state'
@@ -14,17 +9,13 @@ import { cn } from '@/lib/cn'
 export const metadata = { title: 'Biblioteca' }
 
 interface Props {
-  searchParams: Promise<{ tipo?: string; categoria?: string; nivel?: string }>
+  searchParams: Promise<{ tipo?: string; categoria?: string }>
 }
 
 type ContentType = Content['contentType']
-type Level = NonNullable<Content['level']>
 
 function isContentType(v: string | undefined): v is ContentType {
   return v !== undefined && v in CONTENT_TYPE_META
-}
-function isLevel(v: string | undefined): v is Level {
-  return v !== undefined && v in LEVEL_META
 }
 
 /** Chip-enlace que añade/quita un filtro conservando el resto de la query. */
@@ -50,28 +41,25 @@ export default async function LibraryPage({ searchParams }: Props) {
   const params = await searchParams
 
   const type = isContentType(params.tipo) ? params.tipo : undefined
-  const level = isLevel(params.nivel) ? params.nivel : undefined
   const categorySlug = params.categoria || undefined
 
   const [contents, categories] = await Promise.all([
-    getPublishedContents({ type, level, categorySlug }),
+    getPublishedContents({ type, categorySlug }),
     getCategories(),
   ])
 
   const activeCategory = categories.find((c) => c.slug === categorySlug)
-  const hasFilters = Boolean(type ?? level ?? categorySlug)
+  const hasFilters = Boolean(type ?? categorySlug)
 
   // href de una combinación de filtros (omitiendo los vacíos)
-  function href(next: { tipo?: string; categoria?: string; nivel?: string }): string {
+  function href(next: { tipo?: string; categoria?: string }): string {
     const merged = {
       tipo: 'tipo' in next ? next.tipo : type,
       categoria: 'categoria' in next ? next.categoria : categorySlug,
-      nivel: 'nivel' in next ? next.nivel : level,
     }
     const qs = new URLSearchParams()
     if (merged.tipo) qs.set('tipo', merged.tipo)
     if (merged.categoria) qs.set('categoria', merged.categoria)
-    if (merged.nivel) qs.set('nivel', merged.nivel)
     const s = qs.toString()
     return s ? `/app/library?${s}` : '/app/library'
   }
@@ -124,25 +112,6 @@ export default async function LibraryPage({ searchParams }: Props) {
               label={cat.name}
               active={categorySlug === cat.slug}
               href={href({ categoria: categorySlug === cat.slug ? undefined : cat.slug })}
-            />
-          ))}
-        </div>
-
-        <div
-          className="flex flex-wrap items-center gap-2"
-          role="group"
-          aria-label="Filtrar por nivel"
-        >
-          <span className="mr-1 font-mono text-[10.5px] tracking-wide text-muted uppercase">
-            Nivel
-          </span>
-          <FilterChip label="Todos" active={!level} href={href({ nivel: undefined })} />
-          {(Object.keys(LEVEL_META) as Level[]).map((l) => (
-            <FilterChip
-              key={l}
-              label={LEVEL_META[l]}
-              active={level === l}
-              href={href({ nivel: level === l ? undefined : l })}
             />
           ))}
         </div>

@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { requireRole } from '@/features/auth/guards'
 import { getCategories } from '@/features/content/service'
 import { getSalaContent, SALA_CONCEPTS } from '@/features/sala/service'
+import { FORMAT_OPTIONS } from '@/features/content/format'
+import { portadaIADisponible } from '@/features/sala/cover-ai'
 import { WizardSteps } from '../../steps'
 import { ConceptForm } from '../concept-form'
 import { MaterialForm } from './material-form'
@@ -10,13 +12,18 @@ import { ContentCoverForm } from './content-cover-form'
 import { ContentPublishPanel } from './content-publish-panel'
 
 export const metadata = { title: 'Sala de profesores · Pieza' }
+// La portada con IA (Claude + Magnific) supera los 10 s por defecto de Vercel.
+export const maxDuration = 60
 
-const STEPS = ['La pieza', 'El material', 'La portada', 'Publicar'] as const
+const STEPS = ['La pieza', 'El formato', 'La portada', 'Publicar'] as const
 
 const TITLES: Record<number, { h: string; sub: string }> = {
   1: { h: 'La pieza', sub: 'El concepto, el título y las dos frases que ve el alumno.' },
-  2: { h: 'El material', sub: 'Vídeo, texto, archivo descargable o audio — y pueden combinarse.' },
-  3: { h: 'La portada', sub: 'Opcional: sin portada propia, entra la automática del concepto.' },
+  2: { h: 'El formato', sub: 'Elige cómo es la pieza y sube su material.' },
+  3: {
+    h: 'La portada',
+    sub: 'Súbela o créala con IA. Opcional: sin portada propia, entra la automática.',
+  },
   4: { h: 'Revisar y publicar', sub: 'Un último vistazo antes de abrirla a los alumnos.' },
 }
 
@@ -38,9 +45,17 @@ export default async function SalaContenidoPage({
   const paso = Math.min(4, Math.max(1, Number.parseInt(rawPaso ?? '1', 10) || 1))
   const meta = TITLES[paso]!
   const concept = SALA_CONCEPTS.find((c) => c.value === piece.conceptType)
-  const hasMaterial = Boolean(
-    piece.streamId || piece.text.trim() || piece.audioName || piece.documentName,
-  )
+  const format = FORMAT_OPTIONS.find((f) => f.value === piece.format)
+  const hasMaterial = piece.format
+    ? Boolean(
+        {
+          VIDEO: piece.streamId,
+          TEXT: piece.text.trim(),
+          AUDIO: piece.audioName,
+          DOCUMENT: piece.documentName,
+        }[piece.format],
+      )
+    : false
 
   return (
     <div className="mx-auto max-w-3xl">
@@ -72,14 +87,19 @@ export default async function SalaContenidoPage({
               excerpt: piece.excerpt,
               categoryId: piece.categoryId,
               conceptType: piece.conceptType,
-              level: piece.level,
             }}
           />
         )}
 
-        {paso === 2 && <MaterialForm piece={piece} />}
+        {paso === 2 && <MaterialForm piece={piece} conceptLabel={concept?.label ?? 'Pieza'} />}
 
-        {paso === 3 && <ContentCoverForm pieceId={piece.id} coverUrl={piece.coverUrl} />}
+        {paso === 3 && (
+          <ContentCoverForm
+            pieceId={piece.id}
+            coverUrl={piece.coverUrl}
+            aiAvailable={portadaIADisponible()}
+          />
+        )}
 
         {paso === 4 && (
           <>
@@ -118,15 +138,11 @@ export default async function SalaContenidoPage({
                 >
                   {hasMaterial ? '✓' : '✕'}
                 </span>
-                Material:{' '}
-                {[
-                  piece.streamId && 'vídeo',
-                  piece.text.trim() && 'texto',
-                  piece.documentName && 'archivo',
-                  piece.audioName && 'audio',
-                ]
-                  .filter(Boolean)
-                  .join(' + ') || 'pendiente (paso 2)'}
+                {!format
+                  ? 'Formato pendiente (paso 2)'
+                  : hasMaterial
+                    ? `Formato: ${format.label}`
+                    : `Formato ${format.label.toLowerCase()}: falta el material (paso 2)`}
               </li>
               <li>
                 <span aria-hidden className="mr-2 font-bold text-success">

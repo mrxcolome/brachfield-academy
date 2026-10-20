@@ -18,7 +18,7 @@ export default async function SalaNuevoContenidoPage() {
         <p className="mb-1 font-mono text-[11px] tracking-wide text-muted uppercase">Paso 1 de 4</p>
         <h1 className="mb-2 text-xl font-bold">La pieza</h1>
         <p className="mb-6 text-sm text-ink-2">
-          Elige el concepto — la promesa que le haces al alumno — y ponle nombre. El material viene
+          Elige el tipo de pieza y ponle nombre. El formato (vídeo, texto, audio o documento) viene
           en el paso siguiente.
         </p>
         <ConceptForm categories={categories.map((c) => ({ id: Number(c.id), name: c.name }))} />

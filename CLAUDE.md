@@ -131,3 +131,25 @@ EN DIRECTO (colección events, /app/events) siguen existiendo como sección, no 
 su replay puede ser cualquier pieza. Los tipos de EVENTO (WEBINAR/CASE…) no se tocaron.
 Build local: `NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt npm run build` (sin él next/font falla
 al descargar las fuentes por el proxy).
+
+## Sala: formato a un clic, portada con IA y fuera los niveles (20/10/2026, propietario)
+
+- FORMATO: campo nuevo contents.format (VIDEO/TEXT/AUDIO/DOCUMENT; migración Payload
+  20261020_210000_format_no_level). Paso 2 de la Sala = «El formato»: pregunta «¿En qué formato es
+  este consejo?» con 4 tarjetas (src/features/content/format.ts, FORMAT_OPTIONS) → solo aparece el
+  campo de ese formato (vídeo/UID+duración, texto, audio, documento) y «Cambiar formato». Publicar
+  exige el material DEL FORMATO elegido. La ficha del alumno (/app/contents/[slug]) enseña solo ese
+  material (resolveFormat deduce el formato en piezas antiguas sin campo): adiós al reproductor
+  vacío en piezas de texto (bug que vio el propietario). Test E2E 11-sala-pieza.spec.ts.
+- PORTADA CON IA (paso 3): «Subir una imagen» o «Crearla con IA» → Claude (cover-ai.ts, lee
+  título/resumen/texto) escribe el prompt y Magnific (src/features/sala/magnific.ts, copia del de
+  perebrachfield-web) crea DOS propuestas; la elegida se descarga (solo hosts de Magnific),
+  sharp → WebP 1600 px y entra como coverImage. maxDuration=60 en la página. Solo aparece con
+  ANTHROPIC_API_KEY + MAGNIFIC_API_KEY en Vercel (PENDIENTE del propietario: añadir MAGNIFIC_API_KEY
+  al proyecto brachfield-academy-app).
+- NIVELES RETIRADOS de todo: campo level de contents (misma migración), LEVEL_META, filtro de la
+  Biblioteca, tarjetas, ficha, búsqueda, Sala, onboarding (ahora 3 pasos: bienvenida, perfil,
+  objetivos), perfil de la cuenta, personalización (+1 por nivel fuera) y User.level + enum Level
+  de Prisma (migración 20261020200000_remove_user_level).
+- OJO local: correr el seed de Payload en modo dev deja una fila 'dev' en payload_migrations y
+  `payload migrate` se queda colgado esperando respuesta: borrarla (batch = -1) antes de migrar.

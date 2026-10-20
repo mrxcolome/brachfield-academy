@@ -1,4 +1,4 @@
-// Flujo 3: onboarding completo (4 pasos) → dashboard personalizado.
+// Flujo 3: onboarding completo (3 pasos; sin nivel desde 20/10/2026) → dashboard personalizado.
 import { test, expect } from '@playwright/test'
 import { E2E_PASSWORD, FRESH_EMAIL, withDb } from './utils/db'
 
@@ -22,9 +22,6 @@ test('un miembro nuevo completa el onboarding y llega al dashboard', async ({ pa
   await page.getByRole('button', { name: 'Continuar' }).click()
   // Paso 3: objetivos (multi)
   await page.getByRole('button', { name: 'Mejorar el recobro' }).click()
-  await page.getByRole('button', { name: 'Continuar' }).click()
-  // Paso 4: nivel
-  await page.getByRole('button', { name: /Intermedio/ }).click()
   await page.getByRole('button', { name: 'Entrar en mi Academia' }).click()
 
   await page.waitForURL(/\/app$/, { timeout: 15000 })

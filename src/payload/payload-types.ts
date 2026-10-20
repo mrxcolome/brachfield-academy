@@ -224,7 +224,7 @@ export interface Content {
    */
   coverImage?: (number | null) | Media;
   contentType: 'ADVICE' | 'ARTICLE' | 'GUIDE' | 'CHECKLIST' | 'TEMPLATE';
-  level?: ('BEGINNER' | 'INTERMEDIATE' | 'ADVANCED') | null;
+  format?: ('VIDEO' | 'TEXT' | 'AUDIO' | 'DOCUMENT') | null;
   /**
    * Ej. "8 min", "2h 35min"
    */
@@ -640,7 +640,7 @@ export interface ContentsSelect<T extends boolean = true> {
   excerpt?: T;
   coverImage?: T;
   contentType?: T;
-  level?: T;
+  format?: T;
   duration?: T;
   premium?: T;
   featured?: T;

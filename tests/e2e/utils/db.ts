@@ -40,7 +40,7 @@ export async function prepareE2eState(): Promise<void> {
     // el Inicio de trabajo («Hola, …») y no la bienvenida de primer aterrizaje.
     await c.query(
       `update "user" set "onboardingStatus"='COMPLETED', "professionalProfile"='COLLECTIONS',
-         level='INTERMEDIATE', interests=ARRAY['Mejorar el recobro'], role='MEMBER',
+         interests=ARRAY['Mejorar el recobro'], role='MEMBER',
          "createdAt" = now() - interval '30 days', "tourSeenAt" = now()
        where email = $1`,
       [MEMBER_EMAIL],
@@ -49,7 +49,7 @@ export async function prepareE2eState(): Promise<void> {
     // 14 días (WELCOME_WINDOW_DAYS), la bienvenida caduca y el flujo se rompe.
     await c.query(
       `update "user" set "onboardingStatus"='PENDING', "professionalProfile"=null,
-         level=null, interests=ARRAY[]::text[], "createdAt" = now(),
+         interests=ARRAY[]::text[], "createdAt" = now(),
          "tourSeenAt" = null, "welcomeVideoSeenAt" = null where email = $1`,
       [FRESH_EMAIL],
     )

@@ -55,13 +55,16 @@ export const Contents: CollectionConfig = {
       ],
     },
     {
-      name: 'level',
-      label: 'Nivel',
+      // Un solo formato por pieza (decisión del propietario 20/10/2026): la ficha del alumno
+      // enseña únicamente su material. Vacío en piezas antiguas → se deduce del material.
+      name: 'format',
+      label: 'Formato',
       type: 'select',
       options: [
-        { label: 'Iniciación', value: 'BEGINNER' },
-        { label: 'Intermedio', value: 'INTERMEDIATE' },
-        { label: 'Avanzado', value: 'ADVANCED' },
+        { label: 'Vídeo', value: 'VIDEO' },
+        { label: 'Texto', value: 'TEXT' },
+        { label: 'Audio', value: 'AUDIO' },
+        { label: 'Documento descargable', value: 'DOCUMENT' },
       ],
     },
     {

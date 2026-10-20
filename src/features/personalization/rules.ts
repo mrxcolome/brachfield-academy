@@ -1,18 +1,16 @@
 // Reglas de personalización (briefing §10 y §79): puntuación transparente
-// por perfil profesional, intereses del onboarding y nivel. Sin ML — cada
+// por perfil profesional e intereses del onboarding. Sin ML — cada
 // punto tiene una explicación. Módulo puro para poder testearlo.
-import type { ProfessionalProfile, Level } from '@/generated/prisma/enums'
+import type { ProfessionalProfile } from '@/generated/prisma/enums'
 
 export interface ProfileInput {
   professionalProfile: ProfessionalProfile | null
-  level: Level | null
   interests: string[] // valores de GOAL_OPTIONS (onboarding)
 }
 
 export interface ScorableItem {
   categories: string[] // nombres de categoría
   tags: string[]
-  level: string | null
   publishedAt: string | null
 }
 
@@ -45,7 +43,6 @@ export const INTEREST_CATEGORIES: Record<string, string[]> = {
  * Puntuación de un item para un perfil:
  * +3 por categoría afín al perfil profesional
  * +2 por cada interés del onboarding cubierto por el item
- * +1 si el nivel coincide
  */
 export function scoreItem(item: ScorableItem, profile: ProfileInput): number {
   let score = 0
@@ -60,8 +57,6 @@ export function scoreItem(item: ScorableItem, profile: ProfileInput): number {
     const cats = INTEREST_CATEGORIES[interest]
     if (cats?.some((c) => itemCats.has(c))) score += 2
   }
-
-  if (profile.level && item.level === profile.level) score += 1
 
   return score
 }

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Content } from '@/payload/payload-types'
-import { CONTENT_TYPE_META, LEVEL_META } from '@/features/content/service'
+import { CONTENT_TYPE_META } from '@/features/content/service'
 import { contentCover } from '@/features/content/covers'
 import { isNew } from '@/features/content/fresh'
 import { SmartCover } from '@/components/product/smart-cover'
@@ -39,10 +39,6 @@ export function ContentCard({ content }: { content: Content }) {
         <p className="mb-1 text-[13.5px] leading-snug font-semibold">{content.title}</p>
         {content.excerpt ? (
           <p className="line-clamp-2 text-xs leading-relaxed text-muted">{content.excerpt}</p>
-        ) : null}
-        {content.level ? (
-          // text-muted y no text-faint: contraste AA (hallazgo del axe de la Fase 16)
-          <p className="mt-2 font-mono text-[10.5px] text-muted">{LEVEL_META[content.level]}</p>
         ) : null}
       </div>
     </Link>

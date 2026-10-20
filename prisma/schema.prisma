@@ -45,12 +45,6 @@ enum ProfessionalProfile {
   OTHER
 }
 
-enum Level {
-  BEGINNER
-  INTERMEDIATE
-  ADVANCED
-}
-
 enum SubscriptionStatus {
   ACTIVE
   TRIALING
@@ -120,7 +114,6 @@ model User {
   welcomeVideoSeenAt  DateTime?
   onboardingStatus    OnboardingStatus     @default(PENDING)
   professionalProfile ProfessionalProfile?
-  level               Level?
   interests           String[]             @default([])
   preferences         Json?
   notificationConfig  Json?

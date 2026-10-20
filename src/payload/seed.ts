@@ -284,7 +284,6 @@ async function main() {
         slug: v.slug,
         excerpt: v.excerpt,
         contentType: 'ARTICLE',
-        level: 'INTERMEDIATE',
         duration: v.duration,
         premium: true,
         featured: FEATURED.has(v.slug),

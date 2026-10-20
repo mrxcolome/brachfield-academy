@@ -3,26 +3,20 @@ import { scoreItem, rankItems, type ProfileInput } from '@/features/personalizat
 
 const collections: ProfileInput = {
   professionalProfile: 'COLLECTIONS',
-  level: 'INTERMEDIATE',
   interests: ['Mejorar el recobro', 'Mejorar las negociaciones de cobro'],
 }
 
-const item = (
-  categories: string[],
-  level: string | null = null,
-  publishedAt: string | null = null,
-) => ({
+const item = (categories: string[], publishedAt: string | null = null) => ({
   categories,
   tags: [],
-  level,
   publishedAt,
 })
 
 describe('scoreItem', () => {
-  it('suma perfil (+3), interés (+2) y nivel (+1)', () => {
+  it('suma perfil (+3) e interés (+2)', () => {
     // Recobro: categoría afín a COLLECTIONS (+3) y cubre "Mejorar el recobro" (+2)
-    const s = scoreItem(item(['Recobro de impagados'], 'INTERMEDIATE'), collections)
-    expect(s).toBe(3 + 2 + 1)
+    const s = scoreItem(item(['Recobro de impagados']), collections)
+    expect(s).toBe(3 + 2)
   })
 
   it('un item sin relación puntúa 0', () => {
@@ -30,7 +24,7 @@ describe('scoreItem', () => {
   })
 
   it('perfil null usa el mapa OTHER', () => {
-    const anon: ProfileInput = { professionalProfile: null, level: null, interests: [] }
+    const anon: ProfileInput = { professionalProfile: null, interests: [] }
     expect(scoreItem(item(['Credit Management']), anon)).toBe(3)
   })
 
@@ -43,9 +37,9 @@ describe('scoreItem', () => {
 describe('rankItems', () => {
   it('ordena por puntuación y desempata por fecha reciente', () => {
     const items = [
-      { id: 'viejo-affin', ...item(['Negociación'], null, '2026-01-01') },
-      { id: 'nuevo-affin', ...item(['Negociación'], null, '2026-08-01') },
-      { id: 'irrelevante', ...item(['Gestión financiera'], null, '2026-08-10') },
+      { id: 'viejo-affin', ...item(['Negociación'], '2026-01-01') },
+      { id: 'nuevo-affin', ...item(['Negociación'], '2026-08-01') },
+      { id: 'irrelevante', ...item(['Gestión financiera'], '2026-08-10') },
     ]
     const ranked = rankItems(items, collections)
     expect(ranked.map((r) => r.id)).toEqual(['nuevo-affin', 'viejo-affin', 'irrelevante'])

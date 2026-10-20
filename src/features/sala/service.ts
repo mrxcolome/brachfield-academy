@@ -410,6 +410,7 @@ export async function logSala(
 import type { Content } from '@/payload/payload-types'
 
 import { type SalaConceptType } from './concepts'
+import { resolveFormat, type ContentFormat } from '@/features/content/format'
 export { SALA_CONCEPTS, type SalaConceptType } from './concepts'
 
 export interface SalaContent {
@@ -421,7 +422,7 @@ export interface SalaContent {
   status: 'draft' | 'published'
   updatedAt: string
   categoryId: number | null
-  level: NonNullable<Content['level']> | null
+  format: ContentFormat | null
   duration: string | null
   coverUrl: string | null
   streamId: string | null
@@ -449,7 +450,13 @@ function toSalaContent(doc: Content): SalaContent {
         : typeof category === 'object'
           ? Number(category.id)
           : Number(category),
-    level: doc.level ?? null,
+    format: resolveFormat({
+      format: doc.format,
+      streamId: doc.streamId,
+      audioFile: doc.audioFile,
+      documentFile: doc.documentFile,
+      hasText: Boolean(doc.body && lexicalToText(doc.body).trim()),
+    }),
     duration: doc.duration ?? null,
     coverUrl: cover && typeof cover === 'object' && cover.url ? cover.url : null,
     streamId: doc.streamId ?? null,
@@ -485,7 +492,6 @@ export interface SalaContentBasics {
   excerpt: string
   categoryId: number
   conceptType: SalaConceptType
-  level?: NonNullable<Content['level']>
 }
 
 export async function createSalaContent(input: SalaContentBasics): Promise<number> {
@@ -500,7 +506,6 @@ export async function createSalaContent(input: SalaContentBasics): Promise<numbe
       excerpt: input.excerpt,
       contentType: input.conceptType,
       categories: [input.categoryId],
-      level: input.level ?? null,
       premium: true,
       _status: 'draft',
     },
@@ -520,14 +525,13 @@ export async function updateSalaContentBasics(id: number, input: SalaContentBasi
       excerpt: input.excerpt,
       contentType: input.conceptType,
       categories: [input.categoryId],
-      level: input.level ?? null,
     },
   })
 }
 
 export async function setSalaContentMaterial(
   id: number,
-  input: { streamId?: string; duration?: string; text?: string },
+  input: { format: ContentFormat; streamId?: string; duration?: string; text?: string },
 ): Promise<void> {
   const payload = await cms()
   await payload.update({
@@ -536,10 +540,22 @@ export async function setSalaContentMaterial(
     draft: true,
     overrideAccess: true,
     data: {
+      format: input.format,
       streamId: input.streamId?.trim() || null,
       duration: input.duration?.trim() || null,
       body: input.text?.trim() ? (textToLexical(input.text) as Content['body']) : null,
     },
+  })
+}
+
+export async function setSalaContentFormat(id: number, format: ContentFormat): Promise<void> {
+  const payload = await cms()
+  await payload.update({
+    collection: 'contents',
+    id,
+    draft: true,
+    overrideAccess: true,
+    data: { format },
   })
 }
 
@@ -573,11 +589,15 @@ export async function publishSalaContent(id: number): Promise<{ error?: string }
   if (!piece.title.trim()) return { error: 'Falta el título (paso 1).' }
   if (!piece.excerpt.trim()) return { error: 'Faltan las dos frases de resumen (paso 1).' }
   if (piece.categoryId == null) return { error: 'Falta el área de conocimiento (paso 1).' }
-  if (!piece.streamId && !piece.text.trim() && !piece.audioName && !piece.documentName) {
-    return {
-      error: 'La pieza necesita al menos un material: vídeo, texto, audio o archivo (paso 2).',
-    }
-  }
+  const material = {
+    VIDEO: [piece.streamId, 'Falta subir el vídeo (paso 2).'],
+    TEXT: [piece.text.trim(), 'Falta escribir el texto (paso 2).'],
+    AUDIO: [piece.audioName, 'Falta subir el audio (paso 2).'],
+    DOCUMENT: [piece.documentName, 'Falta subir el documento (paso 2).'],
+  } as const
+  if (!piece.format) return { error: 'Elige el formato de la pieza y súbelo (paso 2).' }
+  const [has, missing] = material[piece.format]
+  if (!has) return { error: missing }
   const payload = await cms()
   await payload.update({
     collection: 'contents',

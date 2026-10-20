@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 import { requireActiveMember } from '@/features/auth/guards'
-import { getContentBySlug, CONTENT_TYPE_META, LEVEL_META } from '@/features/content/service'
+import { getContentBySlug, CONTENT_TYPE_META } from '@/features/content/service'
 import { isFavorited } from '@/features/favorites/service'
 import type { Content, Category, Media } from '@/payload/payload-types'
 import { downloadUrlFor } from '@/features/tools/downloads'
@@ -12,6 +12,7 @@ import { ContentCard } from '@/components/product/content-card'
 import { DownloadButton } from '@/components/product/download-button'
 import { StreamPlayer, PlayerPlaceholder } from '@/components/product/stream-player'
 import { Badge } from '@/components/ui/badge'
+import { resolveFormat } from '@/features/content/format'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -26,9 +27,6 @@ export async function generateMetadata({ params }: Props) {
     description: content.seo?.description ?? content.excerpt ?? undefined,
   }
 }
-
-const PLAYER_TYPES: Content['contentType'][] = ['ADVICE', 'ARTICLE']
-const DOWNLOAD_TYPES: Content['contentType'][] = ['GUIDE', 'CHECKLIST', 'TEMPLATE']
 
 /** Texto del primer párrafo del body (para no repetir el excerpt si son iguales). */
 function firstParagraphText(body: Content['body']): string {
@@ -63,8 +61,14 @@ export default async function ContentPage({ params }: Props) {
     (c): c is Content => typeof c === 'object' && c !== null && c._status === 'published',
   )
 
-  const isPlayer = PLAYER_TYPES.includes(content.contentType)
-  const isDownload = DOWNLOAD_TYPES.includes(content.contentType)
+  // Un solo formato por pieza: la ficha enseña únicamente su material (20/10/2026).
+  const format = resolveFormat({
+    format: content.format,
+    streamId: content.streamId,
+    audioFile: content.audioFile,
+    documentFile: content.documentFile,
+    hasText: Boolean(content.body),
+  })
   const audioFile =
     typeof content.audioFile === 'object' && content.audioFile !== null
       ? (content.audioFile as Media)
@@ -82,12 +86,14 @@ export default async function ContentPage({ params }: Props) {
       </p>
 
       {/* Player / cabecera según formato */}
-      {content.streamId ? (
-        <StreamPlayer streamId={content.streamId} title={content.title} />
-      ) : (
-        isPlayer && <PlayerPlaceholder kind="video" />
-      )}
-      {audioSrc && (
+      {format === 'VIDEO' &&
+        (content.streamId ? (
+          <StreamPlayer streamId={content.streamId} title={content.title} />
+        ) : (
+          <PlayerPlaceholder kind="video" />
+        ))}
+      {format === 'AUDIO' && !audioSrc && <PlayerPlaceholder kind="audio" />}
+      {format === 'AUDIO' && audioSrc && (
         <div className="mb-5 rounded-xl bg-player p-5">
           {/* eslint-disable-next-line jsx-a11y/media-has-caption -- la transcripción está debajo */}
           <audio controls preload="metadata" src={audioSrc} className="w-full">
@@ -99,14 +105,13 @@ export default async function ContentPage({ params }: Props) {
       <p className="mb-1.5 font-mono text-[11px] tracking-wide text-muted uppercase">
         {meta.label}
         {content.duration ? ` · ${content.duration}` : ''}
-        {content.level ? ` · ${LEVEL_META[content.level]}` : ''}
       </p>
       <h1 className="mb-1 text-2xl leading-tight font-bold">{content.title}</h1>
       {content.subtitle && <p className="mb-3 text-[15px] text-ink-2">{content.subtitle}</p>}
 
       <div className="mb-5 flex flex-wrap items-center gap-2.5">
         <FavoriteButton contentSlug={content.slug} initialFavorited={favorited} />
-        {isDownload &&
+        {format === 'DOCUMENT' &&
           (hasDocument ? (
             <DownloadButton contentSlug={content.slug} />
           ) : (
@@ -132,7 +137,7 @@ export default async function ContentPage({ params }: Props) {
         </p>
       )}
 
-      {content.body && (
+      {content.body && (format === 'TEXT' || format === null) && (
         <div className="prose-sm mb-8 max-w-2xl text-sm leading-relaxed text-ink-2 [&_h2]:mt-6 [&_h2]:mb-2 [&_h2]:text-base [&_h2]:font-bold [&_h2]:text-ink [&_h3]:mt-4 [&_h3]:mb-1.5 [&_h3]:text-sm [&_h3]:font-bold [&_h3]:text-ink [&_li]:mb-1 [&_p]:mb-3 [&_ul]:mb-3 [&_ul]:list-disc [&_ul]:pl-5">
           <RichText data={content.body} />
         </div>

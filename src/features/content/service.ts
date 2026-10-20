@@ -59,7 +59,6 @@ export type CmsContent = Content
 export interface ContentFilters {
   type?: Content['contentType']
   categorySlug?: string
-  level?: Content['level']
   limit?: number
 }
 
@@ -67,7 +66,6 @@ export async function getPublishedContents(filters: ContentFilters = {}): Promis
   const payload = await cms()
   const and: Where[] = [{ _status: { equals: 'published' } }]
   if (filters.type) and.push({ contentType: { equals: filters.type } })
-  if (filters.level) and.push({ level: { equals: filters.level } })
   if (filters.categorySlug) {
     const cat = await payload.find({
       collection: 'categories',
@@ -145,10 +143,4 @@ export const CONTENT_TYPE_META: Record<
   GUIDE: { label: 'Guía', glyph: '▤', kind: 'guia' },
   CHECKLIST: { label: 'Checklist', glyph: '✓', kind: 'checklist' },
   TEMPLATE: { label: 'Plantilla', glyph: '▦', kind: 'plantilla' },
-}
-
-export const LEVEL_META: Record<NonNullable<Content['level']>, string> = {
-  BEGINNER: 'Inicial',
-  INTERMEDIATE: 'Intermedio',
-  ADVANCED: 'Avanzado',
 }

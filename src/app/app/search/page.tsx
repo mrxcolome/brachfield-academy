@@ -10,12 +10,6 @@ import { cn } from '@/lib/cn'
 
 export const metadata = { title: 'Buscar' }
 
-const LEVEL_LABEL: Record<string, string> = {
-  BEGINNER: 'Inicial',
-  INTERMEDIATE: 'Intermedio',
-  ADVANCED: 'Avanzado',
-}
-
 export default async function SearchPage({
   searchParams,
 }: {
@@ -64,7 +58,6 @@ export default async function SearchPage({
       r.kind === 'course' ? 'CURSO' : CONTENT_TYPE_META[r.contentType!].label.toUpperCase(),
     ]
     if (r.duration) parts.push(r.duration)
-    if (r.level && LEVEL_LABEL[r.level]) parts.push(LEVEL_LABEL[r.level]!)
     return parts.join(' · ')
   }
 

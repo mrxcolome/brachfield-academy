@@ -29,7 +29,6 @@ export default async function AccountPage() {
       company: true,
       jobTitle: true,
       professionalProfile: true,
-      level: true,
       interests: true,
     },
   })
@@ -56,15 +55,7 @@ export default async function AccountPage() {
         <h2 className="mb-3 text-[13px] font-semibold text-ink-2">Preferencias de aprendizaje</h2>
         <p className="text-[13.5px] text-ink-3">
           <span className="font-semibold">Perfil:</span>{' '}
-          {dbUser.professionalProfile ? PROFILE_LABEL[dbUser.professionalProfile] : 'Sin definir'} ·{' '}
-          <span className="font-semibold">Nivel:</span>{' '}
-          {dbUser.level === 'BEGINNER'
-            ? 'Iniciación'
-            : dbUser.level === 'INTERMEDIATE'
-              ? 'Intermedio'
-              : dbUser.level === 'ADVANCED'
-                ? 'Avanzado'
-                : 'Sin definir'}
+          {dbUser.professionalProfile ? PROFILE_LABEL[dbUser.professionalProfile] : 'Sin definir'}
         </p>
         {dbUser.interests.length > 0 && (
           <div className="mt-2.5 flex flex-wrap gap-1.5">

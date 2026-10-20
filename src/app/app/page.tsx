@@ -6,7 +6,7 @@ import { getRecommendations, getNewThisWeek } from '@/features/personalization/s
 import { getContinueLearning } from '@/features/learning/service'
 import { getUpcomingEvents, EVENT_TYPE_LABEL } from '@/features/events/service'
 import { formatEventDate } from '@/features/events/format'
-import { CONTENT_TYPE_META, LEVEL_META } from '@/features/content/service'
+import { CONTENT_TYPE_META } from '@/features/content/service'
 import { Avatar } from '@/components/art'
 import { SmartCover } from '@/components/product/smart-cover'
 import { contentCover, courseCover } from '@/features/content/covers'
@@ -31,7 +31,6 @@ export default async function AppHome({
       name: true,
       onboardingStatus: true,
       professionalProfile: true,
-      level: true,
       interests: true,
     },
   })
@@ -46,7 +45,6 @@ export default async function AppHome({
   if (welcome.active) {
     const recommended = await getRecommendations(user.id, {
       professionalProfile: dbUser.professionalProfile,
-      level: dbUser.level,
       interests: dbUser.interests,
     })
     const recCourse = recommended.find((r) => r.kind === 'course')
@@ -72,7 +70,6 @@ export default async function AppHome({
       user.id,
       {
         professionalProfile: dbUser.professionalProfile,
-        level: dbUser.level,
         interests: dbUser.interests,
       },
       { excludeCourseSlug: continueLearning?.courseSlug },

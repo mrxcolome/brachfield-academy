@@ -14,7 +14,6 @@ export interface SearchResult {
   excerpt: string | null
   contentType: Content['contentType'] | null
   duration: string | null
-  level: string | null
   rank: number
 }
 
@@ -25,7 +24,6 @@ interface ContentRow {
   excerpt: string | null
   contentType: Content['contentType']
   duration: string | null
-  level: string | null
   rank: number
 }
 
@@ -35,7 +33,6 @@ interface CourseRow {
   title: string
   description: string | null
   duration: string | null
-  level: string | null
   rank: number
 }
 
@@ -49,7 +46,7 @@ async function searchContentsFts(query: string, limit: number): Promise<ContentR
     WITH tsq AS (SELECT websearch_to_tsquery('spanish', unaccent(${query})) AS q)
     SELECT c.id, c.slug, c.title, c.excerpt,
            c.content_type::text AS "contentType",
-           c.duration, c.level::text AS level,
+           c.duration,
            ts_rank(v.doc, tsq.q)::float8 AS rank
     FROM payload.contents c
     LEFT JOIN LATERAL (
@@ -74,7 +71,7 @@ async function searchCoursesFts(query: string, limit: number): Promise<CourseRow
   return db.$queryRaw<CourseRow[]>`
     WITH tsq AS (SELECT websearch_to_tsquery('spanish', unaccent(${query})) AS q)
     SELECT c.id, c.slug, c.title, c.description,
-           c.duration, NULL::text AS level,
+           c.duration,
            ts_rank(v.doc, tsq.q)::float8 AS rank
     FROM payload.courses c
     LEFT JOIN LATERAL (
@@ -103,7 +100,7 @@ async function searchContentsLike(query: string, limit: number): Promise<Content
   return db.$queryRaw<ContentRow[]>`
     SELECT c.id, c.slug, c.title, c.excerpt,
            c.content_type::text AS "contentType",
-           c.duration, c.level::text AS level,
+           c.duration,
            0::float8 AS rank
     FROM payload.contents c
     WHERE c._status = 'published'
@@ -117,7 +114,7 @@ async function searchContentsLike(query: string, limit: number): Promise<Content
 async function searchCoursesLike(query: string, limit: number): Promise<CourseRow[]> {
   return db.$queryRaw<CourseRow[]>`
     SELECT c.id, c.slug, c.title, c.description,
-           c.duration, NULL::text AS level,
+           c.duration,
            0::float8 AS rank
     FROM payload.courses c
     WHERE c._status = 'published'
@@ -137,7 +134,6 @@ function toResult(row: ContentRow | CourseRow, kind: 'course' | 'content'): Sear
     excerpt: 'excerpt' in row ? row.excerpt : row.description,
     contentType: 'contentType' in row ? row.contentType : null,
     duration: row.duration,
-    level: row.level,
     rank: row.rank,
   }
 }

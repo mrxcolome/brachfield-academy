@@ -8,6 +8,7 @@ import * as migration_20260910_083000_remove_news_type from './20260910_083000_r
 import * as migration_20260910_110000_rename_tutorial_pill from './20260910_110000_rename_tutorial_pill'
 import * as migration_20260910_130000_flatten_course_modules from './20260910_130000_flatten_course_modules'
 import * as migration_20261020_120000_simplify_content_types from './20261020_120000_simplify_content_types'
+import * as migration_20261020_210000_format_no_level from './20261020_210000_format_no_level'
 
 export const migrations = [
   {
@@ -59,5 +60,10 @@ export const migrations = [
     up: migration_20261020_120000_simplify_content_types.up,
     down: migration_20261020_120000_simplify_content_types.down,
     name: '20261020_120000_simplify_content_types',
+  },
+  {
+    up: migration_20261020_210000_format_no_level.up,
+    down: migration_20261020_210000_format_no_level.down,
+    name: '20261020_210000_format_no_level',
   },
 ]

@@ -38,14 +38,15 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
+          set +e
           U="$DATABASE_URL"
           {
             echo "== CURSOS =="
             psql "$U" -tAF ' · ' -c "select id, _status, to_char(created_at,'YYYY-MM-DD'), title from payload.courses order by id"
             echo; echo "== PIEZAS (contents) =="
-            psql "$U" -tAF ' · ' -c "select id, type, _status, to_char(created_at,'YYYY-MM-DD'), title from payload.contents order by id"
+            psql "$U" -tAF ' · ' -c "select id, content_type, _status, to_char(created_at,'YYYY-MM-DD'), title from payload.contents order by id"
             echo; echo "== SESIONES EN DIRECTO (events) =="
-            psql "$U" -tAF ' · ' -c "select id, to_char(created_at,'YYYY-MM-DD'), title from payload.events order by id"
+            psql "$U" -tAF ' · ' -c "select id, to_char(created_at,'YYYY-MM-DD'), to_char(start_at,'YYYY-MM-DD'), title from payload.events order by id"
             echo; echo "== MEDIATECA =="
             psql "$U" -tAF ' · ' -c "select count(*), min(to_char(created_at,'YYYY-MM-DD')), max(to_char(created_at,'YYYY-MM-DD')) from payload.media"
             echo; echo "== VERSIONES HUÉRFANAS =="

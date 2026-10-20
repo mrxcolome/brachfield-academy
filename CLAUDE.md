@@ -106,3 +106,13 @@ npm run db:seed       # seed de usuarios demo
 
 - Remote: https://github.com/mrxcolome/brachfield-academy (deploy automático de `main` a Vercel).
 - El entorno remoto de Claude NO tiene credenciales de push permanentes: pedir al propietario un fine-grained PAT (Contents: Read and write) cuando haya que subir, o que instale la GitHub App de Claude con write.
+
+## Limpieza del contenido de ejemplo (20/10/2026)
+
+Borrado vía Payload con el workflow «Limpieza de contenidos de ejemplo» (docs/limpieza.txt:
+`LISTAR` o `BORRAR courses=…;contents=…;events=…` → scripts/limpieza-contenidos.ts; resultado en
+docs/limpieza-resultado.txt). Borrados: los 6 cursos, las 12 piezas y los 2 directos del seed,
+3 borradores vacíos y las pruebas («Curso 1 Test Xavi», «Checklist Test Xavi», «titulo curso 1»,
+«título 0»). CONSERVADOS: curso #9 «El Credit Management» (borrador de Cristina), pieza #17
+(guía letras del Tesoro), categorías/etiquetas, tablón de noticias, usuarios y mediateca.
+NO volver a lanzar `seed_editorial` en producción (recrearía los ejemplos borrando lo real).

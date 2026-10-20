@@ -31,6 +31,8 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          # En producción Payload no sincroniza el esquema por su cuenta (solo migraciones).
+          NODE_ENV: production
         run: |
           npm ci
           npx tsx scripts/limpieza-contenidos.ts "${ORDEN#BORRAR }" | tee docs/limpieza-borrado.txt

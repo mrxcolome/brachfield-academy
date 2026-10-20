@@ -1,0 +1,70 @@
+name: Limpieza de contenidos de ejemplo
+
+# Lista (LISTAR) o borra (BORRAR <ids>) los contenidos del CMS en producción. Se dispara al
+# cambiar docs/limpieza.txt. El resultado queda en docs/limpieza-resultado.txt.
+# El borrado va SIEMPRE por la API de Payload (nunca SQL directo: dejaría versiones huérfanas).
+on:
+  push:
+    branches: [main]
+    paths: [docs/limpieza.txt]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  limpiar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cliente de Postgres
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+      - uses: actions/setup-node@v4
+        if: startsWith(env.ORDEN, 'BORRAR')
+        with:
+          node-version: 22
+          cache: npm
+      - name: Leer la orden
+        run: echo "ORDEN=$(head -1 docs/limpieza.txt | tr -d '\r')" >> "$GITHUB_ENV"
+      - name: Borrar (vía Payload)
+        if: startsWith(env.ORDEN, 'BORRAR')
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+        run: |
+          npm ci
+          npx tsx scripts/limpieza-contenidos.ts "${ORDEN#BORRAR }" | tee docs/limpieza-borrado.txt
+      - name: Inventario
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          U="$DATABASE_URL"
+          {
+            echo "== CURSOS =="
+            psql "$U" -tAF ' · ' -c "select id, _status, to_char(created_at,'YYYY-MM-DD'), title from payload.courses order by id"
+            echo; echo "== PIEZAS (contents) =="
+            psql "$U" -tAF ' · ' -c "select id, type, _status, to_char(created_at,'YYYY-MM-DD'), title from payload.contents order by id"
+            echo; echo "== SESIONES EN DIRECTO (events) =="
+            psql "$U" -tAF ' · ' -c "select id, to_char(created_at,'YYYY-MM-DD'), title from payload.events order by id"
+            echo; echo "== MEDIATECA =="
+            psql "$U" -tAF ' · ' -c "select count(*), min(to_char(created_at,'YYYY-MM-DD')), max(to_char(created_at,'YYYY-MM-DD')) from payload.media"
+            echo; echo "== VERSIONES HUÉRFANAS =="
+            psql "$U" -tAc "select 'contents: '||count(*) from payload._contents_v where parent_id is null" || true
+            psql "$U" -tAc "select 'courses: '||count(*) from payload._courses_v where parent_id is null" || true
+            echo; echo "== CREADO DESDE LA SALA O EL CMS (editorial_activity, sin emails) =="
+            psql "$U" -tAF ' · ' -c "select to_char(\"createdAt\",'YYYY-MM-DD'), \"editorName\", action, collection, \"docTitle\" from editorial_activity where action in ('CREATE','DELETE') order by \"createdAt\""
+            echo; echo "== ALUMNOS Y USO (solo recuentos) =="
+            psql "$U" -tAc "select 'usuarios: '||count(*) from \"user\""
+            psql "$U" -tAc "select 'usuarios demo/e2e: '||count(*) from \"user\" where email like '%@demo.brachfieldacademy.test' or email like '%@e2e.brachfieldacademy.test'"
+            psql "$U" -tAc "select 'progreso en lecciones: '||count(*) from user_progress"
+            psql "$U" -tAc "select 'favoritos: '||count(*) from favorite"
+            psql "$U" -tAc "select 'reservas de directos: '||count(*) from event_registration"
+            psql "$U" -tAc "select 'noticias del tablón: '||count(*) from sector_news"
+          } 2>&1 | tee docs/limpieza-resultado.txt
+      - name: Guardar el resultado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/limpieza-resultado.txt docs/limpieza-borrado.txt 2>/dev/null || true
+          git commit -m "Resultado de la limpieza [skip ci]" || exit 0
+          for i in 1 2 3 4; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep $((i*3)); done

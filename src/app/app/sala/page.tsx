@@ -83,6 +83,7 @@ export default async function SalaHomePage({
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h1 className="text-2xl font-bold">Sala de profesores</h1>
           <span className="flex flex-wrap gap-x-5 gap-y-1">
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- /docs/* son HTML servidos por una ruta, no páginas */}
             <a
               href="/docs/manual-editor"
               className="text-[13px] font-semibold text-brand-link no-underline hover:underline"

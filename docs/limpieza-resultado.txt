@@ -11,6 +11,45 @@
 10 · published · 2026-10-20 · titulo curso 1
 
 == PIEZAS (contents) ==
-ERROR:  column "type" does not exist
-LINE 1: select id, type, _status, to_char(created_at,'YYYY-MM-DD'), ...
-                   ^
+1 · ADVICE · published · 2026-08-10 · Cómo responder a "la factura está pendiente de aprobación"
+2 · ADVICE · published · 2026-08-10 · Cuándo enviar un burofax
+3 · ADVICE · published · 2026-08-10 · Cómo calcular intereses de demora
+4 · ADVICE · published · 2026-08-10 · Qué hacer si el cliente pide otro aplazamiento
+5 · ADVICE · published · 2026-08-10 · Primer contacto con un cliente moroso
+6 · ADVICE · published · 2026-08-10 · Las siete excusas más frecuentes de un moroso
+7 · ADVICE · published · 2026-08-10 · Cómo detectar señales de riesgo antes del impago
+8 · ADVICE · published · 2026-08-10 · Cuándo dejar de negociar una deuda
+9 · CHECKLIST · published · 2026-08-10 · Checklist para prevenir impagos antes de vender
+10 · GUIDE · published · 2026-08-10 · Guía: plazos de prescripción de deuda comercial
+11 · TEMPLATE · published · 2026-08-10 · Email de factura vencida
+12 · GUIDE · published · 2026-08-10 · Cómo documentar un acuerdo de pago
+13 ·  · draft · 2026-08-11 · 
+15 ·  · draft · 2026-08-17 · 
+16 · CHECKLIST · published · 2026-09-09 · Checklist Test Xavi
+17 · GUIDE · published · 2026-09-09 · Cuando las letras del Tesoro rozan el 3%, financiar a los clientes deja de ser barato
+18 · ADVICE · published · 2026-10-20 · título 0
+
+== SESIONES EN DIRECTO (events) ==
+1 · 2026-08-10 · 2026-08-30 · Masterclass: reclamar una deuda sin deteriorar la relación comercial
+2 · 2026-08-10 · 2026-09-06 · Pregunta a Pere · Q&A mensual
+
+== MEDIATECA ==
+4 · 2026-08-12 · 2026-09-15
+
+== VERSIONES HUÉRFANAS ==
+contents: 0
+courses: 0
+
+== CREADO DESDE LA SALA O EL CMS (editorial_activity, sin emails) ==
+2026-09-09 · Xavi Colome · CREATE · contents · Checklist Test Xavi
+2026-09-15 · Cristina · CREATE · courses · El Credit Management
+2026-10-20 · Cristina · CREATE · contents · título 0
+2026-10-20 · Cristina · CREATE · courses · titulo curso 1
+
+== ALUMNOS Y USO (solo recuentos) ==
+usuarios: 8
+usuarios demo/e2e: 4
+progreso en lecciones: 9
+favoritos: 4
+reservas de directos: 0
+noticias del tablón: 87

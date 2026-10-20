@@ -19,13 +19,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Cliente de Postgres
         run: sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client
+      - name: Leer la orden
+        run: echo "ORDEN=$(head -1 docs/limpieza.txt | tr -d '\r')" >> "$GITHUB_ENV"
       - uses: actions/setup-node@v4
         if: startsWith(env.ORDEN, 'BORRAR')
         with:
           node-version: 22
           cache: npm
-      - name: Leer la orden
-        run: echo "ORDEN=$(head -1 docs/limpieza.txt | tr -d '\r')" >> "$GITHUB_ENV"
       - name: Borrar (vía Payload)
         if: startsWith(env.ORDEN, 'BORRAR')
         env:
@@ -65,6 +65,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/limpieza-resultado.txt docs/limpieza-borrado.txt 2>/dev/null || true
+          for f in docs/limpieza-resultado.txt docs/limpieza-borrado.txt; do [ -f "$f" ] && git add "$f"; done
           git commit -m "Resultado de la limpieza [skip ci]" || exit 0
           for i in 1 2 3 4; do git pull --rebase -q origin main && git push -q origin HEAD:main && break; sleep $((i*3)); done

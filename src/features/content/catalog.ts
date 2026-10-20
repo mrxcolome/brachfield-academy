@@ -330,13 +330,6 @@ export const whatsInside = [
     d: 'Los consejos prácticos de Pere: evitar impagados, recuperarlos, negociar con morosos.',
   },
   {
-    g: '◑',
-    l: 'Entrevistas',
-    img: '/landing/formato-podcasts.webp',
-    k: 'podcast',
-    d: 'Escucha a quien lo vive: directores financieros y credit managers, en conversación con Pere.',
-  },
-  {
     g: '▤',
     l: 'Guías',
     img: '/landing/formato-guias.webp',
@@ -356,20 +349,6 @@ export const whatsInside = [
     img: '/landing/formato-plantillas.webp',
     k: 'plantilla',
     d: 'Modelos editables listos para adaptar a tu empresa en minutos.',
-  },
-  {
-    g: '▣',
-    l: 'Casos prácticos',
-    img: '/landing/formato-casos.webp',
-    k: 'caso',
-    d: 'Situaciones reales analizadas paso a paso, con lo que funcionó y lo que no.',
-  },
-  {
-    g: '◉',
-    l: 'Sesiones en directo',
-    img: '/landing/formato-webinars.webp',
-    k: 'webinar',
-    d: 'En vivo con Pere Brachfield, con turno de preguntas — y su replay si no llegas.',
   },
   {
     g: '◈',
@@ -427,11 +406,11 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: '¿Tengo acceso a todo el contenido desde el primer día?',
-    a: 'Sí. La membresía incluye acceso completo desde el primer minuto: todos los cursos, consejos, artículos, entrevistas, guías, plantillas, casos prácticos y los replays de las sesiones en directo. No hay niveles ni contenido bloqueado.',
+    a: 'Sí. La membresía incluye acceso completo desde el primer minuto: todos los cursos, consejos, artículos, guías, checklists y plantillas, y los replays de las sesiones en directo. No hay niveles ni contenido bloqueado.',
   },
   {
     q: '¿Se publican contenidos nuevos con regularidad?',
-    a: 'Cada semana se publica contenido nuevo: consejos, artículos, actualidad o plantillas. Además hay una masterclass mensual en directo y una sesión mensual de "Pregunta a Pere".',
+    a: 'Cada semana se publica contenido nuevo: consejos, artículos, guías, checklists o plantillas. Además hay una masterclass mensual en directo y una sesión mensual de "Pregunta a Pere".',
   },
   {
     q: '¿Puedo utilizarlo para formar a mi equipo?',
@@ -492,8 +471,7 @@ export const trainingAreas = [
 
 export const pricingIncludes = [
   'Cursos, consejos y artículos de Pere',
-  'Todas las herramientas y plantillas descargables',
-  'Entrevistas, guías y casos prácticos',
+  'Guías, checklists y plantillas descargables',
   'Sesiones mensuales en directo con Pere',
   'Pregunta a Pere ilimitada',
   'Certificados de finalización',

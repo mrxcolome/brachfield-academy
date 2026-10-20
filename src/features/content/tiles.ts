@@ -1,4 +1,4 @@
-// Las 10 tipologías como escaparate (rediseño 2026-09-09): compartidas entre
+// Las 6 tipologías como escaparate (rediseño 2026-09-09; simplificadas el 20/10/2026): compartidas entre
 // Explorar y el aterrizaje de primera visita. Datos planos, sin server-only.
 
 export const COURSES_TILE = {
@@ -23,18 +23,6 @@ export const MEDIUM_TILES = [
     img: '/landing/formato-recursos.webp',
     href: '/app/library?tipo=ARTICLE',
   },
-  {
-    label: 'Entrevistas',
-    promise: 'Escucha a quien lo vive',
-    img: '/landing/formato-podcasts.webp',
-    href: '/app/library?tipo=INTERVIEW',
-  },
-  {
-    label: 'Sesiones en directo',
-    promise: 'Con Pere, en vivo — y su replay',
-    img: '/landing/formato-webinars.webp',
-    href: '/app/events',
-  },
 ] as const
 
 export const COMPACT_TILES = [
@@ -44,17 +32,16 @@ export const COMPACT_TILES = [
     promise: 'La referencia para consultar',
     href: '/app/library?tipo=GUIDE',
   },
-  { glyph: '✓', label: 'Checklists', promise: 'Verifica que no te dejas nada', href: '/app/tools' },
+  {
+    glyph: '✓',
+    label: 'Checklists',
+    promise: 'Verifica que no te dejas nada',
+    href: '/app/library?tipo=CHECKLIST',
+  },
   {
     glyph: '▦',
     label: 'Plantillas',
     promise: 'Listas para adaptar y usar hoy',
-    href: '/app/tools',
-  },
-  {
-    glyph: '▣',
-    label: 'Casos prácticos',
-    promise: 'Qué pasó y qué aprender',
-    href: '/app/library?tipo=CASE_STUDY',
+    href: '/app/library?tipo=TEMPLATE',
   },
 ] as const

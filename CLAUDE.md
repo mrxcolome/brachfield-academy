@@ -116,3 +116,18 @@ docs/limpieza-resultado.txt). Borrados: los 6 cursos, las 12 piezas y los 2 dire
 «título 0»). Después, a petición del propietario, también el curso #9 «El Credit Management» y la pieza #17:
 el CMS queda SIN cursos, piezas ni directos. CONSERVADOS: categorías/etiquetas, tablón de noticias, usuarios y mediateca.
 NO volver a lanzar `seed_editorial` en producción (recrearía los ejemplos borrando lo real).
+
+## Tipologías simplificadas (20/10/2026, decisión del propietario)
+
+SEIS tipologías: Cursos (colección courses) + 5 piezas (contents.contentType): ADVICE «Consejo»,
+ARTICLE «Artículo», GUIDE «Guía», CHECKLIST «Checklist», TEMPLATE «Plantilla». RETIRADAS:
+INTERVIEW «Entrevista», WEBINAR «Sesión en directo (replay)» y CASE_STUDY «Caso práctico»
+(migración 20261020_120000_simplify_content_types con el patrón de enums + mapeo previo
+INTERVIEW→ARTICLE, WEBINAR→ADVICE, CASE_STUDY→GUIDE, también en favorite.contentType).
+Aplicado en CMS, CONTENT_TYPE_META, covers, SALA_CONCEPTS, tiles (Explorar y bienvenida: Cursos +
+2 medianas a doble ancho + 3 compactas; Checklists y Plantillas → /app/library?tipo=X), landing
+(whatsInside, «Seis formatos»), FAQ, pricingIncludes, signup/checkout, tour y Sala. Las SESIONES
+EN DIRECTO (colección events, /app/events) siguen existiendo como sección, no como tipo de pieza;
+su replay puede ser cualquier pieza. Los tipos de EVENTO (WEBINAR/CASE…) no se tocaron.
+Build local: `NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt npm run build` (sin él next/font falla
+al descargar las fuentes por el proxy).

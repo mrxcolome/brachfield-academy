@@ -10,8 +10,7 @@ export const metadata = { title: 'Activa tu acceso', robots: { index: false } }
 
 const INCLUDES = [
   'Cursos, consejos y artículos de Pere Brachfield',
-  'Todas las herramientas y plantillas descargables',
-  'Entrevistas, guías y casos prácticos',
+  'Guías, checklists y plantillas descargables',
   'Sesiones mensuales en directo con Pere',
   'Certificados de finalización',
   'Acceso desde cualquier dispositivo',

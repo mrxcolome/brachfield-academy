@@ -10,12 +10,9 @@ import type { Content, Course } from '@/payload/payload-types'
 export const DEFAULT_COVER_BY_TYPE: Record<Content['contentType'], string> = {
   ADVICE: '/landing/formato-videos.webp',
   ARTICLE: '/landing/formato-recursos.webp',
-  INTERVIEW: '/landing/formato-podcasts.webp',
   GUIDE: '/landing/formato-guias.webp',
   CHECKLIST: '/landing/formato-checklists.webp',
   TEMPLATE: '/landing/formato-plantillas.webp',
-  WEBINAR: '/landing/formato-webinars.webp',
-  CASE_STUDY: '/landing/formato-casos.webp',
 }
 
 /** Nombres de categoría del seed → foto de área de la serie de marca. */

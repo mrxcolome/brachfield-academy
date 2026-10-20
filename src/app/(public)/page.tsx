@@ -42,16 +42,13 @@ function Section({
 }
 
 // La retícula jerárquica de formatos (la misma jerarquía que Explorar,
-// aprobada por el propietario): Cursos grande, 4 medianas, 4 compactas.
+// aprobada por el propietario): Cursos grande, 2 medianas, 3 compactas — las 6
+// tipologías del 20/10/2026.
 // «Actualidad» sale de aquí — las noticias tienen su propia sección abajo.
 const formatByLabel = Object.fromEntries(whatsInside.map((w) => [w.l, w]))
 const HERO_FORMAT = formatByLabel['Cursos']!
-const MEDIUM_FORMATS = ['Consejos', 'Artículos', 'Entrevistas', 'Sesiones en directo'].map(
-  (l) => formatByLabel[l]!,
-)
-const COMPACT_FORMATS = ['Guías', 'Checklists', 'Plantillas', 'Casos prácticos'].map(
-  (l) => formatByLabel[l]!,
-)
+const MEDIUM_FORMATS = ['Consejos', 'Artículos'].map((l) => formatByLabel[l]!)
+const COMPACT_FORMATS = ['Guías', 'Checklists', 'Plantillas'].map((l) => formatByLabel[l]!)
 
 // El viaje del crédito (rediseño 10/09, petición del propietario: que se VEA
 // que la formación cubre el ciclo completo). Etiquetas de creditProcess +
@@ -328,7 +325,7 @@ export default async function LandingPage() {
       <Section id="membresia" className="bg-surface">
         <h2 className="mb-2 text-2xl font-bold">Qué encontrarás dentro</h2>
         <p className="mb-7 text-sm leading-relaxed text-ink-3">
-          Nueve formatos para distintos momentos — desde una lectura de cinco minutos hasta un curso
+          Seis formatos para distintos momentos — desde una lectura de cinco minutos hasta un curso
           completo — con los cursos como columna vertebral. Siempre con el mismo criterio:
           practicidad.
         </p>
@@ -354,7 +351,7 @@ export default async function LandingPage() {
           {MEDIUM_FORMATS.map((w) => (
             <div
               key={w.l}
-              className="flex flex-col overflow-hidden rounded-lg border border-border-soft bg-surface"
+              className="flex flex-col overflow-hidden rounded-lg border border-border-soft bg-surface lg:col-span-2"
             >
               <div className="relative aspect-video w-full">
                 <Image
@@ -372,7 +369,7 @@ export default async function LandingPage() {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
+        <div className="grid gap-3.5 sm:grid-cols-3">
           {COMPACT_FORMATS.map((w) => (
             <div key={w.l} className="rounded-lg border border-border-soft bg-surface p-4">
               <p className="mb-1 flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-sm text-brand">

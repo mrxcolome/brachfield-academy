@@ -16,7 +16,13 @@ function parse(arg: string): [Slug, number[]][] {
     .map((part) => {
       const [slug, ids] = part.split('=')
       if (!ALLOWED.includes(slug as Slug)) throw new Error(`Colección no permitida: ${slug}`)
-      return [slug as Slug, ids.split(',').map((x) => Number(x.trim())).filter(Number.isInteger)]
+      return [
+        slug as Slug,
+        (ids ?? '')
+          .split(',')
+          .map((x) => Number(x.trim()))
+          .filter(Number.isInteger),
+      ]
     })
 }
 

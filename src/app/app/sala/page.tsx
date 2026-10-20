@@ -50,8 +50,8 @@ export default async function SalaHomePage() {
           </Link>
         </div>
         <p className="mt-1 text-sm text-muted">
-          Crea y publica paso a paso, sin tocar el CMS. Diez conceptos: el curso y las nueve piezas
-          sueltas.
+          Crea y publica paso a paso, sin tocar el CMS. Seis tipologías: el curso y cinco piezas
+          sueltas (consejo, artículo, guía, checklist y plantilla).
         </p>
       </header>
 

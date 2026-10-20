@@ -16,21 +16,12 @@ describe('contentCover', () => {
     )
   })
   it('ignora la relación sin resolver (depth 0: id numérico)', () => {
-    expect(
-      contentCover({ id: 3, coverImage: 7 as unknown as Media, contentType: 'INTERVIEW' }),
-    ).toBe('/landing/formato-podcasts.webp')
+    expect(contentCover({ id: 3, coverImage: 7 as unknown as Media, contentType: 'GUIDE' })).toBe(
+      '/landing/formato-guias.webp',
+    )
   })
-  it('cubre los 11 tipos de contenido', () => {
-    const types: Content['contentType'][] = [
-      'ADVICE',
-      'ARTICLE',
-      'INTERVIEW',
-      'GUIDE',
-      'CHECKLIST',
-      'TEMPLATE',
-      'WEBINAR',
-      'CASE_STUDY',
-    ]
+  it('cubre los 5 tipos de pieza', () => {
+    const types: Content['contentType'][] = ['ADVICE', 'ARTICLE', 'GUIDE', 'CHECKLIST', 'TEMPLATE']
     for (const t of types) expect(DEFAULT_COVER_BY_TYPE[t]).toMatch(/^\/landing\//)
   })
 })

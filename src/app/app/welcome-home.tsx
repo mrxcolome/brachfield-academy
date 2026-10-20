@@ -80,7 +80,7 @@ export function WelcomeHome({
       <section aria-labelledby="tiles-title" className="mb-8">
         <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
           <h2 id="tiles-title" className="text-[13px] font-semibold text-ink-2">
-            Nueve maneras de ayudarte
+            Seis maneras de ayudarte
           </h2>
           <Link
             href="/app/explore"
@@ -114,7 +114,7 @@ export function WelcomeHome({
             <Link
               key={tile.label}
               href={tile.href}
-              className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
+              className="overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline lg:col-span-2"
             >
               <div className="relative aspect-video w-full">
                 <Image
@@ -132,7 +132,7 @@ export function WelcomeHome({
             </Link>
           ))}
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid gap-3 sm:grid-cols-3">
           {COMPACT_TILES.map((tile) => (
             <Link
               key={tile.label}

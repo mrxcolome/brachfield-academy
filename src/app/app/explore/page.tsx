@@ -57,7 +57,7 @@ export default async function ExplorePage() {
             <Link
               key={tile.label}
               href={tile.href}
-              className="flex flex-col overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline"
+              className="flex flex-col overflow-hidden rounded-lg border border-border bg-surface text-inherit no-underline lg:col-span-2"
             >
               <div className="relative aspect-video w-full">
                 <Image
@@ -78,7 +78,7 @@ export default async function ExplorePage() {
       </section>
 
       <section aria-label="Contenido de consulta" className="mb-9">
-        <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid gap-3.5 sm:grid-cols-3">
           {COMPACT_TILES.map((tile) => (
             <Link
               key={tile.label}

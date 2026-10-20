@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Manual del editor · Documentación · Brachfield Academy</title>
+    <link rel="icon" href="/icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/docs/docs.css" />
+  </head>
+  <body>
+    <div class="suite-wrap">
+      <nav class="suite" aria-label="Documentación">
+        <a class="suite-brand" href="/docs"
+          ><img src="/brand/icon.svg" alt="" />Brachfield Academy <span>· Documentación</span></a
+        >
+        <span class="suite-links">
+          <a href="/docs/descubre">Descubre la Academy</a>
+          <a href="/docs/manual-editor" aria-current="page">Manual del editor</a>
+          <a href="/docs/playbook">Playbook del propietario</a>
+          <a href="/docs/sala-de-maquinas">La sala de máquinas</a>
+          <a href="/guia-estilos.html">Guía de estilos</a>
+        </span>
+      </nav>
+    </div>
+    <main>
+      <header class="masthead">
+        <p class="eyebrow">Para el equipo editor · actualizado 21 de octubre de 2026</p>
+        <h1>Manual del editor</h1>
+        <p class="standfirst">
+          Todo lo que necesitas para crear y publicar en la Academy desde la Sala de profesores:
+          cursos, consejos, artículos, guías, checklists y plantillas. Paso a paso, con capturas
+          reales y sin ningún conocimiento técnico.
+        </p>
+        <nav class="toc" aria-label="Índice">
+          <a href="#esencial">Lo esencial</a>
+          <a href="#tipologias">Las seis tipologías</a>
+          <a href="#pieza">Crear una pieza</a>
+          <a href="#formatos">Los cuatro formatos</a>
+          <a href="#portada">La portada</a>
+          <a href="#curso">Crear un curso</a>
+          <a href="#videos">Vídeos</a>
+          <a href="#editar">Editar, retirar y borrar</a>
+          <a href="#practicas">Buenas prácticas</a>
+          <a href="#checklist">Checklist</a>
+          <a href="#dudas">Dudas frecuentes</a>
+        </nav>
+      </header>
+
+      <section id="esencial">
+        <p class="kicker">Antes de empezar</p>
+        <h2>Lo esencial en un minuto</h2>
+        <div class="stats">
+          <div class="stat"><b>6</b><span>tipologías: el curso y cinco piezas</span></div>
+          <div class="stat"><b>4</b><span>pasos para crear cualquier cosa</span></div>
+          <div class="stat">
+            <b>4</b><span>formatos por pieza: vídeo, texto, audio o documento</span>
+          </div>
+          <div class="stat"><b>0</b><span>conocimientos técnicos necesarios</span></div>
+        </div>
+        <h3>Dónde está la Sala</h3>
+        <p>
+          Entra en <strong>brachfieldacademy.com</strong> con tu cuenta de siempre (la misma con la
+          que ves la Academy). En el menú lateral, abajo del todo, verás
+          <strong>Sala de profesores</strong>: solo aparece a las personas del equipo editor. Al
+          entrar, el menú desaparece para que trabajes sin distracciones; para volver, pulsa
+          <strong>«← Volver a la academia»</strong>, arriba a la izquierda.
+        </p>
+        <h3>Tres ideas que lo explican casi todo</h3>
+        <ul>
+          <li>
+            <strong>Todo nace como borrador.</strong> Lo que creas es invisible para los alumnos
+            hasta que pulsas <strong>Publicar</strong> en el último paso. Puedes dejarlo a medias y
+            terminarlo otro día: en la Sala aparecerá con la etiqueta «Borrador» y el botón
+            «Continuar».
+          </li>
+          <li>
+            <strong>Cada paso se guarda al pasar al siguiente.</strong> Los textos se guardan al
+            pulsar «Crear el borrador →» o «Guardar y seguir →». Las subidas de archivos, la
+            elección de formato y las lecciones se guardan en el momento.
+          </li>
+          <li>
+            <strong>No puedes romper nada.</strong> La Sala comprueba que no falte nada antes de
+            publicar y te dice exactamente qué falta y en qué paso.
+          </li>
+        </ul>
+        <figure>
+          <img
+            src="/docs/img/sala-inicio.webp"
+            alt="Página de inicio de la Sala de profesores: arriba seis botones para crear un curso, consejo, artículo, guía, checklist o plantilla; debajo, la lista «Tu contenido» con filtros por tipo y, en cada fila, el estado, el botón Editar y el botón Borrar."
+          />
+          <figcaption>
+            La casa de la Sala. Arriba, «¿Qué quieres crear?» con un botón por tipología. Debajo,
+            «Tu contenido»: todo lo que existe, lo último que se tocó primero, con chips para
+            filtrar (Todo, Cursos, Consejo, Artículo, Guía, Checklist, Plantilla).
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="tipologias">
+        <p class="kicker">El mapa</p>
+        <h2>Las seis tipologías</h2>
+        <p>
+          El alumno no busca formatos, busca promesas: «quiero aprender esto entero», «quiero un
+          consejo rápido», «quiero la plantilla para usarla hoy». Por eso la Academy tiene seis
+          tipologías, cada una con su promesa.
+        </p>
+        <div class="cards">
+          <div class="card">
+            <span class="tag orange">Curso</span>
+            <h3>Un tema completo, en lecciones</h3>
+            <p>Se recorre en orden y el alumno ve su progreso. Es la unidad grande.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Consejo</span>
+            <h3>El consejo práctico de Pere</h3>
+            <p>Cómo evitar impagados, cómo recuperarlos… Corto y directo al grano.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Artículo</span>
+            <h3>Un artículo firmado por Pere</h3>
+            <p>Su opinión y su análisis sobre un tema, con su voz.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Guía</span>
+            <h3>La referencia para consultar</h3>
+            <p>Lo que el alumno abre cuando necesita saberlo todo sobre un tema concreto.</p>
+          </div>
+          <div class="card">
+            <span class="tag">Checklist</span>
+            <h3>Verifica que no te dejas nada</h3>
+            <p>Una lista de comprobación para un momento clave: conceder crédito, reclamar…</p>
+          </div>
+          <div class="card">
+            <span class="tag">Plantilla</span>
+            <h3>Listo para adaptar y usar hoy</h3>
+            <p>El documento que el alumno descarga, rellena y envía.</p>
+          </div>
+        </div>
+        <div class="callout">
+          <p>
+            <strong>¿Curso o pieza suelta?</strong> Hazte una pregunta: ¿el alumno debe verlo
+            <strong>entero y en orden</strong>? Entonces es un curso. ¿Es material de «lo busco
+            cuando me pasa»? Entonces es una pieza suelta. Ejemplo: «Recuperar un impagado paso a
+            paso» es un curso; la plantilla de reclamación por burofax es una pieza.
+          </p>
+        </div>
+        <p>
+          Las <strong>sesiones en directo</strong> no son una tipología: tienen su propia sección en
+          la Academy y las gestiona el administrador.
+        </p>
+      </section>
+
+      <section id="pieza">
+        <p class="kicker">La unidad básica</p>
+        <h2>Crear una pieza en cuatro pasos</h2>
+        <p>
+          Consejo, artículo, guía, checklist o plantilla: las cinco piezas se crean igual. En la
+          casa de la Sala pulsa el botón de la que quieras (por ejemplo, <strong>+ Consejo</strong>)
+          y sigue los pasos. Arriba siempre verás en qué paso estás: La pieza → El formato → La
+          portada → Publicar. Puedes pulsar cualquiera de ellos para ir y volver.
+        </p>
+        <ol class="steps">
+          <li>
+            <strong>La pieza.</strong> El tipo ya viene elegido (si te equivocaste de botón, pulsa
+            «Cambiar tipo»). Rellena tres datos:
+            <ul>
+              <li><strong>Título</strong>: lo que lee el alumno en la tarjeta y en la ficha.</li>
+              <li>
+                <strong>¿Qué se lleva el alumno? (dos frases)</strong>: aparece en la tarjeta y en
+                el buscador. Es tu escaparate.
+              </li>
+              <li>
+                <strong>Área de conocimiento</strong>: el tema de la escuela al que pertenece
+                (Prevención de impagos, Recobro de impagados, Negociación, Legislación…).
+              </li>
+            </ul>
+            Pulsa <strong>«Crear el borrador →»</strong>. A partir de aquí la pieza ya existe.
+            <figure>
+              <img
+                src="/docs/img/sala-paso1.webp"
+                alt="Paso 1 de una pieza nueva: tipo Consejo ya elegido con el enlace Cambiar tipo, y los campos Título, «¿Qué se lleva el alumno? (dos frases)» y Área de conocimiento, con el botón «Crear el borrador»."
+              />
+              <figcaption>
+                Paso 1. Tres datos y la pieza existe, como borrador invisible para los alumnos.
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <strong>El formato.</strong> La Sala te pregunta «¿En qué formato es este consejo?» con
+            cuatro tarjetas: Vídeo, Texto, Audio o Documento. Elige una y aparecerá solo el campo de
+            ese formato. Sube o escribe el material y pulsa <strong>«Guardar y seguir →»</strong>.
+            Si cambias de idea, «Cambiar formato».
+            <figure>
+              <img
+                src="/docs/img/sala-paso2-formato.webp"
+                alt="Paso 2, El formato: la pregunta «¿En qué formato es este consejo?» con cuatro tarjetas: Vídeo, Texto, Audio y Documento, cada una con una pista debajo."
+              />
+              <figcaption>Paso 2. Un clic decide cómo es la pieza.</figcaption>
+            </figure>
+            <figure>
+              <img
+                src="/docs/img/sala-paso2-video.webp"
+                alt="Paso 2 con el formato Vídeo elegido: botón para subir el vídeo, desplegable «¿El vídeo ya está en Cloudflare?» y campo Duración."
+              />
+              <figcaption>
+                Con Vídeo: botón para subirlo directamente desde tu ordenador, y un desplegable por
+                si el vídeo ya estaba en Cloudflare (lo vemos en <a href="#videos">Vídeos</a>).
+              </figcaption>
+            </figure>
+            <figure>
+              <img
+                src="/docs/img/sala-paso2-texto.webp"
+                alt="Paso 2 con el formato Texto elegido: un cuadro grande «Escribe el texto» con dos párrafos separados por una línea en blanco, y el campo Tiempo de lectura."
+              />
+              <figcaption>
+                Con Texto: escribe o pega en párrafos normales, dejando una línea en blanco entre
+                párrafo y párrafo. Añade el tiempo de lectura (por ejemplo, «5 min»).
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <strong>La portada.</strong> Opcional. Puedes subir una imagen, crearla con IA o no
+            hacer nada: si no hay portada propia, la Academy pone una foto automática según el tipo
+            de pieza, y queda bien. Lo explicamos en <a href="#portada">La portada</a>. Cuando
+            termines, «Revisar y publicar →».
+          </li>
+          <li>
+            <strong>Publicar.</strong> La Sala te enseña un repaso con una marca ✓ (todo bien) o ✕
+            (falta algo, con el paso donde arreglarlo): título, resumen, área, formato con su
+            material y portada. Si todo está en verde, pulsa <strong>Publicar</strong>. La pieza
+            aparece al momento para los alumnos, y desde ahí puedes pulsar «Verla como alumno ↗»
+            para comprobarla.
+            <figure>
+              <img
+                src="/docs/img/sala-paso4-publicar.webp"
+                alt="Paso 4, Revisar y publicar: lista de comprobación con cinco marcas verdes (título y tipo, resumen para la tarjeta, área asignada, formato Texto y portada automática) y el botón Publicar."
+              />
+              <figcaption>
+                Paso 4. Todo en verde, un botón. Si faltara algo, la Sala no publica y te dice qué
+                falta (por ejemplo, «Falta subir el vídeo (paso 2).»).
+              </figcaption>
+            </figure>
+          </li>
+        </ol>
+      </section>
+
+      <section id="formatos">
+        <p class="kicker">Un formato por pieza</p>
+        <h2>Los cuatro formatos y qué ve el alumno</h2>
+        <p>
+          Cada pieza tiene <strong>un solo formato</strong>, y el alumno ve únicamente el material
+          de ese formato. Si empiezas en Vídeo y cambias a Texto, lo que cuenta para publicar y lo
+          que ve el alumno es el texto.
+        </p>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Formato</th>
+                <th>Qué subes o escribes</th>
+                <th>Qué ve el alumno</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Vídeo</strong></td>
+                <td>El archivo de vídeo, aunque sea grande. Duración: se rellena sola.</td>
+                <td>El reproductor de vídeo.</td>
+              </tr>
+              <tr>
+                <td><strong>Texto</strong></td>
+                <td>El texto en párrafos, y el tiempo de lectura.</td>
+                <td>El texto, para leer en pantalla.</td>
+              </tr>
+              <tr>
+                <td><strong>Audio</strong></td>
+                <td>Un MP3 o M4A de <strong>4 MB como máximo</strong>, y su duración.</td>
+                <td>Un reproductor de audio, como un pódcast.</td>
+              </tr>
+              <tr>
+                <td><strong>Documento</strong></td>
+                <td>Un PDF, Word o Excel de <strong>4 MB como máximo</strong>.</td>
+                <td>El botón para descargarlo.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warn">
+          <p>
+            <strong>¿Audio largo?</strong> 4 MB son unos pocos minutos de audio. Para algo más
+            largo, mejor grabarlo en vídeo, que no tiene límite.
+          </p>
+        </div>
+        <figure>
+          <img
+            src="/docs/img/alumno-ficha.webp"
+            alt="Ficha de una pieza vista por un alumno: tipo y duración arriba, título, botón Guardar, etiqueta del área, el resumen de dos frases y, debajo, tarjetas de piezas relacionadas."
+          />
+          <figcaption>
+            Así la ve el alumno: el tipo y la duración, el título, el botón «Guardar» para sus
+            favoritos, el área, tus dos frases y, debajo, el material del formato elegido y piezas
+            relacionadas.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section id="portada">
+        <p class="kicker">Paso 3</p>
+        <h2>La portada: subirla o crearla con IA</h2>
+        <p>La Sala te pregunta «¿Cómo quieres la portada?» y te da dos caminos.</p>
+        <h3>Subir una imagen</h3>
+        <p>
+          Apaisada (16:9), de al menos 800 px de ancho y 4 MB como máximo. Se ve al momento en el
+          recuadro de arriba.
+        </p>
+        <h3>Crearla con IA</h3>
+        <ol class="steps">
+          <li>
+            Pulsa <strong>«✦ Crearla con IA»</strong>. La IA lee el título, el resumen y el texto de
+            la pieza.
+          </li>
+          <li>
+            Si quieres, escribe algo en <strong>Indicaciones (opcional)</strong>. Si no, déjalo en
+            blanco: la IA decide a partir del contenido.
+          </li>
+          <li>
+            Pulsa <strong>«✦ Crear dos propuestas»</strong> y espera
+            <strong>alrededor de un minuto</strong>. Verás «Creando la imagen…» en dos recuadros.
+          </li>
+          <li>
+            Pulsa <strong>«Usar esta»</strong> bajo la que más te guste. Si ninguna te convence,
+            «Crear otras dos».
+          </li>
+        </ol>
+        <figure>
+          <img
+            src="/docs/img/sala-paso3-portada.webp"
+            alt="Paso 3, La portada: recuadro vacío que indica que se usará la foto automática del tipo de pieza; debajo, dos opciones: Subir una imagen y Crearla con IA (seleccionada), con su explicación y el campo Indicaciones."
+          />
+          <figcaption>
+            Paso 3. Sin portada propia, la Academy usa la foto automática: «Válido tal cual».
+          </figcaption>
+        </figure>
+        <h3>Consejos para las indicaciones</h3>
+        <ul>
+          <li>
+            <strong>Describe una escena, no un concepto</strong>: «una reunión en un almacén»
+            funciona mejor que «la morosidad».
+          </li>
+          <li>
+            <strong>Pide luz y tono</strong>: «tonos más luminosos», «despacho con luz de mañana».
+          </li>
+          <li>
+            <strong>No pidas textos ni logotipos</strong>: la IA crea fotos sin letras a propósito.
+            El título ya va en la tarjeta.
+          </li>
+          <li>
+            <strong>Una idea por intento.</strong> Si la primera tanda no acierta, cambia una sola
+            cosa de las indicaciones y vuelve a probar.
+          </li>
+        </ul>
+        <div class="callout warn">
+          <p>
+            <strong>¿No ves «Crearla con IA»?</strong> Es que todavía no está activada en la
+            Academy: avisa al administrador. Mientras tanto, sube una imagen o deja la automática.
+            Los <strong>cursos</strong> tienen las mismas dos opciones: allí la IA lee el título, la
+            descripción y las lecciones.
+          </p>
+        </div>
+      </section>
+
+      <section id="curso">
+        <p class="kicker">La unidad grande</p>
+        <h2>Crear un curso en cuatro pasos</h2>
+        <p>
+          Un curso es una lista de lecciones que el alumno recorre en orden. No hay módulos ni
+          bloques: solo el curso y sus lecciones. En la casa de la Sala pulsa
+          <strong>+ Curso</strong>.
+        </p>
+        <ol class="steps">
+          <li>
+            <strong>El curso.</strong> Título del curso, «¿De qué va? (dos o tres frases)» —lo que
+            el alumno sabrá hacer al terminar— y Área de conocimiento. Pulsa «Crear el borrador →».
+            <figure>
+              <img
+                src="/docs/img/sala-curso-paso1.webp"
+                alt="Paso 1 de un curso nuevo: campos Título del curso, «¿De qué va? (dos o tres frases)» y Área de conocimiento, con el botón «Crear el borrador»."
+              />
+              <figcaption>«Tres datos y existe.» El resto viene después, a su paso.</figcaption>
+            </figure>
+          </li>
+          <li>
+            <strong>La portada.</strong> Opcional, y funciona igual que en las piezas: «Subir una
+            imagen» (16:9, mínimo 800 px de ancho, máximo 4 MB), «Crearla con IA» o nada: entra la
+            foto automática del área elegida. Pulsa «Seguir con las lecciones →».
+          </li>
+          <li>
+            <strong>Las lecciones.</strong> Pulsa «+ Añadir lección». Cada lección lleva un título y
+            es de uno de estos dos tipos:
+            <ul>
+              <li>
+                <strong>▶ Vídeo</strong>: subes el vídeo (o pegas su código) y, si quieres, un texto
+                de apoyo.
+              </li>
+              <li><strong>¶ Solo texto</strong>: escribes el texto de la lección.</li>
+            </ul>
+            Pulsa «Guardar lección». Para cambiar el orden, usa las flechas
+            <strong>↑</strong> y <strong>↓</strong> de cada fila; «Editar» la abre de nuevo y
+            «Borrar» la elimina.
+            <figure>
+              <img
+                src="/docs/img/sala-curso-lecciones.webp"
+                alt="Paso 3 de un curso, Las lecciones: tres lecciones numeradas, cada una con flechas para subirla o bajarla, botón Editar y botón Borrar; debajo, «+ Añadir lección» y «Revisar y publicar»."
+              />
+              <figcaption>
+                Paso 3. Las lecciones, numeradas en el orden en que se estudiarán. El icono indica
+                si es de vídeo (▶) o solo texto (¶).
+              </figcaption>
+            </figure>
+          </li>
+          <li>
+            <strong>Publicar.</strong> El repaso comprueba título y descripción, área y que haya al
+            menos una lección. Pulsa <strong>«Publicar el curso»</strong> y, después, «Verlo como
+            alumno ↗».
+          </li>
+        </ol>
+        <div class="callout">
+          <p>
+            <strong>¿Vídeos aún sin grabar?</strong> Puedes crear lecciones de vídeo sin vídeo: la
+            fila lo marca con «sin vídeo aún», y el curso se puede publicar igualmente y añadirlos
+            después. Eso sí, piensa que el alumno verá esa lección vacía mientras tanto.
+          </p>
+        </div>
+      </section>
+
+      <section id="videos">
+        <p class="kicker">El caso especial</p>
+        <h2>Vídeos: dos maneras de ponerlos</h2>
+        <p>
+          Los vídeos viven en Cloudflare Stream, el «YouTube privado» de la Academy, que adapta la
+          calidad a la conexión de cada alumno. Tú no tienes que entrar allí: la Sala lo hace por
+          ti.
+        </p>
+        <h3>1. Subirlo desde la Sala (lo normal)</h3>
+        <ol class="steps">
+          <li>
+            Pulsa «⬆ Subir vídeo (se encarga la Sala de llevarlo a Cloudflare)» y elige el archivo
+            de tu ordenador (MP4 o MOV van perfectos). Los vídeos grandes no son problema: viajan
+            por trozos.
+          </li>
+          <li>
+            Verás una barra con el porcentaje («Subiendo… 45%»).
+            <strong>No cierres la pestaña</strong> hasta que termine.
+          </li>
+          <li>
+            Al acabar aparece «Vídeo subido ✓ — Cloudflare lo está procesando (uno o dos minutos)…».
+            Cuando está listo verás «Vídeo conectado ✓» y la duración se rellena sola.
+          </li>
+          <li>Pulsa «Guardar y seguir →» (o «Guardar lección» si es un curso).</li>
+        </ol>
+        <p>
+          Si la conexión se corta, la Sala lo avisa con un botón «Reintentar»: la subida se reanuda
+          donde se quedó.
+        </p>
+        <h3>2. Pegar su código, si ya estaba en Cloudflare</h3>
+        <p>
+          Abre el desplegable «¿El vídeo ya está en Cloudflare?» y pega su código (UID): una
+          combinación de 32 letras y números que te pasará quien lo subió. En este caso escribe tú
+          la duración (por ejemplo, «12 min»).
+        </p>
+      </section>
+
+      <section id="editar">
+        <p class="kicker">Después de publicar</p>
+        <h2>Editar, retirar y borrar</h2>
+        <dl class="gloss">
+          <dt>Editar</dt>
+          <dd>
+            En «Tu contenido», pulsa «Editar» (o «Continuar» si es un borrador). Se abre el mismo
+            asistente; cambia lo que necesites y pasa por los pasos con «Guardar y seguir →». Al
+            terminar, ve al paso <strong>Publicar</strong>: si vuelve a aparecer el botón
+            «Publicar», púlsalo para que los alumnos vean los cambios.
+          </dd>
+          <dt>Retirar</dt>
+          <dd>
+            En el paso Publicar de algo ya publicado verás «Retirar a borrador». Deja de verse para
+            los alumnos pero se conserva entero en la Sala, listo para volver a publicarlo. Es la
+            opción segura si dudas.
+          </dd>
+          <dt>Borrar</dt>
+          <dd>
+            El botón rojo «Borrar» de cada fila elimina definitivamente:
+            <strong>no se puede deshacer</strong>. La Sala siempre pide confirmación, y si hay
+            alumnos afectados te avisa con la cifra: cuántos tienen progreso en ese curso, o cuántos
+            tienen esa pieza en favoritos. Lo mismo al borrar una lección con progreso: ese progreso
+            se pierde.
+          </dd>
+        </dl>
+        <div class="callout warn">
+          <p>
+            <strong>En la duda, retira; no borres.</strong> Borrar algo que los alumnos usan les
+            hace perder su progreso o sus favoritos.
+          </p>
+        </div>
+      </section>
+
+      <section id="practicas">
+        <p class="kicker">El oficio</p>
+        <h2>Buenas prácticas editoriales</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Un título que promete</h3>
+            <p>
+              Di lo que el alumno conseguirá, con sus palabras: «Cómo redactar el primer
+              requerimiento de pago» mejor que «Requerimientos». Concreto mejor que ingenioso.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Dos frases que venden</h3>
+            <p>
+              Responde a «¿qué me llevo?». Es lo que se lee en la tarjeta y en el buscador: dedícale
+              un minuto. No repitas el título.
+            </p>
+          </div>
+          <div class="card">
+            <h3>El área correcta</h3>
+            <p>
+              Responde a «¿de qué trata?», no a «¿qué menciona?». El área alimenta los filtros, las
+              recomendaciones a cada alumno y la foto automática.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Una idea por pieza</h3>
+            <p>
+              Si una pieza intenta contar tres cosas, son tres piezas. Más cortas se encuentran
+              mejor y se terminan más.
+            </p>
+          </div>
+        </div>
+        <ul>
+          <li>
+            <strong>Elige la tipología por la promesa</strong>, no por el formato: un consejo puede
+            ser un vídeo o un texto; una plantilla casi siempre es un documento.
+          </li>
+          <li>
+            <strong>Lecciones con título propio</strong>: el alumno ve el temario y debe entender
+            qué aprende en cada una sin abrirla.
+          </li>
+          <li>
+            <strong>Nombra bien tus archivos</strong> antes de subirlos:
+            <code>plantilla-burofax.docx</code> se reconoce; <code>DOC_final_v3.docx</code>, no.
+          </li>
+        </ul>
+      </section>
+
+      <section id="checklist">
+        <p class="kicker">Para no fallar nunca</p>
+        <h2>Checklist antes de publicar</h2>
+        <ul>
+          <li>La tipología es la correcta (y, si es una pieza, el formato también).</li>
+          <li>El título promete algo concreto y las dos frases dicen qué se lleva el alumno.</li>
+          <li>El área de conocimiento está elegida.</li>
+          <li>El material está subido: vídeo conectado ✓, texto escrito o archivo con su ✓.</li>
+          <li>La duración o el tiempo de lectura están puestos.</li>
+          <li>La portada te gusta (o la automática te vale).</li>
+          <li>En un curso: lecciones en orden y ninguna vacía sin querer.</li>
+          <li>Publicado, y comprobado con «Verla como alumno ↗».</li>
+        </ul>
+      </section>
+
+      <section id="dudas">
+        <p class="kicker">Preguntas frecuentes</p>
+        <h2>Dudas frecuentes</h2>
+        <dl class="gloss">
+          <dt>«No veo mi pieza en la Academy.»</dt>
+          <dd>
+            Casi seguro que está en borrador. Búscala en «Tu contenido»: si dice «Borrador», ábrela,
+            ve al paso Publicar y pulsa «Publicar».
+          </dd>
+          <dt>«La Sala no me deja publicar.»</dt>
+          <dd>Mira el repaso del paso Publicar: la línea con ✕ te dice qué falta y en qué paso.</dd>
+          <dt>«He escrito un texto y se ha perdido.»</dt>
+          <dd>
+            Los textos se guardan al pulsar «Guardar y seguir →». Si sales antes, se pierden. Para
+            textos largos, escríbelos antes en tu procesador habitual y pégalos.
+          </dd>
+          <dt>«Me he equivocado de tipo o de formato.»</dt>
+          <dd>Sin problema: «Cambiar tipo» en el paso 1 y «Cambiar formato» en el paso 2.</dd>
+          <dt>«Mi audio o mi documento no sube.»</dt>
+          <dd>
+            Probablemente pesa más de 4 MB. Reduce el PDF o, si es un audio largo, grábalo en vídeo.
+          </dd>
+          <dt>«¿Puedo programar una publicación, poner etiquetas o tocar el SEO?»</dt>
+          <dd>Desde la Sala, no: son cosas del modo experto. Pídeselo al administrador.</dd>
+          <dt>«¿Esto va como curso o como pieza suelta?»</dt>
+          <dd>
+            Si el alumno debe verlo entero y en orden, curso. Si es material de consulta puntual,
+            pieza.
+          </dd>
+        </dl>
+      </section>
+    </main>
+    <footer class="doc">
+      Brachfield Academy · Documentación interna · <a href="/docs">Volver al índice</a>
+    </footer>
+  </body>
+</html>

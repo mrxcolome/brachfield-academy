@@ -56,8 +56,8 @@ export function ContentPublishPanel({
       ) : (
         <>
           <p className="text-sm text-ink-2">
-            Al publicar, la pieza aparece al instante en la Biblioteca (y en Herramientas si lleva
-            descarga). Podrás seguir editándola cuando quieras.
+            Al publicar, la pieza aparece al instante en la Biblioteca, el buscador y «Nuevo este
+            mes». Podrás seguir editándola cuando quieras.
           </p>
           <Button
             type="button"

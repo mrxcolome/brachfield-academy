@@ -173,6 +173,7 @@ playbooks de agosto), sala-de-maquinas (servicios y costes, + Claude y Magnific)
 estilos pública (/guia-estilos.html, enlaza a /docs). /dossier redirige a /docs/descubre.
 Enlaces: «Manual del editor →» en la cabecera de la Sala y «Documentación →» en Administración.
 ACTUALIZAR estos documentos cuando cambie algo gordo (tipologías, Sala, servicios, costes).
+
 - La portada con IA vale también para los CURSOS (paso 2): componente común
   src/app/app/sala/cover-picker.tsx (target pieza|curso); la IA lee título, descripción y lecciones.
 - Vercel: el proyecto del prototipo («brachfield-academy») lo borra el propietario (21/10); el

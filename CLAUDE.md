@@ -178,3 +178,11 @@ ACTUALIZAR estos documentos cuando cambie algo gordo (tipologías, Sala, servici
   src/app/app/sala/cover-picker.tsx (target pieza|curso); la IA lee título, descripción y lecciones.
 - Vercel: el proyecto del prototipo («brachfield-academy») lo borra el propietario (21/10); el
   único proyecto real es «brachfield-academy-app» (ahí van las variables, p. ej. MAGNIFIC_API_KEY).
+
+## Dónde está cada cosa en Vercel (interfaz de oct. 2026, para guiar al propietario)
+
+- **Dominios**: menú lateral del proyecto → **Networking** → **Domains** (NO está en Settings).
+- **Variables de entorno**: Settings → Environment Variables. Tras añadir una, hace falta un
+  Redeploy (aviso azul abajo a la derecha, o Deployments → ⋯ → Redeploy).
+- El «‹» junto a «Project Settings» vuelve al menú del proyecto (Overview, Deployments,
+  Observability, Security, Networking, …, Settings).

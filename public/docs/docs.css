@@ -128,13 +128,18 @@ code {
 .suite-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 16px;
+  gap: 6px 32px;
   font:
     600 11px/1.6 'IBM Plex Mono',
     ui-monospace,
     monospace;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+@media (max-width: 640px) {
+  .suite-links {
+    gap: 6px 20px;
+  }
 }
 .suite-links a {
   color: var(--muted);

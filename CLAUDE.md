@@ -204,3 +204,7 @@ ACTUALIZAR estos documentos cuando cambie algo gordo (tipologías, Sala, servici
   (~1-1,5 $/mes Academy, ~8-12 $/mes perebrachfield.com), Magnific Premium 144 €/año (22 de diciembre),
   dominio 10,46 $/año (28 de agosto). Gratis: Resend (cuenta de Pere, 3.000 correos/mes), Neon Free,
   Stripe en pruebas, PostHog/Sentry/R2/GitHub. Total fijo ≈ 45 €/mes. Actualizar si cambia un plan.
+- 11/11/26 · GUÍA DE ESTILOS DENTRO DE /docs (pedido del propietario): content/docs/guia-estilos.html con la
+  barra común, masthead e índice (sus estilos propios en un <style> con variables prefijadas --g- para no
+  pisar docs.css). Servida en /docs/guia-estilos tras el mismo guard (ADMIN/EDITOR) que el resto: YA NO es
+  pública. public/guia-estilos.html borrado; /guia-estilos.html → 308 a /docs/guia-estilos (next.config.ts).

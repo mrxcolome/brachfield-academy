@@ -19,7 +19,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     // El dossier se fundió con «Descubre la Academy» en la documentación interna (21/10/2026)
-    return [{ source: '/dossier', destination: '/docs/descubre', permanent: false }]
+    return [
+      { source: '/dossier', destination: '/docs/descubre', permanent: false },
+      // La guía de estilos vive con el resto de la documentación (11/11/26)
+      { source: '/guia-estilos.html', destination: '/docs/guia-estilos', permanent: true },
+    ]
   },
   // Los HTML de la documentación interna (content/docs) los lee la ruta /docs/[slug] en el
   // servidor: hay que incluirlos en el paquete de Vercel.

@@ -48,7 +48,7 @@ export const DOCS: DocEntry[] = [
     audience: 'Para quien diseña o escribe',
     summary:
       'La identidad visual: paleta con sus reglas, la escala tipográfica, botones, sellos y reglas rápidas de uso.',
-    href: '/guia-estilos.html',
+    href: '/docs/guia-estilos',
   },
 ]
 

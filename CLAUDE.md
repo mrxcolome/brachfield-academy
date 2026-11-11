@@ -198,3 +198,10 @@ ACTUALIZAR estos documentos cuando cambie algo gordo (tipologías, Sala, servici
   RECEPCIÓN de correo: no tocarlos). Clave «academy» (Sending access) = RESEND_API_KEY del proyecto Vercel
   brachfield-academy-app. Probado con «¿Has olvidado tu contraseña?». La cuenta personal mr.xcolome ya no
   tiene la Academy.
+- 11/11/26 · COSTES REALES revisados con las facturas del propietario y reescrita la sección «Qué cuesta todo
+  esto» de /docs/sala-de-maquinas: Vercel Pro 20 $/mes (día 28, equipo «Xavi's projects», compartido con
+  perebrachfield.com; presupuesto de aviso 200 $), Cloudflare Stream 5-6 $/mes (día 11), Claude prepago
+  (~1-1,5 $/mes Academy, ~8-12 $/mes perebrachfield.com), Magnific Premium 144 €/año (22 de diciembre),
+  dominio 10,46 $/año (28 de agosto). Gratis: Resend (cuenta de Pere, 3.000 correos/mes), Neon Free,
+  Stripe en pruebas, PostHog/Sentry/R2/GitHub. Total fijo ≈ 45 €/mes. Actualizar si cambia un plan.
+

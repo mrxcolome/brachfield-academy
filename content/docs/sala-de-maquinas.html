@@ -329,89 +329,106 @@
         <p class="kicker">La factura, sin sorpresas</p>
         <h2>Qué cuesta todo esto</h2>
         <div class="stats">
-          <div class="stat"><b>≈ 1 €</b><span>al mes de dominio, prorrateado</span></div>
-          <div class="stat"><b>1–1,5 $</b><span>al mes de Claude, gasto real observado</span></div>
+          <div class="stat"><b>≈ 45 €</b><span>al mes en total, gasto fijo real (noviembre de 2026)</span></div>
+          <div class="stat"><b>4</b><span>servicios de pago; el resto, en planes gratuitos</span></div>
           <div class="stat"><b>0 €</b><span>licencias de software: el código es abierto</span></div>
         </div>
         <p>
-          Piezas con planes gratuitos generosos que solo cobran cuando el negocio ya factura. Cifras
-          orientativas:
+          Cifras reales de las facturas de noviembre de 2026. Varios servicios se comparten con
+          perebrachfield.com: se pagan una sola vez y sirven a las dos webs.
         </p>
+        <h3>Lo que se paga hoy</h3>
         <div class="tablewrap">
           <table>
             <thead>
               <tr>
-                <th>Pieza</th>
-                <th>Hoy</th>
-                <th>Cuando la academia crezca</th>
+                <th>Servicio</th>
+                <th>Para qué</th>
+                <th>Coste</th>
+                <th>Cuándo se cobra</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Cloudflare</strong> (dominio)</td>
-                <td>~10,50 $/año (factura del 28 de agosto)</td>
-                <td>Igual: no depende del tráfico</td>
+                <td><strong>Vercel</strong> · plan Pro</td>
+                <td>El alojamiento de la web. Compartido con perebrachfield.com (equipo «Xavi's projects»)</td>
+                <td>20 $/mes (incluye 20 $ de uso; en noviembre se han usado 7,20 $)</td>
+                <td>Día 28 de cada mes</td>
+              </tr>
+              <tr>
+                <td><strong>Cloudflare Stream</strong></td>
+                <td>Guardar y reproducir los vídeos de los cursos</td>
+                <td>5 $/mes fijos + ~1 $ algunos meses por minutos vistos</td>
+                <td>Día 11 de cada mes</td>
               </tr>
               <tr>
                 <td><strong>Claude</strong> (Anthropic)</td>
-                <td>Saldo prepago; ~0,78 $ en los primeros 20 días de octubre</td>
-                <td>
-                  Sube poco: el tablón es una tarea diaria fija y cada portada es un encargo pequeño
-                </td>
+                <td>IA del tablón, de la Sala y de las portadas. Compartido con perebrachfield.com</td>
+                <td>Saldo prepago: ~1–1,5 $/mes la Academy y ~8–12 $/mes perebrachfield.com</td>
+                <td>Al recargar el saldo (última recarga: 20 €)</td>
               </tr>
               <tr>
-                <td><strong>Magnific</strong></td>
-                <td>Por imagen generada, a cargo de la licencia del propietario</td>
-                <td>Proporcional a las portadas que se pidan (dos propuestas por portada)</td>
+                <td><strong>Magnific</strong> · plan Premium</td>
+                <td>Generar las portadas. Compartido con perebrachfield.com</td>
+                <td>144 €/año (= 12 €/mes)</td>
+                <td>Anual: próximo pago el 22 de diciembre de 2026</td>
               </tr>
               <tr>
-                <td><strong>Stripe</strong></td>
-                <td>0 € (modo de pruebas)</td>
-                <td>
-                  Comisión por cobro, sin cuota fija (en tarjetas europeas, en torno al 1,5 % + 0,25
-                  €)
-                </td>
+                <td><strong>Cloudflare</strong> · dominio</td>
+                <td>brachfieldacademy.com</td>
+                <td>10,46 $/año</td>
+                <td>Anual, el 28 de agosto</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Gratis hoy, y hasta dónde</h3>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Servicio</th>
+                <th>Plan gratuito</th>
+                <th>Cuándo empezaría a cobrar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Resend</strong> (correos)</td>
+                <td>3.000 correos al mes (100 al día) y 1.000 contactos. Cuenta de xavi@perebrachfield.com, compartida con perebrachfield.com</td>
+                <td>Al pasar de 3.000 correos al mes entre las dos webs: ~20 $/mes</td>
               </tr>
               <tr>
-                <td><strong>Vercel</strong></td>
-                <td>Plan gratuito</td>
-                <td>Plan Pro (~20 $/mes), previsto al abrir al público</td>
+                <td><strong>Neon</strong> (base de datos)</td>
+                <td>1 GB por proyecto y 100 horas de cálculo al mes</td>
+                <td>Si se queda corto: plan Launch, por uso (unos céntimos por hora de cálculo)</td>
               </tr>
               <tr>
-                <td><strong>Cloudflare Stream</strong> (vídeo)</td>
-                <td>
-                  5 $/mes de cuota fija (plan básico: hasta 1.000 minutos de vídeo guardados) más
-                  ~1 $ algunos meses por los minutos vistos. Factura el día 11 de cada mes desde
-                  agosto de 2026
-                </td>
-                <td>
-                  Por minutos guardados y vistos: del orden de 10–30 €/mes con un catálogo amplio
-                </td>
-              </tr>
-              <tr>
-                <td><strong>Neon</strong></td>
-                <td>0 €</td>
-                <td>~19 $/mes si el volumen lo pide</td>
-              </tr>
-              <tr>
-                <td><strong>Resend</strong></td>
-                <td>0 €</td>
-                <td>~20 $/mes al superar 3.000 correos mensuales</td>
+                <td><strong>Stripe</strong> (cobros)</td>
+                <td>Sin cuota (hoy en modo de pruebas)</td>
+                <td>Al vender: comisión por cobro (en tarjetas europeas, en torno al 1,5 % + 0,25 €)</td>
               </tr>
               <tr>
                 <td><strong>PostHog · Sentry · R2 · GitHub</strong></td>
-                <td>0 €</td>
+                <td>Planes gratuitos</td>
                 <td>Gratuitos o céntimos en cualquier escenario razonable</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <div class="callout">
+          <p>
+            <strong>Freno de seguridad en Vercel:</strong> si el uso pasara de los 20 $ incluidos,
+            el exceso se cobra aparte, con un presupuesto de aviso de 200 $ (avisos al 50, 75 y
+            100 %). Hoy se usa menos de la mitad de lo incluido.
+          </p>
+        </div>
         <div class="callout warn">
           <p>
             <strong>Las dos piezas de IA son de prepago o por uso.</strong> Si el saldo de Claude se
             agota, el tablón sigue publicando titulares, pero sin «La clave para ti» ni etiquetas, y
-            la Sala deja de ofrecer «Crearla con IA». Si falla Magnific, las portadas se suben a
-            mano. Nada se rompe: solo se pierde el toque editorial hasta recargar.
+            la Sala deja de ofrecer «Crearla con IA». Si se acaban los créditos de Magnific, las
+            portadas se suben a mano. Nada se rompe: solo se pierde el toque editorial hasta recargar.
           </p>
         </div>
       </section>

@@ -110,7 +110,7 @@ hola@, usar Cloudflare Email Routing (Email → Email Routing → address hola@
 - [ ] Textos legales: las 4 páginas publicadas con los datos reales del
       titular (Pere Joaquim Brachfield, NIF 46230494N). PENDIENTE solo la
       revisión final por un asesor legal antes del lanzamiento
-- [ ] Vercel Pro (~20 $/mes) al abrir al público
+- [x] Vercel Pro (20 $/mes): activo desde el 28/10/2026, compartido con perebrachfield.com
 - [ ] Borrar los usuarios demo de producción si los hubiera
 
 ## 8 · El día del lanzamiento

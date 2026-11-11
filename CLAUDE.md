@@ -204,4 +204,3 @@ ACTUALIZAR estos documentos cuando cambie algo gordo (tipologías, Sala, servici
   (~1-1,5 $/mes Academy, ~8-12 $/mes perebrachfield.com), Magnific Premium 144 €/año (22 de diciembre),
   dominio 10,46 $/año (28 de agosto). Gratis: Resend (cuenta de Pere, 3.000 correos/mes), Neon Free,
   Stripe en pruebas, PostHog/Sentry/R2/GitHub. Total fijo ≈ 45 €/mes. Actualizar si cambia un plan.
-

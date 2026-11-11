@@ -186,3 +186,15 @@ ACTUALIZAR estos documentos cuando cambie algo gordo (tipologías, Sala, servici
   Redeploy (aviso azul abajo a la derecha, o Deployments → ⋯ → Redeploy).
 - El «‹» junto a «Project Settings» vuelve al menú del proyecto (Overview, Deployments,
   Observability, Security, Networking, …, Settings).
+
+- 11/11/26 · FACTURAS DE CLOUDFLARE (cuenta mr.xcolome@gmail.com, Manage account → Billing → Invoices):
+  el día 11 de cada mes llega la de CLOUDFLARE STREAM (vídeos de la Academy): 5 $ de cuota fija (Stream
+  Basic, 1.000 minutos guardados) + ~1 $ variable por minutos vistos (ago 5 $, sep 6 $, oct 5 $, nov 6 $).
+  28/08 10,46 $ = registro anual del dominio brachfieldacademy.com. Documentado en
+  content/docs/sala-de-maquinas.html (tabla de costes).
+- 10/11/26 · RESEND MOVIDO a la cuenta de Pere (login xavi@perebrachfield.com, la misma de perebrachfield.com):
+  dominio brachfieldacademy.com verificado allí (Ireland; DNS en Cloudflare: TXT resend._domainkey, CNAME
+  send y rsend en DNS only, TXT _dmarc p=none; los MX route*.mx.cloudflare.net y cf2024-1._domainkey son la
+  RECEPCIÓN de correo: no tocarlos). Clave «academy» (Sending access) = RESEND_API_KEY del proyecto Vercel
+  brachfield-academy-app. Probado con «¿Has olvidado tu contraseña?». La cuenta personal mr.xcolome ya no
+  tiene la Academy.
